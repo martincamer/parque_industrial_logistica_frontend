@@ -306,7 +306,7 @@ export const Home = () => {
         <ViviendasProgressBar salidasMensuales={salidasMensuales} />
       </div>
 
-      <div className="bg-white border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex items-start gap-12 justify-center">
+      <div className="bg-white flex-col items-start space-y-5 h-full justify-center">
         <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center">
           <div className="font-bold text-slate-700 mb-16">
             GRAFICO DE REMUNERACIONES
