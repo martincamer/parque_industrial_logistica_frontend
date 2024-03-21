@@ -5,16 +5,15 @@ import { useSalidasContext } from "../../../context/SalidasProvider";
 import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChoferes";
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalCrearClienteRemuneracion } from "../../../components/Modales/ModalCrearClienteRemuneracion";
-import { crearNuevaRemuneracion } from "../../../api/ingresos";
-import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { crearNuevoLegal } from "../../../api/ingresos";
 import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
+import { useLegalesContext } from "../../../context/LegalesProvider";
 import client from "../../../api/axios";
 
-export const CrearRemuneracion = () => {
+export const CrearLegales = () => {
   const fechaActual = new Date();
 
-  const { remuneracionesMensuales, setRemuneracionesMensuales } =
-    useRemuneracionContext();
+  const { legales, setLegales } = useLegalesContext();
 
   const nombresMeses = [
     "Enero",
@@ -136,7 +135,7 @@ export const CrearRemuneracion = () => {
       Number(refuerzo);
 
     try {
-      const res = await crearNuevaRemuneracion({
+      const res = await crearNuevoLegal({
         armador,
         fecha_carga,
         fecha_entrega,
@@ -149,19 +148,15 @@ export const CrearRemuneracion = () => {
         datos_cliente: { datosCliente },
       });
 
-      console.log(res);
-
       // Verificar si el tipo ya existe antes de agregarlo al estado
-      const tipoExistente = remuneracionesMensuales.find(
-        (tipo) => tipo.id === res.data.id
-      );
+      const tipoExistente = legales.find((tipo) => tipo.id === res.data.id);
 
       if (!tipoExistente) {
         // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setRemuneracionesMensuales((prevTipos) => [...prevTipos, res.data]);
+        setLegales((prevTipos) => [...prevTipos, res.data]);
       }
 
-      toast.success("Remuneración creada correctamente!", {
+      toast.success("Legal creado correctamente!", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: false,
@@ -173,7 +168,7 @@ export const CrearRemuneracion = () => {
       });
 
       setTimeout(() => {
-        navigate("/remuneraciones");
+        navigate("/legales");
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -197,9 +192,7 @@ export const CrearRemuneracion = () => {
 
       <div className="bg-white border-slate-300 border-[1px] py-8 px-5 rounded-xl max-w-xs flex justify-center shadow">
         <div className="text-lg font-bold uppercase text-green-500 flex">
-          <p className="border-b-[3px] border-slate-700">
-            Crear nueva remuneracion
-          </p>
+          <p className="border-b-[3px] border-slate-700">Crear nuevo legal</p>
         </div>
       </div>
 
@@ -517,7 +510,7 @@ export const CrearRemuneracion = () => {
                 Recaudación final
               </span>
 
-              <p className="text-green-500 font-bold text-lg">
+              <p className="text-red-500 font-bold text-lg">
                 {Number(
                   totalSuma - pago_fletero_espera - viaticos - refuerzo
                 ).toLocaleString("es-AR", {
@@ -536,7 +529,7 @@ export const CrearRemuneracion = () => {
             // onClick={() => onSubmit()}
             className="bg-black text-white rounded-xl shadow py-2 px-6"
           >
-            Crear nueva salida
+            Crear nuevo legal
           </button>
         </div>
       </form>

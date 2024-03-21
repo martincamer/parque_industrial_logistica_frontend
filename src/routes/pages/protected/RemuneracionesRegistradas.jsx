@@ -218,6 +218,15 @@ export const RemuneracionesRegistradas = () => {
     }
   };
 
+  const totalDatosMetrosCuadrados = datos?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+        return subtotal + Number(cliente.metrosCuadrados);
+      }, 0) || 0)
+    );
+  }, 0);
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
       <ToastContainer />
@@ -316,6 +325,47 @@ export const RemuneracionesRegistradas = () => {
                 <span className="font-bold text-slate-700">
                   {totalDatos}
                 </span>{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {totalDatosMetrosCuadrados / 10000} %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Total en metros cuadradados
+            </strong>
+
+            <p>
+              <span className="text-3xl font-medium text-gray-900">
+                {totalDatosMetrosCuadrados}
+              </span>
+
+              <span className="text-xs text-gray-500">
+                {" "}
+                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
               </span>
             </p>
           </div>

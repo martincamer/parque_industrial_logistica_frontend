@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useState } from "react";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import { ToastContainer } from "react-toastify";
+import { useLegalesContext } from "../../../context/LegalesProvider";
+import { ModalEliminarLegales } from "../../../components/Modales/ModalEliminarLegales";
 
-export const Salidas = () => {
-  const { salidasMensuales } = useSalidasContext();
+export const Legales = () => {
+  const { legales, setLegales } = useLegalesContext();
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -39,25 +39,16 @@ export const Salidas = () => {
 
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
-  // const totalCobroCliente = salidasMensuales.reduce(
-  //   (total, item) => total + parseFloat(item.cobro_cliente),
-  //   0
-  // );
+  const totalRecaudación = legales.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
 
-  const totalGastosCliente = salidasMensuales.reduce(
-    (total, item) =>
-      total +
-      parseFloat(item.total_flete) +
-      parseFloat(item.total_control) +
-      parseFloat(item.total_viaticos) +
-      parseFloat(item.espera),
     0
   );
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
 
   // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
-  const ventasDelDia = salidasMensuales?.filter(
+  const ventasDelDia = legales?.filter(
     (item) => item?.created_at.slice(0, 10) === fechaActualString
   );
 
@@ -77,12 +68,9 @@ export const Salidas = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResults = salidasMensuales?.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentResults = legales?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(salidasMensuales?.length / itemsPerPage);
+  const totalPages = Math.ceil(legales?.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -114,7 +102,7 @@ export const Salidas = () => {
 
   const handleId = (id) => setObtenerId(id);
 
-  const totalDatos = salidasMensuales.reduce((total, salida) => {
+  const totalDatos = legales.reduce((total, salida) => {
     return (
       total +
       (salida.datos_cliente.datosCliente
@@ -123,12 +111,21 @@ export const Salidas = () => {
     );
   }, 0);
 
+  const totalDatosMetrosCuadrados = legales?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+        return subtotal + Number(cliente.metrosCuadrados);
+      }, 0) || 0)
+    );
+  }, 0);
+
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6">
         <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -140,24 +137,24 @@ export const Salidas = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
               />
             </svg>
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
+              {Number(totalRecaudación / 10000).toFixed(2)} %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
-              Total en Viaticos/Flete/Etc
+            <strong className="block text-sm font-medium text-red-600">
+              Total en legales
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
-                {Number(totalGastosCliente).toLocaleString("es-AR", {
+              <span className="text-2xl font-medium text-red-600">
+                {Number(totalRecaudación).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -166,19 +163,15 @@ export const Salidas = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                ultimos gastos total en el día{" "}
-                <span className="font-bold text-slate-700">
-                  {" "}
-                  {Number(
-                    Number(ultimaVentaDelDia?.total_viaticos) +
-                      Number(ultimaVentaDelDia?.total_control) +
-                      Number(ultimaVentaDelDia?.total_flete) || 0
-                  ).toLocaleString("es-AR", {
+                ultimo legal del día, el total es de{" "}
+                {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
+                  "es-AR",
+                  {
                     style: "currency",
                     currency: "ARS",
                     minimumIntegerDigits: 2,
-                  })}{" "}
-                </span>
+                  }
+                )}{" "}
               </span>
             </p>
           </div>
@@ -247,7 +240,7 @@ export const Salidas = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500">
-              Total salidas/viviendas
+              Total legales/viviendas
             </strong>
 
             <p>
@@ -262,14 +255,55 @@ export const Salidas = () => {
             </p>
           </div>
         </article>
+
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {totalDatosMetrosCuadrados / 10000} %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Total en metros cuadradados
+            </strong>
+
+            <p>
+              <span className="text-3xl font-medium text-gray-900">
+                {totalDatosMetrosCuadrados}
+              </span>
+
+              <span className="text-xs text-gray-500">
+                {" "}
+                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
+              </span>
+            </p>
+          </div>
+        </article>
       </div>
 
       <div className="flex gap-5">
         <Link
-          to={"/crear-salida"}
+          to={"/crear-legal"}
           className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center"
         >
-          Crear nueva salida
+          Crear nuevo legal
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -287,10 +321,10 @@ export const Salidas = () => {
         </Link>
 
         <Link
-          to={"/salidas-registradas"}
+          to={"/legales-registrados"}
           className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center"
         >
-          Ver salidas registradas
+          Ver legales registrados
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -344,15 +378,17 @@ export const Salidas = () => {
                 Creador
               </th>
               <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                Clientes/Cliente
+                Clientes
               </th>
               <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                Localidad/Cliente
+                Fecha de carga
               </th>
               <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                Fabrica/Sucursal
+                Fecha de entrega
               </th>
-
+              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                Recaudación Final
+              </th>
               <th className="px-1 py-2  text-orange-500 font-bold uppercase">
                 Eliminar
               </th>
@@ -382,12 +418,21 @@ export const Salidas = () => {
                   ))}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                  {s.datos_cliente.datosCliente.map((c) => (
-                    <div>{c.localidad}</div>
-                  ))}
+                  {s.fecha_carga.split("T")[0]}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                  {s.fabrica}
+                  {s.fecha_entrega.split("T")[0]}
+                </td>
+                <td
+                  className={`px-4 py-2 font-bold text-${
+                    s.recaudacion >= 0 ? "black" : "red"
+                  }-500 capitalize`}
+                >
+                  {Number(s.recaudacion).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
                   <button
@@ -402,18 +447,18 @@ export const Salidas = () => {
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
                   <Link
-                    to={`/editar/${s.id}`}
+                    to={`/editar-legales/${s.id}`}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
                   >
                     Editar
                   </Link>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
                   <Link
-                    to={`/resumen/${s.id}`}
+                    to={`/legales/${s.id}`}
                     className="bg-black py-2 px-5 text-center rounded-xl text-white"
                   >
-                    Ver resumen
+                    Ver legales
                   </Link>
                 </td>
               </tr>
@@ -481,7 +526,7 @@ export const Salidas = () => {
           </div>
         )}
       </div>
-      <ModalEliminar
+      <ModalEliminarLegales
         closeEliminar={closeEliminar}
         eliminarModal={eliminarModal}
         obtenerId={obtenerId}

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { crearNuevaSalida } from "../../../api/ingresos";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { ModalCrearCliente } from "../../../components/Modales/ModalCrearCliente";
 import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChoferes";
-import client from "../../../api/axios";
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
-import { ModalEditarClienteSalida } from "../../../components/Modales/ModalEditarClienteSalida";
+import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
+import client from "../../../api/axios";
 
-export const CrearSalida = () => {
+export const EditarRemuneraciones = () => {
   const fechaActual = new Date();
 
   const nombresMeses = [
@@ -49,6 +48,37 @@ export const CrearSalida = () => {
   const { salidasMensuales, setSalidasMensuales } = useSalidasContext();
   const { choferes, setChoferes } = useSalidasContext();
 
+  const [salidas, setSalidas] = useState([]);
+
+  const params = useParams();
+
+  //obtenerDatoUnico
+  useEffect(() => {
+    async function loadData() {
+      const res = await client.get(`/salidas/${params.id}`);
+
+      setSalidas(res.data);
+
+      setChofer(res.data.chofer || "");
+      setFabrica(res.data.fabrica || "");
+      setSalida(res.data.salida || "");
+      setKmViajeControl(res.data.km_viaje_control);
+      setKmViajeControlPrecio(res.data.km_viaje_control_precio);
+      setKmFletes(res.data.fletes_km);
+      setKmFletesPrecio(res.data.fletes_km_precio);
+      setArmadores(res.data.armadores);
+      setTotalViaticos(res.data.total_viaticos);
+      setMotivo(res.data.motivo);
+      setSalida(res.data.salida);
+      setFabrica(res.data.fabrica);
+      setEspera(res.data.espera);
+
+      setDatosCliente(res.data.datos_cliente?.datosCliente);
+    }
+
+    loadData();
+  }, [params.id]);
+
   //obtenerChoferes
   useEffect(() => {
     async function loadData() {
@@ -62,7 +92,7 @@ export const CrearSalida = () => {
 
   //daots del cliente
   const [datosCliente, setDatosCliente] = useState([]);
-  //eliminar cliente
+  // //eliminar cliente
   const eliminarCliente = (nombreClienteAEliminar) => {
     // Filtrar la lista de clientes para obtener una nueva lista sin el cliente a eliminar
     const nuevaListaClientes = datosCliente.filter(
@@ -119,7 +149,7 @@ export const CrearSalida = () => {
   const onSubmit = async () => {
     try {
       // e.preventDefault();
-      const res = await crearNuevaSalida({
+      const res = await client.put(`/salidas/${params.id}`, {
         chofer,
         km_viaje_control,
         km_viaje_control_precio,
@@ -131,26 +161,52 @@ export const CrearSalida = () => {
         salida,
         fabrica,
         total_control: Number(km_viaje_control * km_viaje_control_precio),
-        total_flete: Number(
-          chofer !== "Iveco Tecnohouse"
-            ? fletes_km * fletes_km_precio
-            : fletes_km_precio
-        ),
+        total_flete: Number(fletes_km * fletes_km_precio),
         espera,
         datos_cliente: { datosCliente },
       });
 
-      // Verificar si el tipo ya existe antes de agregarlo al estado
-      const tipoExistente = salidasMensuales.find(
-        (tipo) => tipo.id === res.data.id
+      const tipoExistenteIndex = salidasMensuales.findIndex(
+        (tipo) => tipo.id == params.id
       );
 
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
-      }
+      setSalidasMensuales((prevTipos) => {
+        const newTipos = [...prevTipos];
+        const updateSalida = JSON.parse(res.config.data); // Convierte el JSON a objeto
+        newTipos[tipoExistenteIndex] = {
+          id: params.id,
+          chofer: updateSalida.chofer,
+          km_viaje_control: updateSalida.km_viaje_control,
+          km_viaje_control_precio: updateSalida.km_viaje_control_precio,
+          fletes_km: updateSalida.fletes_km,
+          fletes_km_precio: updateSalida.fletes_km_precio,
+          armadores: updateSalida.armadores,
+          total_viaticos: updateSalida.total_viaticos,
+          motivo: updateSalida.motivo,
+          fabrica: updateSalida.fabrica,
+          total_control: updateSalida.total_control,
+          total_flete: updateSalida.total_flete,
+          espera: updateSalida.espera,
+          datos_cliente: updateSalida.datos_cliente,
+          role_id: updateSalida.role_id,
+          usuario: newTipos[tipoExistenteIndex].usuario,
+          created_at: newTipos[tipoExistenteIndex].created_at,
+          updated_at: newTipos[tipoExistenteIndex].updated_at,
+        };
+        return newTipos;
+      });
 
-      toast.success("Salida creada correctamente!", {
+      // // Verificar si el tipo ya existe antes de agregarlo al estado
+      // const tipoExistente = salidasMensuales.find(
+      //   (tipo) => tipo.id === res.data.id
+      // );
+
+      // if (!tipoExistente) {
+      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
+      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      // }
+
+      toast.success("Salida editada correctamente!", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: false,
@@ -178,7 +234,7 @@ export const CrearSalida = () => {
   const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-12 pb-36 py-14 relative">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative">
       <ToastContainer />
       <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold">
         Mes {nombreMesActual}, Día {nombreDiaActual}
@@ -186,13 +242,16 @@ export const CrearSalida = () => {
 
       <div className="bg-white border-slate-300 border-[1px] py-8 px-10 rounded-xl max-w-xs flex justify-center shadow">
         <div className="text-lg font-bold uppercase text-green-500 flex">
-          <p className="border-b-[3px] border-slate-700">Crear nueva salida</p>
+          <p className="border-b-[3px] border-slate-700">
+            Editar salida N°{" "}
+            <span className="text-slate-700">{salidas.id}</span>
+          </p>
         </div>
       </div>
 
       <form
         // onSubmit={onSubmit}
-        className=" border-slate-200 w-full border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
+        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
       >
         <div className="flex gap-4">
           <button
@@ -330,7 +389,6 @@ export const CrearSalida = () => {
                         />
                       </svg>
                     </div>
-
                     <p>
                       Nombre y Apellido{" "}
                       <span className="font-bold capitalize text-slate-700">
@@ -362,7 +420,7 @@ export const CrearSalida = () => {
             </h3>
           </div>
           <div className="flex gap-3 items-center">
-            <div className="w-1/4">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
                 <input
@@ -377,7 +435,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -409,7 +467,7 @@ export const CrearSalida = () => {
             <h3 className="font-bold text-xl text-slate-700">Fletes</h3>
           </div>
           <div className="flex gap-3 items-center">
-            <div className="w-1/4">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
                 <input
@@ -424,7 +482,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4">
+            <div className="flex gap-3">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -440,21 +498,14 @@ export const CrearSalida = () => {
               </label>
             </div>
             <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
-              {chofer !== "Iveco Tecnohouse"
-                ? Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })
-                : Number(fletes_km_precio).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
+              {Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
             </div>
           </div>
-
-          <div className="w-1/4 flex gap-2 items-center">
+          <div className="flex gap-3 items-center">
             <label className="relative block rounded-xl border border-slate-300 shadow-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -485,8 +536,8 @@ export const CrearSalida = () => {
               Viaticos Armadores
             </h3>
           </div>
-          <div className="flex gap-3">
-            <div className="w-1/4">
+          <div className="flex gap-3 items-center">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <input
                   value={armadores}
@@ -500,7 +551,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 flex gap-2 items-center">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -514,14 +565,13 @@ export const CrearSalida = () => {
                   Total en Viaticos
                 </span>
               </label>
-
-              <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
-                {Number(total_viaticos).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </div>
+            </div>
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+              {Number(total_viaticos).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
             </div>
           </div>
           <div>
@@ -534,7 +584,7 @@ export const CrearSalida = () => {
               >
                 <option value="">Seleccionar motivo</option>
                 <option value="refuerzo">Refuerzo</option>
-                <option value="cobra en base"> No cobra en base</option>
+                <option value="no cobra en base">No cobra en base</option>
               </select>
             </div>
             <div className="flex gap-2 mt-2">
@@ -542,11 +592,11 @@ export const CrearSalida = () => {
                 <p className="bg-green-500 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
                   Refuerzo
                 </p>
-              ) : (
+              ) : motivo === "no cobra en base" ? (
                 <p className="bg-red-800 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
                   No cobra en base
                 </p>
-              )}
+              ) : null}
             </div>
           </div>
         </article>
@@ -558,7 +608,7 @@ export const CrearSalida = () => {
             onClick={() => onSubmit()}
             className="bg-black text-white rounded-xl shadow py-2 px-6"
           >
-            Crear nueva salida
+            Editar la salida
           </button>
         </div>
       </form>
@@ -569,13 +619,15 @@ export const CrearSalida = () => {
         closeModal={closeModal}
         datosCliente={datosCliente}
       />
+
       <ModalCrearChoferes isOpen={isOpenChofer} closeModal={closeModalChofer} />
 
       <ModalVerChoferes
         isOpen={isOpenVerChofer}
         closeModal={closeModalVerChofer}
       />
-      <ModalEditarClienteSalida
+
+      <ModalEditarClienteRemuneracion
         isOpen={isEdit}
         closeModal={closeEdit}
         usuario={usuario}

@@ -26,6 +26,11 @@ import { RemuneracionesRegistradas } from "./routes/pages/protected/Remuneracion
 import { Transportes } from "./routes/pages/protected/Transportes";
 import { OrdenesProvider } from "./context/OrdenesProvider";
 import { OrdenesRegistradas } from "./routes/pages/protected/OrdenesRegistradas";
+import { Legales } from "./routes/pages/protected/Legales";
+import { LegalesProvider } from "./context/LegalesProvider";
+import { CrearLegales } from "./routes/pages/protected/CrearLegales";
+import { EditarLegales } from "./routes/pages/protected/EditarLegales";
+import { ResumenViewLegales } from "./routes/pages/protected/ResumenViewLegales";
 //import normales
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
@@ -53,10 +58,12 @@ function App() {
                 <SalidasProvider>
                   <RemuneracionProvider>
                     <OrdenesProvider>
-                      <main className="flex gap-2 w-full min-h-full max-h-full">
-                        <SideBar />
-                        <Outlet />
-                      </main>
+                      <LegalesProvider>
+                        <main className="flex gap-2 w-full min-h-full max-h-full">
+                          <SideBar />
+                          <Outlet />
+                        </main>
+                      </LegalesProvider>
                     </OrdenesProvider>
                   </RemuneracionProvider>
                 </SalidasProvider>
@@ -69,6 +76,7 @@ function App() {
                 path="/remuneraciones"
                 element={<Remuneraciones />}
               />
+              <Route index path="/legales" element={<Legales />} />
               <Route
                 index
                 path="/salidas-registradas"
@@ -92,17 +100,29 @@ function App() {
                 element={<CrearRemuneracion />}
               />
 
+              <Route index path="/crear-legal" element={<CrearLegales />} />
+
               <Route index path="/editar/:id" element={<EditarSalida />} />
               <Route
                 index
                 path="/editar-remuneracion/:id"
                 element={<EditarRemuneracion />}
               />
+              <Route
+                index
+                path="/editar-legales/:id"
+                element={<EditarLegales />}
+              />
               <Route index path="/resumen/:id" element={<ResumenView />} />
               <Route
                 index
                 path="/recaudacion/:id"
                 element={<ResumenViewRecaudacion />}
+              />
+              <Route
+                index
+                path="/legales/:id"
+                element={<ResumenViewLegales />}
               />
               <Route
                 index

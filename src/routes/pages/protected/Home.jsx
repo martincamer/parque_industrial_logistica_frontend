@@ -5,12 +5,14 @@ import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasDonutViviendas from "../../../components/charts/ViviendasDonutViviendas";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
+import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 
 export const Home = () => {
   const { salidasMensuales } = useSalidasContext();
   const { remuneracionesMensuales } = useRemuneracionContext();
+  const { legales } = useLegalesContext();
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -49,6 +51,11 @@ export const Home = () => {
     0
   );
 
+  const totalCobroClienteLegales = legales.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
   const totalGastosCliente = salidasMensuales.reduce(
     (total, item) =>
       total +
@@ -67,17 +74,34 @@ export const Home = () => {
     (item) => item.created_at.slice(0, 10) === fechaActualString
   );
 
-  // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
+  const ventasDelDiaDos = legales?.filter(
+    (item) => item.created_at.slice(0, 10) === fechaActualString
+  );
 
   // Encontrar la venta más reciente del día
   const ultimaVentaDelDia = ventasDelDia?.reduce((ultimaVenta, venta) => {
     // Convertir las fechas de cadena a objetos Date para compararlas
-    const fechaUltimaVenta = new Date(ultimaVenta.created_at);
+    const fechaUltimaVenta = new Date(ultimaVenta?.created_at);
     const fechaVenta = new Date(venta.created_at);
 
     // Retornar la venta con la hora más reciente
     return fechaVenta > fechaUltimaVenta ? venta : ultimaVenta;
   }, ventasDelDia[0]);
+
+  // Encontrar la venta más reciente del día
+  const ultimaVentaDelDiaDos = ventasDelDiaDos?.reduce(
+    (ultimaVentaDos, venta) => {
+      // Convertir las fechas de cadena a objetos Date para compararlas
+      const fechaUltimaVenta = new Date(ultimaVentaDos?.created_at);
+      const fechaVenta = new Date(venta.created_at);
+
+      // Retornar la venta con la hora más reciente
+      return fechaVenta > fechaUltimaVenta ? venta : ultimaVentaDos;
+    },
+    ventasDelDia[0]
+  );
+
+  // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
 
   const gastosDelDia = salidasMensuales?.filter(
     (item) => item?.created_at?.slice(0, 10) === fechaActualString
@@ -92,7 +116,7 @@ export const Home = () => {
     return fechaGasto > fechaUltimoGasto ? gasto : ultimaGasto;
   }, gastosDelDia[0]);
 
-  const totalDatos = salidasMensuales?.reduce((total, salida) => {
+  const totalDatos = remuneracionesMensuales?.reduce((total, salida) => {
     return (
       total +
       (salida?.datos_cliente?.datosCliente
@@ -101,7 +125,35 @@ export const Home = () => {
     );
   }, 0);
 
-  console.log("REMUNERACIONES", remuneracionesMensuales);
+  const totalDatosDos = legales?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida?.datos_cliente?.datosCliente?.length
+        : 0)
+    );
+  }, 0);
+
+  const totalDatosMetrosCuadrados = remuneracionesMensuales?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
+  const totalDatosMetrosCuadradosLegales = legales?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+        return subtotal + Number(cliente.metrosCuadrados);
+      }, 0) || 0)
+    );
+  }, 0);
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-20 py-24">
@@ -131,11 +183,11 @@ export const Home = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500">
-              Total en recaudaciones del mes
+              Total en remuneración del mes
             </strong>
 
-            <p>
-              <span className="text-2xl font-medium text-gray-900">
+            <p className="text-slate-500">
+              <span className="text-2xl font-medium text-slate-900">
                 {Number(totalCobroCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -143,13 +195,10 @@ export const Home = () => {
                 })}
               </span>{" "}
               <span
-                className={`text-xs ${
-                  ultimaVentaDelDia?.recaudacion >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
+                className={`text-xs
+                 `}
               >
-                ultima recaudacion del día, el total es de{" "}
+                ultima remuneración del día, el total es de{" "}
                 {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
                   "es-AR",
                   {
@@ -191,8 +240,8 @@ export const Home = () => {
               Total en salidas registradas del mes
             </strong>
 
-            <p>
-              <span className="text-2xl font-medium text-gray-900">
+            <p className="text-slate-500">
+              <span className="text-2xl font-medium text-red-500">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -213,6 +262,60 @@ export const Home = () => {
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalCobroClienteLegales / 10000).toFixed(2)} %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Total en legales del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl font-medium text-red-500">
+                {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>{" "}
+              <span
+                className={`text-xs
+                 `}
+              >
+                ultima remuneración legal del día, el total es de{" "}
+                {Number(ultimaVentaDelDiaDos?.recaudacion || 0).toLocaleString(
+                  "es-AR",
+                  {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  }
+                )}
               </span>
             </p>
           </div>
@@ -275,7 +378,7 @@ export const Home = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {totalDatos / 10000} %{" "}
+              {totalDatos + totalDatosDos / 10000} %{" "}
             </span>
           </div>
 
@@ -286,12 +389,57 @@ export const Home = () => {
 
             <p>
               <span className="text-3xl font-medium text-gray-900">
-                {totalDatos}
+                {totalDatos + totalDatosDos}
               </span>
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Total en el mes {totalDatos}{" "}
+                Total en el mes {totalDatos + totalDatosDos}{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {totalDatosMetrosCuadrados +
+                totalDatosMetrosCuadradosLegales / 10000}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Total en metros cuadradados
+            </strong>
+
+            <p>
+              <span className="text-3xl font-medium text-gray-900">
+                {totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales}
+              </span>
+
+              <span className="text-xs text-gray-500">
+                {" "}
+                Total en el mes{" "}
+                {totalDatosMetrosCuadrados +
+                  totalDatosMetrosCuadradosLegales}{" "}
+                mts{" "}
               </span>
             </p>
           </div>
@@ -303,7 +451,10 @@ export const Home = () => {
           remuneracionesMensuales={remuneracionesMensuales}
         />
         <SalidasProgressBar salidasMensuales={salidasMensuales} />
-        <ViviendasProgressBar salidasMensuales={salidasMensuales} />
+        <ViviendasProgressBar
+          salidasMensuales={salidasMensuales}
+          legales={legales}
+        />
       </div>
 
       <div className="bg-white flex-col items-start space-y-5 h-full justify-center">
@@ -323,7 +474,10 @@ export const Home = () => {
 
       <div className="w-full grid-cols-2 grid gap-3 items-start justify-center">
         <ViviendasDataCharts salidasMensuales={salidasMensuales} />
-        <ViviendasDonutViviendas salidasMensuales={salidasMensuales} />
+        <ViviendasDonutViviendas
+          remuneracionesMensuales={remuneracionesMensuales}
+          legales={legales}
+        />
       </div>
     </section>
   );

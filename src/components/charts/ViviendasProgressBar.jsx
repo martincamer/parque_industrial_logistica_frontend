@@ -1,6 +1,6 @@
 import React from "react";
 
-const ViviendasProgressBar = ({ salidasMensuales }) => {
+const ViviendasProgressBar = ({ salidasMensuales, legales }) => {
   const totalDatos = salidasMensuales?.reduce((total, salida) => {
     return (
       total +
@@ -11,8 +11,18 @@ const ViviendasProgressBar = ({ salidasMensuales }) => {
   }, 0);
 
   // Calcular el porcentaje total, asegurándose de que no exceda el límite máximo (100000000)
+
+  const totalDatosDos = legales?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida?.datos_cliente?.datosCliente?.length
+        : 0)
+    );
+  }, 0);
+
   const porcentajeTotal = Math.min(
-    (Number(totalDatos) / 100) * 100,
+    (Number(totalDatos + totalDatosDos) / 100) * 100,
     100
   ).toFixed(2);
 
@@ -23,7 +33,7 @@ const ViviendasProgressBar = ({ salidasMensuales }) => {
           Total vivivendas entregadas
         </p>
         <p className="text-slate-700 text-lg mb-3 underline">
-          {Number(totalDatos)} entregadas
+          {Number(totalDatos + totalDatosDos)} entregadas
         </p>
       </div>
       <div className="w-full bg-gray-200 rounded-lg overflow-hidden">

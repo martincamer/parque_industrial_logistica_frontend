@@ -5,6 +5,8 @@ export const crearNuevaSalida = (data) => axios.post("/salidas", data);
 export const crearNuevaRemuneracion = (data) =>
   axios.post("/crear-remuneracion", data);
 
+export const crearNuevoLegal = (data) => axios.post("/crear-legal", data);
+
 // export const obtenerIngresoRangoFechas = (fechaInicio, fechaFin) =>
 //   axios.post("/ingresos/rango-fechas", fechaInicio, fechaFin);
 
@@ -17,5 +19,7 @@ export const obtenerUnicaSalida = (id) => axios.get(`/salidas/${id}`);
 
 export const obtenerUnicaRemuneracion = (id) =>
   axios.get(`/remuneraciones/${id}`);
+
+export const obtenerUnicaOrdenLegal = (id) => axios.get(`/legales/${id}`);
 
 // export const eliminarIngreso = (id) => axios.delete(`/ingresos/${id}`);

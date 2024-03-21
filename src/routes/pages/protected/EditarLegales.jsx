@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChoferes";
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalCrearClienteRemuneracion } from "../../../components/Modales/ModalCrearClienteRemuneracion";
-import { crearNuevaRemuneracion } from "../../../api/ingresos";
-import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
 import client from "../../../api/axios";
+import { useLegalesContext } from "../../../context/LegalesProvider";
 
-export const CrearRemuneracion = () => {
+export const EditarLegales = () => {
   const fechaActual = new Date();
-
-  const { remuneracionesMensuales, setRemuneracionesMensuales } =
-    useRemuneracionContext();
 
   const nombresMeses = [
     "Enero",
@@ -49,8 +45,39 @@ export const CrearRemuneracion = () => {
 
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
-  //useContext
+  const { legales, setLegales } = useLegalesContext();
+
   const { choferes, setChoferes } = useSalidasContext();
+
+  const params = useParams();
+
+  //obtenerDatoUnico
+  useEffect(() => {
+    async function loadData() {
+      const res = await client.get(`/legales/${params.id}`);
+
+      const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
+
+      setChofer(res.data.chofer);
+      setArmador(res.data.armador);
+      setFechaCarga(formatDate(res.data.fecha_carga));
+      setFechaEntrega(formatDate(res.data.fecha_entrega));
+      setKmLineal(res.data.km_lineal);
+      setPagoFletero(res.data.pago_fletero_espera);
+      setViaticos(res.data.viaticos);
+      setRefuerzo(res.data.refuerzo);
+
+      setDatosCliente(res.data.datos_cliente?.datosCliente);
+    }
+
+    loadData();
+  }, [params.id]);
 
   //obtenerChoferes
   useEffect(() => {
@@ -65,7 +92,7 @@ export const CrearRemuneracion = () => {
 
   //daots del cliente
   const [datosCliente, setDatosCliente] = useState([]);
-  //eliminar cliente
+  // //eliminar cliente
   const eliminarCliente = (nombreClienteAEliminar) => {
     // Filtrar la lista de clientes para obtener una nueva lista sin el cliente a eliminar
     const nuevaListaClientes = datosCliente.filter(
@@ -104,9 +131,15 @@ export const CrearRemuneracion = () => {
     setIsOpenVerChofer(false);
   };
 
+  // Utilizar reduce para calcular la suma total de la propiedad totalFlete
+  const totalSuma = datosCliente.reduce((acumulador, elemento) => {
+    // Convertir la propiedad totalFlete a número y sumarla al acumulador
+    return acumulador + parseFloat(elemento.totalFlete);
+  }, 0); // Iniciar el acumulador en 0
+
   //formulario submit
   const navigate = useNavigate();
-
+  //estados del formulario
   //estados del formulario
   const [chofer, setChofer] = useState("");
   const [armador, setArmador] = useState("");
@@ -118,25 +151,16 @@ export const CrearRemuneracion = () => {
   const [refuerzo, setRefuerzo] = useState("");
   // const [recaudacion, setRecaudación] = useState("");
 
-  // Utilizar reduce para calcular la suma total de la propiedad totalFlete
-  const totalSuma = datosCliente.reduce((acumulador, elemento) => {
-    // Convertir la propiedad totalFlete a número y sumarla al acumulador
-    return acumulador + parseFloat(elemento.totalFlete);
-  }, 0); // Iniciar el acumulador en 0
-
-  console.log(datosCliente);
-
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    const recaudacion =
-      Number(totalSuma) -
-      Number(pago_fletero_espera) -
-      Number(viaticos) -
-      Number(refuerzo);
-
     try {
-      const res = await crearNuevaRemuneracion({
+      const recaudacion =
+        Number(totalSuma) -
+        Number(pago_fletero_espera) -
+        Number(viaticos) -
+        Number(refuerzo);
+      // e.preventDefault();
+      const res = await client.put(`/legales/${params.id}`, {
         armador,
         fecha_carga,
         fecha_entrega,
@@ -149,19 +173,34 @@ export const CrearRemuneracion = () => {
         datos_cliente: { datosCliente },
       });
 
-      console.log(res);
-
-      // Verificar si el tipo ya existe antes de agregarlo al estado
-      const tipoExistente = remuneracionesMensuales.find(
-        (tipo) => tipo.id === res.data.id
+      const tipoExistenteIndex = legales.findIndex(
+        (tipo) => tipo.id == params.id
       );
 
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setRemuneracionesMensuales((prevTipos) => [...prevTipos, res.data]);
-      }
+      setLegales((prevTipos) => {
+        const newTipos = [...prevTipos];
+        const updateRemuneracion = JSON.parse(res.config.data); // Convierte el JSON a objeto
+        newTipos[tipoExistenteIndex] = {
+          id: params.id,
+          armador: updateRemuneracion.armador,
+          fecha_carga: updateRemuneracion.fecha_carga,
+          fecha_entrega: updateRemuneracion.fecha_entrega,
+          pago_fletero_espera: updateRemuneracion.pago_fletero_espera, // Corregido el nombre del campo aquí
+          km_lineal: updateRemuneracion.km_lineal,
+          viaticos: updateRemuneracion.viaticos,
+          refuerzo: updateRemuneracion.refuerzo,
+          recaudacion: updateRemuneracion.recaudacion,
+          chofer: updateRemuneracion.chofer,
+          datos_cliente: updateRemuneracion.datos_cliente,
+          role_id: updateRemuneracion.role_id,
+          usuario: newTipos[tipoExistenteIndex].usuario,
+          created_at: newTipos[tipoExistenteIndex].created_at,
+          updated_at: newTipos[tipoExistenteIndex].updated_at,
+        };
+        return newTipos;
+      });
 
-      toast.success("Remuneración creada correctamente!", {
+      toast.success("¡Legales editada correctamente!", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: false,
@@ -173,7 +212,7 @@ export const CrearRemuneracion = () => {
       });
 
       setTimeout(() => {
-        navigate("/remuneraciones");
+        navigate("/legales");
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -189,16 +228,17 @@ export const CrearRemuneracion = () => {
   const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 pb-36 py-14 relative">
       <ToastContainer />
       <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold">
         Mes {nombreMesActual}, Día {nombreDiaActual}
       </div>
 
-      <div className="bg-white border-slate-300 border-[1px] py-8 px-5 rounded-xl max-w-xs flex justify-center shadow">
+      <div className="bg-white border-slate-300 border-[1px] py-8 px-3 rounded-xl max-w-xs flex justify-center shadow">
         <div className="text-lg font-bold uppercase text-green-500 flex">
           <p className="border-b-[3px] border-slate-700">
-            Crear nueva remuneracion
+            Editar legales N°{" "}
+            <span className="text-slate-700">{params.id}</span>
           </p>
         </div>
       </div>
@@ -511,32 +551,29 @@ export const CrearRemuneracion = () => {
             </span>
           </div>
 
-          <div className="flex">
-            <div className="flex gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5">
-              <span className="font-bold text-slate-700 text-lg">
-                Recaudación final
-              </span>
+          <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5">
+            <span className="font-bold text-slate-700 text-lg">
+              Recaudación final
+            </span>
 
-              <p className="text-green-500 font-bold text-lg">
-                {Number(
-                  totalSuma - pago_fletero_espera - viaticos - refuerzo
-                ).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </p>
-            </div>
+            <p className="text-red-500 font-bold text-lg">
+              {Number(
+                totalSuma - pago_fletero_espera - viaticos - refuerzo
+              ).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
           </div>
         </article>
 
         <div>
           <button
             type="submit"
-            // onClick={() => onSubmit()}
             className="bg-black text-white rounded-xl shadow py-2 px-6"
           >
-            Crear nueva salida
+            Editar la orden legal
           </button>
         </div>
       </form>

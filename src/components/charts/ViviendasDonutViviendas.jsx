@@ -1,16 +1,21 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const ViviendasDonutViviendas = ({ salidasMensuales }) => {
-  // Configurar los datos y etiquetas para el gráfico de donut
-  const data = salidasMensuales.map((salida, index) => {
-    const cantidad = salida?.datos_cliente?.datosCliente?.length || 0;
-    const fecha = new Date(salida.created_at).toLocaleDateString();
-    return {
-      x: fecha,
-      y: cantidad,
-    };
-  });
+const ViviendasDonutViviendas = ({ remuneracionesMensuales, legales }) => {
+  // Obtener los datos de remuneracionesMensuales
+  const dataRemuneraciones = remuneracionesMensuales.map((salida) => ({
+    x: new Date(salida.created_at).toLocaleDateString(),
+    y: salida?.datos_cliente?.datosCliente?.length || 0,
+  }));
+
+  // Obtener los datos de legales
+  const dataLegales = legales.map((salida) => ({
+    x: new Date(salida.created_at).toLocaleDateString(),
+    y: salida?.datos_cliente?.datosCliente?.length || 0,
+  }));
+
+  // Combinar los datos de remuneracionesMensuales y legales
+  const data = [...dataRemuneraciones, ...dataLegales];
 
   // Configurar opciones para el gráfico de donut
   const options = {

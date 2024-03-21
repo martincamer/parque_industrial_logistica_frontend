@@ -6,6 +6,7 @@ import { ModalCrearCliente } from "../../../components/Modales/ModalCrearCliente
 import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChoferes";
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import client from "../../../api/axios";
+import { ModalEditarClienteSalida } from "../../../components/Modales/ModalEditarClienteSalida";
 
 export const EditarSalida = () => {
   const fechaActual = new Date();
@@ -188,7 +189,7 @@ export const EditarSalida = () => {
           espera: updateSalida.espera,
           datos_cliente: updateSalida.datos_cliente,
           role_id: updateSalida.role_id,
-          usuario: updateSalida.usuario,
+          usuario: newTipos[tipoExistenteIndex].usuario,
           created_at: newTipos[tipoExistenteIndex].created_at,
           updated_at: newTipos[tipoExistenteIndex].updated_at,
         };
@@ -223,6 +224,14 @@ export const EditarSalida = () => {
       console.log(error);
     }
   };
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const openEdit = () => setIsEdit(true);
+  const closeEdit = () => setIsEdit(false);
+  const [usuario, setUsuario] = useState("");
+
+  const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative">
@@ -356,6 +365,27 @@ export const EditarSalida = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      className="absolute top-2 right-10 cursor-pointer"
+                      onClick={() => {
+                        handleUsuario(c.cliente), openEdit();
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                         />
                       </svg>
                     </div>
@@ -589,11 +619,20 @@ export const EditarSalida = () => {
         closeModal={closeModal}
         datosCliente={datosCliente}
       />
+
       <ModalCrearChoferes isOpen={isOpenChofer} closeModal={closeModalChofer} />
 
       <ModalVerChoferes
         isOpen={isOpenVerChofer}
         closeModal={closeModalVerChofer}
+      />
+
+      <ModalEditarClienteSalida
+        isOpen={isEdit}
+        closeModal={closeEdit}
+        usuario={usuario}
+        datosCliente={datosCliente}
+        setDatosCliente={setDatosCliente}
       />
     </section>
   );

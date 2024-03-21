@@ -119,12 +119,22 @@ export const Remuneraciones = () => {
     );
   }, 0);
 
-  console.log(remuneracionesMensuales);
+  const totalDatosMetrosCuadrados = remuneracionesMensuales?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-6">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6">
         <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
@@ -177,63 +187,6 @@ export const Remuneraciones = () => {
             </p>
           </div>
         </article>
-
-        {/* <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500">
-              Total en Viaticos/Flete/Etc
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900">
-                {Number(totalGastosCliente).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                ultimos gastos total en el día{" "}
-                <span className="font-bold text-slate-700">
-                  {" "}
-                  {Number(
-                    Number(ultimaVentaDelDia?.total_viaticos) +
-                      Number(ultimaVentaDelDia?.total_control) +
-                      Number(ultimaVentaDelDia?.total_flete) || 0
-                  ).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}{" "}
-                </span>
-              </span>
-            </p>
-          </div>
-        </article> */}
 
         <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
@@ -309,6 +262,47 @@ export const Remuneraciones = () => {
               <span className="text-xs text-gray-500">
                 {" "}
                 Total viviendas entregadas {totalDatos}{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {totalDatosMetrosCuadrados / 10000} %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Total en metros cuadradados
+            </strong>
+
+            <p>
+              <span className="text-3xl font-medium text-gray-900">
+                {totalDatosMetrosCuadrados}
+              </span>
+
+              <span className="text-xs text-gray-500">
+                {" "}
+                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
               </span>
             </p>
           </div>
@@ -392,7 +386,7 @@ export const Remuneraciones = () => {
                 Numero
               </th>
               <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                Armador
+                Creador
               </th>
               <th className="px-4 py-2  text-orange-500 font-bold uppercase">
                 Clientes
@@ -425,7 +419,7 @@ export const Remuneraciones = () => {
                   {s.id}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                  {s.armador}
+                  {s.usuario}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 capitalize">
                   {s.datos_cliente.datosCliente.map((c) => (

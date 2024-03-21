@@ -7,6 +7,7 @@ import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalCrearClienteRemuneracion } from "../../../components/Modales/ModalCrearClienteRemuneracion";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import client from "../../../api/axios";
+import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
 
 export const EditarRemuneracion = () => {
   const fechaActual = new Date();
@@ -193,7 +194,7 @@ export const EditarRemuneracion = () => {
           chofer: updateRemuneracion.chofer,
           datos_cliente: updateRemuneracion.datos_cliente,
           role_id: updateRemuneracion.role_id,
-          usuario: updateRemuneracion.usuario,
+          usuario: newTipos[tipoExistenteIndex].usuario,
           created_at: newTipos[tipoExistenteIndex].created_at,
           updated_at: newTipos[tipoExistenteIndex].updated_at,
         };
@@ -218,6 +219,14 @@ export const EditarRemuneracion = () => {
       console.log(error);
     }
   };
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const openEdit = () => setIsEdit(true);
+  const closeEdit = () => setIsEdit(false);
+  const [usuario, setUsuario] = useState("");
+
+  const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 pb-36 py-14 relative">
@@ -325,6 +334,27 @@ export const EditarRemuneracion = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      className="absolute top-2 right-10 cursor-pointer"
+                      onClick={() => {
+                        handleUsuario(c.cliente), openEdit();
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                         />
                       </svg>
                     </div>
@@ -458,7 +488,7 @@ export const EditarRemuneracion = () => {
               />
 
               <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
-                Pago de espera fletero
+                Pago fletero + espera
               </span>
             </label>
 
@@ -561,6 +591,14 @@ export const EditarRemuneracion = () => {
       <ModalVerChoferes
         isOpen={isOpenVerChofer}
         closeModal={closeModalVerChofer}
+      />
+
+      <ModalEditarClienteRemuneracion
+        isOpen={isEdit}
+        closeModal={closeEdit}
+        usuario={usuario}
+        datosCliente={datosCliente}
+        setDatosCliente={setDatosCliente}
       />
     </section>
   );
