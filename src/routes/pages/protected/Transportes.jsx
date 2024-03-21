@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import { ToastContainer } from "react-toastify";
 import { ModalCrearOrden } from "../../../components/Modales/ModalCrearOrden";
 import { useOrdenesContext } from "../../../context/OrdenesProvider";
@@ -106,6 +105,8 @@ export const Transportes = () => {
     // Incrementa el contador si la propiedad 'finalizado' es '1'
     return orden.finalizado === "2" ? count + 1 : count;
   }, 0);
+
+  const [filtroChofer, setFiltroChofer] = useState("");
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16">
@@ -269,15 +270,14 @@ export const Transportes = () => {
         </Link>
       </div>
 
-      {/* <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
+      <div className="border border-slate-300 shadow rounded-xl px-4 py-2 w-1/5 flex justify-between items-center">
         <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full"
-          placeholder="Buscar el cliente en especifico"
+          placeholder="Filtrar por chofer"
+          value={filtroChofer}
+          onChange={(e) => setFiltroChofer(e.target.value)}
+          className=" outline-none"
         />
-
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -292,8 +292,8 @@ export const Transportes = () => {
             d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
           />
         </svg>
-      </div> */}
-      {/* tabla de datos  */}
+      </div>
+
       <div className="rounded-xl border-[1px] border-slate-300 shadow">
         <table className="divide-y-2 divide-gray-200 text-sm w-full">
           <thead>
@@ -320,76 +320,87 @@ export const Transportes = () => {
           </thead>
 
           <tbody className="divide-y-[1px] divide-gray-300 w-full">
-            {currentResults?.map((o) => (
-              <tr key={o?.id}>
-                <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
-                  {o.id}
-                </td>
-                <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
-                  {o.chofer}
-                </td>
-                <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
-                  {formatDate(o.fecha_llegada)}
-                </td>
-                <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
-                  {formatDate(o.orden_firma)}
-                </td>
-                <td className="flex justify-center items-center py-5">
-                  <button
-                    onClick={() => {
-                      handleID(o.id), openModalTres();
-                    }}
-                    className="action-button text-blue-500 font-semibold text-xl mr-2 text-center"
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleID(o.id), openEliminar();
-                    }}
-                    className="action-button text-red-700 font-semibold text-xl text-center"
-                  >
-                    <FaTrash />
-                  </button>
-                </td>
-                <td className="text-center">
-                  <button
-                    onClick={() => {
-                      handleID(o.id), openModalDos();
-                    }}
-                    className={`action-button ${
-                      o.finalizado === "1"
-                        ? "text-white-500 bg-green-500 text-white py-2 px-2 shadow rounded-xl font-semibold text-base"
-                        : "text-sm bg-orange-500 rounded-xl py-2 px-3 text-white shadow"
-                    } mr-2 text-center`}
-                  >
-                    {o.finalizado === "1" ? (
-                      <FaCheck />
-                    ) : (
-                      <span className="flex gap-2 items-center">
-                        PENDIENTE{" "}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                          />
-                        </svg>
-                      </span>
-                    )}{" "}
-                    {/* Usa FaOtherIcon para el otro icono */}
-                  </button>
-                  {/* Otros botones de acción */}
-                </td>
-              </tr>
-            ))}
+            {currentResults
+              ?.filter((o) =>
+                o.chofer.toLowerCase().includes(filtroChofer.toLowerCase())
+              )
+              .sort((a, b) => {
+                // Ordena primero por órdenes pendientes (finalizado === "2")
+                if (a.finalizado === "2" && b.finalizado === "1") return -1;
+                if (a.finalizado === "1" && b.finalizado === "2") return 1;
+                // Si ambas órdenes tienen el mismo estado, mantén el orden actual
+                return 0;
+              })
+              .map((o) => (
+                <tr key={o?.id}>
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {o.id}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {o.chofer}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {formatDate(o.fecha_llegada)}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {formatDate(o.orden_firma)}
+                  </td>
+                  <td className="flex justify-center items-center py-5">
+                    <button
+                      onClick={() => {
+                        handleID(o.id), openModalTres();
+                      }}
+                      className="action-button text-blue-500 font-semibold text-xl mr-2 text-center"
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleID(o.id), openEliminar();
+                      }}
+                      className="action-button text-red-700 font-semibold text-xl text-center"
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                  <td className="text-center">
+                    <button
+                      onClick={() => {
+                        handleID(o.id), openModalDos();
+                      }}
+                      className={`action-button ${
+                        o.finalizado === "1"
+                          ? "text-white-500 bg-green-500 text-white py-2 px-2 shadow rounded-xl font-semibold text-base"
+                          : "text-sm bg-orange-500 rounded-xl py-2 px-3 text-white shadow"
+                      } mr-2 text-center`}
+                    >
+                      {o.finalizado === "1" ? (
+                        <FaCheck />
+                      ) : (
+                        <span className="flex gap-2 items-center">
+                          PENDIENTE{" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                            />
+                          </svg>
+                        </span>
+                      )}{" "}
+                      {/* Usa FaOtherIcon para el otro icono */}
+                    </button>
+                    {/* Otros botones de acción */}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

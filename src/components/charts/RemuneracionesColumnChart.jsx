@@ -69,7 +69,7 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
       options={options}
       series={series}
       type="bar"
-      width={900} // Adjust chart width as needed
+      width={1220} // Adjust chart width as needed
       height={500} // Adjust chart height as needed
     />
   );

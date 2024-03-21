@@ -148,7 +148,7 @@ export const Legales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-red-600">
+            <strong className="block text-sm font-medium text-slate-500">
               Total en legales
             </strong>
 

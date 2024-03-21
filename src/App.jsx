@@ -31,6 +31,7 @@ import { LegalesProvider } from "./context/LegalesProvider";
 import { CrearLegales } from "./routes/pages/protected/CrearLegales";
 import { EditarLegales } from "./routes/pages/protected/EditarLegales";
 import { ResumenViewLegales } from "./routes/pages/protected/ResumenViewLegales";
+import { LegalesRegistrados } from "./routes/pages/protected/LegalesRegistrados";
 //import normales
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
@@ -92,6 +93,11 @@ function App() {
                 index
                 path="/ordenes-registradas"
                 element={<OrdenesRegistradas />}
+              />
+              <Route
+                index
+                path="/legales-registrados"
+                element={<LegalesRegistrados />}
               />
               <Route index path="/crear-salida" element={<CrearSalida />} />
               <Route

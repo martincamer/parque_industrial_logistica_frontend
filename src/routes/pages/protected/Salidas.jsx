@@ -93,13 +93,24 @@ export const Salidas = () => {
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
 
-  // Función para filtrar los resultados por cliente
-  const filteredResults = currentResults.filter((salida) => {
-    // Ajusta 'cliente' por la propiedad de tu objeto que contiene el nombre del cliente
-    return salida.datos_cliente.datosCliente.some((d) =>
-      d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  // Estados para términos de búsqueda por cliente y usuario
+  // Estados para términos de búsqueda por cliente y usuario
+  const [searchTermCliente, setSearchTermCliente] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+
+  // Obtener lista de usuarios únicos
+  const uniqueUsers = Array.from(
+    new Set(salidasMensuales.map((salida) => salida.usuario.toLowerCase()))
+  );
+
+  // Filtrar por cliente y usuario
+  const filteredResults = salidasMensuales.filter((salida) =>
+    salida.datos_cliente.datosCliente.some(
+      (d) =>
+        d.cliente.toLowerCase().includes(searchTermCliente.toLowerCase()) &&
+        (selectedUser === "" || salida.usuario.toLowerCase() === selectedUser)
+    )
+  );
 
   const [eliminarModal, setEliminarModal] = useState(false);
   const [obtenerId, setObtenerId] = useState(null);
@@ -156,7 +167,7 @@ export const Salidas = () => {
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-red-600">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -308,29 +319,31 @@ export const Salidas = () => {
         </Link>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
-        <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          type="text"
-          className="outline-none text-slate-600 w-full"
-          placeholder="Buscar el cliente en especifico"
-        />
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6 text-slate-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      <div className="flex gap-2 items-center w-1/2">
+        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full">
+          <input
+            value={searchTermCliente}
+            onChange={(e) => setSearchTermCliente(e.target.value)}
+            type="text"
+            className="outline-none text-slate-600 w-full"
+            placeholder="Buscar por cliente"
           />
-        </svg>
+          {/* Icono de búsqueda para cliente */}
+        </div>
+        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full bg-white">
+          <select
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+            className="outline-none text-slate-600 bg-white w-full"
+          >
+            <option value="">Seleccionar usuario...</option>
+            {uniqueUsers.map((user) => (
+              <option key={user} value={user}>
+                {user}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       {/* tabla de datos  */}
       <div className="rounded-xl border-[1px] border-slate-300 shadow ">
