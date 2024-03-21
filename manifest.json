@@ -1,7 +1,7 @@
 {
-  "name": "Mi Aplicación",
+  "name": "Tecnohouse Logistica",
   "short_name": "App",
-  "start_url": "/",
+  "start_url": "/https://logistica-salidas-remuneraciones.netlify.app",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
