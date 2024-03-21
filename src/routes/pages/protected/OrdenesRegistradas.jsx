@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
+import { FaCheck } from "react-icons/fa";
 import client from "../../../api/axios";
 import * as XLSX from "xlsx";
 
-export const RemuneracionesRegistradas = () => {
+export const OrdenesRegistradas = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
   const [datos, setDatos] = useState([]);
@@ -28,7 +27,7 @@ export const RemuneracionesRegistradas = () => {
       fechaInicio = new Date(fechaInicio).toISOString().split("T")[0];
       fechaFin = new Date(fechaFin).toISOString().split("T")[0];
 
-      const response = await client.post("/remuneraciones-rango-fechas", {
+      const response = await client.post("/ordenes-rango-fechas", {
         fechaInicio,
         fechaFin,
       });
@@ -44,8 +43,13 @@ export const RemuneracionesRegistradas = () => {
       }, 1500);
     }
   };
-
-  console.log(datos);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const buscarIngresosPorFecha = () => {
     obtenerIngresoRangoFechas(fechaInicio, fechaFin);
@@ -91,21 +95,6 @@ export const RemuneracionesRegistradas = () => {
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
 
-  // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
-  const ventasDelDia = datos?.filter(
-    (item) => item?.created_at.slice(0, 10) === fechaActualString
-  );
-
-  // Encontrar la venta más reciente del día
-  const ultimaVentaDelDia = datos?.reduce((ultimaVenta, venta) => {
-    // Convertir las fechas de cadena a objetos Date para compararlas
-    const fechaUltimaVenta = new Date(ultimaVenta?.created_at);
-    const fechaVenta = new Date(venta?.created_at);
-
-    // Retornar la venta con la hora más reciente
-    return fechaVenta > fechaUltimaVenta ? venta : ultimaVenta;
-  }, ventasDelDia[0]);
-
   const itemsPerPage = 10; // Cantidad de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -125,86 +114,41 @@ export const RemuneracionesRegistradas = () => {
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
 
-  // Función para filtrar los resultados por cliente
-  const filteredResults = currentResults.filter((salida) => {
-    // Ajusta 'cliente' por la propiedad de tu objeto que contiene el nombre del cliente
-    return salida.datos_cliente.datosCliente.some((d) =>
-      d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
-
-  const [eliminarModal, setEliminarModal] = useState(false);
-  const [obtenerId, setObtenerId] = useState(null);
-
-  const openEliminar = () => {
-    setEliminarModal(true);
-  };
-
-  const closeEliminar = () => {
-    setEliminarModal(false);
-  };
-
-  const handleId = (id) => setObtenerId(id);
-
-  const totalGastosCliente = datos.reduce(
-    (total, item) => total + parseFloat(item.recaudacion),
-    0
-  );
-
-  const totalDatos = datos.reduce((total, salida) => {
-    return (
-      total +
-      (salida.datos_cliente.datosCliente
-        ? salida.datos_cliente.datosCliente.length
-        : 0)
-    );
+  const totalFinalizados = currentResults.reduce((count, orden) => {
+    // Incrementa el contador si la propiedad 'finalizado' es '1'
+    return orden.finalizado === "1" ? count + 1 : count;
   }, 0);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+  console.log("Total de órdenes finalizadas:", totalFinalizados);
+
+  const totalPendientes = currentResults.reduce((count, orden) => {
+    // Incrementa el contador si la propiedad 'finalizado' es '1'
+    return orden.finalizado === "2" ? count + 1 : count;
+  }, 0);
+
+  console.log(datos);
 
   const downloadDataAsExcel = (datos) => {
     if (datos && datos.length > 0) {
       // Convert all data to an array of objects
       const dataArray = datos.map((data) => ({
         NUMERO: data.id,
-        CLIENTES: (data?.datos_cliente?.datosCliente || [])
-          .map(
-            (datos) =>
-              `${datos.cliente.toUpperCase()} (${datos.numeroContrato})`
-          )
-          .join(", "),
-        LOCALIDAD: (data?.datos_cliente?.datosCliente || [])
-          .map((datos) => `${datos.localidad.toUpperCase()}`)
-          .join(", "),
-        "TOTAL FLETES": (data?.datos_cliente?.datosCliente || [])
-          .map((datos) => `${datos.totalFlete}`)
-          .join(", "),
-        "TOTAL METROS CUADRADOS": (data?.datos_cliente?.datosCliente || [])
-          .map((datos) => `${datos.metrosCuadrados}`)
-          .join(", "),
-        ARMADOR: data.armador.toUpperCase(),
         CHOFER: data.chofer.toUpperCase(),
-        "KM LINEAL": data.km_lineal,
-        "FECHA DE CARGA": formatDate(data.fecha_carga),
-        "FECHA DE ENTREGA": formatDate(data.fecha_entrega),
-        "PAGO CHOFER ESPERA": data.pago_fletero_espera,
-        REFUERZO: data.refuerzo,
-        VIATICOS: data.viaticos,
-        "TOTAL FLETES": (data?.datos_cliente?.datosCliente || []).reduce(
-          (acc, datos) => acc + parseFloat(datos.totalFlete),
-          0
-        ),
-        RECAUDACION: data.recaudacion,
+        "FECHA DE LLEGADA": formatDate(data.fecha_llegada),
+        "FECHA DE TURNO/FIRMA": formatDate(data.orden_firma),
+        "ESTADO DE LA ORDEN":
+          data.finalizado === "1" ? "FINALIZADO" : "PENDIENTE",
       }));
 
       // Define the worksheet columns
-      const columns = ["NUMERO", "CLIENTES"];
+      const columns = [
+        "NUMERO",
+        "CHOFER",
+        "FECHA DE LLEGADA",
+        "FECHA DE TURNO/FIRMA",
+        "ESTADO DE LA ORDEN",
+        // Add more columns as needed
+      ];
 
       // Create the worksheet
       const ws = XLSX.utils.json_to_sheet(dataArray, { header: columns });
@@ -241,44 +185,63 @@ export const RemuneracionesRegistradas = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
+              {Number(totalFinalizados)}
             </span>
           </div>
 
           <div>
             <strong className="block text-sm font-medium text-gray-500">
-              Total en remuneraciones de la busqueda
+              Total ordenes finalizadas
             </strong>
 
             <p>
               <span className="text-2xl font-medium text-gray-900">
-                {Number(totalGastosCliente).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                ultima remuneracion total de la busqueda{" "}
-                <span className="font-bold text-slate-700">
-                  {" "}
-                  {Number(
-                    Number(ultimaVentaDelDia?.recaudacion || 0)
-                  ).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
-                </span>
+                {Number(totalFinalizados)}
               </span>
             </p>
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        {/* <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">MARZO</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500">
+              Fecha Actual
+            </strong>
+
+            <p>
+              <span className="text-2xl font-medium text-gray-900">
+                {nombreMesActual}
+              </span>
+
+              <span className="text-xs text-gray-500">
+                {" "}
+                Dia {nombreDiaActual}
+              </span>
+            </p>
+          </div>
+        </article> */}
+
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+          <div className="inline-flex gap-2 self-end rounded bg-orange-100 p-1 text-orange-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -296,33 +259,36 @@ export const RemuneracionesRegistradas = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalDatos / 100).toFixed(2)} %{" "}
+              {Number(totalPendientes)}
             </span>
           </div>
 
           <div>
             <strong className="block text-sm font-medium text-gray-500">
-              Total viviendas entregadas de la busqueda
+              Total ordenes pendientes
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
-                {totalDatos}
+              <span className="text-2xl font-medium text-orange-500">
+                {Number(totalPendientes)}
               </span>
 
-              <span className="text-xs text-gray-500">
-                {" "}
-                Total viviendas entregadas{" "}
-                <span className="font-bold text-slate-700">
-                  {totalDatos}
-                </span>{" "}
-              </span>
+              <span className="text-xs text-gray-500"> </span>
             </p>
           </div>
         </article>
       </div>
 
-      <div className="mt-10">
+      <div>
+        <button
+          className="bg-green-500 py-2 px-6 text-white rounded-xl shadow"
+          onClick={downloadDataAsExcel(datos)}
+        >
+          Descargar todo en formato excel
+        </button>
+      </div>
+
+      <div className="mt-1">
         <div className="flex gap-6 items-center">
           <div className="flex gap-2 items-center">
             <label className="text-base text-slate-700">Fecha de inicio</label>
@@ -364,41 +330,8 @@ export const RemuneracionesRegistradas = () => {
             </svg>
           </button>
         </div>
-
-        <div>
-          <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5"
-            onClick={() => downloadDataAsExcel(datos)}
-          >
-            Descargar todo en formato excel
-          </button>
-        </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
-        <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          type="text"
-          className="outline-none text-slate-600 w-full"
-          placeholder="Buscar el cliente en especifico"
-        />
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6 text-slate-500"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          />
-        </svg>
-      </div>
       {/* tabla de datos  */}
       <div className="rounded-xl border-[1px] border-slate-300 shadow ">
         {loading ? (
@@ -411,94 +344,62 @@ export const RemuneracionesRegistradas = () => {
           </div>
         ) : (
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
-            <thead className="text-left">
+            <thead>
               <tr>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                  Numero
+                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  NUMERO
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                  Clientes/Cliente
+                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  TRANSPORTISTA
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                  Localidad/Cliente
+                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  FECHA DE LLEGADA
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                  Recaudacion generada
+                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  FECHA DE TURNO/FIRMA
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
-                  Creador
-                </th>
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
-                  Eliminar
-                </th>
-                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase">
-                Editar
-              </th> */}
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
-                  Ver los datos/resumen
+                {/* <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  ACCIONES
+                </th> */}
+                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                  ESTADO
                 </th>
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200">
-              {filteredResults.map((s) => (
-                <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.id}
+            <tbody className="divide-y-[1px] divide-gray-300 w-full">
+              {currentResults?.map((o) => (
+                <tr key={o?.id}>
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {o.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.datos_cliente.datosCliente.map((c) => (
-                      <div>
-                        {c.cliente}({c.numeroContrato})
-                      </div>
-                    ))}
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {o.chofer}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.datos_cliente.datosCliente.map((c) => (
-                      <div>{c.localidad}</div>
-                    ))}
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {formatDate(o.fecha_llegada)}
                   </td>
-                  <td
-                    className={`px-4 py-2 font-bold text-${
-                      s.recaudacion >= 0 ? "green" : "red"
-                    }-500 capitalize`}
-                  >
-                    {Number(s.recaudacion).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
+                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                    {formatDate(o.orden_firma)}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.usuario}
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <td className="text-center">
                     <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                      className={`action-button ${
+                        o.finalizado === "1"
+                          ? "text-white-500 bg-green-500 text-white py-2 px-2 shadow rounded-xl font-semibold text-base"
+                          : "text-sm bg-orange-500 rounded-xl py-2 px-3 text-white shadow"
+                      } mr-2 text-center`}
                     >
-                      Eliminar
+                      {o.finalizado === "1" ? (
+                        <FaCheck />
+                      ) : (
+                        <span className="flex gap-2 items-center">
+                          PENDIENTE{" "}
+                        </span>
+                      )}{" "}
+                      {/* Usa FaOtherIcon para el otro icono */}
                     </button>
-                  </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                  <Link
-                    to={`/editar/${s.id}`}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
-                  >
-                    Editar
-                  </Link>
-                </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
-                    <Link
-                      to={`/recaudacion/${s.id}`}
-                      target="_blank"
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Ver Remuneracion
-                    </Link>
+                    {/* Otros botones de acción */}
                   </td>
                 </tr>
               ))}
@@ -566,11 +467,6 @@ export const RemuneracionesRegistradas = () => {
           </div>
         )}
       </div>
-      <ModalEliminar
-        closeEliminar={closeEliminar}
-        eliminarModal={eliminarModal}
-        obtenerId={obtenerId}
-      />
     </section>
   );
 };

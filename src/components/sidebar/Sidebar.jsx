@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export const SideBar = () => {
   const [click, setClick] = useState(false);
-  const { isAuth, signout, user, clickProvider, setClickProvider } = useAuth();
+  const { signout } = useAuth();
 
   const toggleSidebar = () => {
     setClick(!click);
@@ -16,7 +16,7 @@ export const SideBar = () => {
     <div
       className={`flex transition-all ease-in-out duration-300 min-h-full max-h-full`}
     >
-      <div className="flex h-full w-16 flex-col justify-between border-e bg-white">
+      <div className="flex w-16 flex-col justify-between border-e bg-white h-screen min-h-full">
         <div>
           <div className="border-t border-slate-300">
             <div className="px-2">
@@ -136,6 +136,36 @@ export const SideBar = () => {
                     </span>
                   </a>
                 </Link>
+
+                <Link to={"/transportes"}>
+                  <a
+                    href="#"
+                    className={`${
+                      location.pathname === "/transportes"
+                        ? "bg-slate-100 text-black-500"
+                        : "bg-white"
+                    } group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-slate-200 hover:text-gray-700`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+                      />
+                    </svg>
+
+                    <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible w-[200px] text-center">
+                      Orden de llegada transportes
+                    </span>
+                  </a>
+                </Link>
               </ul>
             </div>
           </div>
@@ -171,65 +201,6 @@ export const SideBar = () => {
           </form>
         </div>
       </div>
-      {/* {click && (
-        <div className="flex h-full flex-1 flex-col justify-between border-e bg-white">
-          <div className="px-4 py-8">
-            <ul className="mt-14 flex flex-col gap-2">
-              <Link to={"/"}>
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                    <span className="text-sm font-medium">Inicio</span>
-                  </summary>
-                </details>
-              </Link>
-
-              <li>
-                <details className="group [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                    <span className="text-sm font-medium"> Cuenta </span>
-
-                    <span className="shrink-0 transition duration-300 group-open:-rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-
-                  <ul className="mt-2 space-y-1 px-4">
-                    <li>
-                      <a
-                        href="#"
-                        className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                      >
-                        Ver datos
-                      </a>
-                    </li>
-
-                    <li>
-                      <Link
-                        to={"/"}
-                        onClick={() => signout()}
-                        className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  </ul>
-                </details>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

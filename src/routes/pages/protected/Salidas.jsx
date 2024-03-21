@@ -123,7 +123,7 @@ export const Salidas = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16">
       <ToastContainer />
       <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8">
         {/* <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">

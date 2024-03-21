@@ -389,8 +389,8 @@ export const EditarSalida = () => {
               Control y Rendición de viajes
             </h3>
           </div>
-          <div className="flex gap-3">
-            <div className="w-1/4">
+          <div className="flex gap-3 items-center">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
                 <input
@@ -405,7 +405,7 @@ export const EditarSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -420,7 +420,7 @@ export const EditarSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="bg-slate-100 py-3 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
               {Number(
                 km_viaje_control * km_viaje_control_precio
               ).toLocaleString("es-AR", {
@@ -436,8 +436,8 @@ export const EditarSalida = () => {
           <div>
             <h3 className="font-bold text-xl text-slate-700">Fletes</h3>
           </div>
-          <div className="flex gap-3">
-            <div className="w-1/4">
+          <div className="flex gap-3 items-center">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
                 <input
@@ -452,7 +452,7 @@ export const EditarSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 flex gap-3">
+            <div className="flex gap-3">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -467,7 +467,7 @@ export const EditarSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="bg-slate-100 py-3 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
               {Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
@@ -475,7 +475,7 @@ export const EditarSalida = () => {
               })}
             </div>
           </div>
-          <div className="w-1/4">
+          <div className="flex gap-3 items-center">
             <label className="relative block rounded-xl border border-slate-300 shadow-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -489,6 +489,14 @@ export const EditarSalida = () => {
                 Espera del Fletero
               </span>
             </label>
+
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+              {Number(espera).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
           </div>
         </article>
 
@@ -498,8 +506,8 @@ export const EditarSalida = () => {
               Viaticos Armadores
             </h3>
           </div>
-          <div className="flex gap-3">
-            <div className="w-1/4">
+          <div className="flex gap-3 items-center">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <input
                   value={armadores}
@@ -513,7 +521,7 @@ export const EditarSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4">
+            <div className="">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -527,6 +535,13 @@ export const EditarSalida = () => {
                   Total en Viaticos
                 </span>
               </label>
+            </div>
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+              {Number(total_viaticos).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
             </div>
           </div>
           <div>

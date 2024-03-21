@@ -168,7 +168,7 @@ export const CrearSalida = () => {
   };
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-12 pb-36 py-14 relative">
       <ToastContainer />
       <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold">
         Mes {nombreMesActual}, Día {nombreDiaActual}
@@ -182,7 +182,7 @@ export const CrearSalida = () => {
 
       <form
         // onSubmit={onSubmit}
-        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
+        className=" border-slate-200 w-full border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
       >
         <div className="flex gap-4">
           <button
@@ -329,7 +329,7 @@ export const CrearSalida = () => {
               Control y Rendición de viajes
             </h3>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
             <div className="w-1/4">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
@@ -360,7 +360,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="bg-slate-100 py-3 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
               {Number(
                 km_viaje_control * km_viaje_control_precio
               ).toLocaleString("es-AR", {
@@ -376,7 +376,7 @@ export const CrearSalida = () => {
           <div>
             <h3 className="font-bold text-xl text-slate-700">Fletes</h3>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-center">
             <div className="w-1/4">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <span className="font-bold text-slate-500 px-3">KM</span>
@@ -407,7 +407,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="bg-slate-100 py-3 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
               {Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
@@ -416,7 +416,7 @@ export const CrearSalida = () => {
             </div>
           </div>
 
-          <div className="w-1/4">
+          <div className="w-1/4 flex gap-2 items-center">
             <label className="relative block rounded-xl border border-slate-300 shadow-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -430,6 +430,14 @@ export const CrearSalida = () => {
                 Espera del Fletero
               </span>
             </label>
+
+            <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+              {Number(espera).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
           </div>
         </article>
 
@@ -454,7 +462,7 @@ export const CrearSalida = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4">
+            <div className="w-1/4 flex gap-2 items-center">
               <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                 <span className="font-bold text-slate-500 px-3">$</span>
                 <input
@@ -468,6 +476,14 @@ export const CrearSalida = () => {
                   Total en Viaticos
                 </span>
               </label>
+
+              <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
+                {Number(total_viaticos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </div>
             </div>
           </div>
           <div>

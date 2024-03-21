@@ -23,6 +23,9 @@ import { EditarRemuneracion } from "./routes/pages/protected/EditarRemuneracion"
 import { ResumenViewRecaudacion } from "./routes/pages/protected/ResumenViewRecaudacion";
 import { ViewPdfRemuneracion } from "./routes/pages/protected/ViewPdfRemuneracion";
 import { RemuneracionesRegistradas } from "./routes/pages/protected/RemuneracionesRegistradas";
+import { Transportes } from "./routes/pages/protected/Transportes";
+import { OrdenesProvider } from "./context/OrdenesProvider";
+import { OrdenesRegistradas } from "./routes/pages/protected/OrdenesRegistradas";
 //import normales
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,10 +52,12 @@ function App() {
               element={
                 <SalidasProvider>
                   <RemuneracionProvider>
-                    <main className="flex gap-2 w-full min-h-full max-h-full">
-                      <SideBar />
-                      <Outlet />
-                    </main>
+                    <OrdenesProvider>
+                      <main className="flex gap-2 w-full min-h-full max-h-full">
+                        <SideBar />
+                        <Outlet />
+                      </main>
+                    </OrdenesProvider>
                   </RemuneracionProvider>
                 </SalidasProvider>
               }
@@ -69,10 +74,16 @@ function App() {
                 path="/salidas-registradas"
                 element={<SalidasRegistradas />}
               />
+              <Route index path="/transportes" element={<Transportes />} />
               <Route
                 index
                 path="/remuneraciones-registradas"
                 element={<RemuneracionesRegistradas />}
+              />
+              <Route
+                index
+                path="/ordenes-registradas"
+                element={<OrdenesRegistradas />}
               />
               <Route index path="/crear-salida" element={<CrearSalida />} />
               <Route

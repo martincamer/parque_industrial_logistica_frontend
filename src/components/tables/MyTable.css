@@ -1,0 +1,37 @@
+/* MyTable.css */
+
+/* MyTable.css */
+
+.hot {
+  width: 100%; /* Hacer que la tabla ocupe el 100% del ancho disponible */
+  height: 400px; /* Altura de la tabla */
+}
+
+/* Resto de los estilos ... */
+
+/* Estilos para el encabezado de la tabla */
+.hot .ht_clone_top {
+  background-color: #f2f2f2;
+}
+
+.hot .ht_clone_top thead th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+/* Estilos para las celdas de la tabla */
+.hot .ht_master tbody tr:nth-child(2n) td {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para las celdas de la tabla al pasar el ratón */
+.hot .ht_master tbody tr:hover td {
+  background-color: #ddd;
+}
+
+/* Estilos para las celdas de la tabla cuando están seleccionadas */
+.hot .ht_master tbody tr.current td {
+  background-color: #ffc107;
+  color: black;
+}
