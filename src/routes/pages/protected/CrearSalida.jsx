@@ -115,9 +115,6 @@ export const CrearSalida = () => {
   const [fabrica, setFabrica] = useState("");
   const [espera, setEspera] = useState("");
 
-  // const [total_flete, setTotalFlete] = useState("");
-  // const [total_control, setTotalControl] = useState("");
-
   const onSubmit = async () => {
     try {
       // e.preventDefault();
@@ -133,7 +130,11 @@ export const CrearSalida = () => {
         salida,
         fabrica,
         total_control: Number(km_viaje_control * km_viaje_control_precio),
-        total_flete: Number(fletes_km * fletes_km_precio),
+        total_flete: Number(
+          chofer !== "Iveco Tecnohouse"
+            ? fletes_km * fletes_km_precio
+            : fletes_km_precio
+        ),
         espera,
         datos_cliente: { datosCliente },
       });
@@ -408,11 +409,17 @@ export const CrearSalida = () => {
               </label>
             </div>
             <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
-              {Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
+              {chofer !== "Iveco Tecnohouse"
+                ? Number(fletes_km * fletes_km_precio).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })
+                : Number(fletes_km_precio).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
             </div>
           </div>
 
