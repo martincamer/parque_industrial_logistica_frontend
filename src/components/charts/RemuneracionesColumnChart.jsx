@@ -15,6 +15,9 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
     chart: {
       type: "bar",
       height: 200,
+      toolbar: {
+        show: false,
+      },
     },
     xaxis: {
       categories: fechas,
@@ -54,6 +57,16 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
         },
       },
     },
+    responsive: [
+      {
+        breakpoint: 768,
+        options: {
+          chart: {
+            height: 350,
+          },
+        },
+      },
+    ],
   };
 
   // Configuring chart series
@@ -65,13 +78,16 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
   ];
 
   return (
-    <Chart
-      options={options}
-      series={series}
-      type="bar"
-      width={1220} // Adjust chart width as needed
-      height={500} // Adjust chart height as needed
-    />
+    <div className="w-full">
+      {" "}
+      <Chart
+        options={options}
+        series={series}
+        type="bar"
+        width="100%" // Adjust chart width as needed
+        height={500} // Adjust chart height as needed
+      />
+    </div>
   );
 };
 

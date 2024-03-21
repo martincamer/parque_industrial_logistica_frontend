@@ -54,13 +54,15 @@ const RemuneracionesDonutChart = ({ remuneraciones }) => {
   );
 
   return (
-    <Chart
-      options={options}
-      series={series}
-      type="donut"
-      width={400} // Adjust chart width as needed
-      height={300} // Adjust chart height as needed
-    />
+    <div className="w-full">
+      <Chart
+        options={options}
+        series={series}
+        type="donut"
+        width={"100%"} // Adjust chart width as needed
+        height={300} // Adjust chart height as needed
+      />
+    </div>
   );
 };
 

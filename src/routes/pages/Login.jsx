@@ -27,10 +27,10 @@ export const Login = () => {
   });
 
   return (
-    <section className="flex items-center justify-center gap-12 h-screen  bg-white flex-col relative">
+    <section className="flex items-center justify-center gap-12 h-screen  bg-white flex-col relative max-md:px-5">
       <form
         onSubmit={onSubmit}
-        className="flex w-1/3 flex-col gap-4 bg-white border-[1px] border-slate-300 px-10 py-10 rounded-xl  shadow"
+        className="flex w-1/3 flex-col gap-4 bg-white border-[1px] border-slate-300 px-10 py-10 rounded-xl  shadow max-md:w-full"
       >
         {
           <div>

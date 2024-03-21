@@ -1,13 +1,12 @@
+import { useLegalesContext } from "../../../context/LegalesProvider";
+import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { useSalidasContext } from "../../../context/SalidasProvider";
 import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
 import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
 import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
-import ViviendasDonutViviendas from "../../../components/charts/ViviendasDonutViviendas";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
-import { useLegalesContext } from "../../../context/LegalesProvider";
-import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
-import { useSalidasContext } from "../../../context/SalidasProvider";
 
 export const Home = () => {
   const { salidasMensuales } = useSalidasContext();
@@ -156,9 +155,9 @@ export const Home = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-20 py-24">
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3 max-md:rounded-xl">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -182,12 +181,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en remuneración del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl font-medium text-slate-900">
+              <span className="text-2xl max-md:text-base font-medium text-slate-900">
                 {Number(totalCobroCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -212,7 +211,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -236,12 +235,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en salidas registradas del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl font-medium text-red-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -267,7 +266,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -291,12 +290,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en legales del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl font-medium text-red-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500">
                 {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -321,7 +320,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -342,12 +341,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {nombreMesActual}
               </span>
 
@@ -359,7 +358,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -383,12 +382,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total viviendas entregadas
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl max-md:text-base font-medium text-gray-900">
                 {totalDatos + totalDatosDos}
               </span>
 
@@ -399,7 +398,7 @@ export const Home = () => {
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -425,12 +424,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales}
               </span>
 
@@ -446,38 +445,37 @@ export const Home = () => {
         </article>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+        <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
+          <p> Progreso de las entregas</p>
+        </div>
         <RemuneracionesProgressBar
           remuneracionesMensuales={remuneracionesMensuales}
         />
         <SalidasProgressBar salidasMensuales={salidasMensuales} />
         <ViviendasProgressBar
-          salidasMensuales={salidasMensuales}
+          salidasMensuales={remuneracionesMensuales}
           legales={legales}
         />
       </div>
 
-      <div className="bg-white flex-col items-start space-y-5 h-full justify-center">
-        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center">
-          <div className="font-bold text-slate-700 mb-16">
+      <div className="bg-white h-full w-full">
+        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE REMUNERACIONES
           </div>
           <RemuneracionesColumnChart remuneraciones={remuneracionesMensuales} />
         </div>
-        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center">
-          <div className="font-bold text-slate-700 mb-16">
+      </div>
+
+      <div className="w-full grid-cols-2 grid gap-3 items-start justify-center max-md:grid-cols-1">
+        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center max-md:py-5">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             DONUT REMUNERACIONES
           </div>
           <RemuneracionesDonutChart remuneraciones={remuneracionesMensuales} />
         </div>
-      </div>
-
-      <div className="w-full grid-cols-2 grid gap-3 items-start justify-center">
         <ViviendasDataCharts salidasMensuales={salidasMensuales} />
-        <ViviendasDonutViviendas
-          remuneracionesMensuales={remuneracionesMensuales}
-          legales={legales}
-        />
       </div>
     </section>
   );

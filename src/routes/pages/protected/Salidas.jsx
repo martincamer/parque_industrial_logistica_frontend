@@ -350,29 +350,29 @@ export const Salidas = () => {
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>
-              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Numero
               </th>
-              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Creador
               </th>
-              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Clientes/Cliente
               </th>
-              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Localidad/Cliente
               </th>
-              <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Fabrica/Sucursal
               </th>
 
-              <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-1 py-2  text-slate-800 font-bold uppercase">
                 Eliminar
               </th>
-              <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-1 py-2  text-slate-800 font-bold uppercase">
                 Editar
               </th>
-              <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+              <th className="px-1 py-2  text-slate-800 font-bold uppercase">
                 Ver los datos/resumen
               </th>
             </tr>

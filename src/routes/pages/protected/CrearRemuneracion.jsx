@@ -517,7 +517,13 @@ export const CrearRemuneracion = () => {
                 Recaudación final
               </span>
 
-              <p className="text-green-500 font-bold text-lg">
+              <p
+                className={
+                  totalSuma - pago_fletero_espera - viaticos - refuerzo < 0
+                    ? "text-red-500 font-bold text-lg"
+                    : "text-green-500 font-bold text-lg"
+                }
+              >
                 {Number(
                   totalSuma - pago_fletero_espera - viaticos - refuerzo
                 ).toLocaleString("es-AR", {
