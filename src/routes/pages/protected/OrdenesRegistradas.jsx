@@ -282,7 +282,7 @@ export const OrdenesRegistradas = () => {
       <div>
         <button
           className="bg-green-500 py-2 px-6 text-white rounded-xl shadow"
-          onClick={downloadDataAsExcel(datos)}
+          onClick={() => downloadDataAsExcel(datos)}
         >
           Descargar todo en formato excel
         </button>
