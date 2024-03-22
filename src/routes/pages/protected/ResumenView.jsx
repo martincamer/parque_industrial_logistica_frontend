@@ -277,12 +277,6 @@ export const ResumenView = () => {
             />
           </svg>
         </Link>
-        {/* <button
-          className="bg-green-500 py-2 rounded-xl text-white shadow px-6"
-          onClick={descargarExcel}
-        >
-          Descargar en formato excel
-        </button> */}
       </div>
 
       {/* tabla de datos  */}
@@ -295,6 +289,9 @@ export const ResumenView = () => {
               </th>
               <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
                 Localidad/Entregas
+              </th>
+              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+                Chofer Vehiculo
               </th>
               <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
                 Chofer
@@ -314,9 +311,6 @@ export const ResumenView = () => {
               <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
                 Espera
               </th>
-              {/* <th className="px-4 py-3  text-orange-500 font-bold uppercase">
-                Eliminar
-              </th> */}
             </tr>
           </thead>
 
@@ -333,6 +327,10 @@ export const ResumenView = () => {
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div className="font-bold text-slate-700">{c.localidad}</div>
                 ))}
+                s
+              </td>
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+                {unicaSalida.chofer_vehiculo}
               </td>
               <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
                 {unicaSalida.chofer}

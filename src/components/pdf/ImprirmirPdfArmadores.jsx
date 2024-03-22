@@ -87,6 +87,28 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
         <View>
           <View
             style={{
+              width: "100%",
+              marginBottom: "5px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: "10px",
+                fontWeight: "semibold",
+                textTransform: "uppercase",
+                border: "1px solid #000",
+                padding: "5px 10px",
+                textAlign: "center",
+              }}
+            >
+              {unicaSalida.fabrica}
+            </Text>
+          </View>
+          <View
+            style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
@@ -471,10 +493,10 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
-                  paddingTop: "10px",
+                  // paddingTop: "10px",
                 }}
               >
-                {/* {unicaSalida.salida} */}
+                {unicaSalida.usuario}
               </Text>
             </View>
 

@@ -297,7 +297,7 @@ export const Remuneraciones = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {totalDatosMetrosCuadrados / 10000} %{" "}
+              {Number(totalDatosMetrosCuadrados / 10000).toFixed(2)} %{" "}
             </span>
           </div>
 

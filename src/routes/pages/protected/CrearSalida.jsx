@@ -115,6 +115,7 @@ export const CrearSalida = () => {
   const [salida, setSalida] = useState("");
   const [fabrica, setFabrica] = useState("");
   const [espera, setEspera] = useState("");
+  const [chofer_vehiculo, setChoferVehiculo] = useState("");
 
   const onSubmit = async () => {
     try {
@@ -137,6 +138,7 @@ export const CrearSalida = () => {
             : fletes_km_precio
         ),
         espera,
+        chofer_vehiculo,
         datos_cliente: { datosCliente },
       });
 
@@ -359,6 +361,20 @@ export const CrearSalida = () => {
             <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
               Control y Rendición de viajes
             </h3>
+          </div>
+          <div className="max-md:w-full w-1/6">
+            <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+              <input
+                value={chofer_vehiculo}
+                onChange={(e) => setChoferVehiculo(e.target.value)}
+                type="text"
+                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+              />
+
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                Nombre y Apellido / Chofer Vehiculo
+              </span>
+            </label>
           </div>
           <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:gap-5 max-md:w-full">
             <div className="max-md:w-full">

@@ -195,7 +195,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   borderBottom: "1px dotted #000",
                 }}
               >
-                {unicaSalida.chofer}
+                {unicaSalida.chofer_vehiculo}
               </Text>
             </View>
             <View
@@ -673,10 +673,10 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
-                  paddingTop: "10px",
+                  // paddingTop: "10px",
                 }}
               >
-                {/* {unicaSalida.salida} */}
+                {unicaSalida.usuario}
               </Text>
             </View>
 
