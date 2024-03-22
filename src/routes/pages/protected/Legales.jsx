@@ -132,7 +132,7 @@ export const Legales = () => {
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full">
       <ToastContainer />
       <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,12 +156,12 @@ export const Legales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-slate-500">
+            <strong className="block text-sm font-medium text-slate-500 max-md:text-xs">
               Total en legales
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-red-600">
+              <span className="text-2xl font-medium text-red-600 max-md:text-base">
                 {Number(totalRecaudación).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -185,7 +185,7 @@ export const Legales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -206,12 +206,12 @@ export const Legales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {nombreMesActual}
               </span>
 
@@ -223,7 +223,7 @@ export const Legales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -247,12 +247,12 @@ export const Legales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total legales/viviendas
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {totalDatos}
               </span>
 
@@ -264,7 +264,7 @@ export const Legales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -283,17 +283,17 @@ export const Legales = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {totalDatosMetrosCuadrados / 10000} %{" "}
+              {Number(totalDatosMetrosCuadrados / 10000).toFixed(2)} %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatosMetrosCuadrados}
               </span>
 
@@ -306,7 +306,7 @@ export const Legales = () => {
         </article>
       </div>
 
-      <div className="flex gap-5">
+      <div className="gap-5 max-md:hidden md:flex">
         <Link
           to={"/crear-legal"}
           className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center"
@@ -333,6 +333,50 @@ export const Legales = () => {
           className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center"
         >
           Ver legales registrados
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </Link>
+      </div>
+
+      <div className="max-md:flex gap-1  md:hidden">
+        <Link
+          to={"/crear-legal"}
+          className="bg-black py-2 px-2 text-sm rounded-xl text-white flex gap-2 items-center w-full justify-between"
+        >
+          Crear Legal
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
+        </Link>
+
+        <Link
+          to={"/legales-registrados"}
+          className="bg-white border-slate-300 border-[1px] py-3 px-3 rounded-xl text-blacks flex gap-2 items-center text-sm w-full justify-between"
+        >
+          Ver legales
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

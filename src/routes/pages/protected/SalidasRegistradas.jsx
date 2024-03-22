@@ -167,7 +167,7 @@ export const SalidasRegistradas = () => {
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
       <ToastContainer />
       <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +224,7 @@ export const SalidasRegistradas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -289,13 +289,31 @@ export const SalidasRegistradas = () => {
               value={fechaFin}
               onChange={(e) => setFechaFin(e.target.value)}
             />
+            <button
+              onClick={buscarIngresosPorFecha}
+              className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:block md:hidden max-md:py-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
           </div>
 
           <button
             onClick={buscarIngresosPorFecha}
-            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
+            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:hidden"
           >
-            Buscar registro salidas
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -352,28 +370,28 @@ export const SalidasRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Fabrica/Sucursal
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                {/* <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
+                <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
                   Ver los datos/resumen
                 </th>
               </tr>

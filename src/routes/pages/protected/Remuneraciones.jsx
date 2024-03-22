@@ -237,7 +237,7 @@ export const Remuneraciones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -320,12 +320,12 @@ export const Remuneraciones = () => {
         </article>
       </div>
 
-      <div className="flex gap-5 max-md:flex-col max-md:gap-3">
+      <div className="flex gap-5 max-md:gap-2">
         <Link
           to={"/crear-remuneracion"}
-          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
+          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
         >
-          Crear nueva remuneracion
+          Crear remuneracion
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -344,9 +344,9 @@ export const Remuneraciones = () => {
 
         <Link
           to={"/remuneraciones-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm"
+          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
         >
-          Ver remuneraciones registradas
+          Ver remuneraciones
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

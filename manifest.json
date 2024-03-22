@@ -1,6 +1,6 @@
 {
-  "name": "Mi PWA",
-  "short_name": "MiPWA",
+  "name": "Tecnohouse Logistica",
+  "short_name": "Tecnohouse Logistica",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#ffffff",
