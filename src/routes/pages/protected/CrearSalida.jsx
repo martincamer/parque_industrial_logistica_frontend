@@ -359,7 +359,7 @@ export const CrearSalida = () => {
         <article className="flex flex-col gap-6 mt-5">
           <div>
             <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
-              Control y Rendición de viajes
+              Chofer/Vehiculo
             </h3>
           </div>
           <div className="max-md:w-full w-1/6">
