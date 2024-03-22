@@ -426,7 +426,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   borderBottom: "1px dotted #000",
                 }}
               >
-                {unicaSalida.armadores || "NO HAY NADA CARGADO"}
+                {unicaSalida.usuario || "NO HAY NADA CARGADO"}
               </Text>
             </View>
 
@@ -493,10 +493,10 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
-                  // paddingTop: "10px",
+                  paddingTop: "10px",
                 }}
               >
-                {unicaSalida.usuario}
+                {/* {unicaSalida.usuario} */}
               </Text>
             </View>
 

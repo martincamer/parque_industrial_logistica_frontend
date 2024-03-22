@@ -673,10 +673,10 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
-                  // paddingTop: "10px",
+                  paddingTop: "10px",
                 }}
               >
-                {unicaSalida.usuario}
+                {/* {unicaSalida.usuario} */}
               </Text>
             </View>
 
