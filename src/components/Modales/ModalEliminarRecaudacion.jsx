@@ -84,22 +84,22 @@ export const ModalEliminarRecaudacion = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+              <div className="max-md:w-full inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="max-md:text-sm max-md:uppercase text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
                   Elimar la remuneracion
                 </div>
 
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEliminarChofer(obtenerId)}
-                    className="bg-red-100 text-red-800 py-2 px-4 rounded-xl w-full"
+                    className="bg-red-100 text-red-800 py-2 px-4 rounded-xl w-full max-md:text-sm"
                     type="button"
                   >
                     ELIMINAR
                   </button>
                   <button
                     onClick={closeEliminar}
-                    className="bg-green-500 text-white py-2 px-4 rounded-xl w-full"
+                    className="bg-green-500 text-white py-2 px-4 rounded-xl w-full max-md:text-sm"
                     type="button"
                   >
                     CERRAR

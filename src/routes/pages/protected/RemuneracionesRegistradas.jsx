@@ -45,8 +45,6 @@ export const RemuneracionesRegistradas = () => {
     }
   };
 
-  console.log(datos);
-
   const buscarIngresosPorFecha = () => {
     obtenerIngresoRangoFechas(fechaInicio, fechaFin);
   };
@@ -228,10 +226,10 @@ export const RemuneracionesRegistradas = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -255,12 +253,12 @@ export const RemuneracionesRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en remuneraciones de la busqueda
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -286,7 +284,7 @@ export const RemuneracionesRegistradas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -310,12 +308,12 @@ export const RemuneracionesRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total viviendas entregadas de la busqueda
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatos}
               </span>
 
@@ -330,7 +328,7 @@ export const RemuneracionesRegistradas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -354,12 +352,12 @@ export const RemuneracionesRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-sm">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatosMetrosCuadrados}
               </span>
 
@@ -372,19 +370,23 @@ export const RemuneracionesRegistradas = () => {
         </article>
       </div>
 
-      <div className="mt-10">
-        <div className="flex gap-6 items-center">
-          <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700">Fecha de inicio</label>
+      <div className="mt-10 max-md:mt-0">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
+          <div className="flex gap-2 items-center max-md:text-sm">
+            <label className="text-base text-slate-700 max-md:text-sm">
+              Fecha de inicio
+            </label>
             <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
+              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none max-md:text-sm"
               type="date"
               value={fechaInicio}
               onChange={(e) => setFechaInicio(e.target.value)}
             />
           </div>
-          <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700">Fecha fin</label>
+          <div className="flex gap-2 items-center max-md:text-sm">
+            <label className="text-base text-slate-700 max-md:text-sm">
+              Fecha fin
+            </label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
               type="date"
@@ -393,31 +395,33 @@ export const RemuneracionesRegistradas = () => {
             />
           </div>
 
-          <button
-            onClick={buscarIngresosPorFecha}
-            className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
-          >
-            Buscar registro salidas
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-slate-500"
+          <div>
+            <button
+              onClick={buscarIngresosPorFecha}
+              className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:text-sm max-md:w-full"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </button>
+              Buscar registro salidas
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div>
           <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5"
+            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5 max-md:text-sm"
             onClick={() => downloadDataAsExcel(datos)}
           >
             Descargar todo en formato excel
@@ -425,7 +429,7 @@ export const RemuneracionesRegistradas = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
+      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -450,7 +454,7 @@ export const RemuneracionesRegistradas = () => {
         </svg>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow ">
+      <div className="rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">
@@ -463,28 +467,28 @@ export const RemuneracionesRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
                   Recaudacion generada
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                {/* <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
                   Ver los datos/resumen
                 </th>
               </tr>
@@ -493,17 +497,17 @@ export const RemuneracionesRegistradas = () => {
             <tbody className="divide-y divide-gray-200">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
@@ -519,10 +523,10 @@ export const RemuneracionesRegistradas = () => {
                       minimumIntegerDigits: 2,
                     })}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
@@ -533,7 +537,7 @@ export const RemuneracionesRegistradas = () => {
                       Eliminar
                     </button>
                   </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
                   <Link
                     to={`/editar/${s.id}`}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
@@ -541,13 +545,13 @@ export const RemuneracionesRegistradas = () => {
                     Editar
                   </Link>
                 </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize cursor-pointer">
                     <Link
                       to={`/recaudacion/${s.id}`}
                       target="_blank"
                       className="bg-black py-2 px-5 text-center rounded-xl text-white"
                     >
-                      Ver Remuneracion
+                      Ver
                     </Link>
                   </td>
                 </tr>
@@ -555,67 +559,66 @@ export const RemuneracionesRegistradas = () => {
             </tbody>
           </table>
         )}
-
-        {totalPages > 1 && (
-          <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
-            <button
-              className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5 8.25 12l7.5-7.5"
-                />
-              </svg>
-              Anterior
-            </button>
-            {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
-              <button
-                key={index}
-                className={`mx-1 px-3 py-1 rounded ${
-                  currentPage === startPage + index
-                    ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
-                    : "bg-gray-100 shadow shadow-black/20 text-sm"
-                }`}
-                onClick={() => handlePageChange(startPage + index)}
-              >
-                {startPage + index}
-              </button>
-            ))}
-            <button
-              className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Siguiente{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
+      {totalPages > 1 && (
+        <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
+          <button
+            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
+            </svg>
+            Anterior
+          </button>
+          {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
+            <button
+              key={index}
+              className={`mx-1 px-3 py-1 rounded ${
+                currentPage === startPage + index
+                  ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  : "bg-gray-100 shadow shadow-black/20 text-sm"
+              }`}
+              onClick={() => handlePageChange(startPage + index)}
+            >
+              {startPage + index}
+            </button>
+          ))}
+          <button
+            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Siguiente{" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
       <ModalEliminar
         closeEliminar={closeEliminar}
         eliminarModal={eliminarModal}

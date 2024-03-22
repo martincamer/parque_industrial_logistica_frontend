@@ -105,12 +105,12 @@ export const ModalEditarClienteRemuneracion = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-[500px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+              <div className="inline-block w-[500px] max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize max-md:text-sm max-md:uppercase">
                   Editar el cliente
                 </div>
                 <form className="flex flex-col gap-3" action="">
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Nombre y Apellido</label>
                     <input
                       onChange={(e) => setCliente(e.target.value)}
@@ -121,7 +121,7 @@ export const ModalEditarClienteRemuneracion = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Localidad</label>
                     <input
                       onChange={(e) => setLocalidad(e.target.value)}
@@ -132,7 +132,7 @@ export const ModalEditarClienteRemuneracion = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Numero de contrato</label>
                     <input
                       onChange={(e) => setNumeroContrato(e.target.value)}
@@ -143,7 +143,7 @@ export const ModalEditarClienteRemuneracion = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Metros Cuadrados</label>
                     <input
                       onChange={(e) => setMetrosCuadrados(e.target.value)}
@@ -154,7 +154,7 @@ export const ModalEditarClienteRemuneracion = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Total del flete</label>
                     <input
                       onChange={(e) => setTotalFlete(e.target.value)}
@@ -172,7 +172,7 @@ export const ModalEditarClienteRemuneracion = ({
                         handleCliente();
                         closeModal();
                       }}
-                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase "
+                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase max-md:text-sm"
                     >
                       Editar el cliente
                     </button>

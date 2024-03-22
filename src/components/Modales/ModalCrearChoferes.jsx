@@ -90,8 +90,8 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-[500px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+              <div className="inline-block max-md:w-full w-[500px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize max-md:text-sm max-md:uppercases">
                   Crear nuevo chofer
                 </div>
                 <form
@@ -99,7 +99,7 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
                   className="flex flex-col gap-3"
                   action=""
                 >
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Nombre y Apellido</label>
                     <input
                       {...register("chofer", { required: true })}
@@ -112,7 +112,7 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
                   <div>
                     <button
                       type="submit"
-                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase "
+                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase max-md:text-sm"
                     >
                       Crear nuevo chofer
                     </button>

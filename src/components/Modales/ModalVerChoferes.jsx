@@ -86,12 +86,12 @@ export const ModalVerChoferes = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/2 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden max-md:h-[300px] max-md:overflow-y-scroll text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
                   Choferes Creados
                 </div>
 
-                <div className="grid grid-cols-3 py-2 px-4 gap-3 border-slate-300 border-[1px] rounded-xl shadow">
+                <div className="grid grid-cols-3 max-md:grid-cols-1  py-2 px-4 gap-3 border-slate-300 border-[1px] rounded-xl shadow">
                   {choferes.map((c) => (
                     <div className="flex items-center gap-2">
                       <p className="font-bold text-slate-700 capitalize">

@@ -47,7 +47,7 @@ export const SideBar = () => {
       </div>
       <div
         className={`${
-          click ? "hidden" : "block"
+          !click ? "hidden" : "block"
         } flex transition-all ease-in-out duration-300 min-h-full max-h-full z-50`}
       >
         <div className="flex w-16  max-md:w-14 flex-col justify-between border-e bg-white h-screen min-h-full">

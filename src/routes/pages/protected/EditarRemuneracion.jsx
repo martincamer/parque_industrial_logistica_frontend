@@ -229,49 +229,50 @@ export const EditarRemuneracion = () => {
   const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 pb-36 py-14 relative">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative max-md:gap-10">
       <ToastContainer />
-      <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold">
+      <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold max-md:hidden">
         Mes {nombreMesActual}, Día {nombreDiaActual}
       </div>
 
-      <div className="bg-white border-slate-300 border-[1px] py-8 px-3 rounded-xl max-w-xs flex justify-center shadow">
-        <div className="text-lg font-bold uppercase text-green-500 flex">
+      <div className="bg-white border-slate-300 border-[1px] py-8 px-10 rounded-xl max-w-xs flex max-md:max-w-full justify-center shadow max-md:py-5">
+        <div className="text-lg font-bold uppercase text-green-500 flex max-md:text-base max-md:w-full">
           <p className="border-b-[3px] border-slate-700">
-            Editar remuneracion N°{" "}
-            <span className="text-slate-700">{params.id}</span>
+            Editar la remuneracion
           </p>
         </div>
       </div>
 
       <form
         onSubmit={onSubmit}
-        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
+        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full max-md:py-5 max-md:px-5"
       >
         <div className="flex gap-4">
           <button
             type="button"
             onClick={() => openModalChofer()}
-            className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base"
+            className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
           >
             Crear choferes
           </button>
           <button
             type="button"
             onClick={() => openModalVerChofer()}
-            className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base"
+            className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
           >
             Ver choferes creados
           </button>
         </div>
-        <article className="flex flex-col gap-2 mt-6">
+        <article className="flex flex-col gap-2 max-md:gap-0">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">Ingresar datos</h3>
+            <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
+              Ingresar datos
+            </h3>
           </div>
           {/* datos del formulario  */}
-          <div className="flex flex-col gap-3 mt-5">
-            <div className="w-1/4">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+          <div className="flex flex-col gap-3 max-md:gap-2 mt-5 max-md:mt-1">
+            <div className="w-1/4 max-md:w-full max-md:text-sm">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm my-6 max-md:my-0 max-md:mt-8 w-1/4 max-md:w-full">
                 <select
                   onChange={(e) => setChofer(e.target.value)}
                   value={chofer}
@@ -289,8 +290,8 @@ export const EditarRemuneracion = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 mt-3">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+            <div className="w-1/4 mt-3 max-md:w-full">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                 <input
                   onChange={(e) => setArmador(e.target.value)}
                   value={armador}
@@ -312,7 +313,7 @@ export const EditarRemuneracion = () => {
                 Crear Clientes
               </button>
 
-              <div className="flex gap-3 mt-2">
+              <div className="flex gap-3 mt-2 max-md:grid-cols-2 max-md:flex-none">
                 {datosCliente.map((c, index) => (
                   <div
                     key={index}
@@ -358,32 +359,32 @@ export const EditarRemuneracion = () => {
                         />
                       </svg>
                     </div>
-                    <p>
+                    <p className="max-md:text-sm">
                       Nombre y Apellido{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.cliente}
                       </span>
                     </p>
-                    <p>
+                    <p className="max-md:text-sm">
                       Localidad{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.localidad}
                       </span>
                     </p>
-                    <p>
+                    <p className="max-md:text-sm">
                       Numero de contrato{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.numeroContrato}
                       </span>
                     </p>
-                    <p>
+                    <p className="max-md:text-sm">
                       Metros Cuadrados{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.metrosCuadrados}
                       </span>
                     </p>
 
-                    <p>
+                    <p className="max-md:text-sm">
                       Total del flete{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {Number(c.totalFlete).toLocaleString("es-AR", {
@@ -400,20 +401,20 @@ export const EditarRemuneracion = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-2 w-1/2">
+        <article className="flex flex-col gap-2 w-1/2 max-md:w-full">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">
+            <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
               Fechas de carga/entrega
             </h3>
           </div>
-          <div className="flex gap-5">
-            <div className="w-1/4 mt-3">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+          <div className="flex gap-5 max-md:flex-col">
+            <div className="w-1/4 mt-3 max-md:w-full ">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                 <input
                   onChange={(e) => setFechaCarga(e.target.value)}
                   value={fecha_carga}
                   type="date"
-                  className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                  className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 max-md:text-sm"
                 />
 
                 <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
@@ -421,13 +422,13 @@ export const EditarRemuneracion = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 mt-3">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+            <div className="w-1/4 mt-3 max-md:w-full">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                 <input
                   onChange={(e) => setFechaEntrega(e.target.value)}
                   value={fecha_entrega}
                   type="date"
-                  className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                  className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 max-md:text-sm"
                 />
 
                 <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
@@ -438,15 +439,19 @@ export const EditarRemuneracion = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-2 w-1/2">
+        <article className="flex flex-col gap-2 w-1/2 max-md:w-full">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">Totales</h3>
+            <h3 className="font-bold text-xl text-slate-700 max-md:uppercase max-md:text-sm">
+              Totales
+            </h3>
           </div>
           <div className="flex items-center">
             <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-2 px-6 rounded-xl">
               <div>
-                <p className="text-orange-500 font-bold">Total en fletes</p>
-                <p className="font-bold text-slate-700">
+                <p className="text-orange-500 font-bold max-md:text-sm max-md:uppercase">
+                  Total en fletes
+                </p>
+                <p className="font-bold text-slate-700 max-md:text-sm">
                   {Number(totalSuma).toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
@@ -457,14 +462,14 @@ export const EditarRemuneracion = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 items-center mt-3">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
+          <div className="flex gap-3 items-center mt-3 max-md:flex-col max-md:items-start max-md:gap-0 max-md:mb-4 max-md:w-full">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:w-full max-md:flex max-md:items-center">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setKmLineal(e.target.value)}
                 value={km_lineal}
                 type="text"
-                className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                className="max-md:w-full peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
               />
 
               <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
@@ -477,8 +482,8 @@ export const EditarRemuneracion = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
+          <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:w-full">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:mb-0 max-md:w-full">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setPagoFletero(e.target.value)}
@@ -492,7 +497,7 @@ export const EditarRemuneracion = () => {
               </span>
             </label>
 
-            <span className="font-bold text-slate-700">
+            <span className="font-bold text-slate-700 max-md:mb-6">
               {Number(pago_fletero_espera).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
@@ -502,8 +507,8 @@ export const EditarRemuneracion = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
+          <div className="flex gap-3 items-center max-md:flex-col max-md:w-full max-md:items-start max-md:gap-1">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:w-full">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setViaticos(e.target.value)}
@@ -517,7 +522,7 @@ export const EditarRemuneracion = () => {
               </span>
             </label>
 
-            <span className="font-bold text-slate-700">
+            <span className="font-bold text-slate-700 max-md:mb-5">
               {Number(viaticos).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
@@ -527,8 +532,8 @@ export const EditarRemuneracion = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm max-md:w-full">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setRefuerzo(e.target.value)}
@@ -552,30 +557,37 @@ export const EditarRemuneracion = () => {
             </span>
           </div>
 
-          <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5">
-            <span className="font-bold text-slate-700 text-lg">
-              Recaudación final
-            </span>
+          <div className="flex">
+            <div className="flex gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5 items-center">
+              <span className="font-bold text-slate-700 text-lg max-md:text-sm max-md:uppercase">
+                Recaudación final
+              </span>
 
-            <p className="text-green-500 font-bold text-lg">
-              {Number(
-                totalSuma - pago_fletero_espera - viaticos - refuerzo
-              ).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
+              <p
+                className={
+                  totalSuma - pago_fletero_espera - viaticos - refuerzo < 0
+                    ? "text-red-500 font-bold text-lg"
+                    : "text-green-500 font-bold text-lg"
+                }
+              >
+                {Number(
+                  totalSuma - pago_fletero_espera - viaticos - refuerzo
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
           </div>
         </article>
 
         <div>
           <button
             type="submit"
-            // onClick={() => onSubmit()}
-            className="bg-black text-white rounded-xl shadow py-2 px-6"
+            className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
           >
-            Editar la Remuneracion
+            Editar remuneracion
           </button>
         </div>
       </form>
