@@ -72,6 +72,7 @@ export const EditarSalida = () => {
       setSalida(res.data.salida);
       setFabrica(res.data.fabrica);
       setEspera(res.data.espera);
+      setEspera(res.data.chofer_vehiculo);
 
       setDatosCliente(res.data.datos_cliente?.datosCliente);
     }
