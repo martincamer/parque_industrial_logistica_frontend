@@ -164,9 +164,9 @@ export const SalidasRegistradas = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-0">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
@@ -191,12 +191,12 @@ export const SalidasRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en Viaticos/Flete/Etc
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -248,12 +248,12 @@ export const SalidasRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total salidas/viviendas
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {totalDatos}
               </span>
 
@@ -266,10 +266,12 @@ export const SalidasRegistradas = () => {
         </article>
       </div>
 
-      <div className="mt-10">
-        <div className="flex gap-6 items-center">
+      <div className="mt-10 max-md:mt-4">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
           <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700">Fecha de inicio</label>
+            <label className="text-base text-slate-700 max-md:text-sm">
+              Fecha de inicio
+            </label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
               type="date"
@@ -278,7 +280,9 @@ export const SalidasRegistradas = () => {
             />
           </div>
           <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700">Fecha fin</label>
+            <label className="text-base text-slate-700 max-md:text-sm">
+              Fecha fin
+            </label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
               type="date"
@@ -289,7 +293,7 @@ export const SalidasRegistradas = () => {
 
           <button
             onClick={buscarIngresosPorFecha}
-            className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
+            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
           >
             Buscar registro salidas
             <svg
@@ -310,7 +314,7 @@ export const SalidasRegistradas = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
+      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full max-md:text-sm max-md:mt-5">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -335,7 +339,7 @@ export const SalidasRegistradas = () => {
         </svg>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow ">
+      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">
@@ -348,28 +352,28 @@ export const SalidasRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Fabrica/Sucursal
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-orange-500 font-bold uppercase max-md:text-xs">
                   Ver los datos/resumen
                 </th>
               </tr>
@@ -378,28 +382,28 @@ export const SalidasRegistradas = () => {
             <tbody className="divide-y divide-gray-200">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.fabrica}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] max-md:w-full cursor-pointer">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
@@ -410,7 +414,7 @@ export const SalidasRegistradas = () => {
                       Eliminar
                     </button>
                   </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
                   <Link
                     to={`/editar/${s.id}`}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
@@ -418,13 +422,13 @@ export const SalidasRegistradas = () => {
                     Editar
                   </Link>
                 </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer max-md:w-full">
                     <Link
                       target="_blank"
                       to={`/resumen/${s.id}`}
                       className="bg-black py-2 px-5 text-center rounded-xl text-white"
                     >
-                      Ver resumen
+                      Ver
                     </Link>
                   </td>
                 </tr>
