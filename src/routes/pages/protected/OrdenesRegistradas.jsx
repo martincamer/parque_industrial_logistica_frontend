@@ -165,8 +165,8 @@ export const OrdenesRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-mb:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -190,57 +190,19 @@ export const OrdenesRegistradas = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-50 max-mb:text-xs">
               Total ordenes finalizadas
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-mb:text-base">
                 {Number(totalFinalizados)}
               </span>
             </p>
           </div>
         </article>
 
-        {/* <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">MARZO</span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500">
-              Fecha Actual
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900">
-                {nombreMesActual}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Dia {nombreDiaActual}
-              </span>
-            </p>
-          </div>
-        </article> */}
-
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-mb:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-orange-100 p-1 text-orange-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +243,7 @@ export const OrdenesRegistradas = () => {
 
       <div>
         <button
-          className="bg-green-500 py-2 px-6 text-white rounded-xl shadow"
+          className="bg-green-500 py-2 px-6 text-white rounded-xl shadow max-md:text-sm"
           onClick={() => downloadDataAsExcel(datos)}
         >
           Descargar todo en formato excel
@@ -289,7 +251,7 @@ export const OrdenesRegistradas = () => {
       </div>
 
       <div className="mt-1">
-        <div className="flex gap-6 items-center">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
           <div className="flex gap-2 items-center">
             <label className="text-base text-slate-700">Fecha de inicio</label>
             <input
@@ -307,33 +269,32 @@ export const OrdenesRegistradas = () => {
               value={fechaFin}
               onChange={(e) => setFechaFin(e.target.value)}
             />
-          </div>
 
-          <button
-            onClick={buscarIngresosPorFecha}
-            className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
-          >
-            Buscar registro salidas
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-slate-500"
+            <button
+              onClick={buscarIngresosPorFecha}
+              className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:py-1"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow ">
+      <div className="rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">
@@ -346,22 +307,22 @@ export const OrdenesRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead>
               <tr>
-                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   NUMERO
                 </th>
-                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   TRANSPORTISTA
                 </th>
-                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   FECHA DE LLEGADA
                 </th>
-                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   FECHA DE TURNO/FIRMA
                 </th>
-                {/* <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                {/* <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   ACCIONES
                 </th> */}
-                <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+                <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                   ESTADO
                 </th>
               </tr>
@@ -370,16 +331,16 @@ export const OrdenesRegistradas = () => {
             <tbody className="divide-y-[1px] divide-gray-300 w-full">
               {currentResults?.map((o) => (
                 <tr key={o?.id}>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize text-center">
                     {o.id}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize text-center">
                     {o.chofer}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize text-center">
                     {formatDate(o.fecha_llegada)}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize text-center">
                     {formatDate(o.orden_firma)}
                   </td>
                   <td className="text-center">

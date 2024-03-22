@@ -93,7 +93,7 @@ export const ResumenViewLegales = () => {
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24">
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
         <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
           <div
             className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium 
@@ -122,13 +122,13 @@ export const ResumenViewLegales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total legales en esta entrega
             </strong>
 
             <p>
               <span
-                className={`text-2xl font-medium ${
+                className={`text-2xl font-medium max-md:text-base ${
                   unicaSalida.recaudacion >= 0 ? "text-red-500" : "text-red-500"
                 }`}
               >
@@ -150,7 +150,7 @@ export const ResumenViewLegales = () => {
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -171,12 +171,12 @@ export const ResumenViewLegales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {nombreMesActual}
               </span>
 
@@ -188,7 +188,7 @@ export const ResumenViewLegales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -212,12 +212,12 @@ export const ResumenViewLegales = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total de viviendas
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {unicaSalida.datos_cliente?.datosCliente?.length}
               </span>
 
@@ -237,7 +237,7 @@ export const ResumenViewLegales = () => {
         <Link
           target="_blank"
           to={`/remuneracion-pdf/${params.id}`}
-          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center"
+          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
         >
           Descargar Remuneracion formato pdf
           <svg
@@ -257,7 +257,7 @@ export const ResumenViewLegales = () => {
         </Link>
       </div>
 
-      <div className="border-slate-200 border-[1px] shadow py-10 px-10 rounded-xl grid grid-cols-3 gap-5">
+      <div className="border-slate-200 border-[1px] shadow py-10 px-10 rounded-xl grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
         <div className="border-slate-300 border-[1px] shadow py-5 px-5 rounded-lg">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de los clientes
@@ -432,7 +432,7 @@ export const ResumenViewLegales = () => {
         </div>
       </div>
 
-      <article className=" grid grid-cols-3 gap-4 items-start">
+      <article className="max-md:grid-cols-1 grid grid-cols-3 gap-4 items-start">
         <div className="flex gap-3">
           <div
             className={`bg-white border-slate-300 border-[1px] shadow py-5 px-5 rounded-xl w-full relative ${
@@ -563,7 +563,7 @@ export const ResumenViewLegales = () => {
             </span>
           </div>
         </div>
-        <div className="flex justify-center items-center border border-gray-300 rounded-xl shadow py-10">
+        <div className="flex justify-center items-center border border-gray-300 rounded-xl shadow py-10 max-md:flex-col">
           <div className="w-64 relative">
             <svg viewBox="0 0 36 36" className="overflow-visible">
               {/* Refuerzo */}

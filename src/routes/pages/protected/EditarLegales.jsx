@@ -230,13 +230,13 @@ export const EditarLegales = () => {
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 pb-36 py-14 relative">
       <ToastContainer />
-      <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold">
+      <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold max-md:hidden">
         Mes {nombreMesActual}, Día {nombreDiaActual}
       </div>
 
-      <div className="bg-white border-slate-300 border-[1px] py-8 px-3 rounded-xl max-w-xs flex justify-center shadow">
-        <div className="text-lg font-bold uppercase text-green-500 flex">
-          <p className="border-b-[3px] border-slate-700">
+      <div className="bg-white border-slate-300 border-[1px] py-8 px-5 rounded-xl md:max-w-xs max-md:w-full flex justify-center shadow max-md:py-4 max-md:px-4 max-md:items-start">
+        <div className="text-lg font-bold uppercase text-green-500 flex max-md:items-start max-md:w-full">
+          <p className="border-b-[3px] border-slate-700 max-md:text-base">
             Editar legales N°{" "}
             <span className="text-slate-700">{params.id}</span>
           </p>
@@ -245,31 +245,33 @@ export const EditarLegales = () => {
 
       <form
         onSubmit={onSubmit}
-        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full"
+        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 max-md:gap-1 h-full max-h-full max-md:py-4 max-md:px-3"
       >
         <div className="flex gap-4">
           <button
             type="button"
             onClick={() => openModalChofer()}
-            className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base"
+            className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:py-3 max-md:px-4 max-md:text-sm"
           >
             Crear choferes
           </button>
           <button
             type="button"
             onClick={() => openModalVerChofer()}
-            className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base"
+            className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:py-3 max-md:px-4 max-md:text-sm"
           >
             Ver choferes creados
           </button>
         </div>
         <article className="flex flex-col gap-2 mt-6">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">Ingresar datos</h3>
+            <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
+              Ingresar datos
+            </h3>
           </div>
           {/* datos del formulario  */}
-          <div className="flex flex-col gap-3 mt-5">
-            <div className="w-1/4">
+          <div className="flex flex-col gap-3 mt-5 max-md:gap-2">
+            <div className="w-1/4 max-md:w-full max-md:text-sm">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <select
                   onChange={(e) => setChofer(e.target.value)}
@@ -288,7 +290,7 @@ export const EditarLegales = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 mt-3">
+            <div className="w-1/4 mt-3 max-md:w-full max-md:text-sm">
               <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                 <input
                   onChange={(e) => setArmador(e.target.value)}
@@ -311,7 +313,7 @@ export const EditarLegales = () => {
                 Crear Clientes
               </button>
 
-              <div className="flex gap-3 mt-2">
+              <div className="md:flex gap-3 mt-2 max-md:grid max-md:grid-cols-2">
                 {datosCliente.map((c, index) => (
                   <div
                     key={index}
@@ -357,32 +359,32 @@ export const EditarLegales = () => {
                         />
                       </svg>
                     </div>
-                    <p>
+                    <p className="text-sm">
                       Nombre y Apellido{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.cliente}
                       </span>
                     </p>
-                    <p>
+                    <p className="text-sm">
                       Localidad{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.localidad}
                       </span>
                     </p>
-                    <p>
+                    <p className="text-sm">
                       Numero de contrato{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.numeroContrato}
                       </span>
                     </p>
-                    <p>
+                    <p className="text-sm">
                       Metros Cuadrados{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {c.metrosCuadrados}
                       </span>
                     </p>
 
-                    <p>
+                    <p className="text-sm">
                       Total del flete{" "}
                       <span className="font-bold capitalize text-slate-700">
                         {Number(c.totalFlete).toLocaleString("es-AR", {
@@ -399,15 +401,15 @@ export const EditarLegales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-2 w-1/2">
+        <article className="flex flex-col gap-2 w-1/2 max-md:w-full">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">
+            <h3 className="font-bold text-xl text-slate-700 max-md:text-sm max-md:uppercase">
               Fechas de carga/entrega
             </h3>
           </div>
-          <div className="flex gap-5">
-            <div className="w-1/4 mt-3">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+          <div className="flex gap-5 max-md:gap-4 max-md:flex-col">
+            <div className="w-1/4 mt-3 max-md:w-full">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                 <input
                   onChange={(e) => setFechaCarga(e.target.value)}
                   value={fecha_carga}
@@ -420,8 +422,8 @@ export const EditarLegales = () => {
                 </span>
               </label>
             </div>
-            <div className="w-1/4 mt-3">
-              <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+            <div className="w-1/4 mt-3 max-md:w-full">
+              <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                 <input
                   onChange={(e) => setFechaEntrega(e.target.value)}
                   value={fecha_entrega}
@@ -437,12 +439,14 @@ export const EditarLegales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-2 w-1/2">
+        <article className="flex flex-col gap-2 w-1/2 max-md:w-full max-md:gap-5 max-md:mt-5">
           <div>
-            <h3 className="font-bold text-xl text-slate-700">Totales</h3>
+            <h3 className="font-bold text-xl text-slate-700 max-md:uppercase max-md:text-sm">
+              Totales
+            </h3>
           </div>
-          <div className="flex items-center">
-            <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-2 px-6 rounded-xl">
+          <div className="flex items-center mt-2 mb-4">
+            <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-2 px-6 rounded-xl max-md:text-base max-md:w-full">
               <div>
                 <p className="text-orange-500 font-bold">Total en fletes</p>
                 <p className="font-bold text-slate-700">
@@ -456,7 +460,7 @@ export const EditarLegales = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 items-center mt-3">
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
             <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -476,8 +480,8 @@ export const EditarLegales = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:text-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setPagoFletero(e.target.value)}
@@ -501,8 +505,8 @@ export const EditarLegales = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
-            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3">
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:text-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
                 onChange={(e) => setViaticos(e.target.value)}
@@ -526,7 +530,7 @@ export const EditarLegales = () => {
             </span>
           </div>
 
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
             <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -550,8 +554,10 @@ export const EditarLegales = () => {
               VALOR ASIGNADO
             </span>
           </div>
+        </article>
 
-          <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5">
+        <div className="flex mb-4">
+          <div className="flex gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5">
             <span className="font-bold text-slate-700 text-lg">
               Recaudación final
             </span>
@@ -566,14 +572,14 @@ export const EditarLegales = () => {
               })}
             </p>
           </div>
-        </article>
+        </div>
 
         <div>
           <button
             type="submit"
-            className="bg-black text-white rounded-xl shadow py-2 px-6"
+            className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
           >
-            Editar la orden legal
+            Editar legal
           </button>
         </div>
       </form>

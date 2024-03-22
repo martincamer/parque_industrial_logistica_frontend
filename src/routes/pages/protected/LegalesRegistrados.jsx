@@ -230,8 +230,8 @@ export const LegalesRegistrados = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -255,12 +255,12 @@ export const LegalesRegistrados = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en remuneraciones de la busqueda
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-red-600">
+              <span className="text-2xl font-medium text-red-600 max-md:text-base">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -286,7 +286,7 @@ export const LegalesRegistrados = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -310,12 +310,12 @@ export const LegalesRegistrados = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total viviendas entregadas de la busqueda
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatos}
               </span>
 
@@ -330,7 +330,7 @@ export const LegalesRegistrados = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -354,12 +354,12 @@ export const LegalesRegistrados = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
                 {totalDatosMetrosCuadrados}
               </span>
 
@@ -372,9 +372,9 @@ export const LegalesRegistrados = () => {
         </article>
       </div>
 
-      <div className="mt-10">
-        <div className="flex gap-6 items-center">
-          <div className="flex gap-2 items-center">
+      <div className="mt-10 max-md:mt-1">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
+          <div className="flex gap-2 items-center max-md:text-sm">
             <label className="text-base text-slate-700">Fecha de inicio</label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
@@ -383,7 +383,7 @@ export const LegalesRegistrados = () => {
               onChange={(e) => setFechaInicio(e.target.value)}
             />
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center max-md:text-sm">
             <label className="text-base text-slate-700">Fecha fin</label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
@@ -391,33 +391,32 @@ export const LegalesRegistrados = () => {
               value={fechaFin}
               onChange={(e) => setFechaFin(e.target.value)}
             />
-          </div>
 
-          <button
-            onClick={buscarIngresosPorFecha}
-            className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200"
-          >
-            Buscar registro salidas
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-slate-500"
+            <button
+              onClick={buscarIngresosPorFecha}
+              className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:text-sm max-md:py-1"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div>
           <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5"
+            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5 max-md:text-sm"
             onClick={() => downloadDataAsExcel(datos)}
           >
             Descargar todo en formato excel
@@ -425,7 +424,7 @@ export const LegalesRegistrados = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4">
+      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -450,7 +449,7 @@ export const LegalesRegistrados = () => {
         </svg>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow ">
+      <div className="rounded-xl border-[1px] border-slate-300 shadow  overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">
@@ -463,28 +462,28 @@ export const LegalesRegistrados = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Recaudacion generada
                 </th>
-                <th className="px-4 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                {/* <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-orange-500 font-bold uppercase">
+                <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Ver los datos/resumen
                 </th>
               </tr>

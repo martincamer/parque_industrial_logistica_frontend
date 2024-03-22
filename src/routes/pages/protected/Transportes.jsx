@@ -111,8 +111,8 @@ export const Transportes = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,19 +136,19 @@ export const Transportes = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total ordenes finalizadas
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-sm">
                 {Number(totalFinalizados)}
               </span>
             </p>
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -169,12 +169,12 @@ export const Transportes = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
                 {nombreMesActual}
               </span>
 
@@ -186,7 +186,7 @@ export const Transportes = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:pb-3">
           <div className="inline-flex gap-2 self-end rounded bg-orange-100 p-1 text-orange-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -210,12 +210,12 @@ export const Transportes = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
               Total ordenes pendientes
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-orange-500">
+              <span className="text-2xl font-medium text-orange-500 max-md:text-base">
                 {Number(totalPendientes)}
               </span>
 
@@ -224,8 +224,7 @@ export const Transportes = () => {
           </div>
         </article>
       </div>
-
-      <div className="flex gap-5">
+      <div className="flex gap-5 max-md:flex-col max-md:text-sm">
         <Link
           //   to={"/crear-salida"}
           onClick={() => openModal()}
@@ -269,8 +268,7 @@ export const Transportes = () => {
           </svg>
         </Link>
       </div>
-
-      <div className="border border-slate-300 shadow rounded-xl px-4 py-2 w-1/5 flex justify-between items-center">
+      <div className="border border-slate-300 shadow rounded-xl px-4 py-2 w-1/5 flex justify-between items-center max-md:text-sm max-md:w-full">
         <input
           type="text"
           placeholder="Filtrar por chofer"
@@ -293,27 +291,26 @@ export const Transportes = () => {
           />
         </svg>
       </div>
-
-      <div className="rounded-xl border-[1px] border-slate-300 shadow">
+      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:overflow-x-scroll">
         <table className="divide-y-2 divide-gray-200 text-sm w-full">
           <thead>
             <tr>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 NUMERO
               </th>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 TRANSPORTISTA
               </th>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 FECHA DE LLEGADA
               </th>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 FECHA DE TURNO/FIRMA
               </th>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 ACCIONES
               </th>
-              <th className="px-4 py-4 text-slate-700 font-bold uppercase">
+              <th className="px-4 py-4 text-slate-700 max-md:text-xs font-bold uppercase">
                 ORDEN
               </th>
             </tr>
@@ -404,7 +401,6 @@ export const Transportes = () => {
           </tbody>
         </table>
       </div>
-
       {totalPages > 1 && (
         <div className="flex flex-wrap justify-center mt-1 mb-4 gap-1">
           <button
@@ -463,16 +459,13 @@ export const Transportes = () => {
             </svg>
           </button>
         </div>
-      )}
-
+      )}{" "}
       <ModalEliminarOrden
         closeEliminar={closeEliminar}
         eliminarModal={isEliminar}
         obtenerId={obtenerId}
       />
-
       {/* <EditableTable /> */}
-
       <ModalCrearOrden closeModal={closeModal} isOpen={isOpen} />
       <ModalEditarFinalizado
         obtenerId={obtenerId}
