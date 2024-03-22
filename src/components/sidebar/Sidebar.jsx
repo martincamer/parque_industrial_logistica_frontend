@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthProvider";
 import { Link, useLocation } from "react-router-dom";
 
@@ -12,10 +12,31 @@ export const SideBar = () => {
 
   const location = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const navbar = document.getElementById("navbar");
+      if (navbar) {
+        if (scrollY > 0) {
+          navbar.style.opacity = "0.5"; // Cambiar la opacidad cuando se hace scroll
+        } else {
+          navbar.style.opacity = "1"; // Restaurar la opacidad cuando se encuentra en la parte superior
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <div
-        className="absolute left-0 top-0 z-[1] p-1 px-4 max-md:px-4"
+        id="navbar" // ID para identificar el elemento
+        className="fixed left-0 top-0 z-[1] p-1 px-4 max-md:px-4"
         onClick={() => toggleSidebar()}
       >
         <div className="py-4">
@@ -47,12 +68,14 @@ export const SideBar = () => {
       </div>
       <div
         className={`${
-          !click ? "hidden" : "block"
-        } flex transition-all ease-in-out duration-300 min-h-full max-h-full z-50`}
+          !click
+            ? "hidden max-h-full min-h-full h-full"
+            : "block fixed z-[100] shadow-black/10 shadow-md h-full max-h-full min-h-full"
+        } flex transition-all ease-in-out duration-300 z-50`}
       >
-        <div className="flex w-16  max-md:w-14 flex-col justify-between border-e bg-white h-screen min-h-full">
-          <div>
-            <div className="border-t border-slate-300">
+        <div className="flex w-16  max-md:w-14 flex-col justify-between border-e bg-white h-full max-h-full min-h-full">
+          <div className="">
+            <div className="border-t border-slate-300 ">
               <div className="px-2">
                 <div className="py-4">
                   <a
@@ -81,8 +104,8 @@ export const SideBar = () => {
                   </a>
                 </div>
 
-                <ul className="space-y-1 flex flex-col border-t border-slate-300 pt-4">
-                  <Link to={"/"}>
+                <ul className="space-y-1 flex flex-col border-t border-slate-300 pt-4 ">
+                  <Link to={"/"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
                       className={`${
@@ -112,7 +135,7 @@ export const SideBar = () => {
                     </a>
                   </Link>
 
-                  <Link to={"/salidas"}>
+                  <Link to={"/salidas"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
                       className={`${
@@ -141,7 +164,7 @@ export const SideBar = () => {
                       </span>
                     </a>
                   </Link>
-                  <Link to={"/remuneraciones"}>
+                  <Link to={"/remuneraciones"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
                       className={`${
@@ -171,7 +194,7 @@ export const SideBar = () => {
                     </a>
                   </Link>
 
-                  <Link to={"/legales"}>
+                  <Link to={"/legales"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
                       className={`${
@@ -201,7 +224,7 @@ export const SideBar = () => {
                     </a>
                   </Link>
 
-                  <Link to={"/transportes"}>
+                  <Link to={"/transportes"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
                       className={`${
@@ -235,7 +258,7 @@ export const SideBar = () => {
             </div>
           </div>
 
-          <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
+          <div className="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2 ">
             <form action="#">
               <button
                 //   type="submit"

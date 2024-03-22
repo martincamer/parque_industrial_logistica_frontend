@@ -60,8 +60,8 @@ function App() {
                   <RemuneracionProvider>
                     <OrdenesProvider>
                       <LegalesProvider>
-                        <main className="flex gap-2 w-full min-h-full max-h-full">
-                          <SideBar />
+                        <SideBar />
+                        <main className="min-h-full max-h-full h-full">
                           <Outlet />
                         </main>
                       </LegalesProvider>
