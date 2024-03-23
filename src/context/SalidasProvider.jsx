@@ -19,24 +19,21 @@ export const useSalidasContext = () => {
 export const SalidasProvider = ({ children }) => {
   const [salidasMensuales, setSalidasMensuales] = useState([]);
   const [choferes, setChoferes] = useState([]);
-  // const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState(null);
 
-  // // Efecto para establecer la conexión del socket
-  // useEffect(() => {
-  //   const newSocket = io(
-  //     import.meta.env.VITE_BACKEND || "http://localhost:4000",
-  //     {
-  //       withCredentials: true,
-  //       extraHeaders: {
-  //         "my-custom-header": "value",
-  //       },
-  //     }
-  //   );
+  // Efecto para establecer la conexión del socket
+  useEffect(() => {
+    const newSocket = io(
+      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      {
+        withCredentials: true,
+      }
+    );
 
-  //   setSocket(newSocket);
+    setSocket(newSocket);
 
-  //   return () => newSocket.close();
-  // }, []);
+    return () => newSocket.close();
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -47,19 +44,19 @@ export const SalidasProvider = ({ children }) => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   // Aquí puedes enviar las actualizaciones a través de sockets
-  //   if (socket) {
-  //     socket.emit("actualizar-salidas", salidasMensuales);
-  //   }
-  // }, [socket, salidasMensuales]);
+  useEffect(() => {
+    // Aquí puedes enviar las actualizaciones a través de sockets
+    if (socket) {
+      socket.emit("actualizar-salidas", salidasMensuales);
+    }
+  }, [socket, salidasMensuales]);
 
-  // useEffect(() => {
-  //   // Aquí puedes enviar las actualizaciones a través de sockets
-  //   if (socket) {
-  //     socket.emit("actualizar-choferes", choferes);
-  //   }
-  // }, [socket, choferes]);
+  useEffect(() => {
+    // Aquí puedes enviar las actualizaciones a través de sockets
+    if (socket) {
+      socket.emit("actualizar-choferes", choferes);
+    }
+  }, [socket, choferes]);
 
   return (
     <SalidasContext.Provider
