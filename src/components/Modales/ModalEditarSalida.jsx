@@ -154,12 +154,15 @@ export const ModalEditarSalida = ({
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:4000", {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "value",
-      },
-    });
+    const newSocket = io(
+      import.meta.env.VITE_BACKEND || "http://localhost:4000",
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
 
     setSocket(newSocket);
 
@@ -223,38 +226,36 @@ export const ModalEditarSalida = ({
         datos_cliente: { datosCliente },
       });
 
-      console.log(res.config.data);
+      const tipoExistenteIndex = salidasMensuales.findIndex(
+        (tipo) => tipo.id == obtenerID
+      );
 
-      //   const tipoExistenteIndex = salidasMensuales.findIndex(
-      //     (tipo) => tipo.id == obtenerID
-      //   );
-
-      //   setSalidasMensuales((prevTipos) => {
-      //     const newTipos = [...prevTipos];
-      //     const updateSalida = JSON.parse(res.config.data); // Convierte el JSON a objeto
-      //     newTipos[tipoExistenteIndex] = {
-      //       id: obtenerID,
-      //       chofer: updateSalida.chofer,
-      //       km_viaje_control: updateSalida.km_viaje_control,
-      //       km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-      //       fletes_km: updateSalida.fletes_km,
-      //       fletes_km_precio: updateSalida.fletes_km_precio,
-      //       armadores: updateSalida.armadores,
-      //       total_viaticos: updateSalida.total_viaticos,
-      //       motivo: updateSalida.motivo,
-      //       fabrica: updateSalida.fabrica,
-      //       total_control: updateSalida.total_control,
-      //       total_flete: updateSalida.total_flete,
-      //       espera: updateSalida.espera,
-      //       chofer_vehiculo: updateSalida.chofer_vehiculo,
-      //       datos_cliente: updateSalida.datos_cliente,
-      //       role_id: updateSalida.role_id,
-      //       usuario: newTipos[tipoExistenteIndex].usuario,
-      //       created_at: newTipos[tipoExistenteIndex].created_at,
-      //       updated_at: newTipos[tipoExistenteIndex].updated_at,
-      //     };
-      //     return newTipos;
-      //   });
+      setSalidasMensuales((prevTipos) => {
+        const newTipos = [...prevTipos];
+        const updateSalida = JSON.parse(res.config.data); // Convierte el JSON a objeto
+        newTipos[tipoExistenteIndex] = {
+          id: obtenerID,
+          chofer: updateSalida.chofer,
+          km_viaje_control: updateSalida.km_viaje_control,
+          km_viaje_control_precio: updateSalida.km_viaje_control_precio,
+          fletes_km: updateSalida.fletes_km,
+          fletes_km_precio: updateSalida.fletes_km_precio,
+          armadores: updateSalida.armadores,
+          total_viaticos: updateSalida.total_viaticos,
+          motivo: updateSalida.motivo,
+          fabrica: updateSalida.fabrica,
+          total_control: updateSalida.total_control,
+          total_flete: updateSalida.total_flete,
+          espera: updateSalida.espera,
+          chofer_vehiculo: updateSalida.chofer_vehiculo,
+          datos_cliente: updateSalida.datos_cliente,
+          role_id: updateSalida.role_id,
+          usuario: newTipos[tipoExistenteIndex].usuario,
+          created_at: newTipos[tipoExistenteIndex].created_at,
+          updated_at: newTipos[tipoExistenteIndex].updated_at,
+        };
+        return newTipos;
+      });
 
       const newSocket = io("http://localhost:4000", {
         withCredentials: true,
