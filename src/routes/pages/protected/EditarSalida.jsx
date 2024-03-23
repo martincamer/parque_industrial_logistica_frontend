@@ -177,6 +177,7 @@ export const EditarSalida = () => {
       setSalidasMensuales((prevTipos) => {
         const newTipos = [...prevTipos];
         const updateSalida = JSON.parse(res.config.data); // Convierte el JSON a objeto
+
         newTipos[tipoExistenteIndex] = {
           id: params.id,
           chofer: updateSalida.chofer,

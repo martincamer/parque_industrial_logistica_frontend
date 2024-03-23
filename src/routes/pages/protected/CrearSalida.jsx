@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { ModalCrearCliente } from "../../../components/Modales/ModalCrearCliente";
 import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChoferes";
-import client from "../../../api/axios";
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalEditarClienteSalida } from "../../../components/Modales/ModalEditarClienteSalida";
+import client from "../../../api/axios";
+import io from "socket.io-client";
 
 export const CrearSalida = () => {
   const fechaActual = new Date();
@@ -117,6 +118,25 @@ export const CrearSalida = () => {
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
 
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:4000", {
+      withCredentials: true,
+      extraHeaders: {
+        "my-custom-header": "value",
+      },
+    });
+
+    setSocket(newSocket);
+
+    newSocket.on("nueva-salida", (nuevaSalida) => {
+      setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+    });
+
+    return () => newSocket.close();
+  }, []);
+
   const onSubmit = async () => {
     try {
       // e.preventDefault();
@@ -142,15 +162,18 @@ export const CrearSalida = () => {
         datos_cliente: { datosCliente },
       });
 
-      // Verificar si el tipo ya existe antes de agregarlo al estado
-      const tipoExistente = salidasMensuales.find(
-        (tipo) => tipo.id === res.data.id
-      );
-
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      if (socket) {
+        socket.emit("nueva-salida", res.data);
       }
+      // Verificar si el tipo ya existe antes de agregarlo al estado
+      // const tipoExistente = salidasMensuales.find(
+      //   (tipo) => tipo.id === res.data.id
+      // );
+
+      // if (!tipoExistente) {
+      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
+      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      // }
 
       toast.success("Salida creada correctamente!", {
         position: "top-center",
@@ -164,7 +187,7 @@ export const CrearSalida = () => {
       });
 
       setTimeout(() => {
-        navigate("/salidas");
+        // navigate("/salidas");
       }, 1000);
     } catch (error) {
       console.log(error);
@@ -196,7 +219,7 @@ export const CrearSalida = () => {
         // onSubmit={onSubmit}
         className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full max-md:py-5 max-md:px-5"
       >
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4">
           <button
             type="button"
             onClick={() => openModalChofer()}

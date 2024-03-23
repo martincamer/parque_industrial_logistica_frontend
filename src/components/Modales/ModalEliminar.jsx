@@ -1,32 +1,57 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useSalidasContext } from "../../context/SalidasProvider";
 import client from "../../api/axios";
 import { toast } from "react-toastify";
+import io from "socket.io-client";
 
 export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
   const { salidasMensuales, setSalidasMensuales } = useSalidasContext();
 
-  const handleEliminarChofer = async (id) => {
-    const res = await client.delete(`/salidas/${id}`);
+  const [socket, setSocket] = useState(null);
 
-    const updatedTipos = salidasMensuales.filter((chofer) => chofer.id !== id);
-    setSalidasMensuales(updatedTipos);
-
-    toast.error("Eliminado correctamente!", {
-      position: "top-center",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
+  useEffect(() => {
+    const newSocket = io("http://localhost:4000", {
+      withCredentials: true,
+      extraHeaders: {
+        "my-custom-header": "value",
+      },
     });
 
-    setTimeout(() => {
+    setSocket(newSocket);
+
+    newSocket.on("eliminar-salida", (salidaEliminada) => {
+      setSalidasMensuales((prevSalidas) =>
+        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
+      );
+    });
+
+    return () => newSocket.close();
+  }, []);
+
+  const handleEliminarChofer = async (id) => {
+    try {
+      await client.delete(`/salidas/${id}`);
+
+      if (socket) {
+        socket.emit("eliminar-salida", { id });
+      }
+
+      toast.error("Eliminado correctamente!", {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
       closeEliminar();
-    }, 500);
+    } catch (error) {
+      console.error("Error al eliminar la salida:", error);
+    }
   };
 
   return (

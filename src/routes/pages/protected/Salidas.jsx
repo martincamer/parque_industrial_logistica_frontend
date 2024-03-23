@@ -3,9 +3,34 @@ import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useState } from "react";
 import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import { ToastContainer } from "react-toastify";
+import { ModalEditarSalida } from "../../../components/Modales/ModalEditarSalida";
+import { ModalCrearSalida } from "../../../components/Modales/ModalCrearSalida";
 
 export const Salidas = () => {
   const { salidasMensuales } = useSalidasContext();
+
+  const [obtenerID, setObtenerID] = useState(null);
+
+  const handleID = (id) => setObtenerID(id);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModalEditar, setIsOpenModalEditar] = useState(false);
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const openModalDos = () => {
+    setIsOpenModalEditar(true);
+  };
+
+  const closeModalDos = () => {
+    setIsOpenModalEditar(false);
+  };
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -277,7 +302,8 @@ export const Salidas = () => {
 
       <div className="flex gap-5">
         <Link
-          to={"/crear-salida"}
+          // to={"/crear-salida"}
+          onClick={() => openModal()}
           className="bg-black py-3 max-md:py-2 px-6 max-md:px-3 max-md:text-sm rounded-xl text-white flex gap-2 items-center"
         >
           Crear nueva salida
@@ -394,7 +420,8 @@ export const Salidas = () => {
                   </svg>
                 </button>
                 <Link
-                  to={`/editar/${datos.id}`}
+                  // to={`/editar/${datos.id}`}
+                  onClick={() => openModalDos()}
                   className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
                 >
                   <svg
@@ -507,7 +534,10 @@ export const Salidas = () => {
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
                   <Link
-                    to={`/editar/${s.id}`}
+                    // to={`/editar/${s.id}`}
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
                   >
                     Editar
@@ -589,6 +619,12 @@ export const Salidas = () => {
         closeEliminar={closeEliminar}
         eliminarModal={eliminarModal}
         obtenerId={obtenerId}
+      />
+      <ModalCrearSalida isOpen={isOpenModal} closeModal={closeModal} />
+      <ModalEditarSalida
+        obtenerID={obtenerID}
+        isOpen={isOpenModalEditar}
+        closeModal={closeModalDos}
       />
     </section>
   );
