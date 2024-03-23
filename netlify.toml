@@ -2,7 +2,4 @@
 from = "/*"
 to = "/index.html"
 force = true
-headers = {X-From = “Netlify”}
-[[headers]]
-[headers.values]
 Access-Control-Allow-Origin = “*”
