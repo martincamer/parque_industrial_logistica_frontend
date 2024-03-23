@@ -11,15 +11,9 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(
-      "http://localhost:4000" || import.meta.env.VITE_BACKEND_PORT,
-      {
-        withCredentials: true,
-        extraHeaders: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
+    const newSocket = io("https://logistica-production-0eb0.up.railway.app", {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 
