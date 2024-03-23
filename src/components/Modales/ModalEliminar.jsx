@@ -11,12 +11,15 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:4000", {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "value",
-      },
-    });
+    const newSocket = io(
+      "http://localhost:4000" || import.meta.env.VITE_BACKEND_PORT,
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
 
     setSocket(newSocket);
 
