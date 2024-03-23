@@ -119,27 +119,27 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
 
-  const [socket, setSocket] = useState(null);
+  // const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    const newSocket = io(
-      "http://localhost:4000" || import.meta.env.VITE_API_URL,
-      {
-        withCredentials: true,
-        extraHeaders: {
-          "my-custom-header": "value",
-        },
-      }
-    );
+  // useEffect(() => {
+  //   const newSocket = io(
+  //     "http://localhost:4000" || import.meta.env.VITE_API_URL,
+  //     {
+  //       withCredentials: true,
+  //       extraHeaders: {
+  //         "my-custom-header": "value",
+  //       },
+  //     }
+  //   );
 
-    setSocket(newSocket);
+  //   setSocket(newSocket);
 
-    newSocket.on("nueva-salida", (nuevaSalida) => {
-      setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
-    });
+  //   newSocket.on("nueva-salida", (nuevaSalida) => {
+  //     setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+  //   });
 
-    return () => newSocket.close();
-  }, []);
+  //   return () => newSocket.close();
+  // }, []);
 
   const onSubmit = async () => {
     try {
@@ -166,8 +166,17 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
         datos_cliente: { datosCliente },
       });
 
-      if (socket) {
-        socket.emit("nueva-salida", res.data);
+      // if (socket) {
+      //   socket.emit("nueva-salida", res.data);
+      // }
+
+      const tipoExistente = salidasMensuales.find(
+        (tipo) => tipo.id === res.data.id
+      );
+
+      if (!tipoExistente) {
+        // Actualizar el estado de tipos agregando el nuevo tipo al final
+        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
       }
 
       toast.success("¡Salida creada correctamente!", {

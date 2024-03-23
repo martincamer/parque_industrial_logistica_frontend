@@ -152,57 +152,57 @@ export const ModalEditarSalida = ({
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
   const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    const newSocket = io(
-      import.meta.env.VITE_BACKEND || "http://localhost:4000",
-      {
-        withCredentials: true,
-        extraHeaders: {
-          "my-custom-header": "value",
-        },
-      }
-    );
+  // useEffect(() => {
+  //   const newSocket = io(
+  //     import.meta.env.VITE_BACKEND || "http://localhost:4000",
+  //     {
+  //       withCredentials: true,
+  //       extraHeaders: {
+  //         "my-custom-header": "value",
+  //       },
+  //     }
+  //   );
 
-    setSocket(newSocket);
+  //   setSocket(newSocket);
 
-    newSocket.on("editar-salida", (nuevaSalida) => {
-      const tipoExistenteIndex = salidasMensuales.findIndex(
-        (tipo) => tipo.id == nuevaSalida.id
-      );
+  //   newSocket.on("editar-salida", (nuevaSalida) => {
+  //     const tipoExistenteIndex = salidasMensuales.findIndex(
+  //       (tipo) => tipo.id == nuevaSalida.id
+  //     );
 
-      const updateSalida = JSON.parse(nuevaSalida);
+  //     const updateSalida = JSON.parse(nuevaSalida);
 
-      setSalidasMensuales((prevTipos) => {
-        const newTipos = [...prevTipos];
+  //     setSalidasMensuales((prevTipos) => {
+  //       const newTipos = [...prevTipos];
 
-        newTipos[tipoExistenteIndex] = {
-          id: nuevaSalida.id,
-          chofer: updateSalida.chofer,
-          km_viaje_control: updateSalida.km_viaje_control,
-          km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-          fletes_km: updateSalida.fletes_km,
-          fletes_km_precio: updateSalida.fletes_km_precio,
-          armadores: updateSalida.armadores,
-          total_viaticos: updateSalida.total_viaticos,
-          motivo: updateSalida.motivo,
-          fabrica: updateSalida.fabrica,
-          total_control: updateSalida.total_control,
-          total_flete: updateSalida.total_flete,
-          espera: updateSalida.espera,
-          chofer_vehiculo: updateSalida.chofer_vehiculo,
-          datos_cliente: updateSalida.datos_cliente,
-          role_id: prevTipos[tipoExistenteIndex]?.role_id,
-          usuario: prevTipos[tipoExistenteIndex]?.usuario,
-          created_at: prevTipos[tipoExistenteIndex]?.created_at,
-          updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
-        };
+  //       newTipos[tipoExistenteIndex] = {
+  //         id: nuevaSalida.id,
+  //         chofer: updateSalida.chofer,
+  //         km_viaje_control: updateSalida.km_viaje_control,
+  //         km_viaje_control_precio: updateSalida.km_viaje_control_precio,
+  //         fletes_km: updateSalida.fletes_km,
+  //         fletes_km_precio: updateSalida.fletes_km_precio,
+  //         armadores: updateSalida.armadores,
+  //         total_viaticos: updateSalida.total_viaticos,
+  //         motivo: updateSalida.motivo,
+  //         fabrica: updateSalida.fabrica,
+  //         total_control: updateSalida.total_control,
+  //         total_flete: updateSalida.total_flete,
+  //         espera: updateSalida.espera,
+  //         chofer_vehiculo: updateSalida.chofer_vehiculo,
+  //         datos_cliente: updateSalida.datos_cliente,
+  //         role_id: prevTipos[tipoExistenteIndex]?.role_id,
+  //         usuario: prevTipos[tipoExistenteIndex]?.usuario,
+  //         created_at: prevTipos[tipoExistenteIndex]?.created_at,
+  //         updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
+  //       };
 
-        return newTipos;
-      });
-    });
+  //       return newTipos;
+  //     });
+  //   });
 
-    return () => newSocket.close();
-  }, []);
+  //   return () => newSocket.close();
+  // }, []);
 
   const onSubmit = async () => {
     try {
@@ -256,54 +256,54 @@ export const ModalEditarSalida = ({
         return newTipos;
       });
 
-      const newSocket = io("http://localhost:4000", {
-        withCredentials: true,
-        extraHeaders: {
-          "my-custom-header": "value",
-        },
-      });
+      // const newSocket = io("http://localhost:4000", {
+      //   withCredentials: true,
+      //   extraHeaders: {
+      //     "my-custom-header": "value",
+      //   },
+      // });
 
-      setSocket(newSocket);
+      // setSocket(newSocket);
 
-      newSocket.on("editar-salida", () => {
-        const tipoExistenteIndex = salidasMensuales.findIndex(
-          (tipo) => tipo.id == obtenerID
-        );
+      // newSocket.on("editar-salida", () => {
+      //   const tipoExistenteIndex = salidasMensuales.findIndex(
+      //     (tipo) => tipo.id == obtenerID
+      //   );
 
-        const updateSalida = JSON.parse(res.config.data);
+      //   const updateSalida = JSON.parse(res.config.data);
 
-        setSalidasMensuales((prevTipos) => {
-          const newTipos = [...prevTipos];
+      //   setSalidasMensuales((prevTipos) => {
+      //     const newTipos = [...prevTipos];
 
-          newTipos[tipoExistenteIndex] = {
-            id: obtenerID,
-            chofer: updateSalida.chofer,
-            km_viaje_control: updateSalida.km_viaje_control,
-            km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-            fletes_km: updateSalida.fletes_km,
-            fletes_km_precio: updateSalida.fletes_km_precio,
-            armadores: updateSalida.armadores,
-            total_viaticos: updateSalida.total_viaticos,
-            motivo: updateSalida.motivo,
-            fabrica: updateSalida.fabrica,
-            total_control: updateSalida.total_control,
-            total_flete: updateSalida.total_flete,
-            espera: updateSalida.espera,
-            chofer_vehiculo: updateSalida.chofer_vehiculo,
-            datos_cliente: updateSalida.datos_cliente,
-            role_id: prevTipos[tipoExistenteIndex]?.role_id,
-            usuario: prevTipos[tipoExistenteIndex]?.usuario,
-            created_at: prevTipos[tipoExistenteIndex]?.created_at,
-            updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
-          };
+      //     newTipos[tipoExistenteIndex] = {
+      //       id: obtenerID,
+      //       chofer: updateSalida.chofer,
+      //       km_viaje_control: updateSalida.km_viaje_control,
+      //       km_viaje_control_precio: updateSalida.km_viaje_control_precio,
+      //       fletes_km: updateSalida.fletes_km,
+      //       fletes_km_precio: updateSalida.fletes_km_precio,
+      //       armadores: updateSalida.armadores,
+      //       total_viaticos: updateSalida.total_viaticos,
+      //       motivo: updateSalida.motivo,
+      //       fabrica: updateSalida.fabrica,
+      //       total_control: updateSalida.total_control,
+      //       total_flete: updateSalida.total_flete,
+      //       espera: updateSalida.espera,
+      //       chofer_vehiculo: updateSalida.chofer_vehiculo,
+      //       datos_cliente: updateSalida.datos_cliente,
+      //       role_id: prevTipos[tipoExistenteIndex]?.role_id,
+      //       usuario: prevTipos[tipoExistenteIndex]?.usuario,
+      //       created_at: prevTipos[tipoExistenteIndex]?.created_at,
+      //       updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
+      //     };
 
-          return newTipos;
-        });
-      });
+      //     return newTipos;
+      //   });
+      // });
 
-      if (socket) {
-        socket.emit("editar-salida", res.config.data);
-      }
+      // if (socket) {
+      //   socket.emit("editar-salida", res.config.data);
+      // }
 
       toast.success("Salida editada correctamente!", {
         position: "top-center",
