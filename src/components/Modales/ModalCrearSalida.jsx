@@ -119,27 +119,7 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
 
-  // const [socket, setSocket] = useState(null);
-
-  // useEffect(() => {
-  //   const newSocket = io(
-  //     "http://localhost:4000" || import.meta.env.VITE_API_URL,
-  //     {
-  //       withCredentials: true,
-  //       extraHeaders: {
-  //         "my-custom-header": "value",
-  //       },
-  //     }
-  //   );
-
-  //   setSocket(newSocket);
-
-  //   newSocket.on("nueva-salida", (nuevaSalida) => {
-  //     setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
-  //   });
-
-  //   return () => newSocket.close();
-  // }, []);
+  const [socket, setSocket] = useState(null);
 
   const onSubmit = async () => {
     try {
@@ -166,18 +146,18 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
         datos_cliente: { datosCliente },
       });
 
-      // if (socket) {
-      //   socket.emit("nueva-salida", res.data);
-      // }
-
-      const tipoExistente = salidasMensuales.find(
-        (tipo) => tipo.id === res.data.id
-      );
-
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      if (socket) {
+        socket.emit("nueva-salida", res.data);
       }
+
+      // const tipoExistente = salidasMensuales.find(
+      //   (tipo) => tipo.id === res.data.id
+      // );
+
+      // if (!tipoExistente) {
+      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
+      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      // }
 
       toast.success("¡Salida creada correctamente!", {
         position: "top-center",
@@ -210,6 +190,26 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const newSocket = io(
+      "http://localhost:4000" || import.meta.env.VITE_BACKEND_PORT,
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
+
+    setSocket(newSocket);
+
+    newSocket.on("nueva-salida", (nuevaSalida) => {
+      setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+    });
+
+    return () => newSocket.close();
+  }, []);
 
   const [isEdit, setIsEdit] = useState(false);
 

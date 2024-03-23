@@ -165,15 +165,15 @@ export const CrearSalida = () => {
       if (socket) {
         socket.emit("nueva-salida", res.data);
       }
-      // Verificar si el tipo ya existe antes de agregarlo al estado
-      // const tipoExistente = salidasMensuales.find(
-      //   (tipo) => tipo.id === res.data.id
-      // );
 
-      // if (!tipoExistente) {
-      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
-      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
-      // }
+      const tipoExistente = salidasMensuales.find(
+        (tipo) => tipo.id === res.data.id
+      );
+
+      if (!tipoExistente) {
+        // Actualizar el estado de tipos agregando el nuevo tipo al final
+        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      }
 
       toast.success("Salida creada correctamente!", {
         position: "top-center",
