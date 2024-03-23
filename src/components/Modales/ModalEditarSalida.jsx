@@ -155,7 +155,7 @@ export const ModalEditarSalida = ({
 
   useEffect(() => {
     const newSocket = io(
-      import.meta.env.VITE_BACKEND || "http://localhost:4000",
+      import.meta.env.VITE_BACKEND || "http://localhost:4000/api",
       {
         withCredentials: true,
         extraHeaders: {

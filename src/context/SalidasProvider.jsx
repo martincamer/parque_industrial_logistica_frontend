@@ -24,7 +24,7 @@ export const SalidasProvider = ({ children }) => {
   // Efecto para establecer la conexión del socket
   useEffect(() => {
     const newSocket = io(
-      "http://localhost:4000" || import.meta.env.VITE_BACKEND,
+      import.meta.env.VITE_BACKEND || "http://localhost:4000/api",
       {
         withCredentials: true,
         extraHeaders: {
