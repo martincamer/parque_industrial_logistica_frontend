@@ -16,7 +16,7 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
       {
         withCredentials: true,
         extraHeaders: {
-          "my-custom-header": "value",
+          "Access-Control-Allow-Origin": "*",
         },
       }
     );
