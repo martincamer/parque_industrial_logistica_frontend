@@ -150,16 +150,18 @@ export const ModalEditarSalida = ({
   const [fabrica, setFabrica] = useState("");
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
-
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_BACKEND, {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "value",
-      },
-    });
+    const newSocket = io(
+      import.meta.env.VITE_BACKEND || "http://localhost:4000",
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
 
     setSocket(newSocket);
 

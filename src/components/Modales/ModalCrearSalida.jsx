@@ -122,12 +122,15 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_BACKEND, {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "value",
-      },
-    });
+    const newSocket = io(
+      "http://localhost:4000" || import.meta.env.VITE_API_URL,
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
 
     setSocket(newSocket);
 

@@ -23,12 +23,15 @@ export const SalidasProvider = ({ children }) => {
 
   // Efecto para establecer la conexión del socket
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_BACKEND, {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "value",
-      },
-    });
+    const newSocket = io(
+      import.meta.env.VITE_BACKEND || "http://localhost:4000",
+      {
+        withCredentials: true,
+        extraHeaders: {
+          "my-custom-header": "value",
+        },
+      }
+    );
 
     setSocket(newSocket);
 
