@@ -1,6 +1,5 @@
 [[redirects]]
 from = "/*"
-for = "/”
 to = "/index.html"
 force = true
 headers = {X-From = “Netlify”}
