@@ -167,14 +167,14 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
         socket.emit("nueva-salida", res.data);
       }
 
-      const tipoExistente = salidasMensuales.find(
-        (tipo) => tipo.id === res.data.id
-      );
+      // const tipoExistente = salidasMensuales.find(
+      //   (tipo) => tipo.id === res.data.id
+      // );
 
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
-      }
+      // if (!tipoExistente) {
+      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
+      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
+      // }
 
       toast.success("¡Salida creada correctamente!", {
         position: "top-center",
