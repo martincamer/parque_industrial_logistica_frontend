@@ -1,5 +1,10 @@
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-Access-Control-Allow-Origin = "*"
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  # Permitir el encabezado CORS para todos los orígenes
+  for = "/*"
+    [headers.values]
+      Access-Control-Allow-Origin = "*"
