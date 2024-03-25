@@ -345,90 +345,94 @@ export const Rendicones = () => {
           Datos Registrados
         </div>
         <div className="grid grid-cols-2 gap-2">
-          {filteredResults.map((datos) => (
-            <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
-              <p className="text-xs font-bold capitalize">Numero: {datos.id}</p>
-              <div className="flex flex-col items-start">
-                <p className="font-bold text-xs">Rendición total</p>
-                <p
-                  className={`px-4 py-2 font-bold text-xs text-${
-                    datos.rendicion_final >= 0 ? "green" : "red"
-                  }-500 capitalize`}
-                >
-                  {Number(datos.rendicion_final).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
+          {filteredResults
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
+            .map((s) => (
+              <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
+                <p className="text-xs font-bold capitalize">
+                  Numero: {datos.id}
                 </p>
-              </div>
-              <div className="flex gap-2 w-full justify-center">
-                <button
-                  onClick={() => {
-                    handleId(datos.id), openEliminar();
-                  }}
-                  type="button"
-                  className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
+                <div className="flex flex-col items-start">
+                  <p className="font-bold text-xs">Rendición total</p>
+                  <p
+                    className={`px-4 py-2 font-bold text-xs text-${
+                      datos.rendicion_final >= 0 ? "green" : "red"
+                    }-500 capitalize`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </button>
-                <Link
-                  onClick={() => {
-                    handleID(datos.id), openModalDos();
-                  }}
-                  className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
+                    {Number(datos.rendicion_final).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </p>
+                </div>
+                <div className="flex gap-2 w-full justify-center">
+                  <button
+                    onClick={() => {
+                      handleId(datos.id), openEliminar();
+                    }}
+                    type="button"
+                    className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                    />
-                  </svg>
-                </Link>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                  </button>
+                  <Link
+                    onClick={() => {
+                      handleID(datos.id), openModalDos();
+                    }}
+                    className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
+                    </svg>
+                  </Link>
 
-                <Link
-                  to={`/rendicion/${datos.id}`}
-                  className="bg-black py-2 px-2 text-center rounded-xl text-white"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
+                  <Link
+                    to={`/rendicion/${datos.id}`}
+                    className="bg-black py-2 px-2 text-center rounded-xl text-white"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                    />
-                  </svg>
-                </Link>
-              </div>{" "}
-            </div>
-          ))}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                      />
+                    </svg>
+                  </Link>
+                </div>{" "}
+              </div>
+            ))}
         </div>
       </div>
 
