@@ -346,8 +346,8 @@ export const Rendicones = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           {filteredResults
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
-            .map((s) => (
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
+            .map((datos) => (
               <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
                 <p className="text-xs font-bold capitalize">
                   Numero: {datos.id}
@@ -471,7 +471,7 @@ export const Rendicones = () => {
 
           <tbody className="divide-y divide-gray-200">
             {filteredResults
-              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
               .map((s) => (
                 <tr key={s.id}>
                   <td className="px-4 py-2 font-medium text-gray-900 capitalize">
