@@ -547,7 +547,7 @@ export const CrearRemuneracion = () => {
             type="submit"
             className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
           >
-            Crear nueva salida
+            Crear nueva remuneracion
           </button>
         </div>
       </form>

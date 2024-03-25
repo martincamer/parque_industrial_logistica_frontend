@@ -608,7 +608,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                       type="submit"
                       className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
                     >
-                      Crear nuevo legal
+                      Crear nueva remuneracion
                     </button>
                   </div>
                 </form>

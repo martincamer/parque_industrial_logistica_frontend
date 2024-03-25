@@ -310,7 +310,7 @@ export const ModalEditarRemuneracion = ({
             >
               <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="text-lg text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Editar salida
+                  Editar remuneracion
                 </div>
 
                 <form
@@ -667,7 +667,7 @@ export const ModalEditarRemuneracion = ({
                       type="submit"
                       className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
                     >
-                      Editar la salida
+                      Editar la remuneracion
                     </button>
                   </div>
                 </form>
