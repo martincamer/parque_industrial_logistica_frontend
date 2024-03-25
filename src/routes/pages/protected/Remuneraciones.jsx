@@ -565,7 +565,7 @@ export const Remuneraciones = () => {
 
           <tbody className="divide-y divide-gray-200">
             {filteredResults
-              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
               .map((s) => (
                 <tr key={s.id}>
                   <td className="px-4 py-2 font-medium text-gray-900 capitalize">
