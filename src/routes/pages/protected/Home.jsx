@@ -453,8 +453,9 @@ export const Home = () => {
               <span className="text-xs text-gray-500">
                 {" "}
                 Total en el mes{" "}
-                {totalDatosMetrosCuadrados +
-                  totalDatosMetrosCuadradosLegales}{" "}
+                {Number(
+                  totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
+                ).toFixed(2)}{" "}
                 mts{" "}
               </span>
             </p>
