@@ -83,7 +83,7 @@ export const Salidas = () => {
 
   // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
   const ventasDelDia = salidasMensuales?.filter(
-    (item) => item?.created_at.slice(0, 10) === fechaActualString
+    (item) => item?.created_at?.slice(0, 10) === fechaActualString
   );
 
   // Encontrar la venta más reciente del día
@@ -160,7 +160,7 @@ export const Salidas = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-md:gap-10">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-md:gap-5">
       <ToastContainer />
       <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
@@ -620,7 +620,9 @@ export const Salidas = () => {
         eliminarModal={eliminarModal}
         obtenerId={obtenerId}
       />
+
       <ModalCrearSalida isOpen={isOpenModal} closeModal={closeModal} />
+
       <ModalEditarSalida
         obtenerID={obtenerID}
         isOpen={isOpenModalEditar}

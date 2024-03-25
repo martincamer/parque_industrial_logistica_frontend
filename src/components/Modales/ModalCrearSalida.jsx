@@ -48,7 +48,7 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
   //useContext
-  const { salidasMensuales, setSalidasMensuales } = useSalidasContext();
+  const { setSalidasMensuales } = useSalidasContext();
   const { choferes, setChoferes } = useSalidasContext();
 
   //obtenerChoferes
@@ -103,8 +103,6 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
     setIsOpenVerChofer(false);
   };
 
-  //formulario submit
-  const navigate = useNavigate();
   //estados del formulario
   const [chofer, setChofer] = useState("");
   const [km_viaje_control, setKmViajeControl] = useState("");
@@ -123,7 +121,8 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
 
   useEffect(() => {
     const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+      "http://localhost:4000",
       {
         withCredentials: true,
       }
@@ -166,15 +165,6 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
       if (socket) {
         socket.emit("nueva-salida", res.data);
       }
-
-      // const tipoExistente = salidasMensuales.find(
-      //   (tipo) => tipo.id === res.data.id
-      // );
-
-      // if (!tipoExistente) {
-      //   // Actualizar el estado de tipos agregando el nuevo tipo al final
-      //   setSalidasMensuales((prevTipos) => [...prevTipos, res.data]);
-      // }
 
       toast.success("¡Salida creada correctamente!", {
         position: "top-center",
@@ -273,7 +263,7 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
 
                 <form
                   // onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded shadow flex flex-col gap-5 overflow-y-scroll max-h-full max-md:py-5 h-[70vh] max-md:px-5"
+                  className="border-slate-300 border-[1px] py-12 px-10 rounded shadow flex flex-col gap-5 overflow-y-scroll max-h-full max-md:py-5 h-[70vh] max-md:px-1 max-md:border-none max-md:shadow-none"
                 >
                   <div className="flex gap-4 max-md:gap-1">
                     <button
@@ -641,9 +631,13 @@ export const ModalCrearSalida = ({ isOpen: dos, closeModal: tres }) => {
                           value={motivo}
                           onChange={(e) => setMotivo(e.target.value)}
                         >
-                          <option value="">Seleccionar motivo</option>
-                          <option value="refuerzo">Refuerzo</option>
-                          <option value="no cobra en base">
+                          <option className="text-xs" value="">
+                            Seleccionar motivo
+                          </option>
+                          <option className="text-xs" value="refuerzo">
+                            Refuerzo
+                          </option>
+                          <option className="text-xs" value="no cobra en base">
                             No cobra en base
                           </option>
                         </select>

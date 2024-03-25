@@ -1,8 +1,9 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import client from "../../api/axios";
+import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRemuneracionContext } from "../../context/RemuneracionesProvider";
+import client from "../../api/axios";
+import io from "socket.io-client";
 
 export const ModalEliminarRecaudacion = ({
   eliminarModal,
@@ -12,15 +13,41 @@ export const ModalEliminarRecaudacion = ({
   const { remuneracionesMensuales, setRemuneracionesMensuales } =
     useRemuneracionContext();
 
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(
+      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+      "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    newSocket.on("eliminar-remuneracion", (salidaEliminada) => {
+      setRemuneracionesMensuales((prevSalidas) =>
+        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
+      );
+    });
+
+    return () => newSocket.close();
+  }, []);
+
   const handleEliminarChofer = async (id) => {
     const res = await client.delete(`/remuneraciones/${id}`);
 
-    const updatedTipos = remuneracionesMensuales.filter(
-      (chofer) => chofer.id !== id
-    );
-    setRemuneracionesMensuales(updatedTipos);
+    // const updatedTipos = remuneracionesMensuales.filter(
+    //   (chofer) => chofer.id !== id
+    // );
+    // setRemuneracionesMensuales(updatedTipos);
 
-    toast.error("Eliminado correctamente!", {
+    if (socket) {
+      socket.emit("eliminar-remuneracion", { id });
+    }
+
+    toast.error("¡Eliminado correctamente!", {
       position: "top-center",
       autoClose: 1500,
       hideProgressBar: false,

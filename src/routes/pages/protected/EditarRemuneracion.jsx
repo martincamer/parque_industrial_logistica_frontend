@@ -6,8 +6,8 @@ import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChofer
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalCrearClienteRemuneracion } from "../../../components/Modales/ModalCrearClienteRemuneracion";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
-import client from "../../../api/axios";
 import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
+import client from "../../../api/axios";
 
 export const EditarRemuneracion = () => {
   const fechaActual = new Date();

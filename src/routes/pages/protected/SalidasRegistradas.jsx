@@ -82,11 +82,6 @@ export const SalidasRegistradas = () => {
 
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
-  // const totalCobroCliente = salidasMensuales.reduce(
-  //   (total, item) => total + parseFloat(item.cobro_cliente),
-  //   0
-  // );
-
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
 
@@ -150,7 +145,8 @@ export const SalidasRegistradas = () => {
       total +
       parseFloat(item.total_flete) +
       parseFloat(item.total_control) +
-      parseFloat(item.total_viaticos),
+      parseFloat(item.total_viaticos) +
+      parseFloat(item.espera),
     0
   );
 

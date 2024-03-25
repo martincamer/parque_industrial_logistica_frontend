@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import { ModalEliminarRecaudacion } from "../../../components/Modales/ModalEliminarRecaudacion";
+import { ModalCrearRemuneracion } from "../../../components/Modales/ModalCrearRemuneracion";
+import { ModalEditarRemuneracion } from "../../../components/Modales/ModalEditarRemuneracion";
 
 export const Remuneraciones = () => {
   const { remuneracionesMensuales } = useRemuneracionContext();
@@ -142,8 +144,31 @@ export const Remuneraciones = () => {
     0
   );
 
+  const [obtenerID, setObtenerID] = useState(null);
+
+  const handleID = (id) => setObtenerID(id);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModalEditar, setIsOpenModalEditar] = useState(false);
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const openModalDos = () => {
+    setIsOpenModalEditar(true);
+  };
+
+  const closeModalDos = () => {
+    setIsOpenModalEditar(false);
+  };
+
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-10">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
       <ToastContainer />
       <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
@@ -322,7 +347,7 @@ export const Remuneraciones = () => {
 
       <div className="flex gap-5 max-md:gap-2">
         <Link
-          to={"/crear-remuneracion"}
+          onClick={() => openModal()}
           className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
         >
           Crear remuneracion
@@ -453,7 +478,9 @@ export const Remuneraciones = () => {
                   </svg>
                 </button>
                 <Link
-                  to={`/editar-remuneracion/${datos.id}`}
+                  onClick={() => {
+                    handleID(datos.id), openModalDos();
+                  }}
                   className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
                 >
                   <svg
@@ -578,7 +605,9 @@ export const Remuneraciones = () => {
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
                   <Link
-                    to={`/editar-remuneracion/${s.id}`}
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
                   >
                     Editar
@@ -658,10 +687,18 @@ export const Remuneraciones = () => {
         </div>
       )}
 
+      <ModalCrearRemuneracion isOpen={isOpenModal} closeModal={closeModal} />
+
       <ModalEliminarRecaudacion
         closeEliminar={closeEliminar}
         eliminarModal={eliminarModal}
         obtenerId={obtenerId}
+      />
+
+      <ModalEditarRemuneracion
+        obtenerID={obtenerID}
+        isOpen={isOpenModalEditar}
+        closeModal={closeModalDos}
       />
     </section>
   );

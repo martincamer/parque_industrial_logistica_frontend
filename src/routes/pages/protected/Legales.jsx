@@ -3,9 +3,11 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useLegalesContext } from "../../../context/LegalesProvider";
 import { ModalEliminarLegales } from "../../../components/Modales/ModalEliminarLegales";
+import { ModalCrearLegales } from "../../../components/Modales/ModalCrearLegales";
+import { ModalEditarLegales } from "../../../components/Modales/ModalEditarLegales";
 
 export const Legales = () => {
-  const { legales, setLegales } = useLegalesContext();
+  const { legales } = useLegalesContext();
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -127,6 +129,29 @@ export const Legales = () => {
       }, 0) || 0)
     );
   }, 0);
+
+  const [obtenerID, setObtenerID] = useState(null);
+
+  const handleID = (id) => setObtenerID(id);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModalEditar, setIsOpenModalEditar] = useState(false);
+
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenModal(false);
+  };
+
+  const openModalDos = () => {
+    setIsOpenModalEditar(true);
+  };
+
+  const closeModalDos = () => {
+    setIsOpenModalEditar(false);
+  };
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full">
@@ -308,7 +333,7 @@ export const Legales = () => {
 
       <div className="gap-5 max-md:hidden md:flex">
         <Link
-          to={"/crear-legal"}
+          onClick={() => openModal()}
           className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center"
         >
           Crear nuevo legal
@@ -445,11 +470,11 @@ export const Legales = () => {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col items-center">
-                <p className="font-bold text-xs text">Remueración</p>
+              <div className="flex flex-col items-start">
+                <p className="font-bold text-xs">Recaudacion</p>
                 <p
                   className={`px-4 py-2 font-bold text-xs text-${
-                    datos.recaudacion >= 0 ? "red" : "red"
+                    datos.recaudacion >= 0 ? "green" : "red"
                   }-500 capitalize`}
                 >
                   {Number(datos.recaudacion).toLocaleString("es-AR", {
@@ -483,7 +508,9 @@ export const Legales = () => {
                   </svg>
                 </button>
                 <Link
-                  to={`/editar-legales/${datos.id}`}
+                  onClick={() => {
+                    handleID(datos.id), openModalDos();
+                  }}
                   className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
                 >
                   <svg
@@ -503,7 +530,7 @@ export const Legales = () => {
                 </Link>
 
                 <Link
-                  to={`/legales/${datos.id}`}
+                  to={`/legales  /${datos.id}`}
                   className="bg-black py-2 px-2 text-center rounded-xl text-white"
                 >
                   <svg
@@ -586,7 +613,7 @@ export const Legales = () => {
                 </td>
                 <td
                   className={`px-4 py-2 font-bold text-${
-                    s.recaudacion >= 0 ? "black" : "red"
+                    s.recaudacion >= 0 ? "green" : "red"
                   }-500 capitalize`}
                 >
                   {Number(s.recaudacion).toLocaleString("es-AR", {
@@ -608,7 +635,9 @@ export const Legales = () => {
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
                   <Link
-                    to={`/editar-legales/${s.id}`}
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
                   >
                     Editar
@@ -619,78 +648,87 @@ export const Legales = () => {
                     to={`/legales/${s.id}`}
                     className="bg-black py-2 px-5 text-center rounded-xl text-white"
                   >
-                    Ver legales
+                    Ver Legales
                   </Link>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
-        {totalPages > 1 && (
-          <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
-            <button
-              className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 19.5 8.25 12l7.5-7.5"
-                />
-              </svg>
-              Anterior
-            </button>
-            {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
-              <button
-                key={index}
-                className={`mx-1 px-3 py-1 rounded ${
-                  currentPage === startPage + index
-                    ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
-                    : "bg-gray-100 shadow shadow-black/20 text-sm"
-                }`}
-                onClick={() => handlePageChange(startPage + index)}
-              >
-                {startPage + index}
-              </button>
-            ))}
-            <button
-              className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              Siguiente{" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
+          <button
+            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
+            </svg>
+            Anterior
+          </button>
+          {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
+            <button
+              key={index}
+              className={`mx-1 px-3 py-1 rounded ${
+                currentPage === startPage + index
+                  ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  : "bg-gray-100 shadow shadow-black/20 text-sm"
+              }`}
+              onClick={() => handlePageChange(startPage + index)}
+            >
+              {startPage + index}
+            </button>
+          ))}
+          <button
+            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Siguiente{" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      <ModalCrearLegales isOpen={isOpenModal} closeModal={closeModal} />
+
       <ModalEliminarLegales
         closeEliminar={closeEliminar}
         eliminarModal={eliminarModal}
         obtenerId={obtenerId}
+      />
+
+      <ModalEditarLegales
+        obtenerID={obtenerID}
+        isOpen={isOpenModalEditar}
+        closeModal={closeModalDos}
       />
     </section>
   );

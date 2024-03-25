@@ -1,8 +1,8 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useSalidasContext } from "../../context/SalidasProvider";
-import client from "../../api/axios";
 import { toast } from "react-toastify";
+import client from "../../api/axios";
 import io from "socket.io-client";
 
 export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
@@ -12,7 +12,8 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
 
   useEffect(() => {
     const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+      "http://localhost:4000",
       {
         withCredentials: true,
       }

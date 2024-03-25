@@ -1,6 +1,5 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { useEffect, useState, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSalidasContext } from "../../context/SalidasProvider";
 import { ModalCrearCliente } from "../../components/Modales/ModalCrearCliente";
 import { ModalCrearChoferes } from "../../components/Modales/ModalCrearChoferes";
@@ -150,162 +149,34 @@ export const ModalEditarSalida = ({
   const [fabrica, setFabrica] = useState("");
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
+
   const [socket, setSocket] = useState(null);
 
-  // useEffect(() => {
-  //   const newSocket = io(
-  //     import.meta.env.VITE_BACKEND || "http://localhost:4000",
-  //     {
-  //       withCredentials: true,
-  //       extraHeaders: {
-  //         "my-custom-header": "value",
-  //       },
-  //     }
-  //   );
-
-  //   setSocket(newSocket);
-
-  //   newSocket.on("editar-salida", (nuevaSalida) => {
-  //     const tipoExistenteIndex = salidasMensuales.findIndex(
-  //       (tipo) => tipo.id == nuevaSalida.id
-  //     );
-
-  //     const updateSalida = JSON.parse(nuevaSalida);
-
-  //     setSalidasMensuales((prevTipos) => {
-  //       const newTipos = [...prevTipos];
-
-  //       newTipos[tipoExistenteIndex] = {
-  //         id: nuevaSalida.id,
-  //         chofer: updateSalida.chofer,
-  //         km_viaje_control: updateSalida.km_viaje_control,
-  //         km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-  //         fletes_km: updateSalida.fletes_km,
-  //         fletes_km_precio: updateSalida.fletes_km_precio,
-  //         armadores: updateSalida.armadores,
-  //         total_viaticos: updateSalida.total_viaticos,
-  //         motivo: updateSalida.motivo,
-  //         fabrica: updateSalida.fabrica,
-  //         total_control: updateSalida.total_control,
-  //         total_flete: updateSalida.total_flete,
-  //         espera: updateSalida.espera,
-  //         chofer_vehiculo: updateSalida.chofer_vehiculo,
-  //         datos_cliente: updateSalida.datos_cliente,
-  //         role_id: prevTipos[tipoExistenteIndex]?.role_id,
-  //         usuario: prevTipos[tipoExistenteIndex]?.usuario,
-  //         created_at: prevTipos[tipoExistenteIndex]?.created_at,
-  //         updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
-  //       };
-
-  //       return newTipos;
-  //     });
-  //   });
-
-  //   return () => newSocket.close();
-  // }, []);
-
   const onSubmit = async () => {
+    const salidasNuevas = {
+      chofer,
+      km_viaje_control,
+      km_viaje_control_precio,
+      fletes_km,
+      fletes_km_precio,
+      armadores,
+      total_viaticos,
+      motivo,
+      salida,
+      fabrica,
+      total_control: Number(km_viaje_control * km_viaje_control_precio),
+      total_flete: Number(fletes_km * fletes_km_precio),
+      espera,
+      chofer_vehiculo,
+      datos_cliente: { datosCliente },
+    };
+
     try {
-      // e.preventDefault();
-      const res = await client.put(`/salidas/${obtenerID}`, {
-        chofer,
-        km_viaje_control,
-        km_viaje_control_precio,
-        fletes_km,
-        fletes_km_precio,
-        armadores,
-        total_viaticos,
-        motivo,
-        salida,
-        fabrica,
-        total_control: Number(km_viaje_control * km_viaje_control_precio),
-        total_flete: Number(fletes_km * fletes_km_precio),
-        espera,
-        chofer_vehiculo,
-        datos_cliente: { datosCliente },
-      });
+      const res = await client.put(`/salidas/${obtenerID}`, salidasNuevas);
 
-      const tipoExistenteIndex = salidasMensuales.findIndex(
-        (tipo) => tipo.id == obtenerID
-      );
+      socket.emit("editar-salida", res);
 
-      setSalidasMensuales((prevTipos) => {
-        const newTipos = [...prevTipos];
-        const updateSalida = JSON.parse(res.config.data); // Convierte el JSON a objeto
-        newTipos[tipoExistenteIndex] = {
-          id: obtenerID,
-          chofer: updateSalida.chofer,
-          km_viaje_control: updateSalida.km_viaje_control,
-          km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-          fletes_km: updateSalida.fletes_km,
-          fletes_km_precio: updateSalida.fletes_km_precio,
-          armadores: updateSalida.armadores,
-          total_viaticos: updateSalida.total_viaticos,
-          motivo: updateSalida.motivo,
-          fabrica: updateSalida.fabrica,
-          total_control: updateSalida.total_control,
-          total_flete: updateSalida.total_flete,
-          espera: updateSalida.espera,
-          chofer_vehiculo: updateSalida.chofer_vehiculo,
-          datos_cliente: updateSalida.datos_cliente,
-          role_id: updateSalida.role_id,
-          usuario: newTipos[tipoExistenteIndex].usuario,
-          created_at: newTipos[tipoExistenteIndex].created_at,
-          updated_at: newTipos[tipoExistenteIndex].updated_at,
-        };
-        return newTipos;
-      });
-
-      // const newSocket = io("http://localhost:4000", {
-      //   withCredentials: true,
-      //   extraHeaders: {
-      //     "my-custom-header": "value",
-      //   },
-      // });
-
-      // setSocket(newSocket);
-
-      // newSocket.on("editar-salida", () => {
-      //   const tipoExistenteIndex = salidasMensuales.findIndex(
-      //     (tipo) => tipo.id == obtenerID
-      //   );
-
-      //   const updateSalida = JSON.parse(res.config.data);
-
-      //   setSalidasMensuales((prevTipos) => {
-      //     const newTipos = [...prevTipos];
-
-      //     newTipos[tipoExistenteIndex] = {
-      //       id: obtenerID,
-      //       chofer: updateSalida.chofer,
-      //       km_viaje_control: updateSalida.km_viaje_control,
-      //       km_viaje_control_precio: updateSalida.km_viaje_control_precio,
-      //       fletes_km: updateSalida.fletes_km,
-      //       fletes_km_precio: updateSalida.fletes_km_precio,
-      //       armadores: updateSalida.armadores,
-      //       total_viaticos: updateSalida.total_viaticos,
-      //       motivo: updateSalida.motivo,
-      //       fabrica: updateSalida.fabrica,
-      //       total_control: updateSalida.total_control,
-      //       total_flete: updateSalida.total_flete,
-      //       espera: updateSalida.espera,
-      //       chofer_vehiculo: updateSalida.chofer_vehiculo,
-      //       datos_cliente: updateSalida.datos_cliente,
-      //       role_id: prevTipos[tipoExistenteIndex]?.role_id,
-      //       usuario: prevTipos[tipoExistenteIndex]?.usuario,
-      //       created_at: prevTipos[tipoExistenteIndex]?.created_at,
-      //       updated_at: prevTipos[tipoExistenteIndex]?.updated_at,
-      //     };
-
-      //     return newTipos;
-      //   });
-      // });
-
-      // if (socket) {
-      //   socket.emit("editar-salida", res.config.data);
-      // }
-
-      toast.success("Salida editada correctamente!", {
+      toast.success("¡Salida editada correctamente!", {
         position: "top-center",
         autoClose: 1500,
         hideProgressBar: false,
@@ -322,10 +193,65 @@ export const ModalEditarSalida = ({
     }
   };
 
+  useEffect(() => {
+    const newSocket = io(
+      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+      "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    const handleEditarSalida = (editarSalida) => {
+      const updateSalida = JSON.parse(editarSalida?.config?.data);
+
+      setSalidasMensuales((prevSalidas) => {
+        const nuevosSalidas = [...prevSalidas];
+        const index = nuevosSalidas.findIndex(
+          (salida) => salida.id === salida.id
+        );
+        if (index !== -1) {
+          nuevosSalidas[index] = {
+            id: nuevosSalidas[index]?.id,
+            chofer: updateSalida.chofer,
+            km_viaje_control: updateSalida.km_viaje_control,
+            km_viaje_control_precio: updateSalida.km_viaje_control_precio,
+            fletes_km: updateSalida.fletes_km,
+            fletes_km_precio: updateSalida.fletes_km_precio,
+            armadores: updateSalida.armadores,
+            total_viaticos: updateSalida.total_viaticos,
+            motivo: updateSalida.motivo,
+            fabrica: updateSalida.fabrica,
+            total_control: updateSalida.total_control,
+            total_flete: updateSalida.total_flete,
+            espera: updateSalida.espera,
+            chofer_vehiculo: updateSalida.chofer_vehiculo,
+            datos_cliente: updateSalida.datos_cliente,
+            role_id: nuevosSalidas[index]?.role_id,
+            usuario: nuevosSalidas[index]?.usuario,
+            created_at: nuevosSalidas[index]?.created_at,
+            updated_at: nuevosSalidas[index]?.updated_at,
+          };
+        }
+        return nuevosSalidas;
+      });
+    };
+
+    newSocket.on("editar-salida", handleEditarSalida);
+
+    return () => {
+      newSocket.off("editar-salida", handleEditarSalida);
+      newSocket.close();
+    };
+  }, []);
+
   const [isEdit, setIsEdit] = useState(false);
 
   const openEdit = () => setIsEdit(true);
   const closeEdit = () => setIsEdit(false);
+
   const [usuario, setUsuario] = useState("");
 
   const handleUsuario = (usuario) => setUsuario(usuario);
@@ -386,7 +312,7 @@ export const ModalEditarSalida = ({
 
                 <form
                   // onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded shadow flex flex-col gap-5 overflow-y-scroll max-h-full max-md:py-5 h-[70vh] max-md:px-5"
+                  className=" border-slate-300 border-[1px] py-12 px-10 rounded shadow flex flex-col gap-5 overflow-y-scroll max-h-full max-md:py-5 h-[70vh] max-md:px-1 max-md:border-none max-md:shadow-none"
                 >
                   <div className="flex gap-4">
                     <button

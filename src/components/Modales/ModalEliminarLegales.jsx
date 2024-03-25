@@ -1,8 +1,9 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useLegalesContext } from "../../context/LegalesProvider";
 import client from "../../api/axios";
+import io from "socket.io-client";
 
 export const ModalEliminarLegales = ({
   eliminarModal,
@@ -11,11 +12,37 @@ export const ModalEliminarLegales = ({
 }) => {
   const { legales, setLegales } = useLegalesContext();
 
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(
+      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+      "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    newSocket.on("eliminar-legal", (salidaEliminada) => {
+      setLegales((prevSalidas) =>
+        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
+      );
+    });
+
+    return () => newSocket.close();
+  }, []);
+
   const handleEliminarChofer = async (id) => {
     const res = await client.delete(`/legales/${id}`);
 
-    const updatedTipos = legales.filter((chofer) => chofer.id !== id);
-    setLegales(updatedTipos);
+    // const updatedTipos = legales.filter((chofer) => chofer.id !== id);
+    // setLegales(updatedTipos);
+
+    if (socket) {
+      socket.emit("eliminar-legal", { id });
+    }
 
     toast.error("Eliminado correctamente!", {
       position: "top-center",
