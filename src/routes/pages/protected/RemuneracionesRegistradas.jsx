@@ -358,12 +358,15 @@ export const RemuneracionesRegistradas = () => {
 
             <p>
               <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {totalDatosMetrosCuadrados}
+                {Number(totalDatosMetrosCuadrados).toFixed(2)}
               </span>
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
+                Total en el mes {Number(totalDatosMetrosCuadrados).toFixed(
+                  2
+                )}{" "}
+                mts{" "}
               </span>
             </p>
           </div>

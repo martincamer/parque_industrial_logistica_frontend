@@ -445,7 +445,9 @@ export const Home = () => {
 
             <p>
               <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales}
+                {Number(
+                  totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
+                ).toFixed(2)}
               </span>
 
               <span className="text-xs text-gray-500">
