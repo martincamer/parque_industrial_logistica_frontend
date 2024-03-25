@@ -22,19 +22,19 @@ export const SalidasProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   // Efecto para establecer la conexión del socket
-  useEffect(() => {
-    const newSocket = io(
-      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
-      "http://localhost:4000",
-      {
-        withCredentials: true,
-      }
-    );
+  // useEffect(() => {
+  //   const newSocket = io(
+  //     // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
+  //     "http://localhost:4000",
+  //     {
+  //       withCredentials: true,
+  //     }
+  //   );
 
-    setSocket(newSocket);
+  //   setSocket(newSocket);
 
-    return () => newSocket.close();
-  }, []);
+  //   return () => newSocket.close();
+  // }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -45,19 +45,19 @@ export const SalidasProvider = ({ children }) => {
     loadData();
   }, []);
 
-  useEffect(() => {
-    // Aquí puedes enviar las actualizaciones a través de sockets
-    if (socket) {
-      socket.emit("actualizar-salidas", salidasMensuales);
-    }
-  }, [socket, salidasMensuales]);
+  // useEffect(() => {
+  //   // Aquí puedes enviar las actualizaciones a través de sockets
+  //   if (socket) {
+  //     socket.emit("actualizar-salidas", salidasMensuales);
+  //   }
+  // }, [socket, salidasMensuales]);
 
-  useEffect(() => {
-    // Aquí puedes enviar las actualizaciones a través de sockets
-    if (socket) {
-      socket.emit("actualizar-choferes", choferes);
-    }
-  }, [socket, choferes]);
+  // useEffect(() => {
+  //   // Aquí puedes enviar las actualizaciones a través de sockets
+  //   if (socket) {
+  //     socket.emit("actualizar-choferes", choferes);
+  //   }
+  // }, [socket, choferes]);
 
   return (
     <SalidasContext.Provider

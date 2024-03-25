@@ -92,8 +92,6 @@ export const Transportes = () => {
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
 
-  console.log(ordenesMensuales);
-
   const totalFinalizados = ordenesMensuales.reduce((count, orden) => {
     // Incrementa el contador si la propiedad 'finalizado' es '1'
     return orden.finalizado === "1" ? count + 1 : count;

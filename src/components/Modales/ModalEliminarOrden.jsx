@@ -1,23 +1,47 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import client from "../../api/axios";
+import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useOrdenesContext } from "../../context/OrdenesProvider";
+import client from "../../api/axios";
+import io from "socket.io-client";
 
 export const ModalEliminarOrden = ({
   eliminarModal,
   closeEliminar,
   obtenerId,
 }) => {
-  const { ordenesMensuales, setOrdenesMensuales } = useOrdenesContext();
+  const { setOrdenesMensuales } = useOrdenesContext();
+
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(
+      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    newSocket.on("eliminar-orden", (salidaEliminada) => {
+      setOrdenesMensuales((prevSalidas) =>
+        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
+      );
+    });
+
+    return () => newSocket.close();
+  }, []);
 
   const handleEliminarChofer = async (id) => {
     const res = await client.delete(`/ordenes/${id}`);
 
-    const updatedTipos = ordenesMensuales.filter((chofer) => chofer.id !== id);
-    setOrdenesMensuales(updatedTipos);
+    if (socket) {
+      socket.emit("eliminar-orden", { id });
+    }
 
-    toast.error("Eliminado correctamente!", {
+    toast.error("¡Eliminado correctamente!", {
       position: "top-center",
       autoClose: 1500,
       hideProgressBar: false,

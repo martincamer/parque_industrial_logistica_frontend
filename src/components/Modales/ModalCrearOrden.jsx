@@ -1,14 +1,36 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSalidasContext } from "../../context/SalidasProvider";
 import { useForm } from "react-hook-form";
 import { useOrdenesContext } from "../../context/OrdenesProvider";
 import { toast } from "react-toastify";
 import client from "../../api/axios";
+import io from "socket.io-client";
 
 export const ModalCrearOrden = ({ isOpen, closeModal }) => {
   const { choferes, setChoferes } = useSalidasContext();
   const { ordenesMensuales, setOrdenesMensuales } = useOrdenesContext();
+
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(
+      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "http://localhost:4000",
+
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    newSocket.on("nueva-orden", (nuevaSalida) => {
+      setOrdenesMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+    });
+
+    return () => newSocket.close();
+  }, []);
 
   //obtenerChoferes
   useEffect(() => {
@@ -25,7 +47,6 @@ export const ModalCrearOrden = ({ isOpen, closeModal }) => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -37,6 +58,10 @@ export const ModalCrearOrden = ({ isOpen, closeModal }) => {
     if (!tipoExistente) {
       // Actualizar el estado de tipos agregando el nuevo tipo al final
       setOrdenesMensuales((prevTipos) => [...prevTipos, res.data]);
+    }
+
+    if (socket) {
+      socket.emit("nueva-orden", res.data);
     }
 
     toast.success("¡Orden creada correctamente!", {

@@ -1,14 +1,17 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSalidasContext } from "../../context/SalidasProvider";
 import { useForm } from "react-hook-form";
 import { useOrdenesContext } from "../../context/OrdenesProvider";
 import { toast } from "react-toastify";
 import client from "../../api/axios";
+import io from "socket.io-client";
 
 export const ModalEditarOrden = ({ isOpen, closeModal, obtenerId }) => {
   const { choferes, setChoferes } = useSalidasContext();
-  const { ordenesMensuales, setOrdenesMensuales } = useOrdenesContext();
+  const { setOrdenesMensuales } = useOrdenesContext();
+
+  const [socket, setSocket] = useState(null);
 
   //obtenerChoferes
   useEffect(() => {
@@ -50,28 +53,10 @@ export const ModalEditarOrden = ({ isOpen, closeModal, obtenerId }) => {
 
   const onSubmit = handleSubmit(async (data) => {
     const res = await client.put(`/ordenes/${obtenerId}`, data);
-    // Verificar si el tipo ya existe antes de agregarlo al estado
 
-    const tipoExistenteIndex = ordenesMensuales.findIndex(
-      (tipo) => tipo.id == obtenerId
-    );
+    socket.emit("editar-orden", res);
 
-    setOrdenesMensuales((prevTipos) => {
-      const newTipos = [...prevTipos];
-      const updateOrden = JSON.parse(res.config.data); // Convierte el JSON a objeto
-      newTipos[tipoExistenteIndex] = {
-        id: obtenerId,
-        chofer: updateOrden.chofer,
-        fecha_llegada: updateOrden.fecha_llegada,
-        orden_firma: updateOrden.orden_firma,
-        finalizado: updateOrden.finalizado,
-        created_at: newTipos[tipoExistenteIndex].created_at,
-        updated_at: newTipos[tipoExistenteIndex].updated_at,
-      };
-      return newTipos;
-    });
-
-    toast.success("¡Orden Finalizada correctamente!", {
+    toast.success("¡Orden editada correctamente!", {
       position: "top-center",
       autoClose: 1500,
       hideProgressBar: false,
@@ -85,6 +70,48 @@ export const ModalEditarOrden = ({ isOpen, closeModal, obtenerId }) => {
       closeModal();
     }, 500);
   });
+
+  useEffect(() => {
+    const newSocket = io(
+      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "http://localhost:4000",
+      {
+        withCredentials: true,
+      }
+    );
+
+    setSocket(newSocket);
+
+    const handleEditarSalida = (editarSalida) => {
+      const updateSalida = JSON.parse(editarSalida?.config?.data);
+
+      setOrdenesMensuales((prevSalidas) => {
+        const nuevosSalidas = [...prevSalidas];
+        const index = nuevosSalidas.findIndex(
+          (salida) => salida.id === salida.id
+        );
+        if (index !== -1) {
+          nuevosSalidas[index] = {
+            id: nuevosSalidas[index].id,
+            chofer: updateSalida.chofer,
+            fecha_llegada: updateSalida.fecha_llegada,
+            orden_firma: updateSalida.orden_firma,
+            finalizado: updateSalida.finalizado,
+            created_at: nuevosSalidas[index].created_at,
+            updated_at: nuevosSalidas[index].updated_at,
+          };
+        }
+        return nuevosSalidas;
+      });
+    };
+
+    newSocket.on("editar-orden", handleEditarSalida);
+
+    return () => {
+      newSocket.off("editar-orden", handleEditarSalida);
+      newSocket.close();
+    };
+  }, []);
 
   return (
     <Menu as="div" className="z-50">
