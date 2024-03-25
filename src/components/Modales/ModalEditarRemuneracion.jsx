@@ -202,8 +202,8 @@ export const ModalEditarRemuneracion = ({
 
   useEffect(() => {
     const newSocket = io(
-      // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
-      "http://localhost:4000",
+      "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "http://localhost:4000",
       {
         withCredentials: true,
       }
