@@ -1,15 +1,23 @@
 import React from "react";
 
-const RemuneracionesProgressBar = ({ remuneracionesMensuales }) => {
+const RemuneracionesProgressBar = ({
+  remuneracionesMensuales,
+  rendicionesMensuales,
+}) => {
   // Sumar todas las recaudaciones
   const totalRecaudacion = remuneracionesMensuales.reduce(
     (total, remuneracion) => total + parseFloat(remuneracion.recaudacion),
     0
   );
 
+  const totalRendicion = rendicionesMensuales.reduce(
+    (total, remuneracion) => total + parseFloat(remuneracion.rendicion_final),
+    0
+  );
+
   // Calcular el porcentaje total, asegurándose de que no exceda el límite máximo (100000000)
   const porcentajeTotal = Math.min(
-    (totalRecaudacion / 15000000) * 100,
+    (totalRecaudacion + totalRendicion / 15000000) * 100,
     100
   ).toFixed(2);
 
@@ -20,7 +28,7 @@ const RemuneracionesProgressBar = ({ remuneracionesMensuales }) => {
           Total en remuneraciones
         </p>
         <p className="text-slate-700 text-lg mb-3 max-md:text-sm max-md:font-bold">
-          {Number(totalRecaudacion).toLocaleString("es-AR", {
+          {Number(totalRecaudacion + totalRendicion).toLocaleString("es-AR", {
             style: "currency",
             currency: "ARS",
             minimumIntegerDigits: 2,

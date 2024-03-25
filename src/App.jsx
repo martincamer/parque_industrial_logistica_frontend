@@ -32,10 +32,14 @@ import { CrearLegales } from "./routes/pages/protected/CrearLegales";
 import { EditarLegales } from "./routes/pages/protected/EditarLegales";
 import { ResumenViewLegales } from "./routes/pages/protected/ResumenViewLegales";
 import { LegalesRegistrados } from "./routes/pages/protected/LegalesRegistrados";
+import { Rendicones } from "./routes/pages/protected/Rendiciones";
+import { RendicionesProvider } from "./context/RendicionesProvider";
+import { ResumenViewRendicion } from "./routes/pages/protected/ResumenViewRendicion";
 //import normales
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { RendicionesRegistradas } from "./routes/pages/protected/RendicionesRegistradas";
 
 function App() {
   const { isAuth } = useAuth();
@@ -60,10 +64,12 @@ function App() {
                   <RemuneracionProvider>
                     <OrdenesProvider>
                       <LegalesProvider>
-                        <SideBar />
-                        <main className="min-h-full max-h-full h-full">
-                          <Outlet />
-                        </main>
+                        <RendicionesProvider>
+                          <SideBar />
+                          <main className="min-h-full max-h-full h-full">
+                            <Outlet />
+                          </main>
+                        </RendicionesProvider>
                       </LegalesProvider>
                     </OrdenesProvider>
                   </RemuneracionProvider>
@@ -77,6 +83,7 @@ function App() {
                 path="/remuneraciones"
                 element={<Remuneraciones />}
               />
+              <Route index path="/rendiciones" element={<Rendicones />} />
               <Route index path="/legales" element={<Legales />} />
               <Route
                 index
@@ -88,6 +95,11 @@ function App() {
                 index
                 path="/remuneraciones-registradas"
                 element={<RemuneracionesRegistradas />}
+              />
+              <Route
+                index
+                path="/rendiciones-registradas"
+                element={<RendicionesRegistradas />}
               />
               <Route
                 index
@@ -124,6 +136,11 @@ function App() {
                 index
                 path="/recaudacion/:id"
                 element={<ResumenViewRecaudacion />}
+              />
+              <Route
+                index
+                path="/rendicion/:id"
+                element={<ResumenViewRendicion />}
               />
               <Route
                 index

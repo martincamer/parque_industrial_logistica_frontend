@@ -1,5 +1,6 @@
 import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
 import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
@@ -7,10 +8,12 @@ import RemuneracionesProgressBar from "../../../components/charts/Remuneraciones
 import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
+import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
 
 export const Home = () => {
   const { salidasMensuales } = useSalidasContext();
   const { remuneracionesMensuales } = useRemuneracionContext();
+  const { rendicionesMensuales } = useRendicionesContext();
   const { legales } = useLegalesContext();
 
   const fechaActual = new Date();
@@ -52,6 +55,11 @@ export const Home = () => {
 
   const totalCobroClienteLegales = legales.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroRendiciones = rendicionesMensuales.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final),
     0
   );
 
@@ -176,7 +184,10 @@ export const Home = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalCobroCliente / 10000).toFixed(2)} %{" "}
+              {Number(
+                totalCobroCliente + totalCobroRendiciones / 10000
+              ).toFixed(2)}{" "}
+              %{" "}
             </span>
           </div>
 
@@ -187,7 +198,9 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span className="text-2xl max-md:text-base font-medium text-slate-900">
-                {Number(totalCobroCliente).toLocaleString("es-AR", {
+                {Number(
+                  totalCobroCliente + totalCobroRendiciones
+                ).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -452,6 +465,7 @@ export const Home = () => {
           <p> Progreso de las entregas</p>
         </div>
         <RemuneracionesProgressBar
+          rendicionesMensuales={rendicionesMensuales}
           remuneracionesMensuales={remuneracionesMensuales}
         />
         <SalidasProgressBar salidasMensuales={salidasMensuales} />
@@ -466,7 +480,19 @@ export const Home = () => {
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE REMUNERACIONES
           </div>
-          <RemuneracionesColumnChart remuneraciones={remuneracionesMensuales} />
+          <RemuneracionesColumnChart
+            rendicionesMensuales={rendicionesMensuales}
+            remuneraciones={remuneracionesMensuales}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white h-full w-full">
+        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
+            GRAFICO DE RENDICIONES
+          </div>
+          <RendicionesColumnChart rendicionesMensuales={rendicionesMensuales} />
         </div>
       </div>
 

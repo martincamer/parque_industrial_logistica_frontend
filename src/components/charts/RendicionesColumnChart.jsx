@@ -1,14 +1,14 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const RemuneracionesColumnChart = ({ remuneraciones }) => {
+const RendicionesColumnChart = ({ rendicionesMensuales }) => {
   // Extracting data for the chart
-  const fechas = remuneraciones.map(
+  const fechas = rendicionesMensuales.map(
     (remuneracion) => remuneracion.created_at.split("T")[0]
   ); // Extracting only date, removing time
 
-  const remuneracionesData = remuneraciones.map((remuneracion) =>
-    parseFloat(remuneracion.recaudacion)
+  const remuneracionesData = rendicionesMensuales.map((remuneracion) =>
+    parseFloat(remuneracion.rendicion_final)
   ); // Convert to ARS (considering 1 USD = 97 ARS)
 
   // Configuring chart options
@@ -92,4 +92,4 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
   );
 };
 
-export default RemuneracionesColumnChart;
+export default RendicionesColumnChart;

@@ -671,12 +671,14 @@ export const ModalEditarRemuneracion = ({
                     </button>
                   </div>
                 </form>
+
                 <ModalCrearClienteRemuneracion
                   setDatosCliente={setDatosCliente}
                   isOpen={isOpen}
                   closeModal={closeModal}
                   datosCliente={datosCliente}
                 />
+
                 <ModalCrearChoferes
                   isOpen={isOpenChofer}
                   closeModal={closeModalChofer}
