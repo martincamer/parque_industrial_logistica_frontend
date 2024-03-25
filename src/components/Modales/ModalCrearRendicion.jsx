@@ -71,35 +71,6 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
     setDatosCliente(nuevaListaClientes);
   };
 
-  //modales
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenChofer, setIsOpenChofer] = useState(false);
-  const [isOpenVerChofer, setIsOpenVerChofer] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const openModalChofer = () => {
-    setIsOpenChofer(true);
-  };
-
-  const closeModalChofer = () => {
-    setIsOpenChofer(false);
-  };
-
-  const openModalVerChofer = () => {
-    setIsOpenVerChofer(true);
-  };
-
-  const closeModalVerChofer = () => {
-    setIsOpenVerChofer(false);
-  };
-
   //estados del formulario
   const [armador, setArmador] = useState("");
   const [detalle, setDetalle] = useState("");
