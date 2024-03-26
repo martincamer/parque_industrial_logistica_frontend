@@ -211,7 +211,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -244,7 +244,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -259,7 +259,13 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                         gap: "12px",
                       }}
                     >
-                      <Text>{d.cliente}</Text>
+                      <Text
+                        style={{
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {d.cliente}
+                      </Text>
                       <Text>({d.numeroContrato})</Text>
                     </View>
                     {index !==
@@ -294,7 +300,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -307,7 +313,13 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                         width: "100%",
                       }}
                     >
-                      <Text>{d.localidad}</Text>
+                      <Text
+                        style={{
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {d.localidad}
+                      </Text>
                     </View>
                     {index !==
                       unicaSalida.datos_cliente.datosCliente.length - 1 && (
@@ -341,7 +353,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -387,9 +399,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
-                  // backgroundColor: `${unicaSalida.motivo === "" ? "" : "#000"}`,
-                  // color: `${unicaSalida.motivo === "" ? "" : "white"}`,
-                  // padding: `${unicaSalida.motivo === "" ? "" : "5px"}`,
+                  textTransform: "uppercase",
                 }}
               >
                 {unicaSalida.motivo || "NO HAY MOTIVOS"}
@@ -420,10 +430,10 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
+                  textTransform: "uppercase",
                 }}
               >
                 {unicaSalida.usuario || "NO HAY NADA CARGADO"}
@@ -489,7 +499,7 @@ export const ImprimirPdfArmadores = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",

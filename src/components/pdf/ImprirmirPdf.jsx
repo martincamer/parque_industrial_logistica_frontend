@@ -211,10 +211,10 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
+                  textTransform: "uppercase",
                 }}
               >
                 {unicaSalida.chofer_vehiculo}
@@ -259,7 +259,13 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                         gap: "12px",
                       }}
                     >
-                      <Text>{d.cliente}</Text>
+                      <Text
+                        style={{
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {d.cliente}
+                      </Text>
                       <Text>({d.numeroContrato})</Text>
                     </View>
                     {index !==
@@ -341,7 +347,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -383,7 +389,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -416,7 +422,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -436,6 +442,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                       fontWeight: "bold",
                       fontFamily: "Montserrat",
                       fontSize: "10px",
+                      textTransform: "uppercase",
                     }}
                   >
                     {Number(
@@ -483,7 +490,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -517,7 +524,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -551,7 +558,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -587,7 +594,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -622,7 +629,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -656,7 +663,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",

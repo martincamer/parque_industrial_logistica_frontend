@@ -171,6 +171,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "8px",
                   fontWeight: "semibold",
                   fontFamily: "Montserrat",
+                  textTransform: "uppercase",
                 }}
               >
                 {unicaSalida?.created_at?.split("T")[0]}
@@ -211,7 +212,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -244,7 +245,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -259,7 +260,13 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                         gap: "12px",
                       }}
                     >
-                      <Text>{d.cliente}</Text>
+                      <Text
+                        style={{
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {d.cliente}
+                      </Text>
                       <Text>({d.numeroContrato})</Text>
                     </View>
                     {index !==
@@ -294,7 +301,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -307,7 +314,13 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                         width: "100%",
                       }}
                     >
-                      <Text>{d.localidad}</Text>
+                      <Text
+                        style={{
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {d.localidad}
+                      </Text>
                     </View>
                     {index !==
                       unicaSalida.datos_cliente.datosCliente.length - 1 && (
@@ -341,7 +354,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -383,7 +396,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -416,7 +429,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     fontSize: "10px",
                     fontWeight: "normal",
                     fontFamily: "Montserrat",
-                    textTransform: "capitalize",
+                    textTransform: "uppercase",
                     textDecoration: "none",
                     width: "100%",
                     borderBottom: "1px dotted #000",
@@ -434,6 +447,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   <Text
                     style={{
                       fontWeight: "bold",
+                      textTransform: "uppercase",
                       fontFamily: "Montserrat",
                       fontSize: "10px",
                     }}
@@ -474,7 +488,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -512,7 +526,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
@@ -764,7 +778,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   fontSize: "10px",
                   fontWeight: "normal",
                   fontFamily: "Montserrat",
-                  textTransform: "capitalize",
+                  textTransform: "uppercase",
                   textDecoration: "none",
                   width: "100%",
                   borderBottom: "1px dotted #000",
