@@ -224,6 +224,7 @@ export const Home = () => {
                 className={`text-xs
                  `}
               >
+                {" "}
                 ultima remuneración del día, el total es de{" "}
                 {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
                   "es-AR",
