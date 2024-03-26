@@ -199,7 +199,7 @@ export const Home = () => {
             <span className="text-xs font-medium">
               {" "}
               {Number(
-                totalCobroCliente + totalCobroRendiciones / 10000
+                totalCobroCliente + totalCobroRendiciones / 100000
               ).toFixed(2)}{" "}
               %{" "}
             </span>
