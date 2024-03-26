@@ -199,7 +199,7 @@ export const Home = () => {
             <span className="text-xs font-medium">
               {" "}
               {Number(
-                totalCobroCliente + totalCobroRendiciones / 100000
+                Number(totalCobroCliente + totalCobroRendiciones) / 100000
               ).toFixed(2)}{" "}
               %{" "}
             </span>
@@ -213,7 +213,7 @@ export const Home = () => {
             <p className="text-slate-500">
               <span className="text-2xl max-md:text-base font-medium text-slate-900">
                 {Number(
-                  totalCobroCliente + totalCobroRendiciones
+                  Number(totalCobroCliente + totalCobroRendiciones)
                 ).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -258,7 +258,9 @@ export const Home = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalCobroClienteLegales / 100000).toFixed(2)} %{" "}
+              {Number(Number(totalCobroClienteLegales) / 100000).toFixed(
+                2
+              )} %{" "}
             </span>
           </div>
 
