@@ -342,7 +342,7 @@ export const Home = () => {
               {(
                 (totalCobroCliente +
                   totalCobroRendiciones +
-                  totalCobroClienteLegales / 10000) *
+                  totalCobroClienteLegales / 100000) *
                 100
               ).toFixed(2)}{" "}
               %
