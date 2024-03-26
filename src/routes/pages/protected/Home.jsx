@@ -298,12 +298,12 @@ export const Home = () => {
             className={`inline-flex gap-2 self-end rounded   ${
               totalCobroCliente +
                 totalCobroRendiciones +
-                totalCobroClienteLegales / 10000 <
+                totalCobroClienteLegales / 100000 <
               0
                 ? "bg-red-100 p-1 text-red-600"
                 : totalCobroCliente +
                     totalCobroRendiciones +
-                    totalCobroClienteLegales / 10000 >
+                    totalCobroClienteLegales / 100000 >
                   0
                 ? "text-green-600 bg-green-100"
                 : ""
@@ -328,12 +328,12 @@ export const Home = () => {
               className={`text-xs font-medium ${
                 totalCobroCliente +
                   totalCobroRendiciones +
-                  totalCobroClienteLegales / 10000 <
+                  totalCobroClienteLegales / 100000 <
                 0
                   ? "text-red-500"
                   : totalCobroCliente +
                       totalCobroRendiciones +
-                      totalCobroClienteLegales / 10000 >
+                      totalCobroClienteLegales / 100000 >
                     0
                   ? "text-green-500"
                   : ""
