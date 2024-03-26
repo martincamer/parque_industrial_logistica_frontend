@@ -310,13 +310,28 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(
-                Number(totalCobroCliente + totalCobroRendiciones) +
-                  Number(totalCobroClienteLegales) / 10000
+            <span
+              className={`text-xs font-medium ${
+                totalCobroCliente +
+                  totalCobroRendiciones +
+                  totalCobroClienteLegales / 10000 <
+                0
+                  ? "text-red-500"
+                  : totalCobroCliente +
+                      totalCobroRendiciones +
+                      totalCobroClienteLegales / 10000 >
+                    0
+                  ? "text-green-500"
+                  : ""
+              }`}
+            >
+              {(
+                (totalCobroCliente +
+                  totalCobroRendiciones +
+                  totalCobroClienteLegales / 10000) *
+                100
               ).toFixed(2)}{" "}
-              %{" "}
+              %
             </span>
           </div>
 
