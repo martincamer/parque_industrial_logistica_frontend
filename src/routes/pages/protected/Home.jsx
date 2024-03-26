@@ -258,7 +258,7 @@ export const Home = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(totalCobroClienteLegales / 10000).toFixed(2)} %{" "}
+              {Number(totalCobroClienteLegales / 100000).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -340,10 +340,9 @@ export const Home = () => {
               }`}
             >
               {(
-                (totalCobroCliente +
-                  totalCobroRendiciones +
-                  totalCobroClienteLegales / 100000) *
-                100
+                totalCobroCliente +
+                totalCobroRendiciones +
+                totalCobroClienteLegales / 100000
               ).toFixed(2)}{" "}
               %
             </span>
