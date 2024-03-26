@@ -237,6 +237,121 @@ export const Home = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalCobroClienteLegales / 10000).toFixed(2)} %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en legales del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500">
+                {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>{" "}
+              <span
+                className={`text-xs
+                 `}
+              >
+                ultima remuneración legal del día, el total es de{" "}
+                {Number(ultimaVentaDelDiaDos?.recaudacion || 0).toLocaleString(
+                  "es-AR",
+                  {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  }
+                )}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(
+                Number(totalCobroCliente + totalCobroRendiciones) +
+                  Number(totalCobroClienteLegales) / 10000
+              ).toFixed(2)}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en remuraciones final con descuentos de legales.
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500">
+                {Number(
+                  Number(totalCobroCliente + totalCobroRendiciones) +
+                    Number(totalCobroClienteLegales)
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>{" "}
+              <span
+                className={`text-xs
+                 `}
+              >
+                Total final remunerado del mes{" "}
+                {Number(
+                  Number(totalCobroCliente + totalCobroRendiciones) +
+                    Number(totalCobroClienteLegales) || 0
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
               />
             </svg>
@@ -274,60 +389,6 @@ export const Home = () => {
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}{" "}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(totalCobroClienteLegales / 10000).toFixed(2)} %{" "}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en legales del mes
-            </strong>
-
-            <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500">
-                {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>{" "}
-              <span
-                className={`text-xs
-                 `}
-              >
-                ultima remuneración legal del día, el total es de{" "}
-                {Number(ultimaVentaDelDiaDos?.recaudacion || 0).toLocaleString(
-                  "es-AR",
-                  {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  }
-                )}
               </span>
             </p>
           </div>
