@@ -44,7 +44,7 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
     },
     plotOptions: {
       bar: {
-        borderRadius: 12,
+        borderRadius: 1,
         colors: {
           ranges: [
             {
@@ -79,13 +79,14 @@ const RemuneracionesColumnChart = ({ remuneraciones }) => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full max-md:overflow-x-scroll">
       {" "}
       <Chart
         options={options}
         series={series}
         type="bar"
-        width="100%" // Adjust chart width as needed
+        // width="100%" // Adjust chart width as needed
+        className="max-md:w-[1500px] md:w-[100%]"
         height={500} // Adjust chart height as needed
       />
     </div>

@@ -43,7 +43,7 @@ export const SideBar = () => {
           <a
             onClick={() => toggleSidebar()}
             href="#"
-            className="t group relative flex justify-center rounded bg-slate-200 px-2 py-1.5 text-black-500"
+            className="t group relative flex justify-center rounded border-slate-300 shadow border-[1px] px-2 py-1.5 text-black-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,9 +69,9 @@ export const SideBar = () => {
       <div
         className={`${
           !click
-            ? "hidden max-h-full min-h-full h-full"
+            ? "hidden max-h-full min-h-full h-full transition-all ease-in-out duration-300"
             : "block fixed z-[100] shadow-black/10 shadow-md h-full max-h-full min-h-full"
-        } flex transition-all ease-in-out duration-300 z-50`}
+        } flex transition-all ease-in-out duration-500 z-50`}
       >
         <div className="flex w-16  max-md:w-14 flex-col justify-between border-e bg-white h-full max-h-full min-h-full">
           <div className="">

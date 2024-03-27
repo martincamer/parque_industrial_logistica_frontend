@@ -342,9 +342,11 @@ export const Home = () => {
               }`}
             >
               {(
-                totalCobroCliente +
-                totalCobroRendiciones +
-                totalCobroClienteLegales / 100000
+                Number(
+                  totalCobroCliente +
+                    totalCobroRendiciones +
+                    totalCobroClienteLegales
+                ) / 100000
               ).toFixed(2)}{" "}
               %
             </span>
@@ -363,13 +365,13 @@ export const Home = () => {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
-                })}
+                })}{" "}
               </span>
               <span
                 className={`text-xs
                  `}
               >
-                Total final remunerado del mes{" "}
+                Total final remunerado del mes {"  "}
                 {Number(
                   Number(totalCobroCliente + totalCobroRendiciones) +
                     Number(totalCobroClienteLegales) || 0
