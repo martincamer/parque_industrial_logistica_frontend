@@ -580,71 +580,69 @@ export const Remuneraciones = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {filteredResults
-              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
-              .map((s) => (
-                <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.id}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.usuario}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.datos_cliente.datosCliente.map((c) => (
-                      <div>
-                        {c.cliente}({c.numeroContrato})
-                      </div>
-                    ))}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.fecha_carga.split("T")[0]}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.fecha_entrega.split("T")[0]}
-                  </td>
-                  <td
-                    className={`px-4 py-2 font-bold text-${
-                      s.recaudacion >= 0 ? "green" : "red"
-                    }-500 capitalize`}
+            {filteredResults.map((s) => (
+              <tr key={s.id}>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.id}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.usuario}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.datos_cliente.datosCliente.map((c) => (
+                    <div>
+                      {c.cliente}({c.numeroContrato})
+                    </div>
+                  ))}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.fecha_carga.split("T")[0]}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.fecha_entrega.split("T")[0]}
+                </td>
+                <td
+                  className={`px-4 py-2 font-bold text-${
+                    s.recaudacion >= 0 ? "green" : "red"
+                  }-500 capitalize`}
+                >
+                  {Number(s.recaudacion).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <button
+                    onClick={() => {
+                      handleId(s.id), openEliminar();
+                    }}
+                    type="button"
+                    className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
                   >
-                    {Number(s.recaudacion).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <Link
-                      onClick={() => {
-                        handleID(s.id), openModalDos();
-                      }}
-                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
-                    <Link
-                      to={`/recaudacion/${s.id}`}
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Ver Recaudación
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+                    Eliminar
+                  </button>
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <Link
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
+                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                  >
+                    Editar
+                  </Link>
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                  <Link
+                    to={`/recaudacion/${s.id}`}
+                    className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                  >
+                    Ver Recaudación
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
