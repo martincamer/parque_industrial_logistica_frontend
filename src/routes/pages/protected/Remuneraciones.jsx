@@ -73,8 +73,8 @@ export const Remuneraciones = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Ordenar el arreglo de salidasMensuales por ID de mayor a menor
-  const sortedSalidasMensuales = salidasMensuales
+  // Ordenar el arreglo de remuneracionesMensuales por ID de mayor a menor
+  const sortedRemuneracionesMensuales = remuneracionesMensuales
     .slice()
     .sort((a, b) => b.id - a.id);
 
@@ -83,13 +83,15 @@ export const Remuneraciones = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // Obtener los resultados de la página actual
-  const currentResults = sortedSalidasMensuales.slice(
+  const currentResults = sortedRemuneracionesMensuales.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
   // Calcular el número total de páginas
-  const totalPages = Math.ceil(sortedSalidasMensuales.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    sortedRemuneracionesMensuales.length / itemsPerPage
+  );
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -99,6 +101,9 @@ export const Remuneraciones = () => {
 
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
+
+  const [searchTermCliente, setSearchTermCliente] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
 
   // Filtrar por cliente y usuario
   const filteredResults = currentResults.filter((salida) =>
