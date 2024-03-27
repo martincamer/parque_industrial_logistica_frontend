@@ -105,6 +105,15 @@ export const Remuneraciones = () => {
   const [searchTermCliente, setSearchTermCliente] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
 
+  // Obtener lista de usuarios únicos
+  const uniqueUsers = Array.from(
+    new Set(
+      sortedRemuneracionesMensuales.map((remuneracion) =>
+        remuneracion.usuario.toLowerCase()
+      )
+    )
+  );
+
   // Filtrar por cliente y usuario
   const filteredResults = currentResults.filter((salida) =>
     salida.datos_cliente.datosCliente.some(
