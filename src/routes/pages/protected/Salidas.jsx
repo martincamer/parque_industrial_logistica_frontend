@@ -511,63 +511,61 @@ export const Salidas = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {filteredResults
-              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
-              .map((s) => (
-                <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.id}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.usuario}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.datos_cliente.datosCliente.map((c) => (
-                      <div>
-                        {c.cliente}({c.numeroContrato})
-                      </div>
-                    ))}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.datos_cliente.datosCliente.map((c) => (
-                      <div>{c.localidad}</div>
-                    ))}
-                  </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
-                    {s.fabrica}
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <Link
-                      // to={`/editar/${s.id}`}
-                      onClick={() => {
-                        handleID(s.id), openModalDos();
-                      }}
-                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <Link
-                      to={`/resumen/${s.id}`}
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Ver resumen
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+            {filteredResults.map((s) => (
+              <tr key={s.id}>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.id}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.usuario}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.datos_cliente.datosCliente.map((c) => (
+                    <div>
+                      {c.cliente}({c.numeroContrato})
+                    </div>
+                  ))}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.datos_cliente.datosCliente.map((c) => (
+                    <div>{c.localidad}</div>
+                  ))}
+                </td>
+                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  {s.fabrica}
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <button
+                    onClick={() => {
+                      handleId(s.id), openEliminar();
+                    }}
+                    type="button"
+                    className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <Link
+                    // to={`/editar/${s.id}`}
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
+                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                  >
+                    Editar
+                  </Link>
+                </td>
+                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                  <Link
+                    to={`/resumen/${s.id}`}
+                    className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                  >
+                    Ver resumen
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
