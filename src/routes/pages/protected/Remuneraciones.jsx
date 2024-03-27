@@ -338,7 +338,10 @@ export const Remuneraciones = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Total en el mes {Number(totalDatosMetrosCuadrados).toFixed(2)} mts{" "}
+                Total en el mes {Number(totalDatosMetrosCuadrados).toFixed(
+                  2
+                )}{" "}
+                mts{" "}
               </span>
             </p>
           </div>
@@ -422,7 +425,7 @@ export const Remuneraciones = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           {filteredResults
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
             .map((datos) => (
               <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
                 <p className="text-xs font-bold capitalize">
