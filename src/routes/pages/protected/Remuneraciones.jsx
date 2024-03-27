@@ -73,14 +73,23 @@ export const Remuneraciones = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Ordenar el arreglo de salidasMensuales por ID de mayor a menor
+  const sortedSalidasMensuales = salidasMensuales
+    .slice()
+    .sort((a, b) => b.id - a.id);
+
+  // Calcular el índice del último y primer elemento de la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResults = remuneracionesMensuales?.slice(
+
+  // Obtener los resultados de la página actual
+  const currentResults = sortedSalidasMensuales.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
-  const totalPages = Math.ceil(remuneracionesMensuales?.length / itemsPerPage);
+  // Calcular el número total de páginas
+  const totalPages = Math.ceil(sortedSalidasMensuales.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -90,16 +99,6 @@ export const Remuneraciones = () => {
 
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
-
-  const [searchTermCliente, setSearchTermCliente] = useState("");
-  const [selectedUser, setSelectedUser] = useState("");
-
-  // Obtener lista de usuarios únicos
-  const uniqueUsers = Array.from(
-    new Set(
-      remuneracionesMensuales.map((salida) => salida.usuario.toLowerCase())
-    )
-  );
 
   // Filtrar por cliente y usuario
   const filteredResults = currentResults.filter((salida) =>
@@ -425,7 +424,7 @@ export const Remuneraciones = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           {filteredResults
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
+            // .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
             .map((datos) => (
               <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
                 <p className="text-xs font-bold capitalize">
