@@ -100,14 +100,23 @@ export const Salidas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Ordenar el arreglo de salidasMensuales por ID de mayor a menor
+  const sortedSalidasMensuales = salidasMensuales
+    .slice()
+    .sort((a, b) => b.id - a.id);
+
+  // Calcular el índice del último y primer elemento de la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentResults = salidasMensuales?.slice(
+
+  // Obtener los resultados de la página actual
+  const currentResults = sortedSalidasMensuales.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
-  const totalPages = Math.ceil(salidasMensuales?.length / itemsPerPage);
+  // Calcular el número total de páginas
+  const totalPages = Math.ceil(sortedSalidasMensuales.length / itemsPerPage);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
