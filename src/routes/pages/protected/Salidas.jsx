@@ -378,7 +378,7 @@ export const Salidas = () => {
         </div>
         <div className="grid grid-cols-2 gap-2">
           {filteredResults
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
+            .sort((a, b) => b.id - a.id)
             .map((datos) => (
               <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
                 <p className="text-xs font-bold capitalize">
