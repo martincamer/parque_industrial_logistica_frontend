@@ -107,10 +107,10 @@ export const Transportes = () => {
   const [filtroChofer, setFiltroChofer] = useState("");
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-md:gap-6">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+      <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-1">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ export const Transportes = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-1">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +184,7 @@ export const Transportes = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:pb-1">
           <div className="inline-flex gap-2 self-end rounded bg-orange-100 p-1 text-orange-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +224,6 @@ export const Transportes = () => {
       </div>
       <div className="flex gap-5 max-md:flex-col max-md:text-sm">
         <Link
-          //   to={"/crear-salida"}
           onClick={() => openModal()}
           className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center"
         >
@@ -272,7 +271,7 @@ export const Transportes = () => {
           placeholder="Filtrar por chofer"
           value={filtroChofer}
           onChange={(e) => setFiltroChofer(e.target.value)}
-          className=" outline-none"
+          className=" outline-none uppercase"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -328,16 +327,16 @@ export const Transportes = () => {
               })
               .map((o) => (
                 <tr key={o?.id}>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 text-center max-md:text-xs uppercase">
                     {o.id}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 text-center max-md:text-xs uppercase">
                     {o.chofer}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 text-center max-md:text-xs uppercase">
                     {formatDate(o.fecha_llegada)}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 capitalize text-center">
+                  <td className="px-4 py-4 font-medium text-gray-900 text-center max-md:text-xs uppercase">
                     {formatDate(o.orden_firma)}
                   </td>
                   <td className="flex justify-center items-center py-5">
@@ -345,7 +344,7 @@ export const Transportes = () => {
                       onClick={() => {
                         handleID(o.id), openModalTres();
                       }}
-                      className="action-button text-blue-500 font-semibold text-xl mr-2 text-center"
+                      className="action-button text-blue-500 font-semibold text-xl mr-2 text-center max-md:text-base"
                     >
                       <FaEdit />
                     </button>
@@ -353,7 +352,7 @@ export const Transportes = () => {
                       onClick={() => {
                         handleID(o.id), openEliminar();
                       }}
-                      className="action-button text-red-700 font-semibold text-xl text-center"
+                      className="action-button text-red-700 font-semibold text-xl text-center max-md:text-base"
                     >
                       <FaTrash />
                     </button>
@@ -367,7 +366,7 @@ export const Transportes = () => {
                         o.finalizado === "1"
                           ? "text-white-500 bg-green-500 text-white py-2 px-2 shadow rounded-xl font-semibold text-base"
                           : "text-sm bg-orange-500 rounded-xl py-2 px-3 text-white shadow"
-                      } mr-2 text-center`}
+                      } mr-2 text-center max-md:text-xs`}
                     >
                       {o.finalizado === "1" ? (
                         <FaCheck />
@@ -420,7 +419,6 @@ export const Transportes = () => {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            Anterior
           </button>
           {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
             <button
@@ -440,7 +438,6 @@ export const Transportes = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Siguiente{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

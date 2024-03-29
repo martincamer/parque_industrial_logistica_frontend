@@ -307,12 +307,12 @@ export const ModalEditarLegales = ({
             >
               <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="text-lg text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Editar salida
+                  Editar Legales
                 </div>
 
                 <form
                   onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none h-[60vh] overflow-y-scroll"
+                  className=" border-slate-300 border-[1px] py-12 px-10 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-0 max-md:border-none max-md:shadow-none h-[60vh] overflow-y-scroll"
                 >
                   <div className="flex gap-4">
                     <button

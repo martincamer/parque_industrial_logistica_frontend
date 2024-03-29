@@ -176,14 +176,14 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/4 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-1/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <div className="text-lg text-slate-700 mb-3 border-b-[1px] uppercase">
                   Crear nueva rendición
                 </div>
 
                 <form
                   onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
+                  className=" border-slate-300 border-[1px] py-12 px-4 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
                 >
                   <article className="flex flex-col gap-4">
                     <div>

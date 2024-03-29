@@ -405,13 +405,13 @@ export const Remuneraciones = () => {
         </Link>
       </div>
 
-      <div className="flex gap-2 items-center w-1/2 max-md:w-full">
+      <div className="flex gap-2 items-center w-1/2 max-md:w-full max-md:flex-col">
         <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full max-md:text-sm">
           <input
             value={searchTermCliente}
             onChange={(e) => setSearchTermCliente(e.target.value)}
             type="text"
-            className="outline-none text-slate-600 w-full"
+            className="outline-none text-slate-600 w-full uppercase"
             placeholder="Buscar por cliente"
           />
           {/* Icono de búsqueda para cliente */}
@@ -420,7 +420,7 @@ export const Remuneraciones = () => {
           <select
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
-            className="outline-none text-slate-600 bg-white w-full"
+            className="outline-none text-slate-600 bg-white w-full uppercase"
           >
             <option value="">Seleccionar usuario...</option>
             {uniqueUsers.map((user) => (
@@ -436,52 +436,55 @@ export const Remuneraciones = () => {
         <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
           Datos Registrados
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 max-md:grid-cols-1 gap-2">
           {filteredResults
             // .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Ordena por created_at en orden descendente
             .map((datos) => (
-              <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
-                <p className="text-xs font-bold capitalize">
-                  Numero: {datos.id}
-                </p>
-                <p className="text-xs font-bold capitalize">
-                  Creador:{" "}
-                  <span className="font-normal text-slate-700">
-                    {datos.usuario}
-                  </span>
-                </p>
-                <div className="flex flex-col gap-1 font-bold text-xs">
-                  <p>Clientes:</p>
-                  <div className="font-normal capitalize text-slate-700">
-                    {datos.datos_cliente.datosCliente.map((c) => (
-                      <div>
-                        {c.cliente} ({c.numeroContrato})
-                      </div>
-                    ))}
+              <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex justify-between items-center gap-2">
+                <div className="flex flex-col gap-1 w-full">
+                  <p className="text-xs font-bold uppercase">
+                    Numero: {datos.id}
+                  </p>
+                  <p className="text-xs font-bold uppercase">
+                    Creador:{" "}
+                    <span className="font-normal text-slate-700">
+                      {datos.usuario}
+                    </span>
+                  </p>
+                  <div className="flex flex-col gap-1 font-bold text-xs">
+                    <p className="uppercase">Clientes:</p>
+                    <div className="font-normal uppercase text-slate-700">
+                      {datos.datos_cliente.datosCliente.map((c) => (
+                        <div>
+                          {c.cliente} ({c.numeroContrato})
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1 items-start">
+                    <p className="font-bold text-xs uppercase">Recaudacion</p>
+                    <p
+                      className={`font-bold text-xs text-${
+                        datos.recaudacion >= 0 ? "green" : "red"
+                      }-500 uppercase`}
+                    >
+                      {Number(datos.recaudacion).toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumIntegerDigits: 2,
+                      })}
+                    </p>
                   </div>
                 </div>
-                <div className="flex flex-col items-start">
-                  <p className="font-bold text-xs">Recaudacion</p>
-                  <p
-                    className={`px-4 py-2 font-bold text-xs text-${
-                      datos.recaudacion >= 0 ? "green" : "red"
-                    }-500 capitalize`}
-                  >
-                    {Number(datos.recaudacion).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </p>
-                </div>
-                <div className="flex gap-2 w-full justify-center">
+                <div className="flex flex-col gap-2 w-full items-end h-[80px] overflow-y-scroll">
                   <button
                     onClick={() => {
                       handleId(datos.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800"
+                    className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800 flex items-center gap-2"
                   >
+                    <span className="text-xs">ELIMINAR</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -501,8 +504,9 @@ export const Remuneraciones = () => {
                     onClick={() => {
                       handleID(datos.id), openModalDos();
                     }}
-                    className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
+                    className="bg-green-500 py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
                   >
+                    <span className="text-xs">EDITAR</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -521,8 +525,9 @@ export const Remuneraciones = () => {
 
                   <Link
                     to={`/recaudacion/${datos.id}`}
-                    className="bg-black py-2 px-2 text-center rounded-xl text-white"
+                    className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
                   >
+                    <span className="text-xs">VER RECAUDACIÓN</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -668,14 +673,13 @@ export const Remuneraciones = () => {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            Anterior
           </button>
           {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
             <button
               key={index}
               className={`mx-1 px-3 py-1 rounded ${
                 currentPage === startPage + index
-                  ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
                   : "bg-gray-100 shadow shadow-black/20 text-sm"
               }`}
               onClick={() => handlePageChange(startPage + index)}
@@ -688,7 +692,6 @@ export const Remuneraciones = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Siguiente{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -343,7 +343,7 @@ export const Rendicones = () => {
           <select
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
-            className="outline-none text-slate-600 bg-white w-full"
+            className="outline-none text-slate-600 bg-white w-full uppercase"
           >
             <option value="">Seleccionar usuario...</option>
             {uniqueUsers.map((user) => (
@@ -359,32 +359,37 @@ export const Rendicones = () => {
         <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
           Datos Registrados
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
           {filteredResults.map((datos) => (
-            <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex flex-col gap-2">
-              <p className="text-xs font-bold capitalize">Numero: {datos.id}</p>
-              <div className="flex flex-col items-start">
-                <p className="font-bold text-xs">Rendición total</p>
-                <p
-                  className={`px-4 py-2 font-bold text-xs text-${
-                    datos.rendicion_final >= 0 ? "green" : "red"
-                  }-500 capitalize`}
-                >
-                  {Number(datos.rendicion_final).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
+            <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex justify-between gap-2">
+              <div className="flex flex-col gap-1">
+                <p className="text-xs font-bold uppercase">
+                  Numero: {datos.id}
                 </p>
+                <div className="flex flex-col items-start gap-1">
+                  <p className="font-bold text-xs uppercase">Rendición total</p>
+                  <p
+                    className={`font-bold text-xs uppercase text-${
+                      datos.rendicion_final >= 0 ? "green" : "red"
+                    }-500`}
+                  >
+                    {Number(datos.rendicion_final).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </p>
+                </div>
               </div>
-              <div className="flex gap-2 w-full justify-center">
+              <div className="flex flex-col gap-2 w-full items-end h-[80px] overflow-y-scroll">
                 <button
                   onClick={() => {
                     handleId(datos.id), openEliminar();
                   }}
                   type="button"
-                  className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800"
+                  className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800 flex items-center gap-2"
                 >
+                  <span className="text-xs">ELIMINAR</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -404,8 +409,9 @@ export const Rendicones = () => {
                   onClick={() => {
                     handleID(datos.id), openModalDos();
                   }}
-                  className="bg-green-500 py-2 px-2 text-center rounded-xl text-white"
+                  className="bg-green-500 py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
                 >
+                  <span className="text-xs">EDITAR</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -424,8 +430,9 @@ export const Rendicones = () => {
 
                 <Link
                   to={`/rendicion/${datos.id}`}
-                  className="bg-black py-2 px-2 text-center rounded-xl text-white"
+                  className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
                 >
+                  <span className="text-xs">ELIMINAR</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -562,14 +569,13 @@ export const Rendicones = () => {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            Anterior
           </button>
           {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
             <button
               key={index}
               className={`mx-1 px-3 py-1 rounded ${
                 currentPage === startPage + index
-                  ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
                   : "bg-gray-100 shadow shadow-black/20 text-sm"
               }`}
               onClick={() => handlePageChange(startPage + index)}
@@ -582,7 +588,6 @@ export const Rendicones = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Siguiente{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

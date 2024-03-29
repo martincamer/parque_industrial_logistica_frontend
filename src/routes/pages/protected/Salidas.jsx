@@ -595,14 +595,13 @@ export const Salidas = () => {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            Anterior
           </button>
           {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
             <button
               key={index}
               className={`mx-1 px-3 py-1 rounded ${
                 currentPage === startPage + index
-                  ? "bg-orange-500 hover:bg-white transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
+                  ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
                   : "bg-gray-100 shadow shadow-black/20 text-sm"
               }`}
               onClick={() => handlePageChange(startPage + index)}
@@ -615,7 +614,6 @@ export const Salidas = () => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Siguiente{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
