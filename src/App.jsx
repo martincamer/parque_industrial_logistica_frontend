@@ -40,6 +40,7 @@ import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { RendicionesRegistradas } from "./routes/pages/protected/RendicionesRegistradas";
+import { MenuMobile } from "./components/ui/MenuMobile";
 
 function App() {
   const { isAuth } = useAuth();
@@ -66,6 +67,7 @@ function App() {
                       <LegalesProvider>
                         <RendicionesProvider>
                           <SideBar />
+                          <MenuMobile />
                           <main className="min-h-full max-h-full h-full">
                             <Outlet />
                           </main>

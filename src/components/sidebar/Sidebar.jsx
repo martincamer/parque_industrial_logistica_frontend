@@ -36,7 +36,7 @@ export const SideBar = () => {
     <>
       <div
         id="navbar" // ID para identificar el elemento
-        className="fixed left-0 top-0 z-[1] p-1 px-4 max-md:px-4"
+        className="fixed left-0 top-0 z-[1] p-1 px-4 max-md:px-4 max-md:hidden md:block"
         onClick={() => toggleSidebar()}
       >
         <div className="py-4">
