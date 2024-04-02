@@ -163,7 +163,7 @@ export const Transportes = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">MARZO</span>
+            <span className="text-xs font-medium">{nombreMesActual}</span>
           </div>
 
           <div>

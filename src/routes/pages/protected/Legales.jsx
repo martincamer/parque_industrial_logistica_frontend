@@ -233,7 +233,7 @@ export const Legales = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">MARZO</span>
+            <span className="text-xs font-medium">{nombreMesActual}</span>
           </div>
 
           <div>
@@ -610,29 +610,29 @@ export const Legales = () => {
           <tbody className="divide-y divide-gray-200">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.usuario}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.datos_cliente.datosCliente.map((c) => (
                     <div>
                       {c.cliente}({c.numeroContrato})
                     </div>
                   ))}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.fecha_carga.split("T")[0]}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.fecha_entrega.split("T")[0]}
                 </td>
                 <td
                   className={`px-4 py-2 font-bold text-${
                     s.recaudacion >= 0 ? "green" : "red"
-                  }-500 capitalize`}
+                  }-500 uppercase`}
                 >
                   {Number(s.recaudacion).toLocaleString("es-AR", {
                     style: "currency",
@@ -640,18 +640,18 @@ export const Legales = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                    className="bg-red-100 py-2 px-5 text-center rounded-xl uppercase text-red-800"
                   >
                     Eliminar
                   </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <Link
                     onClick={() => {
                       handleID(s.id), openModalDos();
@@ -661,7 +661,7 @@ export const Legales = () => {
                     Editar
                   </Link>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase cursor-pointer">
                   <Link
                     to={`/legales/${s.id}`}
                     className="bg-black py-2 px-5 text-center rounded-xl text-white"

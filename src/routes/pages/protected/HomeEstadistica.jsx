@@ -1,7 +1,3 @@
-import { useLegalesContext } from "../../../context/LegalesProvider";
-import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
-import { useRendicionesContext } from "../../../context/RendicionesProvider";
-import { useSalidasContext } from "../../../context/SalidasProvider";
 import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
 import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
@@ -9,12 +5,78 @@ import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
 import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
+import { useState } from "react";
+import { SyncLoader } from "react-spinners";
+import client from "../../../api/axios";
 
-export const Home = () => {
-  const { salidasMensuales } = useSalidasContext();
-  const { remuneracionesMensuales } = useRemuneracionContext();
-  const { rendicionesMensuales } = useRendicionesContext();
-  const { legales } = useLegalesContext();
+export const HomeEstadistica = () => {
+  // const { salidasMensuales } = useSalidasContext();
+  // const { remuneracionesMensuales } = useRemuneracionContext();
+  // const { rendicionesMensuales } = useRendicionesContext();
+  // const { legales } = useLegalesContext();
+  const [salidasMensuales, setSalidasMensuales] = useState([]);
+  const [remuneracionesMensuales, setRemuneracionesMensuales] = useState([]);
+  const [rendicionesMensuales, setRendicionesMensuales] = useState([]);
+  const [legales, setLegales] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
+
+  const obtenerDatosRangoFechas = async (fechaInicio, fechaFin) => {
+    try {
+      // Setea el estado de loading a true para mostrar el spinner
+      setLoading(true);
+
+      // Validación de fechas
+      if (!fechaInicio || !fechaFin) {
+        console.error("Fechas no proporcionadas");
+        return;
+      }
+
+      // Verifica y formatea las fechas
+      fechaInicio = new Date(fechaInicio).toISOString().split("T")[0];
+      fechaFin = new Date(fechaFin).toISOString().split("T")[0];
+
+      const response = await client.post("/salidas-rango-fechas", {
+        fechaInicio,
+        fechaFin,
+      });
+
+      const responseDos = await client.post("/remuneraciones-rango-fechas", {
+        fechaInicio,
+        fechaFin,
+      });
+
+      const responseTres = await client.post("/rendiciones-rango-fechas", {
+        fechaInicio,
+        fechaFin,
+      });
+
+      const responseCuatro = await client.post("/legales-rango-fechas", {
+        fechaInicio,
+        fechaFin,
+      });
+
+      setSalidasMensuales(response.data);
+      setRemuneracionesMensuales(responseDos.data);
+      setRendicionesMensuales(responseTres.data);
+      setLegales(responseCuatro.data);
+    } catch (error) {
+      console.error("Error al obtener salidas:", error);
+      // Maneja el error según tus necesidades
+    } finally {
+      // Independientemente de si la solicitud es exitosa o falla, establece el estado de loading a false
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+    }
+  };
+
+  const buscarIngresosPorFecha = () => {
+    obtenerDatosRangoFechas(fechaInicio, fechaFin);
+  };
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -177,7 +239,76 @@ export const Home = () => {
   }
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-20 max-md:mb-10">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
+      <h3 className="text-lg font-semibold uppercase text-slate-600 underline mt-4 md:px-4 max-md:text-base">
+        ESTADISTICA FILTRAR
+      </h3>
+      <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl shadow">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
+          <div className="flex gap-2 items-center">
+            <label className="text-base text-slate-700 max-md:text-sm uppercase">
+              Fecha de inicio
+            </label>
+            <input
+              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
+              type="date"
+              value={fechaInicio}
+              onChange={(e) => setFechaInicio(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2 items-center">
+            <label className="text-base text-slate-700 max-md:text-sm uppercase">
+              Fecha fin
+            </label>
+            <input
+              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
+              type="date"
+              value={fechaFin}
+              onChange={(e) => setFechaFin(e.target.value)}
+            />
+            <button
+              onClick={buscarIngresosPorFecha}
+              className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:block md:hidden max-md:py-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 text-slate-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <button
+            onClick={buscarIngresosPorFecha}
+            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:hidden"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-slate-500"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3 max-md:rounded-xl">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">

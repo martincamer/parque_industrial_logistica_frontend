@@ -231,7 +231,7 @@ export const Rendicones = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">MARZO</span>
+            <span className="text-xs font-medium">{nombreMesActual}</span>
           </div>
 
           <div>
@@ -490,22 +490,22 @@ export const Rendicones = () => {
           <tbody className="divide-y divide-gray-200">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.usuario}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.detalle}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {formatDate(s.created_at)}
                 </td>
                 <td
                   className={`px-4 py-2 font-bold text-${
                     s.rendicion_final >= 0 ? "green" : "red"
-                  }-500 capitalize`}
+                  }-500 uppercase`}
                 >
                   {Number(s.rendicion_final).toLocaleString("es-AR", {
                     style: "currency",
@@ -513,7 +513,7 @@ export const Rendicones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
@@ -524,17 +524,17 @@ export const Rendicones = () => {
                     Eliminar
                   </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <Link
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                    className="bg-green-500 py-2 px-5 text-center rounded-xl uppercase text-white"
                   >
                     Editar
                   </Link>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                <td className="px-1 py-2 font-medium text-gray-900 uppercase cursor-pointer">
                   <Link
                     to={`/rendicion/${s.id}`}
                     className="bg-black py-2 px-5 text-center rounded-xl text-white"

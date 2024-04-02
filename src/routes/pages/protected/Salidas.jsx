@@ -246,7 +246,7 @@ export const Salidas = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">MARZO</span>
+            <span className="text-xs font-medium">{nombreMesActual}</span>
           </div>
 
           <div>
@@ -515,10 +515,10 @@ export const Salidas = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 uppercase">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900 upppercase">
