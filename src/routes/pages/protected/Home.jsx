@@ -196,7 +196,7 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-medium uppercase">
               {" "}
               {Number(
                 Number(totalCobroCliente + totalCobroRendiciones) / 100000
@@ -206,7 +206,7 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total en remuneración del mes
             </strong>
 
@@ -221,7 +221,7 @@ export const Home = () => {
                 })}
               </span>{" "}
               <span
-                className={`text-xs
+                className={`text-xs uppercase
                  `}
               >
                 {" "}
@@ -265,12 +265,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total en legales del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
                 {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -278,7 +278,7 @@ export const Home = () => {
                 })}
               </span>{" "}
               <span
-                className={`text-xs
+                className={`text-xs uppercase
                  `}
               >
                 ultima remuneración legal del día, el total es de{" "}
@@ -327,7 +327,7 @@ export const Home = () => {
             </svg>
 
             <span
-              className={`text-xs font-medium ${
+              className={`text-xs font-medium uppercase ${
                 totalCobroCliente +
                   totalCobroRendiciones +
                   totalCobroClienteLegales / 100000 <
@@ -353,13 +353,13 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total en remuraciones final con descuentos de legales.
             </strong>
 
             <p className="text-slate-500">
               <span
-                className={`text-2xl max-md:text-base font-medium ${totalClass}`}
+                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
               >
                 {totalCobro.toLocaleString("es-AR", {
                   style: "currency",
@@ -409,12 +409,12 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total en salidas registradas del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -422,7 +422,7 @@ export const Home = () => {
                 })}
               </span>
 
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 uppercase">
                 {" "}
                 ultimos gastos en salidas en el día{" "}
                 {Number(
@@ -457,20 +457,22 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">{nombreMesActual}</span>
+            <span className="text-xs font-medium uppercase">
+              {nombreMesActual}
+            </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base uppercase">
                 {nombreMesActual}
               </span>
 
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 uppercase">
                 {" "}
                 Dia {nombreDiaActual}
               </span>
@@ -502,7 +504,7 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total viviendas entregadas
             </strong>
 
@@ -511,7 +513,7 @@ export const Home = () => {
                 {totalDatos + totalDatosDos}
               </span>
 
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 uppercase">
                 {" "}
                 Total en el mes {totalDatos + totalDatosDos}{" "}
               </span>
@@ -535,7 +537,7 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-medium uppercase">
               {" "}
               {Number(
                 totalDatosMetrosCuadrados +
@@ -546,18 +548,18 @@ export const Home = () => {
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base uppercase">
                 {Number(
                   totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
                 ).toFixed(2)}
               </span>
 
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 uppercase">
                 {" "}
                 Total en el mes{" "}
                 {Number(
