@@ -198,11 +198,11 @@ export const Home = () => {
   // Determinar si el total es menor, mayor o igual a cero
   let totalClassDos = "";
   if (totalCobroDos < 0) {
-    totalClass = "text-red-500";
+    totalClassDos = "text-red-500";
   } else if (totalCobroDos > 0) {
-    totalClass = "text-green-500";
+    totalClassDos = "text-green-500";
   } else {
-    totalClass = "text-gray-500"; // Otra clase para cero si lo deseas
+    totalClassDos = "text-green-500"; // Otra clase para cero si lo deseas
   }
 
   return (
