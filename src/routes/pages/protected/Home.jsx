@@ -195,6 +195,16 @@ export const Home = () => {
     totalClass = "text-gray-500"; // Otra clase para cero si lo deseas
   }
 
+  // Determinar si el total es menor, mayor o igual a cero
+  let totalClassDos = "";
+  if (totalCobroDos < 0) {
+    totalClass = "text-red-500";
+  } else if (totalCobroDos > 0) {
+    totalClass = "text-green-500";
+  } else {
+    totalClass = "text-gray-500"; // Otra clase para cero si lo deseas
+  }
+
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-20 max-md:mb-10">
       <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
@@ -654,7 +664,7 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span
-                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+                className={`text-2xl max-md:text-base font-medium uppercase ${totalClassDos}`}
               >
                 {totalCobroDos.toLocaleString("es-AR", {
                   style: "currency",
