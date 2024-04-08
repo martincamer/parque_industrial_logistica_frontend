@@ -17,6 +17,7 @@ export const useLegalesContext = () => {
 //
 export const LegalesProvider = ({ children }) => {
   const [legales, setLegales] = useState([]);
+  const [legalesReal, setLegalesReal] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -28,10 +29,20 @@ export const LegalesProvider = ({ children }) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/legales");
+
+      setLegalesReal(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   console.log(legales);
 
   return (
-    <LegalesContext.Provider value={{ legales, setLegales }}>
+    <LegalesContext.Provider value={{ legales, setLegales, legalesReal }}>
       {children}
     </LegalesContext.Provider>
   );

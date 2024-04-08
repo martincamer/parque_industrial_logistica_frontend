@@ -12,9 +12,9 @@ import RendicionesColumnChart from "../../../components/charts/RendicionesColumn
 
 export const Home = () => {
   const { salidasMensuales } = useSalidasContext();
-  const { remuneracionesMensuales } = useRemuneracionContext();
-  const { rendicionesMensuales } = useRendicionesContext();
-  const { legales } = useLegalesContext();
+  const { remuneracionesMensuales, remuneraciones } = useRemuneracionContext();
+  const { rendicionesMensuales, rendiciones } = useRendicionesContext();
+  const { legales, legalesReal } = useLegalesContext();
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -59,6 +59,21 @@ export const Home = () => {
   );
 
   const totalCobroRendiciones = rendicionesMensuales.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final),
+    0
+  );
+
+  const totalCobroClienteDos = remuneraciones.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroClienteLegalesDos = legalesReal.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroRendicionesDos = rendiciones.reduce(
     (total, item) => total + parseFloat(item.rendicion_final),
     0
   );
@@ -165,6 +180,10 @@ export const Home = () => {
   const totalCobro =
     Number(totalCobroCliente + totalCobroRendiciones) +
     Number(totalCobroClienteLegales);
+
+  const totalCobroDos =
+    Number(totalCobroClienteDos + totalCobroRendicionesDos) +
+    Number(totalCobroClienteLegalesDos);
 
   // Determinar si el total es menor, mayor o igual a cero
   let totalClass = "";
@@ -354,7 +373,7 @@ export const Home = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
-              Total en remuraciones final con descuentos de legales.
+              Total en remuraciones final con descuentos de legales del mes.
             </strong>
 
             <p className="text-slate-500">
@@ -566,6 +585,96 @@ export const Home = () => {
                   totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
                 ).toFixed(2)}{" "}
                 mts{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded   ${
+              totalCobroClienteDos +
+                totalCobroRendicionesDos +
+                totalCobroClienteLegalesDos / 100000 <
+              0
+                ? "bg-red-100 p-1 text-red-600"
+                : totalCobroClienteDos +
+                    totalCobroRendicionesDos +
+                    totalCobroClienteLegalesDos / 100000 >
+                  0
+                ? "text-green-600 bg-green-100"
+                : ""
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span
+              className={`text-xs font-medium uppercase ${
+                totalCobroClienteDos +
+                  totalCobroRendicionesDos +
+                  totalCobroClienteLegalesDos / 100000 <
+                0
+                  ? "text-red-500"
+                  : totalCobroClienteDos +
+                      totalCobroRendicionesDos +
+                      totalCobroClienteLegalesDos / 100000 >
+                    0
+                  ? "text-green-500"
+                  : ""
+              }`}
+            >
+              {(
+                Number(
+                  totalCobroClienteDos +
+                    totalCobroRendicionesDos +
+                    totalCobroClienteLegalesDos
+                ) / 100000
+              ).toFixed(2)}{" "}
+              %
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total final de la caja
+            </strong>
+
+            <p className="text-slate-500">
+              <span
+                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+              >
+                {totalCobroDos.toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}{" "}
+              </span>
+              <span
+                className={`text-xs
+                 `}
+              >
+                Total final de la caja {"  "}
+                {Number(
+                  Number(totalCobroClienteDos + totalCobroRendicionesDos) +
+                    Number(totalCobroClienteLegalesDos) || 0
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
               </span>
             </p>
           </div>

@@ -17,7 +17,7 @@ const RemuneracionesProgressBar = ({
 
   // Calcular el porcentaje total, asegurándose de que no exceda el límite máximo (100000000)
   const porcentajeTotal = Math.min(
-    (totalRecaudacion + totalRendicion / 15000000) * 100,
+    (Number(totalRecaudacion + totalRendicion) / 50000000) * 100,
     100
   ).toFixed(2);
 

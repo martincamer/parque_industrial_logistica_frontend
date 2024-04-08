@@ -17,6 +17,7 @@ export const useRendicionesContext = () => {
 //
 export const RendicionesProvider = ({ children }) => {
   const [rendicionesMensuales, setRendicionesMensuales] = useState([]);
+  const [rendiciones, setRendiciones] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -28,9 +29,19 @@ export const RendicionesProvider = ({ children }) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/rendicion");
+
+      setRendiciones(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   return (
     <RendicionesContext.Provider
-      value={{ rendicionesMensuales, setRendicionesMensuales }}
+      value={{ rendicionesMensuales, setRendicionesMensuales, rendiciones }}
     >
       {children}
     </RendicionesContext.Provider>

@@ -470,28 +470,28 @@ export const RemuneracionesRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Recaudacion generada
                 </th>
-                <th className="px-4 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
+                {/* <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-slate-800 text-xs font-bold uppercase">
+                <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Ver los datos/resumen
                 </th>
               </tr>

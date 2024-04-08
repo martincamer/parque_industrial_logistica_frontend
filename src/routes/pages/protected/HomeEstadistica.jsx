@@ -7,13 +7,8 @@ import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBa
 import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
 import { useState } from "react";
 import client from "../../../api/axios";
-// import { SyncLoader, SkewLoader } from "react-spinners";
 
 export const HomeEstadistica = () => {
-  // const { salidasMensuales } = useSalidasContext();
-  // const { remuneracionesMensuales } = useRemuneracionContext();
-  // const { rendicionesMensuales } = useRendicionesContext();
-  // const { legales } = useLegalesContext();
   const [salidasMensuales, setSalidasMensuales] = useState([]);
   const [remuneracionesMensuales, setRemuneracionesMensuales] = useState([]);
   const [rendicionesMensuales, setRendicionesMensuales] = useState([]);

@@ -17,6 +17,7 @@ export const useRemuneracionContext = () => {
 //
 export const RemuneracionProvider = ({ children }) => {
   const [remuneracionesMensuales, setRemuneracionesMensuales] = useState([]);
+  const [remuneraciones, setRemuneraciones] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -28,9 +29,23 @@ export const RemuneracionProvider = ({ children }) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/remuneraciones");
+
+      setRemuneraciones(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   return (
     <RemuneracionContext.Provider
-      value={{ remuneracionesMensuales, setRemuneracionesMensuales }}
+      value={{
+        remuneracionesMensuales,
+        setRemuneracionesMensuales,
+        remuneraciones,
+      }}
     >
       {children}
     </RemuneracionContext.Provider>
