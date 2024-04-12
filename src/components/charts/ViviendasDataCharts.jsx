@@ -71,7 +71,7 @@ const ViviendasDataCharts = ({ salidasMensuales }) => {
   ];
 
   return (
-    <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl shadow w-full max-md:py-4">
+    <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear cursor-pointer w-full max-md:py-4">
       <div className="flex items-center justify-between mb-3">
         <p className="text-slate-700 text-lg uppercase font-bold max-md:text-sm">
           Viviendas entregadas Grafico Barras

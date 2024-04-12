@@ -19,7 +19,7 @@ const SalidasProgressBar = ({ salidasMensuales }) => {
   ).toFixed(2);
 
   return (
-    <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl shadow w-full max-md:py-3">
+    <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
       <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
         <p className="text-slate-700 text-lg mb-3 uppercase max-md:text-sm">
           Total en salidas/gastos/etc

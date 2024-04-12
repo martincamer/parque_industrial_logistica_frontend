@@ -9,6 +9,7 @@ import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
 import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
   const { salidasMensuales } = useSalidasContext();
@@ -205,10 +206,64 @@ export const Home = () => {
     totalClassDos = "text-green-500"; // Otra clase para cero si lo deseas
   }
 
-  return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-20 max-md:mb-10">
-      <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3 max-md:rounded-xl">
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simula una carga asíncrona
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Simula 2 segundos de carga
+
+    // Limpia el temporizador al desmontar el componente
+    return () => clearTimeout(timer);
+  }, []);
+
+  return isLoading ? (
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10">
+      {/* Artículo 1 */}
+      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
+        {/* Renderizar 5 artículos */}
+        {Array.from({ length: 5 }).map((_, index) => (
+          <article className="animate-pulse items-start flex gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer py-10s px-5">
+            <div className="bg-slate-200 py-12 px-4 rounded-xl w-full"></div>
+            <div className="bg-slate-200 py-5 px-10 rounded-xl"></div>
+          </article>
+        ))}
+      </div>
+
+      {/* Gráficos */}
+      <div className="bg-white h-full w-full grid grid-cols-3 gap-4">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <article className="animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
+            <div className="bg-slate-200 py-2 px-2 rounded-full w-full"></div>
+          </article>
+        ))}
+        {/* Gráfico de Remuneraciones */}
+      </div>
+
+      <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
+        <div className="bg-slate-200 py-2 rounded-xl w-full h-[50vh]"></div>
+      </div>
+
+      <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
+        <div className="bg-slate-200 py-2 rounded-xl w-full h-[50vh]"></div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-5 items-start">
+        <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
+          <div className="bg-slate-200 py-2 rounded-xl w-full h-[30vh]"></div>
+        </div>
+        <div className="bg-white w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
+          <div className="bg-slate-200 py-2 rounded-xl w-full h-[10vh]"></div>
+        </div>
+      </div>
+
+      {/* Otros gráficos y datos... */}
+    </section>
+  ) : (
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10">
+      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -268,7 +323,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -324,7 +379,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div
             className={`inline-flex gap-2 self-end rounded   ${
               totalCobroCliente +
@@ -414,7 +469,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -469,7 +524,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -509,7 +564,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -549,7 +604,7 @@ export const Home = () => {
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -600,7 +655,7 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div
             className={`inline-flex gap-2 self-end rounded   ${
               totalCobroClienteDos +
@@ -707,7 +762,7 @@ export const Home = () => {
       </div>
 
       <div className="bg-white h-full w-full">
-        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
+        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full transition-all ease-linear">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE REMUNERACIONES
           </div>
@@ -719,7 +774,7 @@ export const Home = () => {
       </div>
 
       <div className="bg-white h-full w-full">
-        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
+        <div className="border-slate-200 border-[1px] rounded-xl hover:shadow-md transition-all ease-linear cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full ">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE RENDICIONES
           </div>
@@ -728,7 +783,7 @@ export const Home = () => {
       </div>
 
       <div className="w-full grid-cols-2 grid gap-3 items-start justify-center max-md:grid-cols-1">
-        <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center max-md:py-5">
+        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md transition-all ease-linear py-10 px-5 flex flex-col items-center max-md:py-5">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             DONUT REMUNERACIONES
           </div>

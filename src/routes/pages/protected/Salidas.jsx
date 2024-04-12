@@ -96,7 +96,7 @@ export const Salidas = () => {
     return fechaVenta > fechaUltimaVenta ? venta : ultimaVenta;
   }, ventasDelDia[0]);
 
-  const itemsPerPage = 10; // Cantidad de elementos por página
+  const itemsPerPage = 1; // Cantidad de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -169,10 +169,10 @@ export const Salidas = () => {
   }, 0);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-md:gap-5">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
       <ToastContainer />
-      <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +229,7 @@ export const Salidas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -267,7 +267,7 @@ export const Salidas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -313,7 +313,7 @@ export const Salidas = () => {
         <Link
           // to={"/crear-salida"}
           onClick={() => openModal()}
-          className="bg-black py-3 max-md:py-2 px-6 max-md:px-4 max-md:text-sm rounded-xl text-white flex gap-2 items-center"
+          className="bg-black py-3 uppercase text-sm max-md:py-2 px-6 max-md:px-4 max-md:text-sm rounded-xl text-white flex gap-2 items-center"
         >
           Crear nueva salida
           <svg
@@ -334,7 +334,7 @@ export const Salidas = () => {
 
         <Link
           to={"/salidas-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 max-md:py-2 px-6 max-md:px-4 max-md:text-sm rounded-xl text-blacks flex gap-2 items-center"
+          className="bg-white uppercase text-sm border-slate-300 border-[1px] py-3 max-md:py-2 px-6 max-md:px-4 max-md:text-sm rounded-xl text-blacks flex gap-2 items-center"
         >
           Ver salidas registradas
           <svg
@@ -363,17 +363,18 @@ export const Salidas = () => {
             className="outline-none text-slate-600 w-full max-md:text-sm uppercase"
             placeholder="Buscar por cliente"
           />
-          {/* Icono de búsqueda para cliente */}
         </div>
-        <div className="py-2 px-4 max-md:text-sm border-slate-300 border-[1px] shadow rounded-xl w-full bg-white ">
+        <div className="py-2 px-4 max-md:text-sm border-slate-300 border-[1px] shadow rounded-xl w-full bg-white">
           <select
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
             className="outline-none text-slate-600 bg-white w-full uppercase"
           >
-            <option value="">Seleccionar usuario...</option>
+            <option className="uppercase" value="">
+              Seleccionar usuario...
+            </option>
             {uniqueUsers.map((user) => (
-              <option key={user} value={user}>
+              <option className="uppercase" key={user} value={user}>
                 {user}
               </option>
             ))}
@@ -389,7 +390,7 @@ export const Salidas = () => {
           {filteredResults
             .sort((a, b) => b.id - a.id)
             .map((datos) => (
-              <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex justify-between gap-2">
+              <div className="border-slate-300 hover:shadow-md transition-all ease-linear border-[1px] py-3 px-3 rounded-2xl flex justify-between gap-2">
                 <div className="flex flex-col gap-1 w-full">
                   <p className="text-xs font-bold uppercase">
                     Numero: {datos.id}
@@ -483,7 +484,7 @@ export const Salidas = () => {
         </div>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:hidden">
+      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow-md transition-all ease-linear cursor-pointer max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>
@@ -545,7 +546,7 @@ export const Salidas = () => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                    className="bg-red-100 py-2 px-5 text-center uppercase rounded-xl text-red-800"
                   >
                     Eliminar
                   </button>
@@ -556,7 +557,7 @@ export const Salidas = () => {
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white uppercase"
+                    className="bg-green-100 text-green-700 py-2 px-5 text-center rounded-xl uppercase"
                   >
                     Editar
                   </Link>
@@ -577,7 +578,7 @@ export const Salidas = () => {
       {totalPages > 1 && (
         <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
           <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            className="mx-1 px-3 py-2 rounded-xl shadow text-sm flex gap-1 border-slate-300 border-[1px] cursor-pointer"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
@@ -601,8 +602,8 @@ export const Salidas = () => {
               key={index}
               className={`mx-1 px-3 py-1 rounded ${
                 currentPage === startPage + index
-                  ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
-                  : "bg-gray-100 shadow shadow-black/20 text-sm"
+                  ? "bg-black py-1 px-4 rounded-xl text-white"
+                  : "bg-white border-[1px] border-slate-300 py-1 px-4 rounded-xl text-black"
               }`}
               onClick={() => handlePageChange(startPage + index)}
             >
@@ -610,7 +611,7 @@ export const Salidas = () => {
             </button>
           ))}
           <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
+            className="mx-1 px-3 py-2 rounded-xl shadow text-sm flex gap-1 border-slate-300 border-[1px]"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
@@ -637,7 +638,7 @@ export const Salidas = () => {
         obtenerId={obtenerId}
       />
 
-      <ModalCrearSalida isOpen={isOpenModal} closeModal={closeModal} />
+      <ModalCrearSalida isOpenDos={isOpenModal} closeModalDos={closeModal} />
 
       <ModalEditarSalida
         obtenerID={obtenerID}
