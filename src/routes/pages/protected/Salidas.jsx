@@ -96,7 +96,7 @@ export const Salidas = () => {
     return fechaVenta > fechaUltimaVenta ? venta : ultimaVenta;
   }, ventasDelDia[0]);
 
-  const itemsPerPage = 1; // Cantidad de elementos por página
+  const itemsPerPage = 10; // Cantidad de elementos por página
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
