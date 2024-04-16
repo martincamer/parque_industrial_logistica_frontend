@@ -366,28 +366,28 @@ export const SalidasRegistradas = () => {
           <table className="w-full divide-y-2 divide-gray-200 text-sm">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Fabrica/Sucursal
                 </th>
-                <th className="px-4 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Eliminar
                 </th>
-                {/* <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                {/* <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                 Editar
               </th> */}
-                <th className="px-1 py-2  text-slate-800 font-bold uppercase max-md:text-xs">
+                <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Ver los datos/resumen
                 </th>
               </tr>

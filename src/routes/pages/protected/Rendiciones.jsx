@@ -160,8 +160,8 @@ export const Rendicones = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +214,7 @@ export const Rendicones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -252,7 +252,7 @@ export const Rendicones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +297,7 @@ export const Rendicones = () => {
       <div className="flex gap-5 max-md:gap-2">
         <Link
           onClick={() => openModal()}
-          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
+          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase  text-sm"
         >
           Crear rendicion
           <svg
@@ -318,7 +318,7 @@ export const Rendicones = () => {
 
         <Link
           to={"/rendiciones-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
+          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase  text-sm"
         >
           Ver rendiciones
           <svg
@@ -490,20 +490,20 @@ export const Rendicones = () => {
           <tbody className="divide-y divide-gray-200">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.usuario}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.detalle}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {formatDate(s.created_at)}
                 </td>
                 <td
-                  className={`px-4 py-2 font-bold text-${
+                  className={`px-4 py-3 font-bold text-${
                     s.rendicion_final >= 0 ? "green" : "red"
                   }-500 uppercase`}
                 >
@@ -513,31 +513,32 @@ export const Rendicones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                    className="bg-red-100 py-3 px-5 text-center uppercase rounded-xl text-red-800"
                   >
                     Eliminar
                   </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
-                  <Link
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                  <button
+                    type="button"
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl uppercase text-white"
+                    className="bg-green-100 py-3 px-5 text-center rounded-xl uppercase text-green-700"
                   >
                     Editar
-                  </Link>
+                  </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
                   <Link
                     to={`/rendicion/${s.id}`}
-                    className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                    className="bg-black py-3 px-5 text-center rounded-xl text-white"
                   >
                     Ver Rendición
                   </Link>

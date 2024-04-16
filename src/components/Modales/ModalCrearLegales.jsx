@@ -242,14 +242,36 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Crear nuevo legal
+              <div className="inline-block w-5/6 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end cursor-pointer">
+                  <p
+                    onClick={tres}
+                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </p>
+                </div>
+
+                <div className="text-lg font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
+                  Crear nueva orden legal
                 </div>
 
                 <form
                   onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none h-[60vh] overflow-y-scroll"
+                  className="flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
                 >
                   <div className="flex gap-4">
                     <button
@@ -275,38 +297,40 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                     </div>
                     {/* datos del formulario  */}
                     <div className="flex flex-col gap-6 max-md:gap-6">
-                      <div className="w-1/2 max-md:w-full max-md:text-sm">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:w-full">
-                          <select
-                            onChange={(e) => setChofer(e.target.value)}
-                            value={chofer}
-                            type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                          >
-                            <option value="">Seleccionar chofer</option>
-                            {choferes.map((c) => (
-                              <option>{c.chofer}</option>
-                            ))}
-                          </select>
+                      <div className="grid grid-cols-2 gap-2 w-4/5">
+                        <div className="w-full max-md:text-sm">
+                          <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:w-full">
+                            <select
+                              onChange={(e) => setChofer(e.target.value)}
+                              value={chofer}
+                              type="text"
+                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase"
+                            >
+                              <option value="">Seleccionar chofer</option>
+                              {choferes.map((c) => (
+                                <option>{c.chofer}</option>
+                              ))}
+                            </select>
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                            Transportista
-                          </span>
-                        </label>
-                      </div>
-                      <div className="w-1/2 max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
-                          <input
-                            onChange={(e) => setArmador(e.target.value)}
-                            value={armador}
-                            type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-2 px-3 text-slate-900"
-                          />
+                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                              Transportista
+                            </span>
+                          </label>
+                        </div>
+                        <div className="w-full">
+                          <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                            <input
+                              onChange={(e) => setArmador(e.target.value)}
+                              value={armador}
+                              type="text"
+                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 uppercase px-3 text-slate-900"
+                            />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                            Armador
-                          </span>
-                        </label>
+                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                              Armador
+                            </span>
+                          </label>
+                        </div>
                       </div>
                       <div className="flex flex-col gap-2 items-start">
                         <button
@@ -317,7 +341,67 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                           Crear Clientes
                         </button>
 
-                        <div className="flex gap-3 mt-2 max-md:grid max-md:grid-cols-2 max-md:flex-none">
+                        <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
+                          <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+                            <thead className="text-left">
+                              <tr>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Cliente
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Localidad
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Localidad
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Acciones
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody className="divide-y divide-gray-200">
+                              {datosCliente.map((datos) => (
+                                <tr key={datos.id}>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.cliente}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.localidad}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.numeroContrato}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                                    <div className="flex space-x-3">
+                                      <button
+                                        onClick={() =>
+                                          eliminarCliente(datos.cliente)
+                                        }
+                                        type="button"
+                                        className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
+                                      >
+                                        Eliminar
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          handleUsuario(datos.cliente),
+                                            openEdit();
+                                        }}
+                                        className="bg-green-100 py-2 px-5 text-center rounded-xl uppercase text-green-700"
+                                      >
+                                        Editar
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {/* <div className="flex gap-3 max-md:grid max-md:grid-cols-2 max-md:flex-none">
                           {datosCliente.map((c, index) => (
                             <div
                               key={index}
@@ -403,25 +487,25 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                               </p>
                             </div>
                           ))}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-4 w-1/2 max-md:w-full">
+                  <article className="flex flex-col gap-5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Fechas de carga/entrega
                       </h3>
                     </div>
-                    <div className="flex gap-5 max-md:flex-col">
+                    <div className="flex gap-5 w-4/5">
                       <div className="max-md:w-full w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <input
                             onChange={(e) => setFechaCarga(e.target.value)}
                             value={fecha_carga}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 max-md:text-sm"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 max-md:text-sm"
                           />
 
                           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
@@ -435,7 +519,7 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setFechaEntrega(e.target.value)}
                             value={fecha_entrega}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 max-md:text-sm"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 max-md:text-sm"
                           />
 
                           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
@@ -446,7 +530,7 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-4 max-md:gap-2 w-3/4 max-md:w-full">
+                  <article className="flex flex-col gap-5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
                         Totales
@@ -469,104 +553,114 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                       </div>
                     </div>
 
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:gap-0 max-md:mb-4 max-md:w-full mt-3">
-                      <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:w-full max-md:flex max-md:items-center">
-                        <span className="font-bold text-slate-500 px-3">$</span>
-                        <input
-                          onChange={(e) => setKmLineal(e.target.value)}
-                          value={km_lineal}
-                          type="text"
-                          className="max-md:w-full peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                        />
+                    <div className="grid grid-cols-2 gap-5">
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
+                            onChange={(e) => setKmLineal(e.target.value)}
+                            value={km_lineal}
+                            type="text"
+                            className="max-md:w-full peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 px-3 text-slate-900"
+                          />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                          Total KM lineal
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total KM lineal
+                          </span>
+                        </label>
+
+                        <span className="font-bold text-slate-700">
+                          {km_lineal} KM FINAL
                         </span>
-                      </label>
+                      </div>
 
-                      <span className="font-bold text-slate-700">
-                        {km_lineal} KM FINAL
-                      </span>
-                    </div>
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
+                            onChange={(e) => setPagoFletero(e.target.value)}
+                            value={pago_fletero_espera}
+                            type="text"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                          />
 
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:w-full">
-                      <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:mb-0 max-md:w-full">
-                        <span className="font-bold text-slate-500 px-3">$</span>
-                        <input
-                          onChange={(e) => setPagoFletero(e.target.value)}
-                          value={pago_fletero_espera}
-                          type="text"
-                          className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                        />
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Pago fletero + espera
+                          </span>
+                        </label>
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                          Pago fletero + espera
+                        <span className="font-bold text-slate-700 max-md:mb-6">
+                          {Number(pago_fletero_espera).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}{" "}
+                          VALOR ASIGNADO
                         </span>
-                      </label>
+                      </div>
 
-                      <span className="font-bold text-slate-700 max-md:mb-6">
-                        {Number(pago_fletero_espera).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}{" "}
-                        VALOR ASIGNADO
-                      </span>
-                    </div>
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
+                            onChange={(e) => setViaticos(e.target.value)}
+                            value={viaticos}
+                            type="text"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                          />
 
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:w-full max-md:items-start max-md:gap-1">
-                      <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:w-full">
-                        <span className="font-bold text-slate-500 px-3">$</span>
-                        <input
-                          onChange={(e) => setViaticos(e.target.value)}
-                          value={viaticos}
-                          type="text"
-                          className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                        />
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total en viaticos
+                          </span>
+                        </label>
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                          Total en viaticos
+                        <span className="font-bold text-slate-700 max-md:mb-5">
+                          {Number(viaticos).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}{" "}
+                          VALOR ASIGNADO
                         </span>
-                      </label>
+                      </div>
 
-                      <span className="font-bold text-slate-700 max-md:mb-5">
-                        {Number(viaticos).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}{" "}
-                        VALOR ASIGNADO
-                      </span>
-                    </div>
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
+                            onChange={(e) => setRefuerzo(e.target.value)}
+                            value={refuerzo}
+                            type="text"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                          />
 
-                    <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start">
-                      <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm max-md:w-full">
-                        <span className="font-bold text-slate-500 px-3">$</span>
-                        <input
-                          onChange={(e) => setRefuerzo(e.target.value)}
-                          value={refuerzo}
-                          type="text"
-                          className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                        />
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total refuerzo
+                          </span>
+                        </label>
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                          Total refuerzo
+                        <span className="font-bold text-slate-700">
+                          {Number(refuerzo).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}{" "}
+                          VALOR ASIGNADO
                         </span>
-                      </label>
-
-                      <span className="font-bold text-slate-700">
-                        {Number(refuerzo).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}{" "}
-                        VALOR ASIGNADO
-                      </span>
+                      </div>
                     </div>
 
                     <div className="flex">
                       <div className="flex max-md:flex-col max-md:w-full max-md:gap-1 max-md:py-1 max-md:items-start gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5 items-center">
-                        <span className="font-bold text-slate-700 text-lg max-md:text-sm max-md:uppercase">
+                        <span className="font-bold text-slate-700 text-lg max-md:text-sm max-md:uppercase uppercase text-sm">
                           Recaudación final
                         </span>
 
@@ -599,9 +693,23 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                   <div>
                     <button
                       type="submit"
-                      className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
+                      className="bg-green-100 text-green-700 rounded-xl hover:shadow-md py-3 uppercase text-sm hover:bg-green-500 hover:text-white px-6 max-md:text-sm transition-all ease-linear flex gap-2 items-center"
                     >
                       Crear nuevo legal
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
                     </button>
                   </div>
                 </form>
@@ -629,16 +737,6 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
                   datosCliente={datosCliente}
                   setDatosCliente={setDatosCliente}
                 />
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={tres}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

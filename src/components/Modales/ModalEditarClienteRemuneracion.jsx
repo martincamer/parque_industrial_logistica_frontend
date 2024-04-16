@@ -163,6 +163,15 @@ export const ModalEditarClienteRemuneracion = ({
                       type="text"
                       className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
                     />
+                    <div className="flex">
+                      <p className="bg-slate-200/50 rounded-xl py-2 px-3 text-sm font-bold ">
+                        {Number(totalFlete).toLocaleString("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumIntegerDigits: 2,
+                        })}
+                      </p>
+                    </div>
                   </div>
 
                   <div>

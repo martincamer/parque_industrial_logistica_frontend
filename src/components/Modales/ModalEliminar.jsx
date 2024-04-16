@@ -104,7 +104,7 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-1/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize max-md:text-sm max-md:uppercase">
+                <div className="text-lg font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
                   Elimar la salida
                 </div>
 

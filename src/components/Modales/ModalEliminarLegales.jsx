@@ -109,7 +109,7 @@ export const ModalEliminarLegales = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+                <div className="text-lg uppercase font-bold text-slate-700 mb-3 border-b-[1px]">
                   Elimar la orden legal
                 </div>
 
@@ -123,7 +123,7 @@ export const ModalEliminarLegales = ({
                   </button>
                   <button
                     onClick={closeEliminar}
-                    className="bg-green-500 text-white py-2 px-4 rounded-xl w-full"
+                    className="bg-green-500 text-white py-3 px-4 rounded-xl w-full"
                     type="button"
                   >
                     CERRAR
@@ -133,7 +133,7 @@ export const ModalEliminarLegales = ({
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
+                    className="inline-flex justify-center px-4 py-3 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
                     onClick={closeEliminar}
                   >
                     Cerrar Ventana

@@ -183,7 +183,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
 
                 <form
                   onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-4 rounded-lg shadow flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
+                  className="py-5 flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
                 >
                   <article className="flex flex-col gap-4">
                     <div>

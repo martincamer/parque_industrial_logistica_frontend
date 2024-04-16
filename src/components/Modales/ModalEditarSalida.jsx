@@ -305,15 +305,34 @@ export const ModalEditarSalida = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] uppercase">
+              <div className="inline-block w-2/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div className="flex justify-end cursor-pointer">
+                  <p
+                    onClick={tres}
+                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </p>
+                </div>
+
+                <div className="text-lg font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
                   Editar salida
                 </div>
 
-                <form
-                  // onSubmit={onSubmit}
-                  className=" border-slate-300 border-[1px] py-12 px-10 rounded shadow flex flex-col gap-5 overflow-y-scroll max-h-full max-md:py-5 h-[70vh] max-md:px-1 max-md:border-none max-md:shadow-none"
-                >
+                <form className="flex flex-col gap-5 max-md:px-1 max-md:border-none max-md:shadow-none">
                   <div className="flex gap-4">
                     <button
                       type="button"
@@ -330,59 +349,61 @@ export const ModalEditarSalida = ({
                       Ver choferes creados
                     </button>
                   </div>
-                  <article className="flex flex-col gap-4">
-                    <div>
+                  <article>
+                    <div className="flex flex-col gap-3">
                       <h3 className="font-bold text-slate-700 max-md:text-sm uppercase text-base">
                         Seleccionar Fabrica de Salida y Localidad
                       </h3>
-                      <label className="relative block rounded-xl border border-slate-300 shadow-sm my-6 max-md:mt-8 w-1/3 mb-9 max-md:w-full">
-                        <select
-                          onChange={(e) => setFabrica(e.target.value)}
-                          value={fabrica}
-                          type="text"
-                          className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
-                        >
-                          <option value="">Fabrica</option>
-                          <option value="iraola">Iraola</option>
-                          <option value="long">Long</option>
-                        </select>
-
-                        <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
-                          Seleccionar fabrica
-                        </span>
-                      </label>
-
-                      <div className="w-1/3 max-md:w-full">
+                      <div className="grid grid-cols-2 items-center gap-2">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm">
-                          <input
-                            value={salida}
-                            onChange={(e) => setSalida(e.target.value)}
+                          <select
+                            onChange={(e) => setFabrica(e.target.value)}
+                            value={fabrica}
                             type="text"
-                            className="max-md:text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
-                          />
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full "
+                          >
+                            <option value="">Fabrica</option>
+                            <option value="iraola">Iraola</option>
+                            <option value="long">Long</option>
+                          </select>
 
-                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
-                            Localidad o Provincia de salida
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Seleccionar fabrica
                           </span>
                         </label>
+
+                        <div className="w-full">
+                          <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                            <input
+                              value={salida}
+                              onChange={(e) => setSalida(e.target.value)}
+                              type="text"
+                              className="max-md:text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            />
+
+                            <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                              Localidad o Provincia de salida
+                            </span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </article>
-                  <article className="flex flex-col gap-2 mt-6 max-md:mt-2">
+                  <article className="flex flex-col gap-5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Ingresar datos de la salida
                       </h3>
                     </div>
                     {/* datos del formulario  */}
-                    <div className="flex flex-col gap-3 mt-5">
+                    <div className="flex flex-col gap-3">
                       <div className="w-1/3 max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                           <select
                             onChange={(e) => setChofer(e.target.value)}
                             value={chofer}
                             type="text"
-                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 capitalize"
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full"
                           >
                             <option value="">Seleccionar chofer</option>
                             {choferes.map((c) => (
@@ -390,7 +411,7 @@ export const ModalEditarSalida = ({
                             ))}
                           </select>
 
-                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             Chofer
                           </span>
                         </label>
@@ -404,6 +425,66 @@ export const ModalEditarSalida = ({
                           Crear Clientes
                         </button>
 
+                        <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
+                          <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+                            <thead className="text-left">
+                              <tr>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Cliente
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Localidad
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Localidad
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Acciones
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody className="divide-y divide-gray-200">
+                              {datosCliente.map((datos) => (
+                                <tr key={datos.id}>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.cliente}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.localidad}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                                    {datos.numeroContrato}
+                                  </td>
+                                  <td className="px-4 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                                    <div className="flex space-x-3">
+                                      <button
+                                        onClick={() =>
+                                          eliminarCliente(datos.cliente)
+                                        }
+                                        type="button"
+                                        className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
+                                      >
+                                        Eliminar
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => {
+                                          handleUsuario(datos.cliente),
+                                            openEdit();
+                                        }}
+                                        className="bg-green-100 py-2 px-5 text-center rounded-xl uppercase text-green-700"
+                                      >
+                                        Editar
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        {/* 
                         <div className="flex gap-3 mt-2 max-md:grid max-md:grid-cols-2 max-md:flex-none">
                           {datosCliente.map((c, index) => (
                             <div
@@ -470,31 +551,31 @@ export const ModalEditarSalida = ({
                               </p>
                             </div>
                           ))}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </article>
-                  <article className="flex flex-col gap-6 mt-5">
+                  <article className="flex flex-col gap-5 mt-5 w-4/5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Chofer/Vehiculo
                       </h3>
                     </div>
-                    <div className="max-md:w-full w-1/3">
+                    <div className="max-md:w-full">
                       <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                         <input
                           value={chofer_vehiculo}
                           onChange={(e) => setChoferVehiculo(e.target.value)}
                           type="text"
-                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                         />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                           Chofer Vehiculo
                         </span>
                       </label>
                     </div>
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:gap-5 max-md:w-full">
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3 max-md:text-sm">
@@ -504,10 +585,10 @@ export const ModalEditarSalida = ({
                             value={km_viaje_control}
                             onChange={(e) => setKmViajeControl(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             KM de viaje
                           </span>
                         </label>
@@ -523,33 +604,35 @@ export const ModalEditarSalida = ({
                               setKmViajeControlPrecio(e.target.value)
                             }
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             KM Precio
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
-                        {Number(
-                          km_viaje_control * km_viaje_control_precio
-                        ).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base w-3/4 text-center">
+                        <p>
+                          {Number(
+                            km_viaje_control * km_viaje_control_precio
+                          ).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}
+                        </p>
                       </div>
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-6 mt-5 ">
+                  <article className="flex flex-col gap-5 w-4/5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Fletes
                       </h3>
                     </div>
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:gap-5">
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3">
@@ -559,10 +642,10 @@ export const ModalEditarSalida = ({
                             value={fletes_km}
                             onChange={(e) => setKmFletes(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             KM de viaje
                           </span>
                         </label>
@@ -576,73 +659,76 @@ export const ModalEditarSalida = ({
                             value={fletes_km_precio}
                             onChange={(e) => setKmFletesPrecio(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 max-md:text-sm"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 max-md:text-sm uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base max-md:text-sm">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base max-md:text-sm uppercase">
                             KM Precio
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 max-md:text-base py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px]">
-                        {chofer !== "Iveco Tecnohouse"
-                          ? Number(fletes_km * fletes_km_precio).toLocaleString(
-                              "es-AR",
-                              {
+                      <div className="bg-slate-100 max-md:text-base py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] text-center">
+                        <p>
+                          {chofer !== "Iveco Tecnohouse"
+                            ? Number(
+                                fletes_km * fletes_km_precio
+                              ).toLocaleString("es-AR", {
                                 style: "currency",
                                 currency: "ARS",
                                 minimumIntegerDigits: 2,
-                              }
-                            )
-                          : Number(fletes_km_precio).toLocaleString("es-AR", {
-                              style: "currency",
-                              currency: "ARS",
-                              minimumIntegerDigits: 2,
-                            })}
+                              })
+                            : Number(fletes_km_precio).toLocaleString("es-AR", {
+                                style: "currency",
+                                currency: "ARS",
+                                minimumIntegerDigits: 2,
+                              })}
+                        </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:w-full max-md:items-start">
+                    <div className="grid grid-cols-2 gap-3">
                       <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm max-md:w-full">
                         <span className="font-bold text-slate-500 px-3">$</span>
                         <input
                           value={espera}
                           onChange={(e) => setEspera(e.target.value)}
                           type="text"
-                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                         />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                           Espera del Fletero
                         </span>
                       </label>
 
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
-                        {Number(espera).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
+                        <p>
+                          {Number(espera).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}
+                        </p>
                       </div>
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-6 mt-5 max-md:gap-4">
+                  <article className="flex flex-col gap-5 w-4/5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
                         Viaticos Armadores
                       </h3>
                     </div>
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:gap-5 max-md:items-start">
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <input
                             value={armadores}
                             onChange={(e) => setArmadores(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             Armador/Nombre/Apellido
                           </span>
                         </label>
@@ -656,27 +742,31 @@ export const ModalEditarSalida = ({
                             value={total_viaticos}
                             onChange={(e) => setTotalViaticos(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
                             Total en Viaticos
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
-                        {Number(total_viaticos).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
+                        <p>
+                          {Number(total_viaticos).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}
+                        </p>
                       </div>
                     </div>
                     <div>
-                      <p className="text-slate-700 underline">Motivo</p>
+                      <p className="text-slate-700 underline uppercase font-bold">
+                        Motivo
+                      </p>
                       <div className="mt-2">
                         <select
-                          className="py-2 px-3 bg-white border-slate-300 border-[1px] shadow rounded-xl text-slate-700  max-md:text-sm"
+                          className="py-2 px-3 bg-white border-slate-300 border-[1px] shadow rounded-xl text-slate-700  max-md:text-sm uppercase"
                           value={motivo}
                           onChange={(e) => setMotivo(e.target.value)}
                         >
@@ -689,11 +779,11 @@ export const ModalEditarSalida = ({
                       </div>
                       <div className="flex gap-2 mt-2 max-md:text-sm">
                         {motivo === "refuerzo" ? (
-                          <p className="bg-green-500 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-green-500 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
                             Refuerzo
                           </p>
                         ) : motivo === "no cobra en base" ? (
-                          <p className="bg-red-800 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-red-800 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
                             No cobra en base
                           </p>
                         ) : null}
@@ -705,9 +795,23 @@ export const ModalEditarSalida = ({
                     <button
                       type="button"
                       onClick={() => onSubmit()}
-                      className="bg-black text-white rounded-xl shadow py-2 px-6 max-md:text-sm"
+                      className="bg-green-100 text-green-700 rounded-xl hover:shadow hover:bg-green-500 hover:text-white transition-all ease-linear py-2 px-6 max-md:text-sm uppercase text-sm flex gap-2 items-center"
                     >
                       Editar la salida
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                        />
+                      </svg>
                     </button>
                   </div>
                 </form>
@@ -734,16 +838,6 @@ export const ModalEditarSalida = ({
                   datosCliente={datosCliente}
                   setDatosCliente={setDatosCliente}
                 />
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={tres}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

@@ -93,8 +93,8 @@ export const ResumenViewLegales = () => {
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24">
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6">
+      <div className="grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-300 hover:shadow bg-white p-6 transition-all ease-linear">
           <div
             className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium 
     ${
@@ -150,7 +150,7 @@ export const ResumenViewLegales = () => {
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-300 hover:shadow bg-white p-6 transition-all ease-linear">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +188,7 @@ export const ResumenViewLegales = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-300 hover:shadow bg-white p-6 transition-all ease-linear">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -237,9 +237,9 @@ export const ResumenViewLegales = () => {
         <Link
           target="_blank"
           to={`/remuneracion-pdf/${params.id}`}
-          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
+          className="bg-green-100 py-3 hover:shadow-md shadow-gray-300 transition-all ease-linear px-6 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center max-md:text-sm"
         >
-          Descargar Remuneracion formato pdf
+          Descargar legal formato pdf
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -257,8 +257,8 @@ export const ResumenViewLegales = () => {
         </Link>
       </div>
 
-      <div className="border-slate-200 border-[1px] shadow py-10 px-10 rounded-xl grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
-        <div className="border-slate-300 border-[1px] shadow py-5 px-5 rounded-lg">
+      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
+        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de los clientes
           </p>
@@ -309,7 +309,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] shadow py-5 px-5 rounded-lg">
+        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de carga/fletero/etc
           </p>
@@ -360,7 +360,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] shadow py-5 px-5 rounded-lg flex flex-col gap-2">
+        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg flex flex-col gap-2">
           <p className="text-slate-700 font-bold text-lg underline">
             Remuneraciones/Etc
           </p>
@@ -435,7 +435,7 @@ export const ResumenViewLegales = () => {
       <article className="max-md:grid-cols-1 grid grid-cols-3 gap-4 items-start">
         <div className="flex gap-3">
           <div
-            className={`bg-white border-slate-300 border-[1px] shadow py-5 px-5 rounded-xl w-full relative ${
+            className={`bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative ${
               Number(unicaSalida.recaudacion) >= 0
                 ? "text-green-600"
                 : "text-red-600"
@@ -504,7 +504,7 @@ export const ResumenViewLegales = () => {
         </div>
 
         <div className="flex gap-3">
-          <div className="bg-white border-slate-300 border-[1px] shadow py-5 px-5 rounded-xl w-full relative">
+          <div className="bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative">
             <div className="flex justify-between items-center">
               <p className="text-slate-500 text-lg flex gap-2">
                 {Number(
@@ -563,7 +563,7 @@ export const ResumenViewLegales = () => {
             </span>
           </div>
         </div>
-        <div className="flex justify-center items-center border border-gray-300 rounded-xl shadow py-10 max-md:flex-col">
+        <div className="flex justify-center items-center border border-gray-300 rounded-xl hover:shadow py-10 max-md:flex-col">
           <div className="w-64 relative">
             <svg viewBox="0 0 36 36" className="overflow-visible">
               {/* Refuerzo */}

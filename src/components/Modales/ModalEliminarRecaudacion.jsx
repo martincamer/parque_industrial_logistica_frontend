@@ -112,7 +112,7 @@ export const ModalEliminarRecaudacion = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="max-md:w-full inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="max-md:text-sm max-md:uppercase text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+                <div className="font-bold uppercase max-md:text-sm max-md:uppercase text-lg text-slate-700 mb-3 border-b-[1px]">
                   Elimar la remuneracion
                 </div>
 

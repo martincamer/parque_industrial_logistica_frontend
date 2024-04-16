@@ -280,7 +280,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                   </p>
                 </div>
 
-                <div className="text-sm text-slate-700 mb-3 uppercase font-bold">
+                <div className="text-lg text-slate-700 mb-3 uppercase font-bold">
                   Crear nueva salida
                 </div>
 

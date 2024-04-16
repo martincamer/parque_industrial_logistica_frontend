@@ -5,6 +5,8 @@ import { useRemuneracionContext } from "../../../context/RemuneracionesProvider"
 import { ModalEliminarRecaudacion } from "../../../components/Modales/ModalEliminarRecaudacion";
 import { ModalCrearRemuneracion } from "../../../components/Modales/ModalCrearRemuneracion";
 import { ModalEditarRemuneracion } from "../../../components/Modales/ModalEditarRemuneracion";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { ModalVerClienteRemuneracion } from "../../../components/Modales/ModalVerClienteRemuneracion";
 
 export const Remuneraciones = () => {
   const { remuneracionesMensuales } = useRemuneracionContext();
@@ -180,11 +182,21 @@ export const Remuneraciones = () => {
     setIsOpenModalEditar(false);
   };
 
+  const [isOpenVerCliente, setIsOpenVerCliente] = useState(false);
+
+  const openVerCliente = () => {
+    setIsOpenVerCliente(true);
+  };
+
+  const closeVerCliente = () => {
+    setIsOpenVerCliente(false);
+  };
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +249,7 @@ export const Remuneraciones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +287,7 @@ export const Remuneraciones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -316,7 +328,7 @@ export const Remuneraciones = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -364,7 +376,7 @@ export const Remuneraciones = () => {
       <div className="flex gap-5 max-md:gap-2">
         <Link
           onClick={() => openModal()}
-          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
+          className="bg-black uppercase text-sm py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
         >
           Crear remuneracion
           <svg
@@ -385,7 +397,7 @@ export const Remuneraciones = () => {
 
         <Link
           to={"/remuneraciones-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2"
+          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase text-sm"
         >
           Ver remuneraciones
           <svg
@@ -414,7 +426,6 @@ export const Remuneraciones = () => {
             className="outline-none text-slate-600 w-full uppercase"
             placeholder="Buscar por cliente"
           />
-          {/* Icono de búsqueda para cliente */}
         </div>
         <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full bg-white max-md:text-sm">
           <select
@@ -525,7 +536,7 @@ export const Remuneraciones = () => {
 
                   <Link
                     to={`/recaudacion/${datos.id}`}
-                    className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
+                    className="bg-black uppercase text-sm py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
                   >
                     <span className="text-xs">VER RECAUDACIÓN</span>
                     <svg
@@ -550,7 +561,7 @@ export const Remuneraciones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:hidden">
+      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>
@@ -587,27 +598,39 @@ export const Remuneraciones = () => {
           <tbody className="divide-y divide-gray-200 uppercase">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.usuario}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                {/* <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.datos_cliente.datosCliente.map((c) => (
                     <div>
                       {c.cliente}({c.numeroContrato})
                     </div>
                   ))}
+                </td> */}
+                <td className="px-4 py-3 font-medium text-gray-900 upppercase">
+                  <button
+                    onClick={() => {
+                      handleID(s.id), openVerCliente();
+                    }}
+                    type="button"
+                    className="bg-orange-100 py-2 px-3 rounded-2xl text-orange-700  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
+                  >
+                    VER CLIENTE/LOCALIDAD{" "}
+                    <FaHouseChimneyUser className="text-2xl" />
+                  </button>
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.fecha_carga.split("T")[0]}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.fecha_entrega.split("T")[0]}
                 </td>
                 <td
-                  className={`px-4 py-2 font-bold text-${
+                  className={`px-4 py-3 font-bold text-${
                     s.recaudacion >= 0 ? "green" : "red"
                   }-500 uppercase`}
                 >
@@ -617,28 +640,29 @@ export const Remuneraciones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-5 text-center rounded-xl uppercase text-red-800"
+                    className="bg-red-100 py-3 px-5 text-center rounded-xl uppercase text-red-800"
                   >
                     Eliminar
                   </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
-                  <Link
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                  <button
+                    type="button"
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                    className="bg-green-100 py-3 uppercase px-5 text-center rounded-xl text-green-700"
                   >
                     Editar
-                  </Link>
+                  </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 uppercase cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
                   <Link
                     to={`/recaudacion/${s.id}`}
                     className="bg-black py-2 px-5 text-center rounded-xl text-white"
@@ -722,6 +746,12 @@ export const Remuneraciones = () => {
         obtenerID={obtenerID}
         isOpen={isOpenModalEditar}
         closeModal={closeModalDos}
+      />
+
+      <ModalVerClienteRemuneracion
+        isOpen={isOpenVerCliente}
+        closeOpen={closeVerCliente}
+        obtenerId={obtenerID}
       />
     </section>
   );

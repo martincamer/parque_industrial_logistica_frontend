@@ -59,9 +59,9 @@ export const ResumenView = () => {
   };
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-20 py-24 max-md:gap-12">
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-12">
+      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -129,8 +129,7 @@ export const ResumenView = () => {
             </p>
           </div>
         </article>
-
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +167,7 @@ export const ResumenView = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +216,7 @@ export const ResumenView = () => {
         <Link
           target="_blank"
           to={`/control-redencion-de-viajes/${params.id}`}
-          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
+          className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
           Descargar Control y Rendicion de Viajes Documento
           <svg
@@ -238,7 +237,7 @@ export const ResumenView = () => {
         <Link
           target="_blank"
           to={`/fletes/${params.id}`}
-          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
+          className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
           Descargar Fletes Documento
           <svg
@@ -259,7 +258,7 @@ export const ResumenView = () => {
         <Link
           target="_blank"
           to={`/viaticos-armadores/${params.id}`}
-          className="bg-black py-2 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm"
+          className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
           Descargar Viaticos Armadores Documento
           <svg
@@ -280,35 +279,35 @@ export const ResumenView = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
+      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow overflow-x-scroll">
         <table className="w-full divide-y-2 divide-gray-200 text-sm overflow-x-scroll">
           <thead className="text-left">
             <tr>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Clientes
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Localidad/Entregas
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Chofer Vehiculo
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Chofer
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Total KM Control
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 KM Control Precio
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 Total KM Flete
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-5 max-md:text-xs font-bold uppercase">
                 KM Flete Precio
               </th>
-              <th className="px-4 py-3  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
+              <th className="px-4 py-5  text-slate-700 max-md:py-3 max-md:text-xs font-bold uppercase">
                 Espera
               </th>
             </tr>
@@ -316,29 +315,29 @@ export const ResumenView = () => {
 
           <tbody className="divide-y divide-gray-200">
             <tr>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div className="font-bold text-slate-700">
                     {c.cliente} ({c.numeroContrato})
                   </div>
                 ))}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div className="font-bold text-slate-700">{c.localidad}</div>
                 ))}
                 s
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida.chofer_vehiculo}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida.chofer}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida.km_viaje_control} KM
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {Number(unicaSalida.km_viaje_control_precio).toLocaleString(
                   "es-AR",
                   {
@@ -348,48 +347,40 @@ export const ResumenView = () => {
                   }
                 )}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida.fletes_km} KM
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {Number(unicaSalida.fletes_km_precio).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs capitalize">
+              <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {Number(unicaSalida.espera).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
               </td>
-              {/* <td className="px-4 py-4 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                <Link
-                  to={`/resumen/${unicaSalida.id}`}
-                  className="bg-red-100 py-2 border-red-200 border-[0.1px] px-2 text-center rounded-xl text-red-900"
-                >
-                  Elminar salida
-                </Link>
-              </td> */}
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl">
+      <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl uppercase">
         <div>
-          <h3 className="font-bold text-slate-700 text-xl underline max-md:text-base">
+          <h3 className="font-bold text-slate-700 text-lg underline max-md:text-base">
             Lugar de salida/Fabrica
           </h3>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 capitalize max-md:text-sm">
+          <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
             <p className="font-bold text-base text-slate-700 max-md:text-sm">
               Lugar de salida
             </p>
             {unicaSalida.salida}
           </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 capitalize max-md:text-sm">
+          <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
             <p className="font-bold text-base text-slate-700 max-md:text-sm">
               Fabrica / Suc.
             </p>
@@ -406,11 +397,11 @@ export const ResumenView = () => {
 
       <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl">
         <div>
-          <h3 className="font-bold text-slate-700 text-xl underline max-md:text-base">
+          <h3 className="font-bold text-slate-700 text-lg uppercase underline max-md:text-base">
             Gastos distribuidos
           </h3>
           <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
+            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
               Total control
             </p>
             {Number(unicaSalida.total_control).toLocaleString("es-AR", {
@@ -420,7 +411,7 @@ export const ResumenView = () => {
             })}
           </div>
           <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
+            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
               Total Flete
             </p>
             {Number(unicaSalida.total_flete).toLocaleString("es-AR", {
@@ -430,7 +421,7 @@ export const ResumenView = () => {
             })}
           </div>
           <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
+            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
               Espera Flete
             </p>
             {Number(unicaSalida.espera).toLocaleString("es-AR", {
@@ -440,7 +431,7 @@ export const ResumenView = () => {
             })}
           </div>
           <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
+            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
               Total Viaticos
             </p>
             {Number(unicaSalida.total_viaticos).toLocaleString("es-AR", {

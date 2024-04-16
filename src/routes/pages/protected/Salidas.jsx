@@ -5,6 +5,8 @@ import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import { ToastContainer } from "react-toastify";
 import { ModalEditarSalida } from "../../../components/Modales/ModalEditarSalida";
 import { ModalCrearSalida } from "../../../components/Modales/ModalCrearSalida";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { ModalVerClienteLocalidad } from "../../../components/Modales/ModalVerClienteLocalidad";
 
 export const Salidas = () => {
   const { salidasMensuales } = useSalidasContext();
@@ -167,6 +169,16 @@ export const Salidas = () => {
         : 0)
     );
   }, 0);
+
+  const [isOpenVerCliente, setIsOpenVerCliente] = useState(false);
+
+  const openVerCliente = () => {
+    setIsOpenVerCliente(true);
+  };
+
+  const closeVerCliente = () => {
+    setIsOpenVerCliente(false);
+  };
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
@@ -495,11 +507,11 @@ export const Salidas = () => {
                 Creador
               </th>
               <th className="px-4 py-2  text-slate-800 font-bold uppercase">
-                Clientes/Cliente
+                Clientes/Localidad/Ver
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              {/* <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Localidad/Cliente
-              </th>
+              </th> */}
               <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                 Fabrica/Sucursal
               </th>
@@ -515,52 +527,64 @@ export const Salidas = () => {
               </th>
             </tr>
           </thead>
-
           <tbody className="divide-y divide-gray-200 uppercase">
             {filteredResults.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-2 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 upppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   {s.usuario}
                 </td>
-                <td className="px-4 py-2 font-medium text-gray-900 upppercase">
+                <td className="px-4 py-3 font-medium text-gray-900 upppercase">
+                  <button
+                    onClick={() => {
+                      handleID(s.id), openVerCliente();
+                    }}
+                    type="button"
+                    className="bg-orange-100 py-2 px-3 rounded-2xl text-orange-700  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
+                  >
+                    VER CLIENTE/LOCALIDAD{" "}
+                    <FaHouseChimneyUser className="text-2xl" />
+                  </button>
+                </td>
+                {/* <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   {s.datos_cliente.datosCliente.map((c) => (
                     <div>
                       {c.cliente}({c.numeroContrato})
                     </div>
                   ))}
-                </td>
-                <td className="px-4 py-2 font-medium text-gray-900 upppercase">
+                </td> */}
+                {/* <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   {s.datos_cliente.datosCliente.map((c) => (
                     <div>{c.localidad}</div>
                   ))}
-                </td>
-                <td className="px-4 py-2 font-medium text-gray-900 upppercase">
+                </td> */}
+                <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   {s.fabrica}
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 upppercase w-[150px] cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 upppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-2 px-5 text-center uppercase rounded-xl text-red-800"
+                    className="bg-red-100 py-3 px-5 text-center uppercase rounded-xl text-red-800"
                   >
                     Eliminar
                   </button>
                 </td>
-                <td className="px-1 py-2 font-medium text-gray-900 upppercase w-[150px] cursor-pointer">
-                  <Link
+                <td className="px-1 py-3 font-medium text-gray-900 upppercase w-[150px] cursor-pointer">
+                  <button
+                    type="button"
                     // to={`/editar/${s.id}`}
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-100 text-green-700 py-2 px-5 text-center rounded-xl uppercase"
+                    className="bg-green-100 text-green-700 py-3 px-5 text-center rounded-xl uppercase"
                   >
                     Editar
-                  </Link>
+                  </button>
                 </td>
                 <td className="px-1 py-2 font-medium text-gray-900 upppercase w-[150px] cursor-pointer">
                   <Link
@@ -644,6 +668,12 @@ export const Salidas = () => {
         obtenerID={obtenerID}
         isOpen={isOpenModalEditar}
         closeModal={closeModalDos}
+      />
+
+      <ModalVerClienteLocalidad
+        isOpen={isOpenVerCliente}
+        closeOpen={closeVerCliente}
+        obtenerId={obtenerID}
       />
     </section>
   );
