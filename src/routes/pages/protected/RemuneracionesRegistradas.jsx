@@ -228,8 +228,8 @@ export const RemuneracionesRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -283,8 +283,7 @@ export const RemuneracionesRegistradas = () => {
             </p>
           </div>
         </article>
-
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -327,8 +326,7 @@ export const RemuneracionesRegistradas = () => {
             </p>
           </div>
         </article>
-
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -486,11 +484,8 @@ export const RemuneracionesRegistradas = () => {
                   Creador
                 </th>
                 <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
-                  Eliminar
+                  Acciones
                 </th>
-                {/* <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
-                Editar
-              </th> */}
                 <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Ver los datos/resumen
                 </th>
@@ -529,30 +524,28 @@ export const RemuneracionesRegistradas = () => {
                   <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize cursor-pointer space-x-2">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
                       }}
                       type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
                     >
                       Eliminar
                     </button>
+                    <Link
+                      to={`/editar/${s.id}`}
+                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white uppercase"
+                    >
+                      Editar
+                    </Link>
                   </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
-                  <Link
-                    to={`/editar/${s.id}`}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
-                  >
-                    Editar
-                  </Link>
-                </td> */}
                   <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize cursor-pointer">
                     <Link
                       to={`/recaudacion/${s.id}`}
                       target="_blank"
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                      className="bg-black py-2 px-5 text-center rounded-xl text-white uppercase"
                     >
                       Ver
                     </Link>

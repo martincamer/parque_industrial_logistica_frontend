@@ -9,7 +9,6 @@ export const SalidasRegistradas = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
   const [datos, setDatos] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
   const obtenerIngresoRangoFechas = async (fechaInicio, fechaFin) => {
@@ -162,8 +161,8 @@ export const SalidasRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +187,7 @@ export const SalidasRegistradas = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en Viaticos/Flete/Etc
+              Total final en salidas
             </strong>
 
             <p>
@@ -219,8 +218,7 @@ export const SalidasRegistradas = () => {
             </p>
           </div>
         </article>
-
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
