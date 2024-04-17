@@ -260,10 +260,10 @@ export const SalidasRegistradas = () => {
         </article>
       </div>
 
-      <div className="mt-10 max-md:mt-4">
+      <div className="mt-5 max-md:mt-4">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
           <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700 max-md:text-sm">
+            <label className="text-sm text-slate-700 max-md:text-sm uppercase">
               Fecha de inicio
             </label>
             <input
@@ -274,7 +274,7 @@ export const SalidasRegistradas = () => {
             />
           </div>
           <div className="flex gap-2 items-center">
-            <label className="text-base text-slate-700 max-md:text-sm">
+            <label className="text-sm text-slate-700 max-md:text-sm uppercase">
               Fecha fin
             </label>
             <input
@@ -331,7 +331,7 @@ export const SalidasRegistradas = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full"
+          className="outline-none text-slate-600 w-full uppercase text-sm"
           placeholder="Buscar el cliente en especifico"
         />
 
@@ -391,42 +391,42 @@ export const SalidasRegistradas = () => {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 uppercase">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.fabrica}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] max-md:w-full cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] max-md:w-full cursor-pointer">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
                       }}
                       type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
                     >
                       Eliminar
                     </button>
                   </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer">
+                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer">
                   <Link
                     to={`/editar/${s.id}`}
                     className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
@@ -434,11 +434,11 @@ export const SalidasRegistradas = () => {
                     Editar
                   </Link>
                 </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize w-[150px] cursor-pointer max-md:w-full">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer max-md:w-full">
                     <Link
                       target="_blank"
                       to={`/resumen/${s.id}`}
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                      className="bg-black py-2 px-5 text-center rounded-xl text-white uppercase"
                     >
                       Ver
                     </Link>
