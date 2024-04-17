@@ -215,7 +215,7 @@ export const ModalEditarLegales = ({
       setLegales((prevSalidas) => {
         const nuevosSalidas = [...prevSalidas];
         const index = nuevosSalidas.findIndex(
-          (salida) => salida.id === obtenerID
+          (salida) => salida.id === salida.id
         );
         if (index !== -1) {
           nuevosSalidas[index] = {

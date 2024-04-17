@@ -205,6 +205,7 @@ export const ModalEditarRemuneracion = ({
   useEffect(() => {
     const newSocket = io(
       "https://tecnohouseindustrialbackend-production.up.railway.app",
+      // "http://localhost:4000",
       {
         withCredentials: true,
       }
@@ -218,7 +219,7 @@ export const ModalEditarRemuneracion = ({
       setRemuneracionesMensuales((prevSalidas) => {
         const nuevosSalidas = [...prevSalidas];
         const index = nuevosSalidas.findIndex(
-          (salida) => salida.id === obtenerID
+          (salida) => salida.id === salida.id
         );
         if (index !== -1) {
           nuevosSalidas[index] = {
