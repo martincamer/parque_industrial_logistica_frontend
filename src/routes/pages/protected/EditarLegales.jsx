@@ -6,8 +6,8 @@ import { ModalCrearChoferes } from "../../../components/Modales/ModalCrearChofer
 import { ModalVerChoferes } from "../../../components/Modales/ModalVerChoferes";
 import { ModalCrearClienteRemuneracion } from "../../../components/Modales/ModalCrearClienteRemuneracion";
 import { ModalEditarClienteRemuneracion } from "../../../components/Modales/ModalEditarClienteRemuneracion";
-import client from "../../../api/axios";
 import { useLegalesContext } from "../../../context/LegalesProvider";
+import client from "../../../api/axios";
 
 export const EditarLegales = () => {
   const fechaActual = new Date();
@@ -72,7 +72,7 @@ export const EditarLegales = () => {
       setPagoFletero(res.data.pago_fletero_espera);
       setViaticos(res.data.viaticos);
       setRefuerzo(res.data.refuerzo);
-
+      setAuto(res.data.auto);
       setDatosCliente(res.data.datos_cliente?.datosCliente);
     }
 
@@ -149,7 +149,7 @@ export const EditarLegales = () => {
   const [pago_fletero_espera, setPagoFletero] = useState("");
   const [viaticos, setViaticos] = useState("");
   const [refuerzo, setRefuerzo] = useState("");
-  // const [recaudacion, setRecaudación] = useState("");
+  const [auto, setAuto] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -158,6 +158,7 @@ export const EditarLegales = () => {
         Number(totalSuma) -
         Number(pago_fletero_espera) -
         Number(viaticos) -
+        Number(auto) -
         Number(refuerzo);
       // e.preventDefault();
       const res = await client.put(`/legales/${params.id}`, {
@@ -167,6 +168,7 @@ export const EditarLegales = () => {
         pago_fletero_espera, // Corregido el nombre del campo aquí
         km_lineal,
         viaticos,
+        auto,
         refuerzo,
         recaudacion,
         chofer,
@@ -188,6 +190,7 @@ export const EditarLegales = () => {
           pago_fletero_espera: updateRemuneracion.pago_fletero_espera, // Corregido el nombre del campo aquí
           km_lineal: updateRemuneracion.km_lineal,
           viaticos: updateRemuneracion.viaticos,
+          auto: updateRemuneracion.auto,
           refuerzo: updateRemuneracion.refuerzo,
           recaudacion: updateRemuneracion.recaudacion,
           chofer: updateRemuneracion.chofer,
@@ -531,6 +534,31 @@ export const EditarLegales = () => {
           </div>
 
           <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
+            <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm mb-3 max-md:text-sm">
+              <span className="font-bold text-slate-500 px-3">$</span>
+              <input
+                onChange={(e) => setAuto(e.target.value)}
+                value={auto}
+                type="text"
+                className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+              />
+
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base">
+                Total en auto
+              </span>
+            </label>
+
+            <span className="font-bold text-slate-700">
+              {Number(auto).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}{" "}
+              VALOR ASIGNADO
+            </span>
+          </div>
+
+          <div className="flex gap-3 items-center max-md:w-full max-md:flex-col max-md:items-start max-md:gap-0">
             <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
               <span className="font-bold text-slate-500 px-3">$</span>
               <input
@@ -564,7 +592,7 @@ export const EditarLegales = () => {
 
             <p className="text-red-500 font-bold text-lg">
               {Number(
-                totalSuma - pago_fletero_espera - viaticos - refuerzo
+                totalSuma - pago_fletero_espera - viaticos - auto - refuerzo
               ).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",

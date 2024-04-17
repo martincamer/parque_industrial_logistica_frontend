@@ -117,7 +117,7 @@ export const ModalEditarLegales = ({
       setPagoFletero(res.data.pago_fletero_espera);
       setViaticos(res.data.viaticos);
       setRefuerzo(res.data.refuerzo);
-
+      setAuto(res.data.auto);
       setDatosCliente(res.data.datos_cliente?.datosCliente);
     }
 
@@ -150,7 +150,7 @@ export const ModalEditarLegales = ({
   const [pago_fletero_espera, setPagoFletero] = useState("");
   const [viaticos, setViaticos] = useState("");
   const [refuerzo, setRefuerzo] = useState("");
-
+  const [auto, setAuto] = useState("");
   const [socket, setSocket] = useState(null);
 
   const onSubmit = async (e) => {
@@ -160,6 +160,7 @@ export const ModalEditarLegales = ({
       Number(totalSuma) -
       Number(pago_fletero_espera) -
       Number(viaticos) -
+      Number(auto) -
       Number(refuerzo);
 
     const editarSalidas = {
@@ -169,6 +170,7 @@ export const ModalEditarLegales = ({
       pago_fletero_espera,
       km_lineal,
       viaticos,
+      auto,
       refuerzo,
       recaudacion,
       chofer,
@@ -213,17 +215,18 @@ export const ModalEditarLegales = ({
       setLegales((prevSalidas) => {
         const nuevosSalidas = [...prevSalidas];
         const index = nuevosSalidas.findIndex(
-          (salida) => salida.id === salida.id
+          (salida) => salida.id === obtenerID
         );
         if (index !== -1) {
           nuevosSalidas[index] = {
-            id: nuevosSalidas[index].id,
+            id: obtenerID,
             armador: updateSalida.armador,
             fecha_carga: updateSalida.fecha_carga,
             fecha_entrega: updateSalida.fecha_entrega,
             pago_fletero_espera: updateSalida.pago_fletero_espera, // Corregido el nombre del campo aquí
             km_lineal: updateSalida.km_lineal,
             viaticos: updateSalida.viaticos,
+            auto: updateSalida.auto,
             refuerzo: updateSalida.refuerzo,
             recaudacion: updateSalida.recaudacion,
             chofer: updateSalida.chofer,
@@ -287,8 +290,6 @@ export const ModalEditarLegales = ({
             >
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"
@@ -698,6 +699,33 @@ export const ModalEditarLegales = ({
                             $
                           </span>
                           <input
+                            onChange={(e) => setAuto(e.target.value)}
+                            value={auto}
+                            type="text"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                          />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total Auto
+                          </span>
+                        </label>
+
+                        <span className="font-bold text-slate-700 max-md:mb-5">
+                          {Number(auto).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}{" "}
+                          VALOR ASIGNADO
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
                             onChange={(e) => setRefuerzo(e.target.value)}
                             value={refuerzo}
                             type="text"
@@ -731,6 +759,7 @@ export const ModalEditarLegales = ({
                             totalSuma -
                               pago_fletero_espera -
                               viaticos -
+                              auto -
                               refuerzo <
                             0
                               ? "text-red-500 font-bold text-lg"
@@ -741,6 +770,7 @@ export const ModalEditarLegales = ({
                             totalSuma -
                               pago_fletero_espera -
                               viaticos -
+                              auto -
                               refuerzo
                           ).toLocaleString("es-AR", {
                             style: "currency",

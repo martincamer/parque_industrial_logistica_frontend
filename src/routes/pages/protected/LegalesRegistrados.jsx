@@ -83,11 +83,6 @@ export const LegalesRegistrados = () => {
 
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
-  // const totalCobroCliente = salidasMensuales.reduce(
-  //   (total, item) => total + parseFloat(item.cobro_cliente),
-  //   0
-  // );
-
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
 
@@ -128,8 +123,11 @@ export const LegalesRegistrados = () => {
   // Función para filtrar los resultados por cliente
   const filteredResults = currentResults.filter((salida) => {
     // Ajusta 'cliente' por la propiedad de tu objeto que contiene el nombre del cliente
-    return salida.datos_cliente.datosCliente.some((d) =>
-      d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+    return (
+      salida.usuario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      salida.datos_cliente.datosCliente.some((d) =>
+        d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     );
   });
 
@@ -146,12 +144,12 @@ export const LegalesRegistrados = () => {
 
   const handleId = (id) => setObtenerId(id);
 
-  const totalGastosCliente = datos.reduce(
+  const totalGastosCliente = filteredResults.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
     0
   );
 
-  const totalDatos = datos.reduce((total, salida) => {
+  const totalDatos = filteredResults.reduce((total, salida) => {
     return (
       total +
       (salida.datos_cliente.datosCliente
@@ -218,7 +216,7 @@ export const LegalesRegistrados = () => {
     }
   };
 
-  const totalDatosMetrosCuadrados = datos?.reduce((total, salida) => {
+  const totalDatosMetrosCuadrados = filteredResults?.reduce((total, salida) => {
     return (
       total +
       (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
@@ -230,8 +228,8 @@ export const LegalesRegistrados = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+      <div className="grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +254,7 @@ export const LegalesRegistrados = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en remuneraciones de la busqueda
+              Total en legales de la busqueda
             </strong>
 
             <p>
@@ -270,7 +268,7 @@ export const LegalesRegistrados = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                ultima remuneracion total de la busqueda{" "}
+                ultima legal total de la busqueda{" "}
                 <span className="font-bold text-red-700">
                   {" "}
                   {Number(
@@ -286,7 +284,7 @@ export const LegalesRegistrados = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -330,7 +328,7 @@ export const LegalesRegistrados = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:pb-3">
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -349,7 +347,7 @@ export const LegalesRegistrados = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {totalDatosMetrosCuadrados / 10000} %{" "}
+              {Number(totalDatosMetrosCuadrados / 1000).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -360,31 +358,38 @@ export const LegalesRegistrados = () => {
 
             <p>
               <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {totalDatosMetrosCuadrados}
+                {Number(totalDatosMetrosCuadrados).toFixed(2)}
               </span>
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
+                Total en el mes {Number(totalDatosMetrosCuadrados).toFixed(
+                  2
+                )}{" "}
+                mts{" "}
               </span>
             </p>
           </div>
         </article>
       </div>
 
-      <div className="mt-10 max-md:mt-1">
+      <div className="mt-4 max-md:mt-1">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
           <div className="flex gap-2 items-center max-md:text-sm">
-            <label className="text-base text-slate-700">Fecha de inicio</label>
+            <label className="text-base text-slate-700 uppercase">
+              Fecha de inicio
+            </label>
             <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
+              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 uppercase outline-none"
               type="date"
               value={fechaInicio}
               onChange={(e) => setFechaInicio(e.target.value)}
             />
           </div>
           <div className="flex gap-2 items-center max-md:text-sm">
-            <label className="text-base text-slate-700">Fecha fin</label>
+            <label className="text-base text-slate-700 uppercase">
+              Fecha fin
+            </label>
             <input
               className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
               type="date"
@@ -416,10 +421,25 @@ export const LegalesRegistrados = () => {
 
         <div>
           <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5 max-md:text-sm"
+            className="bg-green-100 text-green-700 py-3 px-5 rounded-xl hover:shadow mt-5 max-md:text-sm uppercase text-sm
+            flex gap-2 items-center"
             onClick={() => downloadDataAsExcel(datos)}
           >
             Descargar todo en formato excel
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
+            </svg>
           </button>
         </div>
       </div>
@@ -429,8 +449,8 @@ export const LegalesRegistrados = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full"
-          placeholder="Buscar el cliente en especifico"
+          className="outline-none text-slate-600 w-full uppercase text-sm"
+          placeholder="Buscar el cliente en especifico / o usuario"
         />
 
         <svg
@@ -459,31 +479,28 @@ export const LegalesRegistrados = () => {
             </p>
           </div>
         ) : (
-          <table className="w-full divide-y-2 divide-gray-200 text-sm">
+          <table className="w-full divide-y-2 divide-gray-200 text-sm uppercase">
             <thead className="text-left">
               <tr>
-                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                <th className="px-4 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Numero
                 </th>
-                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                <th className="px-4 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Clientes/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                <th className="px-4 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Localidad/Cliente
                 </th>
-                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
-                  Recaudacion generada
+                <th className="px-4 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                  Recaudación legal generada
                 </th>
-                <th className="px-4 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                <th className="px-4 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Creador
                 </th>
-                <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
-                  Eliminar
+                <th className="px-1 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                  Acciones
                 </th>
-                {/* <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
-                Editar
-              </th> */}
-                <th className="px-1 py-2  text-orange-500 max-md:text-slate-800 font-bold uppercase">
+                <th className="px-1 py-4  text-orange-500 max-md:text-slate-800 font-bold uppercase">
                   Ver los datos/resumen
                 </th>
               </tr>
@@ -492,55 +509,45 @@ export const LegalesRegistrados = () => {
             <tbody className="divide-y divide-gray-200">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-4 font-medium text-gray-900">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-4 font-medium text-gray-900">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-4 font-medium text-gray-900">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
                   </td>
                   <td
-                    className={`px-4 py-2 font-bold text-${
+                    className={`px-4 py-4 font-bold text-${
                       s.recaudacion >= 0 ? "black" : "red"
-                    }-500 capitalize`}
+                    }-500`}
                   >
                     {Number(s.recaudacion).toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
-                      minimumIntegerDigits: 2,
+                      minimumIntegerDigits: 4,
                     })}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                  <td className="px-4 py-4 font-medium text-gray-900">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                    <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
+                  <td className="px-1 py-4 font-medium text-gray-900 cursor-pointer">
+                    <Link
+                      target="_blank"
+                      to={`/editar-legales/${s.id}`}
+                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
                     >
-                      Eliminar
-                    </button>
+                      Editar
+                    </Link>
                   </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                  <Link
-                    to={`/editar/${s.id}`}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
-                  >
-                    Editar
-                  </Link>
-                </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                  <td className="px-1 py-4 font-medium text-gray-900 cursor-pointer">
                     <Link
                       to={`/legales/${s.id}`}
                       target="_blank"

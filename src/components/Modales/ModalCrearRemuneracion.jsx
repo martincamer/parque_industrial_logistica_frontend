@@ -117,6 +117,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
   const [pago_fletero_espera, setPagoFletero] = useState("");
   const [viaticos, setViaticos] = useState("");
   const [refuerzo, setRefuerzo] = useState("");
+  const [auto, setAuto] = useState("");
 
   // Utilizar reduce para calcular la suma total de la propiedad totalFlete
   const totalSuma = datosCliente.reduce((acumulador, elemento) => {
@@ -150,6 +151,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
       Number(totalSuma) -
       Number(pago_fletero_espera) -
       Number(viaticos) -
+      Number(auto) -
       Number(refuerzo);
 
     try {
@@ -160,6 +162,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
         pago_fletero_espera, // Corregido el nombre del campo aquí
         km_lineal,
         viaticos,
+        auto,
         refuerzo,
         recaudacion,
         chofer,
@@ -406,94 +409,6 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             </tbody>
                           </table>
                         </div>
-
-                        {/* <div className="flex gap-3 max-md:grid max-md:grid-cols-2 max-md:flex-none">
-                          {datosCliente.map((c, index) => (
-                            <div
-                              key={index}
-                              className="bg-white border-[1px] border-slate-300 rounded-xl py-8 px-4 relative shadow"
-                            >
-                              <div
-                                className="absolute top-2 right-4 cursor-pointer"
-                                onClick={() => eliminarCliente(c.cliente)}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6 text-red-800"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                  />
-                                </svg>
-                              </div>
-                              <div
-                                className="absolute top-2 right-10 cursor-pointer"
-                                onClick={() => {
-                                  handleUsuario(c.cliente), openEdit();
-                                }}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-5 h-5"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                  />
-                                </svg>
-                              </div>
-                              <p className="max-md:text-sm">
-                                Nombre y Apellido{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.cliente}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Localidad{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.localidad}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Numero de contrato{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.numeroContrato}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Metros Cuadrados{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.metrosCuadrados}
-                                </span>
-                              </p>
-
-                              <p className="max-md:text-sm">
-                                Total del flete{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {Number(c.totalFlete).toLocaleString(
-                                    "es-AR",
-                                    {
-                                      style: "currency",
-                                      currency: "ARS",
-                                      minimumIntegerDigits: 2,
-                                    }
-                                  )}
-                                </span>
-                              </p>
-                            </div>
-                          ))}
-                        </div> */}
                       </div>
                     </div>
                   </article>
@@ -642,6 +557,33 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             $
                           </span>
                           <input
+                            onChange={(e) => setAuto(e.target.value)}
+                            value={auto}
+                            type="text"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                          />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total Auto
+                          </span>
+                        </label>
+
+                        <span className="font-bold text-slate-700 max-md:mb-5">
+                          {Number(auto).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}{" "}
+                          VALOR ASIGNADO
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 items-center">
+                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
                             onChange={(e) => setRefuerzo(e.target.value)}
                             value={refuerzo}
                             type="text"
@@ -666,7 +608,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
 
                     <div className="flex">
                       <div className="flex max-md:flex-col max-md:w-full max-md:gap-1 max-md:py-1 max-md:items-start gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5 items-center">
-                        <span className="font-bold text-slate-700 text-lg max-md:text-sm max-md:uppercase uppercase text-sm">
+                        <span className="font-bold text-slate-700 max-md:text-sm max-md:uppercase uppercase text-sm">
                           Recaudación final
                         </span>
 
@@ -675,6 +617,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             totalSuma -
                               pago_fletero_espera -
                               viaticos -
+                              auto -
                               refuerzo <
                             0
                               ? "text-red-500 font-bold text-lg"
@@ -685,6 +628,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             totalSuma -
                               pago_fletero_espera -
                               viaticos -
+                              auto -
                               refuerzo
                           ).toLocaleString("es-AR", {
                             style: "currency",
@@ -726,6 +670,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                   closeModal={closeModal}
                   datosCliente={datosCliente}
                 />
+
                 <ModalCrearChoferes
                   isOpen={isOpenChofer}
                   closeModal={closeModalChofer}

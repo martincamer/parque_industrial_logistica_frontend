@@ -116,7 +116,6 @@ export const CrearRemuneracion = () => {
   const [pago_fletero_espera, setPagoFletero] = useState("");
   const [viaticos, setViaticos] = useState("");
   const [refuerzo, setRefuerzo] = useState("");
-  // const [recaudacion, setRecaudación] = useState("");
 
   // Utilizar reduce para calcular la suma total de la propiedad totalFlete
   const totalSuma = datosCliente.reduce((acumulador, elemento) => {
