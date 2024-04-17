@@ -123,11 +123,13 @@ export const RemuneracionesRegistradas = () => {
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
 
-  // Función para filtrar los resultados por cliente
   const filteredResults = currentResults.filter((salida) => {
     // Ajusta 'cliente' por la propiedad de tu objeto que contiene el nombre del cliente
-    return salida.datos_cliente.datosCliente.some((d) =>
-      d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+    return (
+      salida.usuario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      salida.datos_cliente.datosCliente.some((d) =>
+        d.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     );
   });
 
@@ -144,12 +146,12 @@ export const RemuneracionesRegistradas = () => {
 
   const handleId = (id) => setObtenerId(id);
 
-  const totalGastosCliente = datos.reduce(
+  const totalGastosCliente = filteredResults.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
     0
   );
 
-  const totalDatos = datos.reduce((total, salida) => {
+  const totalDatos = filteredResults.reduce((total, salida) => {
     return (
       total +
       (salida.datos_cliente.datosCliente
@@ -216,7 +218,7 @@ export const RemuneracionesRegistradas = () => {
     }
   };
 
-  const totalDatosMetrosCuadrados = datos?.reduce((total, salida) => {
+  const totalDatosMetrosCuadrados = filteredResults?.reduce((total, salida) => {
     return (
       total +
       (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
@@ -345,7 +347,7 @@ export const RemuneracionesRegistradas = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {totalDatosMetrosCuadrados / 10000} %{" "}
+              {Number(totalDatosMetrosCuadrados / 10000).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -374,22 +376,22 @@ export const RemuneracionesRegistradas = () => {
       <div className="mt-10 max-md:mt-0">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
           <div className="flex gap-2 items-center max-md:text-sm">
-            <label className="text-base text-slate-700 max-md:text-sm">
+            <label className="text-slate-700 max-md:text-sm uppercase text-sm">
               Fecha de inicio
             </label>
             <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none max-md:text-sm"
+              className="text-sm bg-white py-2 px-3 rounded-lg uppercase shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none max-md:text-sm"
               type="date"
               value={fechaInicio}
               onChange={(e) => setFechaInicio(e.target.value)}
             />
           </div>
           <div className="flex gap-2 items-center max-md:text-sm">
-            <label className="text-base text-slate-700 max-md:text-sm">
+            <label className="text-slate-700 max-md:text-sm uppercase text-sm">
               Fecha fin
             </label>
             <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
+              className="text-sm bg-white py-2 px-3 rounded-lg uppercase shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
               type="date"
               value={fechaFin}
               onChange={(e) => setFechaFin(e.target.value)}
@@ -399,9 +401,9 @@ export const RemuneracionesRegistradas = () => {
           <div>
             <button
               onClick={buscarIngresosPorFecha}
-              className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:text-sm max-md:w-full"
+              className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:text-sm max-md:w-full uppercase text-sm items-center"
             >
-              Buscar registro salidas
+              Buscar registro remuneraciones
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -422,10 +424,24 @@ export const RemuneracionesRegistradas = () => {
 
         <div>
           <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5 max-md:text-sm"
+            className="bg-green-100 py-3 px-6 text-green-700 rounded-xl hover:shadow mt-5 max-md:text-sm uppercase flex gap-2 items-center text-sm"
             onClick={() => downloadDataAsExcel(datos)}
           >
             Descargar todo en formato excel
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
+            </svg>
           </button>
         </div>
       </div>
@@ -435,8 +451,8 @@ export const RemuneracionesRegistradas = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full"
-          placeholder="Buscar el cliente en especifico"
+          className="outline-none text-slate-600 w-full uppercase text-sm"
+          placeholder="Buscar el cliente en especifico / o creador"
         />
 
         <svg
@@ -535,6 +551,7 @@ export const RemuneracionesRegistradas = () => {
                       Eliminar
                     </button>
                     <Link
+                      target="_blank"
                       to={`/editar-remuneracion/${s.id}`}
                       className="bg-green-500 py-2 px-5 text-center rounded-xl text-white uppercase"
                     >

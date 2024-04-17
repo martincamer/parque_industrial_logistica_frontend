@@ -345,7 +345,96 @@ export const HomeEstadistica = () => {
         </div>
       ) : (
         <>
-          <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
+          <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
+            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+              <div
+                className={`inline-flex gap-2 self-end rounded   ${
+                  totalCobroCliente +
+                    totalCobroRendiciones +
+                    totalCobroClienteLegales / 100000 <
+                  0
+                    ? "bg-red-100 p-1 text-red-600"
+                    : totalCobroCliente +
+                        totalCobroRendiciones +
+                        totalCobroClienteLegales / 100000 >
+                      0
+                    ? "text-green-600 bg-green-100"
+                    : ""
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+
+                <span
+                  className={`text-xs font-medium uppercase ${
+                    totalCobroCliente +
+                      totalCobroRendiciones +
+                      totalCobroClienteLegales / 100000 <
+                    0
+                      ? "text-red-500"
+                      : totalCobroCliente +
+                          totalCobroRendiciones +
+                          totalCobroClienteLegales / 100000 >
+                        0
+                      ? "text-green-500"
+                      : ""
+                  }`}
+                >
+                  {(
+                    Number(
+                      totalCobroCliente +
+                        totalCobroRendiciones +
+                        totalCobroClienteLegales
+                    ) / 100000
+                  ).toFixed(2)}{" "}
+                  %
+                </span>
+              </div>
+
+              <div>
+                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                  Total en remuraciones final con descuentos de legales.
+                </strong>
+
+                <p className="text-slate-500">
+                  <span
+                    className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+                  >
+                    {totalCobro.toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}{" "}
+                  </span>
+                  <span
+                    className={`text-xs
+                 `}
+                  >
+                    Total final remunerado del mes {"  "}
+                    {Number(
+                      Number(totalCobroCliente + totalCobroRendiciones) +
+                        Number(totalCobroClienteLegales) || 0
+                    ).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>
+                </p>
+              </div>
+            </article>
             <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3 max-md:rounded-xl">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
                 <svg
@@ -462,97 +551,7 @@ export const HomeEstadistica = () => {
               </div>
             </article>
 
-            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
-              <div
-                className={`inline-flex gap-2 self-end rounded   ${
-                  totalCobroCliente +
-                    totalCobroRendiciones +
-                    totalCobroClienteLegales / 100000 <
-                  0
-                    ? "bg-red-100 p-1 text-red-600"
-                    : totalCobroCliente +
-                        totalCobroRendiciones +
-                        totalCobroClienteLegales / 100000 >
-                      0
-                    ? "text-green-600 bg-green-100"
-                    : ""
-                }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span
-                  className={`text-xs font-medium uppercase ${
-                    totalCobroCliente +
-                      totalCobroRendiciones +
-                      totalCobroClienteLegales / 100000 <
-                    0
-                      ? "text-red-500"
-                      : totalCobroCliente +
-                          totalCobroRendiciones +
-                          totalCobroClienteLegales / 100000 >
-                        0
-                      ? "text-green-500"
-                      : ""
-                  }`}
-                >
-                  {(
-                    Number(
-                      totalCobroCliente +
-                        totalCobroRendiciones +
-                        totalCobroClienteLegales
-                    ) / 100000
-                  ).toFixed(2)}{" "}
-                  %
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en remuraciones final con descuentos de legales.
-                </strong>
-
-                <p className="text-slate-500">
-                  <span
-                    className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
-                  >
-                    {totalCobro.toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}{" "}
-                  </span>
-                  <span
-                    className={`text-xs
-                 `}
-                  >
-                    Total final remunerado del mes {"  "}
-                    {Number(
-                      Number(totalCobroCliente + totalCobroRendiciones) +
-                        Number(totalCobroClienteLegales) || 0
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
-
-            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            {/* <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -605,7 +604,7 @@ export const HomeEstadistica = () => {
                   </span>
                 </p>
               </div>
-            </article>
+            </article> */}
 
             <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
