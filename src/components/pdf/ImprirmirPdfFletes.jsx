@@ -452,7 +452,24 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                       fontSize: "10px",
                     }}
                   >
-                    {unicaSalida.chofer === "Iveco Tecnohouse"}
+                    {unicaSalida.chofer == "Iveco Tecnohouse"
+                      ? Number(unicaSalida.fletes_km_precio).toLocaleString(
+                          "es-AR",
+                          {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          }
+                        )
+                      : Number(
+                          Number(
+                            unicaSalida.fletes_km * unicaSalida.fletes_km_precio
+                          )
+                        ).toLocaleString("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumIntegerDigits: 2,
+                        })}
                   </Text>
                 </Text>
               </View>
