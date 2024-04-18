@@ -60,7 +60,7 @@ export const ResumenView = () => {
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-12">
-      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
+      <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg

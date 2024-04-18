@@ -4,18 +4,17 @@ const RemuneracionesProgressBar = ({
   remuneracionesMensuales,
   rendicionesMensuales,
 }) => {
-  // Sumar todas las recaudaciones
   const totalRecaudacion = remuneracionesMensuales.reduce(
     (total, remuneracion) => total + parseFloat(remuneracion.recaudacion),
     0
   );
 
   const totalRendicion = rendicionesMensuales.reduce(
-    (total, remuneracion) => total + parseFloat(remuneracion.rendicion_final),
+    (total, remuneracion) =>
+      total + parseFloat(remuneracion.rendicion_final || 0),
     0
   );
 
-  // Calcular el porcentaje total, asegurándose de que no exceda el límite máximo (100000000)
   const porcentajeTotal = Math.min(
     (Number(totalRecaudacion + totalRendicion) / 50000000) * 100,
     100

@@ -103,30 +103,38 @@ export const HomeEstadistica = () => {
   ];
   const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
 
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
+  const nombreDiaActual = nombresDias[numeroDiaActual];
 
-  const totalCobroCliente = remuneracionesMensuales.reduce(
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const handleChange = (event) => {
+    setSelectedUser(event.target.value);
+  };
+
+  const filteredData = selectedUser
+    ? remuneracionesMensuales.filter((item) => item.usuario === selectedUser)
+    : remuneracionesMensuales;
+
+  const filteredDataLegales = selectedUser
+    ? legales.filter((item) => item.usuario === selectedUser)
+    : legales;
+
+  const filteredDataRendiciones = selectedUser
+    ? rendicionesMensuales.filter((item) => item.usuario === selectedUser)
+    : remuneracionesMensuales;
+
+  const totalCobroCliente = filteredData.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
     0
   );
 
-  const totalCobroClienteLegales = legales.reduce(
+  const totalCobroClienteLegales = filteredDataLegales.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
     0
   );
 
-  const totalCobroRendiciones = rendicionesMensuales.reduce(
-    (total, item) => total + parseFloat(item.rendicion_final),
-    0
-  );
-
-  const totalGastosCliente = salidasMensuales.reduce(
-    (total, item) =>
-      total +
-      parseFloat(item.total_flete) +
-      parseFloat(item.total_control) +
-      parseFloat(item.total_viaticos) +
-      parseFloat(item.espera),
+  const totalCobroRendiciones = filteredDataRendiciones.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final || 0),
     0
   );
 
@@ -198,7 +206,16 @@ export const HomeEstadistica = () => {
     );
   }, 0);
 
-  const totalDatosMetrosCuadrados = remuneracionesMensuales?.reduce(
+  const totalDatosMetrosCuadrados = filteredData?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+        return subtotal + Number(cliente.metrosCuadrados);
+      }, 0) || 0)
+    );
+  }, 0);
+
+  const totalDatosMetrosCuadradosLegales = filteredDataLegales?.reduce(
     (total, salida) => {
       return (
         total +
@@ -209,15 +226,6 @@ export const HomeEstadistica = () => {
     },
     0
   );
-
-  const totalDatosMetrosCuadradosLegales = legales?.reduce((total, salida) => {
-    return (
-      total +
-      (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
-        return subtotal + Number(cliente.metrosCuadrados);
-      }, 0) || 0)
-    );
-  }, 0);
 
   const totalCobro =
     Number(totalCobroCliente + totalCobroRendiciones) +
@@ -232,6 +240,17 @@ export const HomeEstadistica = () => {
   } else {
     totalClass = "text-gray-500"; // Otra clase para cero si lo deseas
   }
+
+  // Obtener lista de usuarios únicos
+  const uniqueUsers = Array.from(
+    new Set(
+      remuneracionesMensuales.map((remuneracion) =>
+        remuneracion.usuario.toLowerCase()
+      )
+    )
+  );
+
+  console.log(uniqueUsers);
 
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
@@ -258,8 +277,18 @@ export const HomeEstadistica = () => {
           </svg>
         </button>
 
-        <select className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300">
+        <select
+          className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300 uppercase"
+          value={selectedUser}
+          onChange={handleChange}
+        >
           <option value="">SELECCIONAR USUARIO</option>
+
+          {uniqueUsers.map((user, index) => (
+            <option key={index} value={user}>
+              {user}
+            </option>
+          ))}
         </select>
       </div>
       <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl shadow">
@@ -329,8 +358,6 @@ export const HomeEstadistica = () => {
       </div>
 
       {loading ? (
-        // Muestra el spinner mientras se cargan los datos
-
         <div className="flex flex-col gap-12">
           <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
             {[...Array(7)].map((_, index) => (
@@ -350,7 +377,6 @@ export const HomeEstadistica = () => {
                 className="animate-pulse rounded-xl border border-slate-200 bg-gray-200 p-8 max-md:p-3 shadow"
               >
                 <div className="h-4 w-3/4 bg-gray-300 rounded mb-4"></div>
-                {/* <div className="h-4 bg-gray-300 rounded"></div> */}
               </div>
             ))}
           </div>
@@ -360,10 +386,7 @@ export const HomeEstadistica = () => {
               <div
                 key={index}
                 className="animate-pulse rounded-xl border border-slate-200 bg-gray-200 p-8 max-md:p-3 shadow h-[50vh]"
-              >
-                {/* <div className="h-4 w-3/4 bg-gray-300 rounded mb-4"></div> */}
-                {/* <div className="h-4 bg-gray-300 rounded"></div> */}
-              </div>
+              ></div>
             ))}
           </div>
         </div>
@@ -480,10 +503,7 @@ export const HomeEstadistica = () => {
 
                 <span className="text-xs font-medium uppercase">
                   {" "}
-                  {Number(
-                    Number(totalCobroCliente + totalCobroRendiciones) / 100000
-                  ).toFixed(2)}{" "}
-                  %{" "}
+                  {Number(Number(totalCobroCliente) / 100000).toFixed(2)} %{" "}
                 </span>
               </div>
 
@@ -494,9 +514,7 @@ export const HomeEstadistica = () => {
 
                 <p className="text-slate-500">
                   <span className="text-2xl max-md:text-base font-medium uppercase text-slate-900">
-                    {Number(
-                      Number(totalCobroCliente + totalCobroRendiciones)
-                    ).toLocaleString("es-AR", {
+                    {Number(Number(totalCobroCliente)).toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
                       minimumIntegerDigits: 2,
@@ -576,61 +594,6 @@ export const HomeEstadistica = () => {
                 </p>
               </div>
             </article>
-
-            {/* <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en salidas registradas del mes
-                </strong>
-
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-500">
-                    {Number(totalGastosCliente).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-
-                  <span className="text-xs text-gray-500">
-                    {" "}
-                    ultimos gastos en salidas en el día{" "}
-                    {Number(
-                      Number(ultimoGastosDelDia?.total_viaticos) +
-                        Number(ultimoGastosDelDia?.total_control) +
-                        Number(ultimoGastosDelDia?.total_flete) +
-                        Number(ultimoGastosDelDia?.espera) || 0
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}{" "}
-                  </span>
-                </p>
-              </div>
-            </article> */}
 
             <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
@@ -771,13 +734,13 @@ export const HomeEstadistica = () => {
               <p> Progreso de las entregas</p>
             </div>
             <RemuneracionesProgressBar
-              rendicionesMensuales={rendicionesMensuales}
-              remuneracionesMensuales={remuneracionesMensuales}
+              rendicionesMensuales={filteredDataRendiciones}
+              remuneracionesMensuales={filteredData}
             />
-            <SalidasProgressBar salidasMensuales={salidasMensuales} />
+            {/* <SalidasProgressBar salidasMensuales={filteredDataRendiciones} /> */}
             <ViviendasProgressBar
-              salidasMensuales={remuneracionesMensuales}
-              legales={legales}
+              salidasMensuales={filteredData}
+              legales={filteredDataLegales}
             />
           </div>
 

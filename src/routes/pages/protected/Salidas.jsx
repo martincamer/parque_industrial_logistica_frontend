@@ -80,6 +80,7 @@ export const Salidas = () => {
       parseFloat(item.espera),
     0
   );
+
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
 
@@ -129,7 +130,6 @@ export const Salidas = () => {
   const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
   const endPage = Math.min(totalPages, startPage + rangeSize - 1);
 
-  // Estados para términos de búsqueda por cliente y usuario
   // Estados para términos de búsqueda por cliente y usuario
   const [searchTermCliente, setSearchTermCliente] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
