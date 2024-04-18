@@ -1,7 +1,6 @@
 import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
 import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
-import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
 import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
@@ -188,7 +187,7 @@ export const HomeEstadistica = () => {
     return fechaGasto > fechaUltimoGasto ? gasto : ultimaGasto;
   }, gastosDelDia[0]);
 
-  const totalDatos = remuneracionesMensuales?.reduce((total, salida) => {
+  const totalDatos = filteredData?.reduce((total, salida) => {
     return (
       total +
       (salida?.datos_cliente?.datosCliente
@@ -197,7 +196,7 @@ export const HomeEstadistica = () => {
     );
   }, 0);
 
-  const totalDatosDos = legales?.reduce((total, salida) => {
+  const totalDatosDos = filteredDataLegales?.reduce((total, salida) => {
     return (
       total +
       (salida?.datos_cliente?.datosCliente
