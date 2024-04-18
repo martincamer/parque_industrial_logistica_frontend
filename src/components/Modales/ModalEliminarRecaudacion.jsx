@@ -18,7 +18,6 @@ export const ModalEliminarRecaudacion = ({
   useEffect(() => {
     const newSocket = io(
       "https://tecnohouseindustrialbackend-production.up.railway.app",
-      // "http://localhost:4000",
       {
         withCredentials: true,
       }
@@ -37,11 +36,6 @@ export const ModalEliminarRecaudacion = ({
 
   const handleEliminarChofer = async (id) => {
     const res = await client.delete(`/remuneraciones/${id}`);
-
-    // const updatedTipos = remuneracionesMensuales.filter(
-    //   (chofer) => chofer.id !== id
-    // );
-    // setRemuneracionesMensuales(updatedTipos);
 
     if (socket) {
       socket.emit("eliminar-remuneracion", { id });
@@ -112,7 +106,29 @@ export const ModalEliminarRecaudacion = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="max-md:w-full inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="font-bold uppercase max-md:text-sm max-md:uppercase text-lg text-slate-700 mb-3 border-b-[1px]">
+                <div className="flex justify-end cursor-pointer">
+                  <p
+                    onClick={closeEliminar}
+                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </p>
+                </div>
+
+                <div className="font-bold uppercase max-md:text-sm max-md:uppercase text-sm text-slate-700 mb-3 border-b-[1px]">
                   Elimar la remuneracion
                 </div>
 
@@ -130,16 +146,6 @@ export const ModalEliminarRecaudacion = ({
                     type="button"
                   >
                     CERRAR
-                  </button>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeEliminar}
-                  >
-                    Cerrar Ventana
                   </button>
                 </div>
               </div>

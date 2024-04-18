@@ -1,7 +1,6 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { useEffect, useState, Fragment } from "react";
 import { crearNuevaSalida } from "../../api/ingresos";
-import { useNavigate } from "react-router-dom";
 import { useSalidasContext } from "../../context/SalidasProvider";
 import { ModalCrearCliente } from "../../components/Modales/ModalCrearCliente";
 import { ModalCrearChoferes } from "../../components/Modales/ModalCrearChoferes";
@@ -13,6 +12,8 @@ import io from "socket.io-client";
 
 export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const fechaActual = new Date();
+
+  const [error, setError] = useState("");
 
   const nombresMeses = [
     "Enero",
@@ -195,7 +196,10 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
 
       setDatosCliente([]);
     } catch (error) {
-      console.log(error);
+      setError(error.response.data.message);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
     }
   };
 
@@ -225,7 +229,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-10" />
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
           <div className="min-h-screen px-4 text-center">
@@ -280,182 +284,124 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                   </p>
                 </div>
 
-                <div className="text-lg text-slate-700 mb-3 uppercase font-bold">
+                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
                   Crear nueva salida
                 </div>
 
-                <form
-                  // onSubmit={onSubmit}
-                  className="py-5 px-5 flex flex-col gap-3"
-                >
-                  <div className="flex gap-4 max-md:gap-1">
+                {error && error.length > 0 && (
+                  <div className="flex justify-center">
+                    <p className="bg-red-100 py-3 px-4 text-center mb-4 rounded-2xl uppercase text-sm text-red-800 font-bold">
+                      {error}
+                    </p>
+                  </div>
+                )}
+
+                <form className="flex flex-col gap-5 max-md:px-1 max-md:border-none max-md:shadow-none">
+                  <div className="flex gap-4">
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 max-md:py-2 max-md:px-2 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm uppercase text-sm"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 max-md:py-2 max-md:px-2 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm uppercase text-sm"
                     >
                       Ver choferes creados
                     </button>
                   </div>
                   <article>
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-bold text-slate-700 max-md:text-sm uppercase text-base mb-1">
+                    <div className="flex flex-col gap-3">
+                      <h3 className="font-bold text-slate-700 max-md:text-sm uppercase text-base">
                         Seleccionar Fabrica de Salida y Localidad
                       </h3>
-                      <div className="flex flex-col gap-2 text-sm w-1/3">
-                        <label className="uppercase text-slate-700 font-bold">
-                          Seleccionar Fabrica
-                        </label>
-                        <select
-                          onChange={(e) => setFabrica(e.target.value)}
-                          value={fabrica}
-                          type="text"
-                          className="text-sm bg-white border-slate-300 border-[1px] py-2 px-2 rounded-xl uppercase"
-                        >
-                          <option className="uppercase" value="">
-                            FABRICA
-                          </option>
-                          <option className="uppercase" value="iraola">
-                            IRAOLA
-                          </option>
-                          <option className="uppercase" value="long">
-                            LONG
-                          </option>
-                        </select>
-                      </div>
-
-                      <div className="w-1/3 max-md:w-full">
-                        <div className="flex flex-col gap-1 text-sm">
-                          <label className="uppercase text-slate-700 font-bold">
-                            Localidad y provincia de salida
-                          </label>
-                          <input
-                            placeholder="Escribrir localdiad y provincia"
-                            value={salida}
-                            onChange={(e) => setSalida(e.target.value)}
+                      <div className="grid grid-cols-2 items-center gap-2">
+                        <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                          <select
+                            onChange={(e) => setFabrica(e.target.value)}
+                            value={fabrica}
                             type="text"
-                            className="uppercase border-[1px] border-slate-300 transition-all ease-linear py-2 px-3 rounded-xl hover:shadow-md"
-                          />
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full "
+                          >
+                            <option value="">Fabrica</option>
+                            <option value="iraola">Iraola</option>
+                            <option value="long">Long</option>
+                          </select>
+
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Seleccionar fabrica
+                          </span>
+                        </label>
+
+                        <div className="w-full">
+                          <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                            <input
+                              value={salida}
+                              onChange={(e) => setSalida(e.target.value)}
+                              type="text"
+                              className="max-md:text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            />
+
+                            <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                              Localidad o Provincia de salida
+                            </span>
+                          </label>
                         </div>
                       </div>
                     </div>
                   </article>
-                  <article className="flex flex-col gap-2 mt-6 max-md:mt-2">
+                  <article className="flex flex-col gap-5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Ingresar datos de la salida
                       </h3>
                     </div>
                     {/* datos del formulario  */}
-                    <div className="flex flex-col gap-3 mt-2 w-full">
+                    <div className="flex flex-col gap-3">
                       <div className="w-1/3 max-md:w-full">
-                        <div>
+                        <label className="relative block rounded-xl border border-slate-300 shadow-sm">
                           <select
                             onChange={(e) => setChofer(e.target.value)}
                             value={chofer}
                             type="text"
-                            className="text-sm bg-white border-slate-300 border-[1px] py-2 px-2 rounded-xl uppercase w-full"
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full"
                           >
-                            <option
-                              style={{ textTransform: "uppercase" }}
-                              value=""
-                            >
-                              SELECCIONAR CHOFER
-                            </option>
+                            <option value="">Seleccionar chofer</option>
                             {choferes.map((c) => (
-                              <option
-                                style={{ textTransform: "uppercase" }}
-                                value={c.chofer}
-                              >
-                                {c.chofer.toUpperCase()}
-                              </option>
+                              <option>{c.chofer}</option>
                             ))}
                           </select>
-                        </div>
+
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Chofer
+                          </span>
+                        </label>
                       </div>
                       <div className="flex flex-col gap-2 items-start mt-3">
                         <button
                           onClick={() => openModal()}
                           type="button"
-                          className="bg-black text-white text-sm py-2 px-4 shadow rounded-xl uppercase"
+                          className="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white text-sm py-3 px-4 hover:shadow rounded-xl uppercase flex gap-2 items-center"
                         >
                           Crear Clientes
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                            />
+                          </svg>
                         </button>
-
-                        {/* <div className="flex gap-3 mt-2 max-md:grid max-md:grid-cols-2 max-md:flex-none">
-                          {datosCliente.map((c, index) => (
-                            <div
-                              key={index}
-                              className="bg-white border-[1px] border-slate-300 rounded-xl py-8 px-4 relative shadow max-md:py-10"
-                            >
-                              <div
-                                className="absolute top-2 right-4 cursor-pointer uppercase"
-                                onClick={() => eliminarCliente(c.cliente)}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6 text-red-800"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                  />
-                                </svg>
-                              </div>
-                              <div
-                                className="absolute top-2 right-10 cursor-pointer"
-                                onClick={() => {
-                                  handleUsuario(c.cliente), openEdit();
-                                }}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-5 h-5"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                  />
-                                </svg>
-                              </div>
-                              <p className="max-md:text-sm uppercase">
-                                Nombre y Apellido{" "}
-                                <span className="font-bold uppercase text-slate-700 max-md:text-sm">
-                                  {c.cliente}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm uppercase">
-                                Localidad{" "}
-                                <span className="font-bold uppercase text-slate-700">
-                                  {c.localidad}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm uppercase">
-                                Numero de contrato{" "}
-                                <span className="font-bold uppercase text-slate-700">
-                                  {c.numeroContrato}
-                                </span>
-                              </p>
-                            </div>
-                          ))}
-                        </div> */}
 
                         <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
                           <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
@@ -502,7 +448,8 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                                       <button
                                         type="button"
                                         onClick={() => {
-                                          handleUsuario(datos.id), openEdit();
+                                          handleUsuario(datos.cliente),
+                                            openEdit();
                                         }}
                                         className="bg-green-100 py-2 px-5 text-center rounded-xl uppercase text-green-700"
                                       >
@@ -515,34 +462,100 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             </tbody>
                           </table>
                         </div>
+                        {/* 
+                        <div className="flex gap-3 mt-2 max-md:grid max-md:grid-cols-2 max-md:flex-none">
+                          {datosCliente.map((c, index) => (
+                            <div
+                              key={index}
+                              className="bg-white border-[1px] border-slate-300 rounded-xl py-8 px-4 relative shadow max-md:py-10"
+                            >
+                              <div
+                                className="absolute top-2 right-4 cursor-pointer"
+                                onClick={() => eliminarCliente(c.cliente)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6 text-red-800"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                className="absolute top-2 right-10 cursor-pointer"
+                                onClick={() => {
+                                  handleUsuario(c.cliente), openEdit();
+                                }}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-5 h-5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                                  />
+                                </svg>
+                              </div>
+                              <p className="max-md:text-sm">
+                                Nombre y Apellido{" "}
+                                <span className="font-bold capitalize text-slate-700 max-md:text-sm">
+                                  {c.cliente}
+                                </span>
+                              </p>
+                              <p className="max-md:text-sm">
+                                Localidad{" "}
+                                <span className="font-bold capitalize text-slate-700">
+                                  {c.localidad}
+                                </span>
+                              </p>
+                              <p className="max-md:text-sm">
+                                Numero de contrato{" "}
+                                <span className="font-bold capitalize text-slate-700">
+                                  {c.numeroContrato}
+                                </span>
+                              </p>
+                            </div>
+                          ))}
+                        </div> */}
                       </div>
                     </div>
                   </article>
-                  <article className="flex flex-col mt-2 text-sm">
+                  <article className="flex flex-col gap-5 mt-5 w-4/5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Chofer/Vehiculo
                       </h3>
                     </div>
-                    <div className="max-md:w-full w-1/3">
-                      <div className="flex flex-col gap-2 mb-2 mt-2">
-                        <label className="uppercase text-slate-700 font-bold">
-                          Chofer nombre y apellido
-                        </label>
+                    <div className="max-md:w-full">
+                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                         <input
                           value={chofer_vehiculo}
                           onChange={(e) => setChoferVehiculo(e.target.value)}
                           type="text"
-                          className="border-slate-300 border-[1px] hover:shadow-md transition-all ease-linear py-2 px-4 rounded-xl cursor-pointer "
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                         />
-                      </div>
+
+                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          Chofer Vehiculo
+                        </span>
+                      </label>
                     </div>
-                    <div className="flex gap-3 items-center max-md:flex-col max-md:items-start max-md:gap-5 max-md:w-full mt-1">
-                      <div className="max-md:w-full flex flex-col gap-2">
-                        <label className="font-bold text-slate-700">
-                          KM DE VIAJE
-                        </label>
-                        <div className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="max-md:w-full">
+                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3 max-md:text-sm">
                             KM
                           </span>
@@ -550,30 +563,35 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={km_viaje_control}
                             onChange={(e) => setKmViajeControl(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
-                        </div>
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            KM de viaje
+                          </span>
+                        </label>
                       </div>
-                      <div className="max-md:w-full flex gap-2 items-end">
-                        <div className="flex flex-col gap-2">
-                          <label className="font-bold text-slate-700">
-                            KM DE VIAJE
-                          </label>
-                          <div className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
-                            <span className="font-bold text-slate-500 px-3">
-                              $
-                            </span>
-                            <input
-                              value={km_viaje_control_precio}
-                              onChange={(e) =>
-                                setKmViajeControlPrecio(e.target.value)
-                              }
-                              type="text"
-                              className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
-                            />
-                          </div>
-                        </div>
-                        <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
+                      <div className="max-md:w-full max-md:text-sm">
+                        <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
+                          <span className="font-bold text-slate-500 px-3">
+                            $
+                          </span>
+                          <input
+                            value={km_viaje_control_precio}
+                            onChange={(e) =>
+                              setKmViajeControlPrecio(e.target.value)
+                            }
+                            type="text"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                          />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            KM Precio
+                          </span>
+                        </label>
+                      </div>
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base w-3/4 text-center">
+                        <p>
                           {Number(
                             km_viaje_control * km_viaje_control_precio
                           ).toLocaleString("es-AR", {
@@ -581,22 +599,19 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             currency: "ARS",
                             minimumIntegerDigits: 2,
                           })}
-                        </div>
+                        </p>
                       </div>
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-1 mt-5 text-sm">
+                  <article className="flex flex-col gap-5 w-4/5">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Fletes
                       </h3>
                     </div>
-                    <div className="flex gap-3 items-end max-md:flex-col max-md:items-start max-md:gap-5">
-                      <div className="max-md:w-full flex flex-col gap-2">
-                        <label htmlFor="" className="font-bold text-slate-700">
-                          KM DE VIAJE
-                        </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3">
                             KM
@@ -605,17 +620,15 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={fletes_km}
                             onChange={(e) => setKmFletes(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            KM de viaje
+                          </span>
                         </label>
                       </div>
-                      <div className="max-md:w-full flex flex-col gap-2">
-                        <label
-                          htmlFor=""
-                          className="font-bold text-slate-700 uppercase"
-                        >
-                          KM Precio
-                        </label>
+                      <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
                           <span className="font-bold text-slate-500 px-3">
                             $
@@ -624,89 +637,81 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={fletes_km_precio}
                             onChange={(e) => setKmFletesPrecio(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 max-md:text-sm"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 max-md:text-sm uppercase"
                           />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base max-md:text-sm uppercase">
+                            KM Precio
+                          </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 max-md:text-base py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] uppercase">
-                        {chofer !== "Iveco Tecnohouse"
-                          ? Number(fletes_km * fletes_km_precio).toLocaleString(
-                              "es-AR",
-                              {
+                      <div className="bg-slate-100 max-md:text-base py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] text-center">
+                        <p>
+                          {chofer !== "Iveco Tecnohouse"
+                            ? Number(
+                                fletes_km * fletes_km_precio
+                              ).toLocaleString("es-AR", {
                                 style: "currency",
                                 currency: "ARS",
                                 minimumIntegerDigits: 2,
-                              }
-                            )
-                          : Number(fletes_km_precio).toLocaleString("es-AR", {
-                              style: "currency",
-                              currency: "ARS",
-                              minimumIntegerDigits: 2,
-                            })}
+                              })
+                            : Number(fletes_km_precio).toLocaleString("es-AR", {
+                                style: "currency",
+                                currency: "ARS",
+                                minimumIntegerDigits: 2,
+                              })}
+                        </p>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-3 w-1/ mt-4">
-                      <label
-                        htmlFor=""
-                        className="font-bold text-slate-700 uppercase"
-                      >
-                        Espera del fletero
-                      </label>
-                      <div className="flex gap-2">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm max-md:w-full">
-                          <span className="font-bold text-slate-500 px-3">
-                            $
-                          </span>
-                          <input
-                            value={espera}
-                            onChange={(e) => setEspera(e.target.value)}
-                            type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
-                          />
-                        </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm max-md:w-full">
+                        <span className="font-bold text-slate-500 px-3">$</span>
+                        <input
+                          value={espera}
+                          onChange={(e) => setEspera(e.target.value)}
+                          type="text"
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                        />
 
-                        <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
+                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          Espera del Fletero
+                        </span>
+                      </label>
+
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
+                        <p>
                           {Number(espera).toLocaleString("es-AR", {
                             style: "currency",
                             currency: "ARS",
                             minimumIntegerDigits: 2,
                           })}
-                        </div>
+                        </p>
                       </div>
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-4 mt-5 max-md:gap-4 text-sm">
+                  <article className="flex flex-col gap-5 w-4/5">
                     <div>
-                      <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
+                      <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
                         Viaticos Armadores
                       </h3>
                     </div>
-                    <div className="flex gap-3 items-end max-md:flex-col max-md:gap-5 max-md:items-start w-full">
-                      <div className="max-md:w-full flex flex-col gap-2">
-                        <label
-                          htmlFor=""
-                          className="font-bold text-slate-700 uppercase"
-                        >
-                          Armador/Nombre/Apellido
-                        </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <input
-                            placeholder="Nombre del armador y apellido"
                             value={armadores}
                             onChange={(e) => setArmadores(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 w-[300px] uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Armador/Nombre/Apellido
+                          </span>
                         </label>
                       </div>
-                      <div className="max-md:w-full flex flex-col gap-2">
-                        <label
-                          htmlFor=""
-                          className="font-bold text-slate-700 uppercase"
-                        >
-                          Total en viaticos
-                        </label>
+                      <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3">
                             $
@@ -715,21 +720,27 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={total_viaticos}
                             onChange={(e) => setTotalViaticos(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
                           />
+
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            Total en Viaticos
+                          </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base">
-                        {Number(total_viaticos).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
+                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
+                        <p>
+                          {Number(total_viaticos).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}
+                        </p>
                       </div>
                     </div>
                     <div>
                       <p className="text-slate-700 underline uppercase font-bold">
-                        Motivo del refuerzo
+                        Motivo
                       </p>
                       <div className="mt-2">
                         <select
@@ -737,30 +748,20 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                           value={motivo}
                           onChange={(e) => setMotivo(e.target.value)}
                         >
-                          <option className="text-xs uppercase" value="">
-                            Seleccionar motivo
-                          </option>
-                          <option
-                            className="text-xs uppercase"
-                            value="refuerzo"
-                          >
-                            Refuerzo
-                          </option>
-                          <option
-                            className="text-xs uppercase"
-                            value="no cobra en base"
-                          >
+                          <option value="">Seleccionar motivo</option>
+                          <option value="refuerzo">Refuerzo</option>
+                          <option value="no cobra en base">
                             No cobra en base
                           </option>
                         </select>
                       </div>
                       <div className="flex gap-2 mt-2 max-md:text-sm">
                         {motivo === "refuerzo" ? (
-                          <p className="bg-green-500 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-green-500 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
                             Refuerzo
                           </p>
                         ) : motivo === "no cobra en base" ? (
-                          <p className="bg-red-800 py-2 px-2 rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-red-800 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
                             No cobra en base
                           </p>
                         ) : null}
@@ -772,7 +773,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     <button
                       type="button"
                       onClick={() => onSubmit()}
-                      className="bg-green-100 text-green-800 rounded-2xl hover:bg-green-500 hover:text-white transition-all ease-linear py-2 px-6 max-md:text-sm uppercase text-sm flex gap-2 items-center"
+                      className="bg-green-100 text-green-700 rounded-xl hover:shadow hover:bg-green-500 hover:text-white transition-all ease-linear py-2 px-6 max-md:text-sm uppercase text-sm flex gap-2 items-center"
                     >
                       Crear nueva salida
                       <svg
@@ -786,7 +787,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                         />
                       </svg>
                     </button>

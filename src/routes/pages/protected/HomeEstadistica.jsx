@@ -235,9 +235,33 @@ export const HomeEstadistica = () => {
 
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
-      <h3 className="text-lg font-semibold uppercase text-slate-600 underline mt-4 md:px-4 max-md:text-base">
-        ESTADISTICA FILTRAR
-      </h3>
+      <div className="flex gap-5 items-center">
+        <h3 className="text-lg font-semibold uppercase text-slate-600 underline mt-4 md:px-4 max-md:text-base">
+          ESTADISTICA FILTRAR
+        </h3>
+
+        <button className="hover:shadow-md hover:shadow-gray-300 transition-all ease-linear bg-green-100 py-3 px-3 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center">
+          Descargar estadistica final
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+            />
+          </svg>
+        </button>
+
+        <select className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300">
+          <option value="">SELECCIONAR USUARIO</option>
+        </select>
+      </div>
       <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl shadow">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
           <div className="flex gap-2 items-center">
@@ -345,10 +369,10 @@ export const HomeEstadistica = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
+          <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
             <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
               <div
-                className={`inline-flex gap-2 self-end rounded   ${
+                className={`inline-flex gap-2 self-end rounded py-1 px-1   ${
                   totalCobroCliente +
                     totalCobroRendiciones +
                     totalCobroClienteLegales / 100000 <
@@ -359,7 +383,7 @@ export const HomeEstadistica = () => {
                         totalCobroClienteLegales / 100000 >
                       0
                     ? "text-green-600 bg-green-100"
-                    : ""
+                    : "bg-green-100 text-green-600"
                 }`}
               >
                 <svg
@@ -405,7 +429,9 @@ export const HomeEstadistica = () => {
 
               <div>
                 <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en remuraciones final con descuentos de legales.
+                  Total en remuraciones + rendiciones final con descuentos de
+                  legales /{" "}
+                  <span className="font-bold text-slate-800">FINAL CAJA</span>
                 </strong>
 
                 <p className="text-slate-500">

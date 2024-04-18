@@ -161,7 +161,7 @@ export const SalidasRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
       <ToastContainer />
-      <div className="grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
+      <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
             <svg
@@ -374,67 +374,75 @@ export const SalidasRegistradas = () => {
                   Localidad/Cliente
                 </th>
                 <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
+                  Mes de creación
+                </th>
+                <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Fabrica/Sucursal
                 </th>
                 <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Creador
                 </th>
                 <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
-                  Eliminar
+                  Ver salida
                 </th>
                 {/* <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                 Editar
               </th> */}
-                <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
+                {/* <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Ver los datos/resumen
-                </th>
+                </th> */}
               </tr>
             </thead>
 
             <tbody className="divide-y divide-gray-200 uppercase">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {new Date(s.created_at).toLocaleString("default", {
+                      month: "long",
+                    })}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.fabrica}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] max-md:w-full cursor-pointer">
+                  {/* <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] max-md:w-full cursor-pointer">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
                       }}
                       type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
+                      className="bg-red-100 py-4 px-5 text-center rounded-xl text-red-800 uppercase"
                     >
                       Eliminar
                     </button>
-                  </td>
-                  {/* <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer">
+                  </td> */}
+                  {/* <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer">
                   <Link
                     to={`/editar/${s.id}`}
-                    className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                    className="bg-green-500 py-4 px-5 text-center rounded-xl text-white"
                   >
                     Editar
                   </Link>
                 </td> */}
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer max-md:w-full">
+                  <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer max-md:w-full">
                     <Link
                       target="_blank"
                       to={`/resumen/${s.id}`}

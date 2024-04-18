@@ -230,9 +230,15 @@ export const RemuneracionesRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
-      <div className="grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
+      <div className="grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none uppercase">
         <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalGastosCliente < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-green-100 text-green-600"
+            }`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -248,10 +254,7 @@ export const RemuneracionesRegistradas = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
-            </span>
+            <span>{Number(totalGastosCliente / 100000).toFixed(2)} %</span>
           </div>
 
           <div>
@@ -260,7 +263,13 @@ export const RemuneracionesRegistradas = () => {
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalGastosCliente) < 0
+                    ? "text-red-600"
+                    : "text-green-600"
+                } max-md:text-base`}
+              >
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -270,8 +279,14 @@ export const RemuneracionesRegistradas = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                ultima remuneracion total de la busqueda{" "}
-                <span className="font-bold text-slate-700">
+                última remuneración total de la búsqueda{" "}
+                <span
+                  className={`font-bold ${
+                    Number(ultimaVentaDelDia?.recaudacion || 0) < 0
+                      ? "text-red-600"
+                      : "text-green-600"
+                  }`}
+                >
                   {" "}
                   {Number(
                     Number(ultimaVentaDelDia?.recaudacion || 0)
@@ -494,6 +509,9 @@ export const RemuneracionesRegistradas = () => {
                   Localidad/Cliente
                 </th>
                 <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
+                  Mes de creación
+                </th>
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Recaudacion generada
                 </th>
                 <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
@@ -508,28 +526,33 @@ export const RemuneracionesRegistradas = () => {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 uppercase">
               {filteredResults.map((s) => (
                 <tr key={s.id}>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.id}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>
                         {c.cliente}({c.numeroContrato})
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.datos_cliente.datosCliente.map((c) => (
                       <div>{c.localidad}</div>
                     ))}
                   </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {new Date(s.created_at).toLocaleString("default", {
+                      month: "long",
+                    })}
+                  </td>
                   <td
                     className={`px-4 py-2 font-bold text-${
                       s.recaudacion >= 0 ? "green" : "red"
-                    }-500 capitalize`}
+                    }-500`}
                   >
                     {Number(s.recaudacion).toLocaleString("es-AR", {
                       style: "currency",
@@ -537,10 +560,10 @@ export const RemuneracionesRegistradas = () => {
                       minimumIntegerDigits: 2,
                     })}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs capitalize">
+                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize cursor-pointer space-x-2">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs cursor-pointer space-x-2">
                     <button
                       onClick={() => {
                         handleId(s.id), openEliminar();
@@ -558,7 +581,7 @@ export const RemuneracionesRegistradas = () => {
                       Editar
                     </Link>
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs capitalize cursor-pointer">
+                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs cursor-pointer">
                     <Link
                       to={`/recaudacion/${s.id}`}
                       target="_blank"

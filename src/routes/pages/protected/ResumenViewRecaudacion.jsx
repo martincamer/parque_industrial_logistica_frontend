@@ -27,8 +27,6 @@ export const ResumenViewRecaudacion = () => {
     loadData();
   }, []);
 
-  console.log(unicaSalida);
-
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
 
@@ -93,7 +91,7 @@ export const ResumenViewRecaudacion = () => {
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-10">
-      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+      <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:pb-3 transition-all ease-linear">
           <div
             className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium 
@@ -123,7 +121,7 @@ export const ResumenViewRecaudacion = () => {
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total recaudado en esta entrega
+              Total remunerado en esta entrega
             </strong>
 
             <p>
@@ -235,7 +233,7 @@ export const ResumenViewRecaudacion = () => {
         </article>
       </div>
 
-      <div className="flex gap-5">
+      {/* <div className="flex gap-5">
         <Link
           target="_blank"
           to={`/remuneracion-pdf/${params.id}`}
@@ -257,14 +255,14 @@ export const ResumenViewRecaudacion = () => {
             />
           </svg>
         </Link>
-      </div>
+      </div> */}
 
-      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
+      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase text-sm">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
             Datos de los clientes
           </p>
-          <div className="py-2 px-2 flex flex-col gap-3">
+          <div className="py-2 px-2 flex flex-col gap-3 h-[200px] overflow-y-scroll">
             {unicaSalida?.datos_cliente?.datosCliente?.map((datos, index) => (
               <div
                 key={index}
@@ -311,7 +309,7 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
             Datos de carga/fletero/etc
           </p>
@@ -362,82 +360,101 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg flex flex-col gap-2">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
             Remuneraciones/Etc
           </p>
+          <div className="flex flex-col gap-2">
+            <div className="mt-3">
+              <p className="text-slate-600 max-md:text-sm">
+                Pago chofer por espera:{" "}
+                <span className="text-slate-700 font-semibold">
+                  {Number(unicaSalida.pago_fletero_espera).toLocaleString(
+                    "es-AR",
+                    {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    }
+                  )}
+                </span>
+              </p>
+            </div>
 
-          <div className="mt-3">
-            <p className="text-slate-600 max-md:text-sm">
-              Pago chofer por espera:{" "}
-              <span className="text-slate-700 font-semibold">
-                {Number(unicaSalida.pago_fletero_espera).toLocaleString(
-                  "es-AR",
-                  {
+            <div className="">
+              <p className="text-slate-600 max-md:text-sm">
+                Refuerzo:{" "}
+                <span className="text-slate-700 font-semibold">
+                  {Number(unicaSalida.refuerzo).toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
                     minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+            <div className="">
+              <p className="text-slate-600 max-md:text-sm">
+                Viaticos:{" "}
+                <span className="text-slate-700 font-semibold">
+                  {Number(unicaSalida.viaticos).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+            <div className="">
+              <p className="text-slate-600 max-md:text-sm">
+                Auto:{" "}
+                <span className="text-slate-700 font-semibold">
+                  {Number(unicaSalida.auto).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+            <div className="">
+              <p className="text-slate-600 max-md:text-sm">
+                Total Flete:{" "}
+                <span className="text-slate-700 font-semibold">
+                  {Number(totalSuma).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+            <div className="">
+              <p className="text-slate-600 max-md:text-sm">
+                Recaudacion:{" "}
+                <span
+                  className={
+                    unicaSalida.recaudacion < 0
+                      ? "text-red-600 font-bold"
+                      : "text-green-600 font-bold"
                   }
-                )}
-              </span>
-            </p>
-          </div>
-
-          <div className="">
-            <p className="text-slate-600 max-md:text-sm">
-              Refuerzo:{" "}
-              <span className="text-slate-700 font-semibold">
-                {Number(unicaSalida.refuerzo).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-            </p>
-          </div>
-          <div className="">
-            <p className="text-slate-600 max-md:text-sm">
-              Viaticos:{" "}
-              <span className="text-slate-700 font-semibold">
-                {Number(unicaSalida.viaticos).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-            </p>
-          </div>
-          <div className="">
-            <p className="text-slate-600 max-md:text-sm">
-              Total Flete:{" "}
-              <span className="text-slate-700 font-semibold">
-                {Number(totalSuma).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-            </p>
-          </div>
-          <div className="">
-            <p className="text-slate-600 max-md:text-sm">
-              Recaudacion:{" "}
-              <span className="text-green-600 font-bold">
-                {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-            </p>
+                >
+                  {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <article className=" grid grid-cols-3 gap-4 items-start max-md:grid-cols-1">
+      <article className="grid grid-cols-3 gap-4 items-start max-md:grid-cols-1">
         <div className="flex gap-3">
           <div
-            className={`bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-3 ${
+            className={`bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-3 ${
               Number(unicaSalida.recaudacion) >= 0
                 ? "text-green-600"
                 : "text-red-600"
@@ -485,7 +502,7 @@ export const ResumenViewRecaudacion = () => {
                 )}
               </p>
             </div>
-            <div className="h-2 bg-gray-200 mt-3 rounded-md overflow-hidden">
+            <div className="h-3 bg-gray-200 mt-3 rounded-md overflow-hidden">
               <div
                 className={`h-full ${
                   Number(unicaSalida.recaudacion) >= 0
@@ -506,7 +523,7 @@ export const ResumenViewRecaudacion = () => {
         </div>
 
         <div className="flex gap-3">
-          <div className="bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-2">
+          <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-2">
             <div className="flex justify-between items-center">
               <p className="text-slate-500 text-lg flex gap-2 max-md:text-sm">
                 {Number(
@@ -532,18 +549,8 @@ export const ResumenViewRecaudacion = () => {
                   %
                 </span>
               </p>
-              {/* <p className="text-slate-500 text-lg">
-                {Number(Number(unicaSalida.recaudacion)).toLocaleString(
-                  "es-AR",
-                  {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  }
-                )}
-              </p> */}
             </div>
-            <div className="h-2 bg-gray-200 mt-3 rounded-md overflow-hidden">
+            <div className="h-3 bg-gray-200 mt-3 rounded-md overflow-hidden">
               <div
                 className="h-full bg-red-600 max-md:text-sm"
                 style={{
@@ -565,10 +572,9 @@ export const ResumenViewRecaudacion = () => {
             </span>
           </div>
         </div>
-        <div className="flex justify-center items-center border border-gray-300 rounded-xl hover:shadow py-10">
+        {/* <div className="flex justify-center items-center border border-gray-300 rounded-xl hover:shadow py-10">
           <div className="w-64 relative">
             <svg viewBox="0 0 36 36" className="overflow-visible">
-              {/* Refuerzo */}
               <circle
                 cx="18"
                 cy="18"
@@ -583,7 +589,6 @@ export const ResumenViewRecaudacion = () => {
                 onMouseEnter={() => handleHover("Refuerzo")}
                 onMouseLeave={handleLeave}
               />
-              {/* Recaudación */}
               <circle
                 cx="18"
                 cy="18"
@@ -598,7 +603,6 @@ export const ResumenViewRecaudacion = () => {
                 onMouseEnter={() => handleHover("Recaudación")}
                 onMouseLeave={handleLeave}
               />
-              {/* Viáticos */}
               <circle
                 cx="18"
                 cy="18"
@@ -615,7 +619,6 @@ export const ResumenViewRecaudacion = () => {
                 onMouseEnter={() => handleHover("Viáticos")}
                 onMouseLeave={handleLeave}
               />
-              {/* Total Flete Espera */}
               <circle
                 cx="18"
                 cy="18"
@@ -634,7 +637,6 @@ export const ResumenViewRecaudacion = () => {
                 onMouseEnter={() => handleHover("Total Flete Espera")}
                 onMouseLeave={handleLeave}
               />
-              {/* Center text */}
               <text
                 x="18"
                 y="18"
@@ -649,7 +651,6 @@ export const ResumenViewRecaudacion = () => {
                 minimumIntegerDigits: 2,
               })}`}</text>
             </svg>
-            {/* Tooltips */}
             {tooltip && (
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white text-sm pointer-events-none">
                 <div className="bg-gray-800 bg-opacity-90 p-2 rounded-md shadow-md">
@@ -665,7 +666,7 @@ export const ResumenViewRecaudacion = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
       </article>
     </section>
   );

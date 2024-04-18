@@ -267,22 +267,22 @@ export const Home = () => {
       {/* Otros gráficos y datos... */}
     </section>
   ) : (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
       <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-400 hover:shadow-md transition-all ease-linear bg-gray-100  p-3 max-md:rounded-xl cursor-pointer">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-400 hover:shadow-md transition-all ease-linear bg-gray-100  p-5 max-md:rounded-xl cursor-pointer">
           <div
-            className={`inline-flex gap-2 self-end rounded   ${
+            className={`inline-flex gap-2 self-end rounded py-1 px-2   ${
               totalCobroClienteDos +
                 totalCobroRendicionesDos +
                 totalCobroClienteLegalesDos / 100000 <
               0
-                ? "bg-red-100 p-1 text-red-600"
+                ? "bg-red-400 p-1 text-white"
                 : totalCobroClienteDos +
                     totalCobroRendicionesDos +
                     totalCobroClienteLegalesDos / 100000 >
                   0
-                ? "text-green-600 bg-green-100"
-                : ""
+                ? "text-white bg-green-400"
+                : "text-white bg-green-400"
             }`}
           >
             <svg
@@ -306,12 +306,12 @@ export const Home = () => {
                   totalCobroRendicionesDos +
                   totalCobroClienteLegalesDos / 100000 <
                 0
-                  ? "text-red-500"
+                  ? "text-white"
                   : totalCobroClienteDos +
                       totalCobroRendicionesDos +
                       totalCobroClienteLegalesDos / 100000 >
                     0
-                  ? "text-green-500"
+                  ? "text-white"
                   : ""
               }`}
             >

@@ -71,6 +71,7 @@ export const ModalEditarRemuneracion = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenChofer, setIsOpenChofer] = useState(false);
   const [isOpenVerChofer, setIsOpenVerChofer] = useState(false);
+  const [error, setError] = useState("");
 
   const openModal = () => {
     setIsOpen(true);
@@ -334,9 +335,16 @@ export const ModalEditarRemuneracion = ({
                   </p>
                 </div>
 
-                <div className="text-lg font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Editar la remuneración
+                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
+                  Editar la remuneracion
                 </div>
+                {error && error.length > 0 && (
+                  <div className="flex justify-center">
+                    <p className="bg-red-100 py-3 px-4 text-center mb-4 rounded-2xl uppercase text-sm text-red-800 font-bold">
+                      {error}
+                    </p>
+                  </div>
+                )}
 
                 <form
                   onSubmit={onSubmit}
@@ -346,14 +354,14 @@ export const ModalEditarRemuneracion = ({
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
+                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
+                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Ver choferes creados
                     </button>
@@ -405,9 +413,23 @@ export const ModalEditarRemuneracion = ({
                         <button
                           onClick={() => openModal()}
                           type="button"
-                          className="bg-black text-white text-sm py-2 px-4 shadow rounded-xl"
+                          className="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white text-sm py-3 px-4 hover:shadow rounded-xl uppercase flex gap-2 items-center"
                         >
                           Crear Clientes
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                            />
+                          </svg>
                         </button>
 
                         <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
@@ -421,7 +443,10 @@ export const ModalEditarRemuneracion = ({
                                   Localidad
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                                  Localidad
+                                  Total mtrs
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Total del flete
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                                   Acciones
@@ -433,13 +458,23 @@ export const ModalEditarRemuneracion = ({
                               {datosCliente.map((datos) => (
                                 <tr key={datos.id}>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
-                                    {datos.cliente}
+                                    {datos.cliente} ({datos.numeroContrato})
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                                     {datos.localidad}
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
-                                    {datos.numeroContrato}
+                                    {datos.metrosCuadrados}
+                                  </td>
+                                  <td className="px-4 py-2 text-gray-900 font-bold uppercase">
+                                    {Number(datos.totalFlete).toLocaleString(
+                                      "es-AR",
+                                      {
+                                        style: "currency",
+                                        currency: "ARS",
+                                        minimumIntegerDigits: 2,
+                                      }
+                                    )}
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                                     <div className="flex space-x-3">
@@ -469,94 +504,6 @@ export const ModalEditarRemuneracion = ({
                             </tbody>
                           </table>
                         </div>
-
-                        {/* <div className="flex gap-3 max-md:grid max-md:grid-cols-2 max-md:flex-none">
-                          {datosCliente.map((c, index) => (
-                            <div
-                              key={index}
-                              className="bg-white border-[1px] border-slate-300 rounded-xl py-8 px-4 relative shadow"
-                            >
-                              <div
-                                className="absolute top-2 right-4 cursor-pointer"
-                                onClick={() => eliminarCliente(c.cliente)}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6 text-red-800"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                  />
-                                </svg>
-                              </div>
-                              <div
-                                className="absolute top-2 right-10 cursor-pointer"
-                                onClick={() => {
-                                  handleUsuario(c.cliente), openEdit();
-                                }}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-5 h-5"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                  />
-                                </svg>
-                              </div>
-                              <p className="max-md:text-sm">
-                                Nombre y Apellido{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.cliente}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Localidad{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.localidad}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Numero de contrato{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.numeroContrato}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Metros Cuadrados{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.metrosCuadrados}
-                                </span>
-                              </p>
-
-                              <p className="max-md:text-sm">
-                                Total del flete{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {Number(c.totalFlete).toLocaleString(
-                                    "es-AR",
-                                    {
-                                      style: "currency",
-                                      currency: "ARS",
-                                      minimumIntegerDigits: 2,
-                                    }
-                                  )}
-                                </span>
-                              </p>
-                            </div>
-                          ))}
-                        </div> */}
                       </div>
                     </div>
                   </article>
@@ -793,7 +740,7 @@ export const ModalEditarRemuneracion = ({
                       type="submit"
                       className="bg-green-100 text-green-700 rounded-xl hover:shadow-md py-3 uppercase text-sm hover:bg-green-500 hover:text-white px-6 max-md:text-sm transition-all ease-linear flex gap-2 items-center"
                     >
-                      Editar la remuneración
+                      Editar la remuneracion
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -805,7 +752,7 @@ export const ModalEditarRemuneracion = ({
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                          d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                         />
                       </svg>
                     </button>
@@ -818,6 +765,7 @@ export const ModalEditarRemuneracion = ({
                   closeModal={closeModal}
                   datosCliente={datosCliente}
                 />
+
                 <ModalCrearChoferes
                   isOpen={isOpenChofer}
                   closeModal={closeModalChofer}

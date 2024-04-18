@@ -144,8 +144,31 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
     return () => newSocket.close();
   }, []);
 
+  const [error, setError] = useState([]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // Verificar campos requeridos
+    // if (
+    //   !armador ||
+    //   !fecha_carga ||
+    //   !fecha_entrega ||
+    //   !pago_fletero_espera ||
+    //   !km_lineal ||
+    //   !viaticos ||
+    //   !auto ||
+    //   !refuerzo ||
+    //   !chofer ||
+    //   !datosCliente
+    // ) {
+    //   setError("Todos los campos son obligatorios revisa los campos");
+    //   // Mostrar mensaje de error o realizar alguna acción
+    //   setTimeout(() => {
+    //     setError("");
+    //   }, 1500);
+    //   return;
+    // }
 
     const recaudacion =
       Number(totalSuma) -
@@ -185,12 +208,11 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
       });
 
       tres();
-
-      setTimeout(() => {
-        navigate("/remuneraciones");
-      }, 1000);
     } catch (error) {
-      console.log(error);
+      setTimeout(() => {
+        setError("");
+      }, 1500);
+      setError(error.response.data.message);
     }
   };
 
@@ -274,9 +296,16 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                   </p>
                 </div>
 
-                <div className="text-lg font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
+                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
                   Crear nueva remuneracion
                 </div>
+                {error && error.length > 0 && (
+                  <div className="flex justify-center">
+                    <p className="bg-red-100 py-3 px-4 text-center mb-4 rounded-2xl uppercase text-sm text-red-800 font-bold">
+                      {error}
+                    </p>
+                  </div>
+                )}
 
                 <form
                   onSubmit={onSubmit}
@@ -286,14 +315,14 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
+                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm"
+                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Ver choferes creados
                     </button>
@@ -345,9 +374,23 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                         <button
                           onClick={() => openModal()}
                           type="button"
-                          className="bg-black text-white text-sm py-2 px-4 shadow rounded-xl"
+                          className="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white text-sm py-3 px-4 hover:shadow rounded-xl uppercase flex gap-2 items-center"
                         >
                           Crear Clientes
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                            />
+                          </svg>
                         </button>
 
                         <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
@@ -361,7 +404,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                                   Localidad
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                                  Localidad
+                                  Total mtrs
+                                </th>
+                                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                                  Total del flete
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                                   Acciones
@@ -373,13 +419,23 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                               {datosCliente.map((datos) => (
                                 <tr key={datos.id}>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
-                                    {datos.cliente}
+                                    {datos.cliente} ({datos.numeroContrato})
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
                                     {datos.localidad}
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
-                                    {datos.numeroContrato}
+                                    {datos.metrosCuadrados}
+                                  </td>
+                                  <td className="px-4 py-2 text-gray-900 font-bold uppercase">
+                                    {Number(datos.totalFlete).toLocaleString(
+                                      "es-AR",
+                                      {
+                                        style: "currency",
+                                        currency: "ARS",
+                                        minimumIntegerDigits: 2,
+                                      }
+                                    )}
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                                     <div className="flex space-x-3">

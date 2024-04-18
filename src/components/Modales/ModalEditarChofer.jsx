@@ -114,42 +114,54 @@ export const ModalEditarChofer = ({ isOpen, closeModal, obtenerId }) => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-[500px] max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize max-md:text-sm max-md:uppercase">
+                <div className="flex justify-end cursor-pointer">
+                  <p
+                    onClick={closeModal}
+                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </p>
+                </div>
+
+                <div className="text-sm text-slate-700 mb-3 border-b-[1px] uppercase font-bold">
                   Editar el chofer
                 </div>
                 <form
                   onSubmit={onSubmit}
-                  className="flex flex-col gap-3"
-                  action=""
+                  className="flex flex-col gap-3 uppercase text-sm"
                 >
                   <div className="flex flex-col gap-2 max-md:text-sm">
                     <label htmlFor="">Nombre y Apellido</label>
                     <input
                       {...register("chofer", { required: true })}
-                      placeholder="@NOMBRE Y APELLIDO DEL CLIENTE"
+                      placeholder="NOMBRE Y APELLIDO DEL CLIENTE"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
+                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
                     />
                   </div>
 
                   <div>
                     <button
                       type="submit"
-                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase max-md:text-sm"
+                      className="bg-orange-100 text-orange-700 hover:font-bold hover:shadow-md hover:shadow-gray-300 rounded-xl py-2 px-4 uppercase transition-all ease-linear"
                     >
                       Editar el chofer
                     </button>
                   </div>
                 </form>
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

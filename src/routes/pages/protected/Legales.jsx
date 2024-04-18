@@ -70,18 +70,24 @@ export const Legales = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Ordenar el arreglo de legales por ID de mayor a menor
-  const sortedLegales = legales.slice().sort((a, b) => b.id - a.id);
+  const sortedRemuneracionesMensuales = legales
+    .slice()
+    .sort((a, b) => b.id - a.id);
 
   // Calcular el índice del último y primer elemento de la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // Obtener los resultados de la página actual
-  const currentResults = sortedLegales.slice(indexOfFirstItem, indexOfLastItem);
+  const currentResults = sortedRemuneracionesMensuales.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   // Calcular el número total de páginas
-  const totalPages = Math.ceil(sortedLegales.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    sortedRemuneracionesMensuales.length / itemsPerPage
+  );
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -97,16 +103,22 @@ export const Legales = () => {
 
   // Obtener lista de usuarios únicos
   const uniqueUsers = Array.from(
-    new Set(sortedLegales.map((legal) => legal.usuario.toLowerCase()))
+    new Set(
+      sortedRemuneracionesMensuales.map((remuneracion) =>
+        remuneracion.usuario.toLowerCase()
+      )
+    )
   );
+
   // Filtrar por cliente y usuario
-  const filteredResults = legales.filter((salida) =>
+  const filteredResults = currentResults.filter((salida) =>
     salida.datos_cliente.datosCliente.some(
       (d) =>
         d.cliente.toLowerCase().includes(searchTermCliente.toLowerCase()) &&
         (selectedUser === "" || salida.usuario.toLowerCase() === selectedUser)
     )
   );
+
   const [eliminarModal, setEliminarModal] = useState(false);
   const [obtenerId, setObtenerId] = useState(null);
 
@@ -174,7 +186,7 @@ export const Legales = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-5 py-16 max-h-full min-h-full">
       <ToastContainer />
-      <div className="grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+      <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-800">
             <svg
@@ -600,13 +612,13 @@ export const Legales = () => {
                 Fecha de entrega
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                Mes de creación
+              </th>
+              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Legal Final
               </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Eliminar
-              </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Editar
+              <th className="px-1 py-4  text-slate-800 font-bold uppercase text-center">
+                Acciones
               </th>
               <th className="px-1 py-4  text-slate-800 font-bold uppercase">
                 Ver los datos/resumen
@@ -623,13 +635,7 @@ export const Legales = () => {
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.usuario}
                 </td>
-                {/* <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {s.datos_cliente.datosCliente.map((c) => (
-                    <div>
-                      {c.cliente}({c.numeroContrato})
-                    </div>
-                  ))}
-                </td> */}
+
                 <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   <button
                     onClick={() => {
@@ -648,6 +654,11 @@ export const Legales = () => {
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.fecha_entrega.split("T")[0]}
                 </td>
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                  {new Date(s.created_at).toLocaleString("default", {
+                    month: "long",
+                  })}
+                </td>
                 <td
                   className={`px-4 py-3 font-bold text-${
                     s.recaudacion >= 0 ? "green" : "red"
@@ -660,34 +671,50 @@ export const Legales = () => {
                   })}
                 </td>
                 <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
-                  <button
-                    onClick={() => {
-                      handleId(s.id), openEliminar();
-                    }}
-                    type="button"
-                    className="bg-red-100 py-3 px-5 text-center rounded-xl uppercase text-red-800"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleID(s.id), openModalDos();
-                    }}
-                    className="bg-green-100 py-3 uppercase px-5 text-center rounded-xl text-green-700"
-                  >
-                    Editar
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        handleId(s.id), openEliminar();
+                      }}
+                      type="button"
+                      className="bg-red-100 py-3 px-5 text-center rounded-xl uppercase text-red-800"
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleID(s.id), openModalDos();
+                      }}
+                      className="bg-green-100 py-3 uppercase px-5 text-center rounded-xl text-green-700"
+                    >
+                      Editar
+                    </button>
+                  </div>
                 </td>
                 <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
-                  <Link
-                    to={`/legales/${s.id}`}
-                    className="bg-black py-2 px-5 text-center rounded-xl text-white"
-                  >
-                    Ver Orden Legal
-                  </Link>
+                  <div className="flex">
+                    <Link
+                      to={`/legales/${s.id}`}
+                      className="flex gap-2 items-center bg-black border-[1px] border-black py-2 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                    >
+                      Ver Orden Legal
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}

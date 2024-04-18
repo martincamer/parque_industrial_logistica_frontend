@@ -221,7 +221,7 @@ export const SideBar = () => {
                       </span>
                     </a>
                   </Link>
-
+                  {/* 
                   <Link to={"/transportes"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"
@@ -250,7 +250,7 @@ export const SideBar = () => {
                         Orden de llegada transportes
                       </span>
                     </a>
-                  </Link>
+                  </Link> */}
                   <Link to={"/rendiciones"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"

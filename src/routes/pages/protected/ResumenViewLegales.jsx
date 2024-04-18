@@ -27,8 +27,6 @@ export const ResumenViewLegales = () => {
     loadData();
   }, []);
 
-  console.log(unicaSalida);
-
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
 
@@ -93,7 +91,7 @@ export const ResumenViewLegales = () => {
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24">
-      <div className="grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
+      <div className="uppercase grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-300 hover:shadow bg-white p-6 transition-all ease-linear">
           <div
             className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium 
@@ -233,7 +231,7 @@ export const ResumenViewLegales = () => {
         </article>
       </div>
 
-      <div className="flex gap-5">
+      {/* <div className="flex gap-5">
         <Link
           target="_blank"
           to={`/remuneracion-pdf/${params.id}`}
@@ -255,10 +253,10 @@ export const ResumenViewLegales = () => {
             />
           </svg>
         </Link>
-      </div>
+      </div> */}
 
-      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
+      <div className="text-sm uppercase grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de los clientes
           </p>
@@ -309,7 +307,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de carga/fletero/etc
           </p>
@@ -360,7 +358,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-lg flex flex-col gap-2">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl flex flex-col gap-2">
           <p className="text-slate-700 font-bold text-lg underline">
             Remuneraciones/Etc
           </p>
@@ -407,6 +405,18 @@ export const ResumenViewLegales = () => {
           </div>
           <div className="">
             <p className="text-slate-600">
+              Auto:{" "}
+              <span className="text-slate-700 font-semibold">
+                {Number(unicaSalida.auto).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+          <div className="">
+            <p className="text-slate-600">
               Total Flete:{" "}
               <span className="text-slate-700 font-semibold">
                 {Number(totalSuma).toLocaleString("es-AR", {
@@ -435,7 +445,7 @@ export const ResumenViewLegales = () => {
       <article className="max-md:grid-cols-1 grid grid-cols-3 gap-4 items-start">
         <div className="flex gap-3">
           <div
-            className={`bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative ${
+            className={`bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative ${
               Number(unicaSalida.recaudacion) >= 0
                 ? "text-green-600"
                 : "text-red-600"
@@ -483,7 +493,7 @@ export const ResumenViewLegales = () => {
                 )}
               </p>
             </div>
-            <div className="h-2 bg-gray-200 mt-3 rounded-md overflow-hidden">
+            <div className="h-3 bg-gray-200 mt-3 rounded-md overflow-hidden">
               <div
                 className={`h-full ${
                   Number(unicaSalida.recaudacion) >= 0
@@ -504,7 +514,7 @@ export const ResumenViewLegales = () => {
         </div>
 
         <div className="flex gap-3">
-          <div className="bg-white border-slate-300 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative">
+          <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative">
             <div className="flex justify-between items-center">
               <p className="text-slate-500 text-lg flex gap-2">
                 {Number(
@@ -541,7 +551,7 @@ export const ResumenViewLegales = () => {
                 )}
               </p> */}
             </div>
-            <div className="h-2 bg-gray-200 mt-3 rounded-md overflow-hidden">
+            <div className="h-3 bg-gray-200 mt-3 rounded-md overflow-hidden">
               <div
                 className="h-full bg-red-600"
                 style={{
@@ -561,107 +571,6 @@ export const ResumenViewLegales = () => {
             <span className="font-bold text-slate-500 text-sm">
               Total gastos
             </span>
-          </div>
-        </div>
-        <div className="flex justify-center items-center border border-gray-300 rounded-xl hover:shadow py-10 max-md:flex-col">
-          <div className="w-64 relative">
-            <svg viewBox="0 0 36 36" className="overflow-visible">
-              {/* Refuerzo */}
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#f56565"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(refuerzoPercentage)} ${
-                  100 - Number(refuerzoPercentage)
-                }`}
-                transform="rotate(-90 18 18)"
-                onMouseEnter={() => handleHover("Refuerzo")}
-                onMouseLeave={handleLeave}
-              />
-              {/* Recaudación */}
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#4299e1"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(recaudacionPercentage)} ${
-                  100 - Number(recaudacionPercentage)
-                }`}
-                transform={`rotate(${Number(refuerzoPercentage)} 18 18)`}
-                onMouseEnter={() => handleHover("Recaudación")}
-                onMouseLeave={handleLeave}
-              />
-              {/* Viáticos */}
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#f6e05e"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(viaticosPercentage)} ${
-                  100 - Number(viaticosPercentage)
-                }`}
-                transform={`rotate(${
-                  Number(refuerzoPercentage) + Number(recaudacionPercentage)
-                } 18 18)`}
-                onMouseEnter={() => handleHover("Viáticos")}
-                onMouseLeave={handleLeave}
-              />
-              {/* Total Flete Espera */}
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#38a169"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(totalFleteEsperaPercentage)} ${
-                  100 - Number(totalFleteEsperaPercentage)
-                }`}
-                transform={`rotate(${
-                  Number(refuerzoPercentage) +
-                  Number(recaudacionPercentage) +
-                  Number(viaticosPercentage)
-                } 18 18)`}
-                onMouseEnter={() => handleHover("Total Flete Espera")}
-                onMouseLeave={handleLeave}
-              />
-              {/* Center text */}
-              <text
-                x="18"
-                y="18"
-                textAnchor="middle"
-                fontSize="3"
-                fill="#4a5568"
-                className="font-bold text-gray-700"
-                dy=".3em"
-              >{`${Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}`}</text>
-            </svg>
-            {/* Tooltips */}
-            {tooltip && (
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white text-sm pointer-events-none">
-                <div className="bg-gray-800 bg-opacity-90 p-2 rounded-md shadow-md">
-                  {tooltip === "Refuerzo" &&
-                    `Refuerzo: ${unicaSalida.refuerzo}`}
-                  {tooltip === "Recaudación" &&
-                    `Recaudación: ${unicaSalida.recaudacion}`}
-                  {tooltip === "Viáticos" &&
-                    `Viáticos: ${unicaSalida.viaticos}`}
-                  {tooltip === "Total Flete Espera" &&
-                    `Total Flete Espera: ${unicaSalida.pago_fletero_espera}`}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </article>

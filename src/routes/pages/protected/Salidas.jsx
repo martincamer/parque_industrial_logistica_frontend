@@ -548,18 +548,6 @@ export const Salidas = () => {
                     <FaHouseChimneyUser className="text-2xl" />
                   </button>
                 </td>
-                {/* <td className="px-4 py-3 font-medium text-gray-900 upppercase">
-                  {s.datos_cliente.datosCliente.map((c) => (
-                    <div>
-                      {c.cliente}({c.numeroContrato})
-                    </div>
-                  ))}
-                </td> */}
-                {/* <td className="px-4 py-3 font-medium text-gray-900 upppercase">
-                  {s.datos_cliente.datosCliente.map((c) => (
-                    <div>{c.localidad}</div>
-                  ))}
-                </td> */}
                 <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   {s.fabrica}
                 </td>

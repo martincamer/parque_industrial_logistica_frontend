@@ -87,14 +87,36 @@ export const ModalVerChoferes = ({ isOpen, closeModal }) => {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden max-md:h-[300px] max-md:overflow-y-scroll text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
+                <div className="flex justify-end cursor-pointer">
+                  <p
+                    onClick={closeModal}
+                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </p>
+                </div>
+
+                <div className="text-sm text-slate-700 mb-3 border-b-[1px] uppercase font-bold">
                   Choferes Creados
                 </div>
 
                 <div className="grid grid-cols-3 max-md:grid-cols-1  py-2 px-4 gap-3 border-slate-300 border-[1px] rounded-xl shadow">
                   {choferes.map((c) => (
                     <div className="flex items-center gap-2">
-                      <p className="font-bold text-slate-700 capitalize">
+                      <p className="font-bold text-slate-700 uppercase">
                         {c.chofer}
                       </p>
                       <svg
@@ -139,16 +161,6 @@ export const ModalVerChoferes = ({ isOpen, closeModal }) => {
                   isOpen={isOpenEdit}
                   closeModal={closeEdit}
                 />
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
               </div>
             </Transition.Child>
           </div>

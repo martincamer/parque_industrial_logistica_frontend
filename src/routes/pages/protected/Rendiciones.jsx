@@ -160,7 +160,7 @@ export const Rendicones = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
       <ToastContainer />
-      <div className="grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+      <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
