@@ -33,7 +33,10 @@ const ViviendasProgressBar = ({ salidasMensuales, legales }) => {
           Total vivivendas entregadas
         </p>
         <p className="text-slate-700 text-lg mb-3 max-md:text-sm max-md:font-bold">
-          {Number(totalDatos + totalDatosDos)} entregadas
+          <span className="font-bold">
+            {Number(totalDatos + totalDatosDos)}
+          </span>{" "}
+          VIVIENDAS ENTREGADAS
         </p>
       </div>
       <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">

@@ -1,11 +1,10 @@
-import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
-import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
-import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
-import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
-import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
-import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
 import { useState } from "react";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
+import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
+import ProgressBarMetrosEntregados from "../../../components/charts/ProgressBarMetrosEntregados";
 import client from "../../../api/axios";
+import { ImprimirPdfEstadistica } from "../../../components/pdf/ImprimirEstadistica";
 
 export const HomeEstadistica = () => {
   const [salidasMensuales, setSalidasMensuales] = useState([]);
@@ -114,9 +113,86 @@ export const HomeEstadistica = () => {
     ? remuneracionesMensuales.filter((item) => item.usuario === selectedUser)
     : remuneracionesMensuales;
 
+  const totalContratosGeneradosEnRemuneraciones = filteredData?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida?.datos_cliente?.datosCliente.length
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalEnFletesGeneradosEnRemunerciones = filteredData?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida.datos_cliente.datosCliente.reduce(
+              (subtotal, cliente) => subtotal + Number(cliente.totalFlete || 0), // Asegurarse de manejar el caso en que totalFlete no esté definido
+              0
+            )
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalEnViaticosGeneradosEnRemunerciones = filteredData?.reduce(
+    (total, salida) => {
+      return total + (salida?.viaticos ? Number(salida.viaticos) : 0);
+    },
+    0
+  );
+
   const filteredDataLegales = selectedUser
     ? legales.filter((item) => item.usuario === selectedUser)
     : legales;
+
+  console.log(filteredDataLegales);
+
+  const totalContratosGeneradosEnLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida?.datos_cliente?.datosCliente.length
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalEnFletesGeneradosEnLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida.datos_cliente.datosCliente.reduce(
+              (subtotal, cliente) => subtotal + Number(cliente.totalFlete || 0), // Asegurarse de manejar el caso en que totalFlete no esté definido
+              0
+            )
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalEnViaticosGeneradosEnLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return total + (salida?.viaticos ? Number(salida.viaticos) : 0);
+    },
+    0
+  );
+
+  const totalViaticos =
+    totalEnViaticosGeneradosEnLegales + totalEnViaticosGeneradosEnRemunerciones;
+  const totalFletes =
+    totalEnFletesGeneradosEnLegales + totalEnFletesGeneradosEnRemunerciones;
+
+  console.log(totalViaticos, totalFletes);
 
   const filteredDataRendiciones = selectedUser
     ? rendicionesMensuales.filter((item) => item.usuario === selectedUser)
@@ -172,20 +248,18 @@ export const HomeEstadistica = () => {
     ventasDelDia[0]
   );
 
-  // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
+  // const gastosDelDia = salidasMensuales?.filter(
+  //   (item) => item?.created_at?.slice(0, 10) === fechaActualString
+  // );
 
-  const gastosDelDia = salidasMensuales?.filter(
-    (item) => item?.created_at?.slice(0, 10) === fechaActualString
-  );
+  // const ultimoGastosDelDia = gastosDelDia?.reduce((ultimaGasto, gasto) => {
+  //   // Convertir las fechas de cadena a objetos Date para compararlas
+  //   const fechaUltimoGasto = new Date(ultimaGasto?.created_at);
+  //   const fechaGasto = new Date(gasto?.created_at);
 
-  const ultimoGastosDelDia = gastosDelDia?.reduce((ultimaGasto, gasto) => {
-    // Convertir las fechas de cadena a objetos Date para compararlas
-    const fechaUltimoGasto = new Date(ultimaGasto?.created_at);
-    const fechaGasto = new Date(gasto?.created_at);
-
-    // Retornar la venta con la hora más reciente
-    return fechaGasto > fechaUltimoGasto ? gasto : ultimaGasto;
-  }, gastosDelDia[0]);
+  //   // Retornar la venta con la hora más reciente
+  //   return fechaGasto > fechaUltimoGasto ? gasto : ultimaGasto;
+  // }, gastosDelDia[0]);
 
   const totalDatos = filteredData?.reduce((total, salida) => {
     return (
@@ -249,8 +323,6 @@ export const HomeEstadistica = () => {
     )
   );
 
-  console.log(uniqueUsers);
-
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
       <div className="flex gap-5 items-center">
@@ -258,7 +330,24 @@ export const HomeEstadistica = () => {
           ESTADISTICA FILTRAR
         </h3>
 
-        <button className="hover:shadow-md hover:shadow-gray-300 transition-all ease-linear bg-green-100 py-3 px-3 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center">
+        <PDFDownloadLink
+          target="_blank"
+          download={false}
+          document={
+            <ImprimirPdfEstadistica
+              totalCobroCliente={totalCobroCliente}
+              totalCobroRendiciones={totalCobroRendiciones}
+              totalCobroClienteLegales={totalCobroClienteLegales}
+              totalDatos={totalDatos}
+              totalDatosDos={totalDatosDos}
+              totalDatosMetrosCuadrados={totalDatosMetrosCuadrados}
+              totalDatosMetrosCuadradosLegales={
+                totalDatosMetrosCuadradosLegales
+              }
+            />
+          }
+          className="hover:shadow-md hover:shadow-gray-300 transition-all ease-linear bg-green-100 py-3 px-3 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center"
+        >
           Descargar estadistica final
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +363,7 @@ export const HomeEstadistica = () => {
               d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
             />
           </svg>
-        </button>
+        </PDFDownloadLink>
 
         <select
           className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300 uppercase"
@@ -290,7 +379,7 @@ export const HomeEstadistica = () => {
           ))}
         </select>
       </div>
-      <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl shadow">
+      <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl hover:shadow">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
           <div className="flex gap-2 items-center">
             <label className="text-base text-slate-700 max-md:text-sm uppercase">
@@ -392,7 +481,7 @@ export const HomeEstadistica = () => {
       ) : (
         <>
           <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div
                 className={`inline-flex gap-2 self-end rounded py-1 px-1   ${
                   totalCobroCliente +
@@ -483,7 +572,7 @@ export const HomeEstadistica = () => {
                 </p>
               </div>
             </article>
-            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3 max-md:rounded-xl">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -507,12 +596,12 @@ export const HomeEstadistica = () => {
               </div>
 
               <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                <strong className="block text-sm font-medium uppercase text-green-600 max-md:text-xs">
                   Total en remuneración del mes
                 </strong>
 
                 <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-slate-900">
+                  <span className="text-2xl max-md:text-base font-medium uppercase text-green-600">
                     {Number(Number(totalCobroCliente)).toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
@@ -538,7 +627,7 @@ export const HomeEstadistica = () => {
               </div>
             </article>
 
-            <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -594,7 +683,7 @@ export const HomeEstadistica = () => {
               </div>
             </article>
 
-            <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -634,7 +723,7 @@ export const HomeEstadistica = () => {
               </div>
             </article>
 
-            <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -659,7 +748,7 @@ export const HomeEstadistica = () => {
 
               <div>
                 <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total viviendas entregadas
+                  Total viviendas entregadas/contratos
                 </strong>
 
                 <p>
@@ -674,7 +763,7 @@ export const HomeEstadistica = () => {
                 </p>
               </div>
             </article>
-            <article className="flex flex-col gap-4 rounded-lg border border-slate-200 shadow bg-white p-6 max-md:p-3">
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
               <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -726,6 +815,108 @@ export const HomeEstadistica = () => {
                 </p>
               </div>
             </article>
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+
+                <span className="text-xs font-medium uppercase">
+                  {" "}
+                  {Number(Number(totalFletes) / 100000).toFixed(2)} %{" "}
+                </span>
+              </div>
+
+              <div>
+                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                  Total en fletes del mes
+                </strong>
+
+                <p className="text-slate-500">
+                  <span className="text-2xl max-md:text-base font-medium uppercase text-slate-900">
+                    {Number(Number(totalFletes)).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>{" "}
+                  <span
+                    className={`text-xs
+                 `}
+                  >
+                    {" "}
+                    ultimos en fletes del mes{" "}
+                    {Number(totalFletes || 0).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>
+                </p>
+              </div>
+            </article>
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+
+                <span className="text-xs font-medium uppercase">
+                  {" "}
+                  {Number(Number(totalViaticos) / 100000).toFixed(2)} %{" "}
+                </span>
+              </div>
+
+              <div>
+                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                  Total en viaticos del mes
+                </strong>
+
+                <p className="text-slate-500">
+                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
+                    {Number(Number(totalViaticos)).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>{" "}
+                  <span
+                    className={`text-xs
+                 `}
+                  >
+                    {" "}
+                    ultimos en viaticos del mes{" "}
+                    {Number(totalViaticos || 0).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>
+                </p>
+              </div>
+            </article>
           </div>
 
           <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
@@ -741,9 +932,13 @@ export const HomeEstadistica = () => {
               salidasMensuales={filteredData}
               legales={filteredDataLegales}
             />
+            <ProgressBarMetrosEntregados
+              salidasMensuales={filteredData}
+              legales={filteredDataLegales}
+            />
           </div>
 
-          <div className="bg-white h-full w-full">
+          {/* <div className="bg-white h-full w-full">
             <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
               <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
                 GRAFICO DE REMUNERACIONES
@@ -776,7 +971,7 @@ export const HomeEstadistica = () => {
               />
             </div>
             <ViviendasDataCharts salidasMensuales={salidasMensuales} />
-          </div>
+          </div> */}
         </>
       )}
     </section>
