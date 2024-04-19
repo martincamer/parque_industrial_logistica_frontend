@@ -184,8 +184,8 @@ export const RendicionesRegistradas = () => {
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
-      <div className=" py-10 px-10 rounded-xl bg-white border-slate-300 border-[1px] shadow grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+      <div className="uppercase grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +240,7 @@ export const RendicionesRegistradas = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -259,75 +259,44 @@ export const RendicionesRegistradas = () => {
 
             <span className="text-xs font-medium">
               {" "}
-              {Number(datos?.length / 100).toFixed(2)} %{" "}
+              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
             </span>
           </div>
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total viviendas entregadas de la busqueda
+              Total en rendiciones de la busqueda
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {datos?.length}
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+                {Number(totalGastosCliente).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
               </span>
 
               <span className="text-xs text-gray-500">
                 {" "}
-                Total viviendas entregadas{" "}
+                ultima rendiciones total de la busqueda{" "}
                 <span className="font-bold text-slate-700">
-                  {datos?.length}
-                </span>{" "}
+                  {" "}
+                  {Number(
+                    Number(ultimaVentaDelDia?.rendicion_final || 0)
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
               </span>
             </p>
           </div>
         </article>
-
-        {/* <article className="flex flex-col gap-4 rounded-xl border border-slate-200 shadow bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {totalDatosMetrosCuadrados / 10000} %{" "}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-sm">
-              Total en metros cuadradados
-            </strong>
-
-            <p>
-              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {totalDatosMetrosCuadrados}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Total en el mes {totalDatosMetrosCuadrados} mts{" "}
-              </span>
-            </p>
-          </div>
-        </article> */}
       </div>
-
-      <div className="mt-10 max-md:mt-0">
-        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start">
+      <div className="mt-10 max-md:mt-0 uppercase">
+        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start text-sm">
           <div className="flex gap-2 items-center max-md:text-sm">
             <label className="text-base text-slate-700 max-md:text-sm">
               Fecha de inicio
@@ -356,7 +325,7 @@ export const RendicionesRegistradas = () => {
               onClick={buscarIngresosPorFecha}
               className="bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:text-sm max-md:w-full"
             >
-              Buscar registro salidas
+              {/* Buscar registro salidas */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -377,10 +346,24 @@ export const RendicionesRegistradas = () => {
 
         <div>
           <button
-            className="bg-green-500 py-2 px-6 text-white rounded-xl shadow mt-5 max-md:text-sm"
+            className="bg-green-100 py-2 px-6 text-green-700 rounded-xl shadow mt-5 max-md:text-sm uppercase text-sm flex gap-2 items-center"
             onClick={() => downloadDataAsExcel(datos)}
           >
             Descargar todo en formato excel
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
+            </svg>
           </button>
         </div>
       </div>
@@ -390,7 +373,7 @@ export const RendicionesRegistradas = () => {
           <select
             value={selectedUser}
             onChange={(e) => setSelectedUser(e.target.value)}
-            className="outline-none text-slate-600 bg-white w-full"
+            className="outline-none text-slate-600 bg-white w-full uppercase text-sm"
           >
             <option value="">Seleccionar usuario...</option>
             {uniqueUsers.map((user) => (
@@ -430,15 +413,8 @@ export const RendicionesRegistradas = () => {
                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                   Rendicion Final
                 </th>
-
-                {/* <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                  Eliminar
-                </th> */}
                 <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                  Editar
-                </th>
-                <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                  Ver los datos
+                  Acciones
                 </th>
               </tr>
             </thead>
@@ -448,22 +424,22 @@ export const RendicionesRegistradas = () => {
                 .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by created_at property in descending order
                 .map((s) => (
                   <tr key={s.id}>
-                    <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {s.id}
                     </td>
-                    <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {s.usuario}
                     </td>
-                    <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {s.detalle}
                     </td>
-                    <td className="px-4 py-2 font-medium text-gray-900 capitalize">
+                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {formatDate(s.created_at)}
                     </td>
                     <td
-                      className={`px-4 py-2 font-bold text-${
+                      className={`px-4 py-4 font-bold text-${
                         s.rendicion_final >= 0 ? "green" : "red"
-                      }-500 capitalize`}
+                      }-500 uppercase`}
                     >
                       {Number(s.rendicion_final).toLocaleString("es-AR", {
                         style: "currency",
@@ -471,32 +447,19 @@ export const RendicionesRegistradas = () => {
                         minimumIntegerDigits: 2,
                       })}
                     </td>
-                    {/* <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                      <button
-                        onClick={() => {
-                          handleId(s.id), openEliminar();
-                        }}
-                        type="button"
-                        className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800"
-                      >
-                        Eliminar
-                      </button>
-                    </td> */}
-                    <td className="px-1 py-2 font-medium text-gray-900 capitalize w-[150px] cursor-pointer">
-                      <Link
+                    <td className="px-1 py-4 font-medium text-gray-900 uppercase w-[150px] cursor-pointer flex gap-2">
+                      {/* <Link
                         onClick={() => {
                           handleID(s.id), openModalDos();
                         }}
-                        className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+                        className="bg-green-100 py-3 px-5 text-center rounded-xl text-green-700"
                       >
                         Editar
-                      </Link>
-                    </td>
-                    <td className="px-1 py-2 font-medium text-gray-900 capitalize cursor-pointer">
+                      </Link> */}
                       <Link
                         target="_blank"
                         to={`/rendicion/${s.id}`}
-                        className="bg-black py-2 px-5 text-center rounded-xl text-white"
+                        className="bg-black py-3 px-5 text-center rounded-xl text-white"
                       >
                         Ver
                       </Link>
