@@ -183,7 +183,7 @@ export const EditarRemuneracion = () => {
         const newTipos = [...prevTipos];
         const updateRemuneracion = JSON.parse(res.config.data); // Convierte el JSON a objeto
         newTipos[tipoExistenteIndex] = {
-          id: params.id,
+          id: newTipos[tipoExistenteIndex].id,
           armador: updateRemuneracion.armador,
           fecha_carga: updateRemuneracion.fecha_carga,
           fecha_entrega: updateRemuneracion.fecha_entrega,
@@ -196,6 +196,7 @@ export const EditarRemuneracion = () => {
           chofer: updateRemuneracion.chofer,
           datos_cliente: updateRemuneracion.datos_cliente,
           role_id: updateRemuneracion.role_id,
+          sucursal: newTipos[tipoExistenteIndex].sucursal,
           usuario: newTipos[tipoExistenteIndex].usuario,
           created_at: newTipos[tipoExistenteIndex].created_at,
           updated_at: newTipos[tipoExistenteIndex].updated_at,

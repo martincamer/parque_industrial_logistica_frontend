@@ -51,7 +51,8 @@ export const ModalEditarRemuneracion = ({
   const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
   //useContext
-  const { setRemuneracionesMensuales } = useRemuneracionContext();
+  const { setRemuneracionesMensuales, remuneracionesMensuales } =
+    useRemuneracionContext();
 
   const { choferes, setChoferes } = useSalidasContext();
 
@@ -154,6 +155,58 @@ export const ModalEditarRemuneracion = ({
   const [auto, setAuto] = useState("");
   const [socket, setSocket] = useState(null);
 
+  console.log(obtenerID);
+
+  useEffect(() => {
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
+
+    setSocket(newSocket);
+
+    const handleEditarSalida = (EditarRemuneracion) => {
+      // Verificar datos recibidos
+      if (!EditarRemuneracion?.config?.data) {
+        console.error("Datos recibidos inválidos");
+        return;
+      }
+
+      const updateSalida = JSON.parse(EditarRemuneracion.config.data);
+
+      console.log("ID para actualizar:", obtenerID);
+      console.log("Datos para actualizar:", updateSalida);
+
+      setRemuneracionesMensuales((prevSalidas) => {
+        const nuevosSalidas = [...prevSalidas];
+        const index = nuevosSalidas.findIndex(
+          (salida) => salida.id === obtenerID
+        );
+
+        if (index !== -1) {
+          nuevosSalidas[index] = {
+            ...nuevosSalidas[index], // Conservar valores originales
+            ...updateSalida, // Actualizar con datos nuevos
+          };
+        }
+
+        console.log("Tipo de obtenerID:", typeof obtenerID); // Debe coincidir con el tipo de ID en los datos
+        console.log(
+          "Tipos de IDs en el array:",
+          nuevosSalidas.map((salida) => typeof salida.id)
+        );
+
+        return nuevosSalidas;
+      });
+    };
+
+    newSocket.on("editar-remuneracion", handleEditarSalida);
+
+    return () => {
+      newSocket.off("editar-remuneracion", handleEditarSalida);
+      newSocket.close();
+    };
+  }, [obtenerID]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -208,53 +261,6 @@ export const ModalEditarRemuneracion = ({
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_URL, {
-      withCredentials: true,
-    });
-
-    setSocket(newSocket);
-
-    const handleEditarSalida = (EditarRemuneracion) => {
-      const updateSalida = JSON.parse(EditarRemuneracion?.config?.data);
-
-      setRemuneracionesMensuales((prevSalidas) => {
-        const nuevosSalidas = [...prevSalidas];
-        const index = nuevosSalidas.findIndex(
-          (salida) => salida.id === salida.id
-        );
-        if (index !== -1) {
-          nuevosSalidas[index] = {
-            id: obtenerID,
-            armador: updateSalida.armador,
-            fecha_carga: updateSalida.fecha_carga,
-            fecha_entrega: updateSalida.fecha_entrega,
-            pago_fletero_espera: updateSalida.pago_fletero_espera, // Corregido el nombre del campo aquí
-            km_lineal: updateSalida.km_lineal,
-            viaticos: updateSalida.viaticos,
-            auto: updateSalida.auto,
-            refuerzo: updateSalida.refuerzo,
-            recaudacion: updateSalida.recaudacion,
-            chofer: updateSalida.chofer,
-            datos_cliente: updateSalida.datos_cliente,
-            role_id: updateSalida.role_id,
-            usuario: nuevosSalidas[index].usuario,
-            created_at: nuevosSalidas[index].created_at,
-            updated_at: nuevosSalidas[index].updated_at,
-          };
-        }
-        return nuevosSalidas;
-      });
-    };
-
-    newSocket.on("editar-remuneracion", handleEditarSalida);
-
-    return () => {
-      newSocket.off("editar-remuneracion", handleEditarSalida);
-      newSocket.close();
-    };
-  }, []);
 
   const [isEdit, setIsEdit] = useState(false);
 

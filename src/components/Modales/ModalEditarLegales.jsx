@@ -250,7 +250,7 @@ export const ModalEditarLegales = ({
       newSocket.off("editar-legal", handleEditarSalida);
       newSocket.close();
     };
-  }, []);
+  }, [obtenerID]);
 
   const [isEdit, setIsEdit] = useState(false);
 

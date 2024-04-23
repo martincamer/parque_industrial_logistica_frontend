@@ -14,7 +14,7 @@ import io from "socket.io-client";
 export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
   const fechaActual = new Date();
 
-  const { setLegales } = useLegalesContext();
+  const { setLegales, legales } = useLegalesContext();
   const [error, setError] = useState("");
 
   const nombresMeses = [
@@ -120,7 +120,7 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
   const totalSuma = datosCliente.reduce((acumulador, elemento) => {
     // Convertir la propiedad totalFlete a número y sumarla al acumulador
     return acumulador + parseFloat(elemento.totalFlete);
-  }, 0); // Iniciar el acumulador en 0
+  }, 0);
 
   const [socket, setSocket] = useState(null);
 
@@ -136,7 +136,7 @@ export const ModalCrearLegales = ({ isOpen: dos, closeModal: tres }) => {
     });
 
     return () => newSocket.close();
-  }, []);
+  }, [legales]);
 
   const onSubmit = async (e) => {
     e.preventDefault();

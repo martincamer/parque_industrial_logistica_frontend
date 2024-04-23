@@ -619,12 +619,6 @@ export const Remuneraciones = () => {
                     VER CLIENTES <FaHouseChimneyUser className="text-2xl" />
                   </button>
                 </td>
-                {/* <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {s.fecha_carga.split("T")[0]}
-                </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {s.fecha_entrega.split("T")[0]}
-                </td> */}
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.created_at.split("T")[0]}
                 </td>{" "}

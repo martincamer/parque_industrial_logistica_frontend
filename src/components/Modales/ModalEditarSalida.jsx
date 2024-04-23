@@ -8,12 +8,15 @@ import { ModalEditarClienteSalida } from "../../components/Modales/ModalEditarCl
 import { toast } from "react-toastify";
 import client from "../../api/axios";
 import io from "socket.io-client";
+import { useAuth } from "../../context/AuthProvider";
 
 export const ModalEditarSalida = ({
   isOpen: dos,
   closeModal: tres,
   obtenerID,
 }) => {
+  const { user } = useAuth();
+
   const fechaActual = new Date();
 
   const nombresMeses = [
@@ -45,12 +48,8 @@ export const ModalEditarSalida = ({
 
   const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
 
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
-
   //useContext
-  const { salidasMensuales, setSalidasMensuales } = useSalidasContext();
+  const { setSalidasMensuales } = useSalidasContext();
   const { choferes, setChoferes } = useSalidasContext();
 
   const [salidas, setSalidas] = useState([]);
@@ -230,6 +229,7 @@ export const ModalEditarSalida = ({
             espera: updateSalida.espera,
             chofer_vehiculo: updateSalida.chofer_vehiculo,
             datos_cliente: updateSalida.datos_cliente,
+            sucursal: nuevosSalidas[index]?.sucursal,
             role_id: nuevosSalidas[index]?.role_id,
             usuario: nuevosSalidas[index]?.usuario,
             created_at: nuevosSalidas[index]?.created_at,
@@ -246,7 +246,7 @@ export const ModalEditarSalida = ({
       newSocket.off("editar-salida", handleEditarSalida);
       newSocket.close();
     };
-  }, []);
+  }, [obtenerID]);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -363,9 +363,10 @@ export const ModalEditarSalida = ({
                             type="text"
                             className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full"
                           >
-                            <option value="">Fabrica</option>
-                            <option value="iraola">Iraola</option>
-                            <option value="long">Long</option>
+                            <option value="">Seleccionar</option>
+                            <option value={user?.sucursal}>
+                              {user?.sucursal}
+                            </option>
                           </select>
 
                           <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">

@@ -200,16 +200,7 @@ export const ModalEditarRendiciones = ({
       newSocket.off("editar-rendicion", handleEditarSalida);
       newSocket.close();
     };
-  }, []);
-
-  const [isEdit, setIsEdit] = useState(false);
-
-  const openEdit = () => setIsEdit(true);
-  const closeEdit = () => setIsEdit(false);
-
-  const [usuario, setUsuario] = useState("");
-
-  const handleUsuario = (usuario) => setUsuario(usuario);
+  }, [obtenerID]);
 
   return (
     <Menu as="div" className="z-50">
