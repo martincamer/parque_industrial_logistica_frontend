@@ -50,7 +50,7 @@ export const Register = () => {
           <Label label="Email del registro" />
           <Input
             register={register}
-            placeholder={"emailregistro@email.com"}
+            placeholder={"@emailregistro@email.com"}
             type={"email"}
           />
         </div>
@@ -61,6 +61,24 @@ export const Register = () => {
             register={register}
             placeholder={"@Usuario"}
             type={"username"}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Label label="Sucursal/Fabrica" />
+          <Input
+            register={register}
+            placeholder={"@Sucursal"}
+            type={"sucursal"}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <Label label="Localidad" />
+          <Input
+            register={register}
+            placeholder={"@Localidad"}
+            type={"localidad"}
           />
         </div>
 

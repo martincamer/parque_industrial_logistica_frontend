@@ -6,11 +6,14 @@ import { ModalCrearCliente } from "../../components/Modales/ModalCrearCliente";
 import { ModalCrearChoferes } from "../../components/Modales/ModalCrearChoferes";
 import { ModalVerChoferes } from "../../components/Modales/ModalVerChoferes";
 import { ModalEditarClienteSalida } from "../../components/Modales/ModalEditarClienteSalida";
+import { useAuth } from "../../context/AuthProvider";
 import { toast } from "react-toastify";
 import client from "../../api/axios";
 import io from "socket.io-client";
 
 export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
+  const { user } = useAuth();
+
   const fechaActual = new Date();
 
   const [error, setError] = useState("");
@@ -43,10 +46,6 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
 
   const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
-
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
 
   //useContext
   const { setSalidasMensuales } = useSalidasContext();
@@ -117,14 +116,11 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const [fabrica, setFabrica] = useState("");
   const [espera, setEspera] = useState("");
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
-
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     const newSocket = io(
       "https://tecnohouseindustrialbackend-production.up.railway.app",
-      // "http://localhost:4000",
-
       {
         withCredentials: true,
       }
@@ -139,9 +135,13 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
     return () => newSocket.close();
   }, []);
 
+  useEffect(() => {
+    setSalida(user.localidad);
+    setFabrica(user.sucursal);
+  }, []);
+
   const onSubmit = async () => {
     try {
-      // e.preventDefault();
       const res = await crearNuevaSalida({
         chofer,
         km_viaje_control,
@@ -301,14 +301,14 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm uppercase text-sm"
+                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow text-base max-md:text-sm uppercase text-sm"
+                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
                     >
                       Ver choferes creados
                     </button>
@@ -327,8 +327,11 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full "
                           >
                             <option value="">Fabrica</option>
-                            <option value="iraola">Iraola</option>
-                            <option value="long">Long</option>
+                            {/* <option value="iraola">Iraola</option>
+                            <option value="long">Long</option> */}
+                            <option value={user?.sucursal}>
+                              {user?.sucursal}
+                            </option>
                           </select>
 
                           <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
