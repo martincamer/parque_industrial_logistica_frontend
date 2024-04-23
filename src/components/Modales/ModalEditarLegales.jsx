@@ -182,15 +182,21 @@ export const ModalEditarLegales = ({
 
       socket.emit("editar-legal", res);
 
-      toast.success("¡Legales editada correctamente!", {
+      toast.success("¡Legal editado correctamente!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
+        style: {
+          padding: "12px",
+          borderRadius: "15px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        },
       });
 
       tres();
@@ -200,12 +206,9 @@ export const ModalEditarLegales = ({
   };
 
   useEffect(() => {
-    const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
-      {
-        withCredentials: true,
-      }
-    );
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 

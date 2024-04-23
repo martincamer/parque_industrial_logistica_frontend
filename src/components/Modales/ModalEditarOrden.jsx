@@ -72,13 +72,9 @@ export const ModalEditarOrden = ({ isOpen, closeModal, obtenerId }) => {
   });
 
   useEffect(() => {
-    const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
-      // "http://localhost:4000",
-      {
-        withCredentials: true,
-      }
-    );
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 

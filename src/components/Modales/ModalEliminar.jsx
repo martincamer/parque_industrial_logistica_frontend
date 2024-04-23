@@ -6,18 +6,14 @@ import client from "../../api/axios";
 import io from "socket.io-client";
 
 export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
-  const { salidasMensuales, setSalidasMensuales } = useSalidasContext();
+  const { setSalidasMensuales } = useSalidasContext();
 
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
-      // "http://localhost:4000",
-      {
-        withCredentials: true,
-      }
-    );
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 
@@ -38,15 +34,21 @@ export const ModalEliminar = ({ eliminarModal, closeEliminar, obtenerId }) => {
         socket.emit("eliminar-salida", { id });
       }
 
-      toast.error("Eliminado correctamente!", {
+      toast.error("¡Eliminado correctamente!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
+        style: {
+          padding: "12px",
+          borderRadius: "15px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        },
       });
 
       closeEliminar();

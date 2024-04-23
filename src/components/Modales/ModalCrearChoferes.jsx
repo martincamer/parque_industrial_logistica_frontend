@@ -30,12 +30,18 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
       toast.success("¡Chofer creado correctamente!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
         theme: "light",
+        style: {
+          padding: "12px",
+          borderRadius: "15px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        },
       });
 
       setTimeout(() => {

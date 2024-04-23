@@ -157,12 +157,24 @@ export const Rendicones = () => {
       salida.usuario.toLowerCase() === selectedUser.toLowerCase()
   );
 
+  const esNegativo = Number(totalRecaudación) > 0;
+
+  // Clases para el indicador visual
+  const indicadorColor = esNegativo
+    ? "bg-green-100 text-green-800"
+    : "bg-red-100 text-red-800";
+  const porcentajeColor = esNegativo ? "text-green-600" : "text-red-600";
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer`}
+        >
+          <div
+            className={`inline-flex gap-2 self-end rounded ${indicadorColor} p-1`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -174,23 +186,27 @@ export const Rendicones = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                d={
+                  esNegativo
+                    ? "M11 17l-8-8m0 0v8m0-8h8m13 0h-8m0 0v8"
+                    : "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                }
               />
             </svg>
-
             <span className="text-xs font-medium">
-              {" "}
-              {/* {Number(totalRecaudación / 10000).toFixed(2)} %{" "} */}
+              {Number(totalRecaudación / 10000).toFixed(2)} %
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total rendiciones
+            <strong className="block text-sm font-medium text-slate-500 max-md:text-xs">
+              Total en rendiciones del mes
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span
+                className={`text-2xl font-medium ${porcentajeColor} max-md:text-base`}
+              >
                 {Number(totalRecaudación).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -200,7 +216,7 @@ export const Rendicones = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                ultima remuneracion del día, el total es de{" "}
+                ultima rendición del día, el total es de{" "}
                 {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
                   "es-AR",
                   {
@@ -371,7 +387,7 @@ export const Rendicones = () => {
                   <p
                     className={`font-bold text-xs uppercase text-${
                       datos.rendicion_final >= 0 ? "green" : "red"
-                    }-500`}
+                    }-600`}
                   >
                     {Number(datos.rendicion_final).toLocaleString("es-AR", {
                       style: "currency",
@@ -466,23 +482,23 @@ export const Rendicones = () => {
                 Creador
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                Fabrica/Sucursal
+              </th>
+              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Detalle/clientes/etc
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Fecha{" "}
+                Armador/Entrega{" "}
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Rendicion Final
+                Fecha de creación
+              </th>
+              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                Rendicion total
               </th>
 
               <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Eliminar
-              </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Editar
-              </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Ver los datos
+                Acciones
               </th>
             </tr>
           </thead>
@@ -493,11 +509,17 @@ export const Rendicones = () => {
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.usuario}
+                </td>
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                  {s.sucursal}
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.detalle}
+                </td>
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                  {s.armador}
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {formatDate(s.created_at)}
@@ -505,7 +527,7 @@ export const Rendicones = () => {
                 <td
                   className={`px-4 py-3 font-bold text-${
                     s.rendicion_final >= 0 ? "green" : "red"
-                  }-500 uppercase`}
+                  }-600 uppercase`}
                 >
                   {Number(s.rendicion_final).toLocaleString("es-AR", {
                     style: "currency",
@@ -513,7 +535,78 @@ export const Rendicones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
+                  <button
+                    onClick={() => {
+                      handleId(s.id), openEliminar();
+                    }}
+                    type="button"
+                    className="bg-red-100 py-1 px-2 text-center rounded-xl uppercase text-red-800"
+                  >
+                    {/* Eliminar */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleID(s.id), openModalDos();
+                    }}
+                    className="bg-green-100 py-1 uppercase px-2 text-center rounded-xl text-green-700"
+                  >
+                    {/* Editar */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
+                    </svg>
+                  </button>
+                  <div className="flex">
+                    <Link
+                      to={`/rendicion/${s.id}`}
+                      className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                    >
+                      {/* Ver Recaudación */}
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </td>
+                {/* <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
@@ -542,7 +635,7 @@ export const Rendicones = () => {
                   >
                     Ver Rendición
                   </Link>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

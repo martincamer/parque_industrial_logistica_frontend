@@ -128,12 +128,9 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
-      {
-        withCredentials: true,
-      }
-    );
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 
@@ -148,27 +145,6 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    // Verificar campos requeridos
-    // if (
-    //   !armador ||
-    //   !fecha_carga ||
-    //   !fecha_entrega ||
-    //   !pago_fletero_espera ||
-    //   !km_lineal ||
-    //   !viaticos ||
-    //   !auto ||
-    //   !refuerzo ||
-    //   !chofer ||
-    //   !datosCliente
-    // ) {
-    //   setError("Todos los campos son obligatorios revisa los campos");
-    //   // Mostrar mensaje de error o realizar alguna acción
-    //   setTimeout(() => {
-    //     setError("");
-    //   }, 1500);
-    //   return;
-    // }
 
     const recaudacion =
       Number(totalSuma) -
@@ -196,15 +172,21 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
         socket.emit("nueva-remuneracion", res.data);
       }
 
-      toast.success("¡Remuneración creada correctamente!", {
+      toast.success("¡Remueración creada correctamente!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
+        style: {
+          padding: "12px",
+          borderRadius: "15px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        },
       });
 
       tres();

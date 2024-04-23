@@ -35,16 +35,23 @@ export const ModalEditarFinalizado = ({ isOpen, closeModal, obtenerId }) => {
 
     socket.emit("editar-orden", res);
 
-    toast.success("¡Orden Finalizada correctamente!", {
+    toast.success("¡Orden finalizada correctamente!", {
       position: "top-center",
       autoClose: 1500,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
       theme: "light",
+      style: {
+        padding: "12px",
+        borderRadius: "15px",
+        fontWeight: "bold",
+        textTransform: "uppercase",
+      },
     });
+
     setTimeout(() => {
       closeModal();
     }, 500);

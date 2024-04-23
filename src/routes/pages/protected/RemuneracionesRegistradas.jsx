@@ -5,12 +5,12 @@ import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import client from "../../../api/axios";
 import * as XLSX from "xlsx";
+import { ModalEditarRemuneracion } from "../../../components/Modales/ModalEditarRemuneracion";
 
 export const RemuneracionesRegistradas = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
   const [datos, setDatos] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
   const obtenerIngresoRangoFechas = async (fechaInicio, fechaFin) => {
@@ -77,14 +77,6 @@ export const RemuneracionesRegistradas = () => {
     "Noviembre",
     "Diciembre",
   ];
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
-
-  // const totalCobroCliente = salidasMensuales.reduce(
-  //   (total, item) => total + parseFloat(item.cobro_cliente),
-  //   0
-  // );
 
   // Obtener la fecha en formato de cadena (YYYY-MM-DD)
   const fechaActualString = fechaActual.toISOString().slice(0, 10);
@@ -132,19 +124,6 @@ export const RemuneracionesRegistradas = () => {
       )
     );
   });
-
-  const [eliminarModal, setEliminarModal] = useState(false);
-  const [obtenerId, setObtenerId] = useState(null);
-
-  const openEliminar = () => {
-    setEliminarModal(true);
-  };
-
-  const closeEliminar = () => {
-    setEliminarModal(false);
-  };
-
-  const handleId = (id) => setObtenerId(id);
 
   const totalGastosCliente = filteredResults.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
@@ -226,6 +205,13 @@ export const RemuneracionesRegistradas = () => {
       }, 0) || 0)
     );
   }, 0);
+
+  const [isOpen, setOpen] = useState(false);
+  const [obtenerId, setObtenerId] = useState(null);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+  const handleId = (id) => setObtenerId(id);
 
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
@@ -509,6 +495,9 @@ export const RemuneracionesRegistradas = () => {
                   Localidad/Cliente
                 </th>
                 <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
+                  Fecha de creación
+                </th>
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Mes de creación
                 </th>
                 <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
@@ -517,11 +506,11 @@ export const RemuneracionesRegistradas = () => {
                 <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
                   Creador
                 </th>
-                <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
-                  Acciones
+                <th className="px-4 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
+                  Sucursal
                 </th>
                 <th className="px-1 py-4  text-slate-800 text-sm max-md:text-xs font-bold uppercase">
-                  Ver los datos/resumen
+                  Acciones
                 </th>
               </tr>
             </thead>
@@ -545,14 +534,17 @@ export const RemuneracionesRegistradas = () => {
                     ))}
                   </td>
                   <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {new Date(s.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                     {new Date(s.created_at).toLocaleString("default", {
                       month: "long",
                     })}
                   </td>
                   <td
                     className={`px-4 py-2 font-bold text-${
-                      s.recaudacion >= 0 ? "green" : "red"
-                    }-500`}
+                      Number(s.recaudacion) >= 0 ? "green-600" : "red-600"
+                    }`}
                   >
                     {Number(s.recaudacion).toLocaleString("es-AR", {
                       style: "currency",
@@ -560,35 +552,58 @@ export const RemuneracionesRegistradas = () => {
                       minimumIntegerDigits: 2,
                     })}
                   </td>
-                  <td className="px-4 py-2 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-2 font-bold text-gray-900 max-md:text-xs">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs cursor-pointer space-x-2">
-                    <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
-                    >
-                      Eliminar
-                    </button>
-                    <Link
-                      target="_blank"
-                      to={`/editar-remuneracion/${s.id}`}
-                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white uppercase"
-                    >
-                      Editar
-                    </Link>
+                  <td className="px-4 py-2 font-bold text-gray-900 max-md:text-xs">
+                    {s.sucursal}
                   </td>
-                  <td className="px-1 py-2 font-medium text-gray-900 max-md:text-xs cursor-pointer">
-                    <Link
-                      to={`/recaudacion/${s.id}`}
-                      target="_blank"
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white uppercase"
+                  <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleId(s.id), openModal();
+                      }}
+                      className="bg-green-100 py-1 uppercase px-2 text-center rounded-xl text-green-700"
                     >
-                      Ver
-                    </Link>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                        />
+                      </svg>
+                    </button>
+                    <div className="flex">
+                      <Link
+                        to={`/recaudacion/${s.id}`}
+                        className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                      >
+                        {/* Ver Recaudación */}
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -655,10 +670,11 @@ export const RemuneracionesRegistradas = () => {
           </button>
         </div>
       )}
-      <ModalEliminar
-        closeEliminar={closeEliminar}
-        eliminarModal={eliminarModal}
-        obtenerId={obtenerId}
+
+      <ModalEditarRemuneracion
+        closeModal={closeModal}
+        isOpen={isOpen}
+        obtenerID={obtenerId}
       />
     </section>
   );

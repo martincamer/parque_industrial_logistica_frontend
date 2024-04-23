@@ -1,5 +1,6 @@
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const ModalEditarClienteSalida = ({
   isOpen,
@@ -36,6 +37,23 @@ export const ModalEditarClienteSalida = ({
         return clienteActualizado;
       }
       return clienteExistente;
+    });
+
+    toast.success("¡Cliente editado correctamente!", {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      style: {
+        padding: "12px",
+        borderRadius: "15px",
+        fontWeight: "bold",
+        textTransform: "uppercase",
+      },
     });
 
     // Actualizar el estado con la lista de clientes actualizada

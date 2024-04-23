@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
+import { ModalEditarSalida } from "../../../components/Modales/ModalEditarSalida";
 import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import client from "../../../api/axios";
@@ -126,19 +126,6 @@ export const SalidasRegistradas = () => {
     );
   });
 
-  const [eliminarModal, setEliminarModal] = useState(false);
-  const [obtenerId, setObtenerId] = useState(null);
-
-  const openEliminar = () => {
-    setEliminarModal(true);
-  };
-
-  const closeEliminar = () => {
-    setEliminarModal(false);
-  };
-
-  const handleId = (id) => setObtenerId(id);
-
   const totalGastosCliente = datos.reduce(
     (total, item) =>
       total +
@@ -158,12 +145,31 @@ export const SalidasRegistradas = () => {
     );
   }, 0);
 
+  const [isOpen, setOpen] = useState(false);
+  const [obtenerId, setObtenerId] = useState(null);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+  const handleId = (id) => setObtenerId(id);
+
+  const total = parseFloat(totalGastosCliente);
+
+  const esNegativo = total < 0;
+  const colorDeFondo = esNegativo
+    ? "bg-red-100 text-red-600"
+    : "bg-green-100 text-green-600";
+  const textoColor = esNegativo ? "text-gray-900" : "text-green-600";
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
-        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3`}
+        >
+          <div
+            className={`inline-flex gap-2 self-end rounded ${colorDeFondo} p-1`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -180,7 +186,6 @@ export const SalidasRegistradas = () => {
             </svg>
 
             <span className="text-xs font-medium">
-              {" "}
               {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
             </span>
           </div>
@@ -191,19 +196,18 @@ export const SalidasRegistradas = () => {
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span
+                className={`text-2xl font-medium ${textoColor} max-md:text-base`}
+              >
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
-              </span>
-
+              </span>{" "}
               <span className="text-xs text-gray-500">
-                {" "}
-                ultimo gasto total de la busqueda{" "}
+                Último gasto total de la búsqueda{" "}
                 <span className="font-bold text-slate-700">
-                  {" "}
                   {Number(
                     Number(ultimaVentaDelDia?.total_viaticos) +
                       Number(ultimaVentaDelDia?.total_control) +
@@ -377,20 +381,17 @@ export const SalidasRegistradas = () => {
                   Mes de creación
                 </th>
                 <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
+                  Fabrica de salida
+                </th>
+                <th className="px-4 py-2  text-slate-800 font-bold uppercase">
                   Fabrica/Sucursal
                 </th>
                 <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
                   Creador
                 </th>
                 <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
-                  Ver salida
+                  Acciones
                 </th>
-                {/* <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
-                Editar
-              </th> */}
-                {/* <th className="px-1 py-3  text-slate-800 font-bold uppercase max-md:text-xs">
-                  Ver los datos/resumen
-                </th> */}
               </tr>
             </thead>
 
@@ -420,29 +421,35 @@ export const SalidasRegistradas = () => {
                   <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
                     {s.fabrica}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-bold text-gray-900 max-md:text-xs">
+                    {s.sucursal}
+                  </td>
+                  <td className="px-4 py-4 font-bold text-gray-900 max-md:text-xs">
                     {s.usuario}
                   </td>
-                  {/* <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] max-md:w-full cursor-pointer">
+                  <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs flex items-center gap-2">
                     <button
-                      onClick={() => {
-                        handleId(s.id), openEliminar();
-                      }}
                       type="button"
-                      className="bg-red-100 py-4 px-5 text-center rounded-xl text-red-800 uppercase"
+                      onClick={() => {
+                        handleId(s.id), openModal();
+                      }}
+                      className="bg-green-100 py-1.5 uppercase px-4 text-center rounded-xl text-green-700"
                     >
-                      Eliminar
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                        />
+                      </svg>
                     </button>
-                  </td> */}
-                  {/* <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer">
-                  <Link
-                    to={`/editar/${s.id}`}
-                    className="bg-green-500 py-4 px-5 text-center rounded-xl text-white"
-                  >
-                    Editar
-                  </Link>
-                </td> */}
-                  <td className="px-1 py-4 font-medium text-gray-900 max-md:text-xs w-[150px] cursor-pointer max-md:w-full">
                     <Link
                       target="_blank"
                       to={`/resumen/${s.id}`}
@@ -517,10 +524,10 @@ export const SalidasRegistradas = () => {
           </div>
         )}
       </div>
-      <ModalEliminar
-        closeEliminar={closeEliminar}
-        eliminarModal={eliminarModal}
-        obtenerId={obtenerId}
+      <ModalEditarSalida
+        closeModal={closeModal}
+        isOpen={isOpen}
+        obtenerID={obtenerId}
       />
     </section>
   );

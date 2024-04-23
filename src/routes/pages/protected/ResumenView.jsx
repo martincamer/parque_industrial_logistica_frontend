@@ -58,45 +58,47 @@ export const ResumenView = () => {
     XLSX.writeFile(workbook, "resumen.xlsx");
   };
 
+  const esNegativo =
+    parseFloat(unicaSalida.total_flete) +
+      parseFloat(unicaSalida.total_control) +
+      parseFloat(unicaSalida.total_viaticos) +
+      parseFloat(unicaSalida.espera) <
+    0;
+
+  const indicadorColor = esNegativo
+    ? "bg-red-100 text-red-600"
+    : "bg-green-100 text-green-600";
+  const textoColor = esNegativo ? "text-red-600" : "text-green-600";
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-12">
       <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-              />
-            </svg>
-
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer`}
+        >
+          <div
+            className={`inline-flex gap-2 self-end rounded ${indicadorColor} p-1`}
+          >
             <span className="text-xs font-medium">
               {parseFloat(
-                parseFloat(
-                  parseFloat(unicaSalida.total_flete) +
-                    parseFloat(unicaSalida.total_control) +
-                    parseFloat(unicaSalida.total_viaticos)
-                ) / 100000
+                (parseFloat(unicaSalida.total_flete) +
+                  parseFloat(unicaSalida.total_control) +
+                  parseFloat(unicaSalida.total_viaticos)) /
+                  100000
               ).toFixed(2)}
-              %{" "}
+              %
             </span>
           </div>
 
           <div>
             <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en Viaticos/Flete/Etc
+              Total en Viáticos/Flete/Etc.
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span
+                className={`text-2xl font-medium ${textoColor} max-md:text-base`}
+              >
                 {Number(
                   Number(unicaSalida.total_control) +
                     Number(unicaSalida.total_flete) +
@@ -107,13 +109,10 @@ export const ResumenView = () => {
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
-              </span>
-
+              </span>{" "}
               <span className="text-xs text-gray-500">
-                {" "}
-                ultimos gastos el total final es de{" "}
+                Últimos gastos, el total final es de{" "}
                 <span className="font-bold text-slate-700">
-                  {" "}
                   {Number(
                     Number(unicaSalida.total_control) +
                       Number(unicaSalida.total_flete) +
@@ -326,7 +325,6 @@ export const ResumenView = () => {
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div className="font-bold text-slate-700">{c.localidad}</div>
                 ))}
-                s
               </td>
               <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs uppercase">
                 {unicaSalida.chofer_vehiculo}

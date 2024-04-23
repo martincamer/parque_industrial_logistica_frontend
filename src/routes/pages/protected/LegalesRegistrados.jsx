@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
+import { ModalEditarLegales } from "../../../components/Modales/ModalEditarLegales";
 import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import client from "../../../api/axios";
@@ -131,19 +131,6 @@ export const LegalesRegistrados = () => {
     );
   });
 
-  const [eliminarModal, setEliminarModal] = useState(false);
-  const [obtenerId, setObtenerId] = useState(null);
-
-  const openEliminar = () => {
-    setEliminarModal(true);
-  };
-
-  const closeEliminar = () => {
-    setEliminarModal(false);
-  };
-
-  const handleId = (id) => setObtenerId(id);
-
   const totalGastosCliente = filteredResults.reduce(
     (total, item) => total + parseFloat(item.recaudacion),
     0
@@ -225,12 +212,31 @@ export const LegalesRegistrados = () => {
     );
   }, 0);
 
+  const [isOpen, setOpen] = useState(false);
+  const [obtenerId, setObtenerId] = useState(null);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+  const handleId = (id) => setObtenerId(id);
+
+  const esNegativo = Number(totalGastosCliente) > 0;
+
+  // Clases para el indicador visual
+  const indicadorColor = esNegativo
+    ? "bg-green-100 text-green-800"
+    : "bg-red-100 text-red-800";
+  const porcentajeColor = esNegativo ? "text-green-600" : "text-red-600";
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer`}
+        >
+          <div
+            className={`inline-flex gap-2 self-end rounded ${indicadorColor} p-1`}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -242,23 +248,27 @@ export const LegalesRegistrados = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                d={
+                  esNegativo
+                    ? "M11 17l-8-8m0 0v8m0-8h8m13 0h-8m0 0v8"
+                    : "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                }
               />
             </svg>
-
             <span className="text-xs font-medium">
-              {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
+              {Number(totalGastosCliente / 10000).toFixed(2)} %
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en legales de la busqueda
+            <strong className="block text-sm font-medium text-slate-500 max-md:text-xs">
+              Total en legales
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-red-600 max-md:text-base">
+              <span
+                className={`text-2xl font-medium ${porcentajeColor} max-md:text-base`}
+              >
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -268,17 +278,15 @@ export const LegalesRegistrados = () => {
 
               <span className="text-xs text-gray-500">
                 {" "}
-                ultima legal total de la busqueda{" "}
-                <span className="font-bold text-red-700">
-                  {" "}
-                  {Number(
-                    Number(ultimaVentaDelDia?.recaudacion || 0)
-                  ).toLocaleString("es-AR", {
+                ultimo legal del día, el total es de{" "}
+                {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
+                  "es-AR",
+                  {
                     style: "currency",
                     currency: "ARS",
                     minimumIntegerDigits: 2,
-                  })}
-                </span>
+                  }
+                )}{" "}
               </span>
             </p>
           </div>
@@ -546,23 +554,53 @@ export const LegalesRegistrados = () => {
                   <td className="px-4 py-4 font-medium text-gray-900">
                     {s.usuario}
                   </td>
-                  <td className="px-1 py-4 font-medium text-gray-900 cursor-pointer">
-                    <Link
-                      target="_blank"
-                      to={`/editar-legales/${s.id}`}
-                      className="bg-green-500 py-2 px-5 text-center rounded-xl text-white"
+
+                  <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleId(s.id), openModal();
+                      }}
+                      className="bg-green-100 py-1 uppercase px-2 text-center rounded-xl text-green-700"
                     >
-                      Editar
-                    </Link>
-                  </td>
-                  <td className="px-1 py-4 font-medium text-gray-900 cursor-pointer">
-                    <Link
-                      to={`/legales/${s.id}`}
-                      target="_blank"
-                      className="bg-black py-2 px-5 text-center rounded-xl text-white"
-                    >
-                      Ver legales
-                    </Link>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                        />
+                      </svg>
+                    </button>
+                    <div className="flex">
+                      <Link
+                        to={`/legales/${s.id}`}
+                        className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                      >
+                        {/* Ver Recaudación */}
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -630,10 +668,10 @@ export const LegalesRegistrados = () => {
           </div>
         )}
       </div>
-      <ModalEliminar
-        closeEliminar={closeEliminar}
-        eliminarModal={eliminarModal}
-        obtenerId={obtenerId}
+      <ModalEditarLegales
+        closeModal={closeModal}
+        isOpen={isOpen}
+        obtenerID={obtenerId}
       />
     </section>
   );

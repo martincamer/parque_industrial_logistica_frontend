@@ -79,12 +79,9 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(
-      "https://tecnohouseindustrialbackend-production.up.railway.app",
-      {
-        withCredentials: true,
-      }
-    );
+    const newSocket = io(import.meta.env.VITE_URL, {
+      withCredentials: true,
+    });
 
     setSocket(newSocket);
 
@@ -109,15 +106,21 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
         socket.emit("crear-rendicion", res.data);
       }
 
-      toast.success("¡Rendicion creada correctamente!", {
+      toast.success("¡Rendición creada correctamente!", {
         position: "top-center",
         autoClose: 1500,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: "light",
+        style: {
+          padding: "12px",
+          borderRadius: "15px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+        },
       });
 
       tres();

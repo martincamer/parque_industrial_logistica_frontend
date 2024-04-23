@@ -231,13 +231,13 @@ export const EditarRemuneracion = () => {
   const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 pb-36 py-14 relative max-md:gap-10">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 pb-36 py-14 relative max-md:gap-10">
       <ToastContainer />
       <div className="absolute right-28 text-white bg-slate-800 py-2 px-6 rounded-xl font-bold max-md:hidden">
         Mes {nombreMesActual}, Día {nombreDiaActual}
       </div>
 
-      <div className="bg-white border-slate-300 border-[1px] py-8 px-10 rounded-xl max-w-xs flex max-md:max-w-full justify-center shadow max-md:py-5">
+      <div className="bg-white border-slate-300 border-[1px] py-8 px-10 rounded-xl max-w-sm flex max-md:max-w-full justify-center shadow max-md:py-5">
         <div className="text-lg font-bold uppercase text-green-500 flex max-md:text-base max-md:w-full">
           <p className="border-b-[3px] border-slate-700">
             Editar la remuneracion
@@ -247,7 +247,7 @@ export const EditarRemuneracion = () => {
 
       <form
         onSubmit={onSubmit}
-        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-5 h-full max-h-full max-md:py-5 max-md:px-5"
+        className=" border-slate-300 border-[1px] py-12 px-10 rounded-xl shadow flex flex-col gap-10 h-full max-h-full max-md:py-5 max-md:px-5"
       >
         <div className="flex gap-4">
           <button

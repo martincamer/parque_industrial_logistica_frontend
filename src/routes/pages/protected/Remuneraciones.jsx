@@ -569,15 +569,21 @@ export const Remuneraciones = () => {
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Creador
               </th>
+              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+                Fabrica/Sucursal
+              </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Clientes
               </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+              {/* <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Fecha de entrega
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Fecha de carga
-              </th>
+              </th> */}
+              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                Fecha de creación
+              </th>{" "}
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Mes de creación
               </th>
@@ -586,9 +592,6 @@ export const Remuneraciones = () => {
               </th>
               <th className="px-1 py-4  text-slate-800 font-bold uppercase text-center">
                 Acciones
-              </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                Ver los datos/resumen
               </th>
             </tr>
           </thead>
@@ -599,8 +602,11 @@ export const Remuneraciones = () => {
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.id}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.usuario}
+                </td>
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                  {s.sucursal}
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-900 upppercase">
                   <button
@@ -610,16 +616,18 @@ export const Remuneraciones = () => {
                     type="button"
                     className="bg-orange-100 py-2 px-3 rounded-2xl text-orange-700  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
                   >
-                    VER CLIENTE/LOCALIDAD{" "}
-                    <FaHouseChimneyUser className="text-2xl" />
+                    VER CLIENTES <FaHouseChimneyUser className="text-2xl" />
                   </button>
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                {/* <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.fecha_carga.split("T")[0]}
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-900 uppercase">
                   {s.fecha_entrega.split("T")[0]}
-                </td>
+                </td> */}
+                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                  {s.created_at.split("T")[0]}
+                </td>{" "}
                 <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {new Date(s.created_at).toLocaleString("default", {
                     month: "long",
@@ -636,33 +644,60 @@ export const Remuneraciones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer flex space-x-2 justify-center">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
                   <button
                     onClick={() => {
                       handleId(s.id), openEliminar();
                     }}
                     type="button"
-                    className="bg-red-100 py-3 px-5 text-center rounded-xl uppercase text-red-800"
+                    className="bg-red-100 py-1 px-2 text-center rounded-xl uppercase text-red-800"
                   >
-                    Eliminar
+                    {/* Eliminar */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                      />
+                    </svg>
                   </button>
                   <button
                     type="button"
                     onClick={() => {
                       handleID(s.id), openModalDos();
                     }}
-                    className="bg-green-100 py-3 uppercase px-5 text-center rounded-xl text-green-700"
+                    className="bg-green-100 py-1 uppercase px-2 text-center rounded-xl text-green-700"
                   >
-                    Editar
+                    {/* Editar */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
+                    </svg>
                   </button>
-                </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
                   <div className="flex">
                     <Link
                       to={`/recaudacion/${s.id}`}
-                      className="flex gap-2 items-center bg-black border-[1px] border-black py-2 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                      className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
                     >
-                      Ver Recaudación
+                      {/* Ver Recaudación */}
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

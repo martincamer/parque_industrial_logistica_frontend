@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
+import { ModalEditarRendiciones } from "../../../components/Modales/ModalEditarRendicion";
 import client from "../../../api/axios";
-// import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
 import * as XLSX from "xlsx";
 
 export const RendicionesRegistradas = () => {
@@ -131,19 +131,6 @@ export const RendicionesRegistradas = () => {
       salida.usuario.toLowerCase() === selectedUser.toLowerCase()
   );
 
-  const [eliminarModal, setEliminarModal] = useState(false);
-  const [obtenerId, setObtenerId] = useState(null);
-
-  const openEliminar = () => {
-    setEliminarModal(true);
-  };
-
-  const closeEliminar = () => {
-    setEliminarModal(false);
-  };
-
-  const handleId = (id) => setObtenerId(id);
-
   const totalGastosCliente = datos.reduce(
     (total, item) => total + parseFloat(item.rendicion_final),
     0
@@ -181,65 +168,18 @@ export const RendicionesRegistradas = () => {
       XLSX.writeFile(wb, `all_datos.xlsx`);
     }
   };
+
+  const [isOpen, setOpen] = useState(false);
+  const [obtenerId, setObtenerId] = useState(null);
+
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+  const handleId = (id) => setObtenerId(id);
+
   return (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total en rendiciones de la busqueda
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
-                {Number(totalGastosCliente).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                ultima rendiciones total de la busqueda{" "}
-                <span className="font-bold text-slate-700">
-                  {" "}
-                  {Number(
-                    Number(ultimaVentaDelDia?.rendicion_final || 0)
-                  ).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
-                </span>
-              </span>
-            </p>
-          </div>
-        </article>
-
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:p-3">
           <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
             <svg
@@ -405,10 +345,16 @@ export const RendicionesRegistradas = () => {
                   Creador
                 </th>
                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Fabrica/Sucursal
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                   Detalle/clientes/etc
                 </th>
                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Fecha{" "}
+                  Armador/Entrega
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Fecha de creación
                 </th>
                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                   Rendicion Final
@@ -427,11 +373,17 @@ export const RendicionesRegistradas = () => {
                     <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {s.id}
                     </td>
-                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+                    <td className="px-4 py-4 font-bold text-gray-900 uppercase">
                       {s.usuario}
+                    </td>
+                    <td className="px-4 py-4 font-bold text-gray-900 uppercase">
+                      {s.sucursal}
                     </td>
                     <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {s.detalle}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+                      {s.armador}
                     </td>
                     <td className="px-4 py-4 font-medium text-gray-900 uppercase">
                       {formatDate(s.created_at)}
@@ -447,15 +399,7 @@ export const RendicionesRegistradas = () => {
                         minimumIntegerDigits: 2,
                       })}
                     </td>
-                    <td className="px-1 py-4 font-medium text-gray-900 uppercase w-[150px] cursor-pointer flex gap-2">
-                      {/* <Link
-                        onClick={() => {
-                          handleID(s.id), openModalDos();
-                        }}
-                        className="bg-green-100 py-3 px-5 text-center rounded-xl text-green-700"
-                      >
-                        Editar
-                      </Link> */}
+                    {/* <td className="px-1 py-4 font-medium text-gray-900 uppercase w-[150px] cursor-pointer flex gap-2">
                       <Link
                         target="_blank"
                         to={`/rendicion/${s.id}`}
@@ -463,6 +407,53 @@ export const RendicionesRegistradas = () => {
                       >
                         Ver
                       </Link>
+                    </td> */}
+                    <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleId(s.id), openModal();
+                        }}
+                        className="bg-green-100 py-1 uppercase px-2 text-center rounded-xl text-green-700"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                          />
+                        </svg>
+                      </button>
+                      <div className="flex">
+                        <Link
+                          to={`/rendicion/${s.id}`}
+                          className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
+                        >
+                          {/* Ver Recaudación */}
+
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                            />
+                          </svg>
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -529,11 +520,12 @@ export const RendicionesRegistradas = () => {
           </button>
         </div>
       )}
-      {/* <ModalEliminar
-        closeEliminar={closeEliminar}
-        eliminarModal={eliminarModal}
-        obtenerId={obtenerId}
-      /> */}
+
+      <ModalEditarRendiciones
+        isOpen={isOpen}
+        closeModal={closeModal}
+        obtenerID={obtenerId}
+      />
     </section>
   );
 };
