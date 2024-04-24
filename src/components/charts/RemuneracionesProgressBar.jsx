@@ -20,6 +20,8 @@ const RemuneracionesProgressBar = ({
     100
   ).toFixed(2);
 
+  const esNegativo = totalRecaudacion + totalRendicion < 0;
+
   return (
     <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
       <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
@@ -34,9 +36,11 @@ const RemuneracionesProgressBar = ({
           })}
         </p>
       </div>
-      <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+      <div className="w-full bg-gray-200 rounded-lg overflow-hidden">
         <div
-          className="h-3 bg-green-400 max-md:h-2"
+          className={`h-3 ${
+            esNegativo ? "bg-red-400" : "bg-green-400"
+          } max-md:h-2`}
           style={{ width: `${porcentajeTotal}%` }}
         ></div>
       </div>

@@ -17,13 +17,26 @@ export const useRemuneracionContext = () => {
 //
 export const RemuneracionProvider = ({ children }) => {
   const [remuneracionesMensuales, setRemuneracionesMensuales] = useState([]);
+  const [remuneracionesMensualesAdmin, setRemuneracionesMensualesAdmin] =
+    useState([]);
   const [remuneraciones, setRemuneraciones] = useState([]);
+  const [remuneracionesAdmin, setRemuneracionesAdmin] = useState([]);
 
   useEffect(() => {
     async function loadData() {
       const respuesta = await client.get("/remuneraciones-mes");
 
       setRemuneracionesMensuales(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/remuneraciones-mes-admin");
+
+      setRemuneracionesMensualesAdmin(respuesta.data);
     }
 
     loadData();
@@ -39,12 +52,24 @@ export const RemuneracionProvider = ({ children }) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/remuneraciones-admin");
+
+      setRemuneracionesAdmin(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   return (
     <RemuneracionContext.Provider
       value={{
         remuneracionesMensuales,
         setRemuneracionesMensuales,
         remuneraciones,
+        remuneracionesAdmin,
+        remuneracionesMensualesAdmin,
       }}
     >
       {children}

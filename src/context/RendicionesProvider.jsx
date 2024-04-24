@@ -17,13 +17,27 @@ export const useRendicionesContext = () => {
 //
 export const RendicionesProvider = ({ children }) => {
   const [rendicionesMensuales, setRendicionesMensuales] = useState([]);
+  const [rendicionesMensualesAdmin, setRendicionesMensualesAdmin] = useState(
+    []
+  );
   const [rendiciones, setRendiciones] = useState([]);
+  const [rendicionesAdmin, setRendicionesAdmin] = useState([]);
 
   useEffect(() => {
     async function loadData() {
       const respuesta = await client.get("/rendicion-mes");
 
       setRendicionesMensuales(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/rendicion-mes-admin");
+
+      setRendicionesMensualesAdmin(respuesta.data);
     }
 
     loadData();
@@ -39,9 +53,25 @@ export const RendicionesProvider = ({ children }) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/rendiciones-admin");
+
+      setRendicionesAdmin(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   return (
     <RendicionesContext.Provider
-      value={{ rendicionesMensuales, setRendicionesMensuales, rendiciones }}
+      value={{
+        rendicionesMensuales,
+        setRendicionesMensuales,
+        rendiciones,
+        rendicionesAdmin,
+        rendicionesMensualesAdmin,
+      }}
     >
       {children}
     </RendicionesContext.Provider>

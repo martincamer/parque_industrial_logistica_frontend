@@ -1,7 +1,7 @@
 //imports
 import { createContext, useContext, useEffect, useState } from "react";
 import { obtenerSalidaMensual } from "../api/ingresos";
-import io from "socket.io-client";
+import client from "../api/axios";
 
 //context
 export const SalidasContext = createContext();
@@ -18,23 +18,9 @@ export const useSalidasContext = () => {
 //
 export const SalidasProvider = ({ children }) => {
   const [salidasMensuales, setSalidasMensuales] = useState([]);
+  const [salidasMensualesAdmin, setSalidasMensualesAdmin] = useState([]);
+
   const [choferes, setChoferes] = useState([]);
-  const [socket, setSocket] = useState(null);
-
-  // Efecto para establecer la conexión del socket
-  // useEffect(() => {
-  //   const newSocket = io(
-  //     // "https://tecnohouseindustrialbackend-production.up.railway.app" &&
-  //     "http://localhost:4000",
-  //     {
-  //       withCredentials: true,
-  //     }
-  //   );
-
-  //   setSocket(newSocket);
-
-  //   return () => newSocket.close();
-  // }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -45,23 +31,24 @@ export const SalidasProvider = ({ children }) => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   // Aquí puedes enviar las actualizaciones a través de sockets
-  //   if (socket) {
-  //     socket.emit("actualizar-salidas", salidasMensuales);
-  //   }
-  // }, [socket, salidasMensuales]);
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/salidas-mes-todas");
+      setSalidasMensualesAdmin(respuesta.data);
+    }
 
-  // useEffect(() => {
-  //   // Aquí puedes enviar las actualizaciones a través de sockets
-  //   if (socket) {
-  //     socket.emit("actualizar-choferes", choferes);
-  //   }
-  // }, [socket, choferes]);
+    loadData();
+  }, []);
 
   return (
     <SalidasContext.Provider
-      value={{ salidasMensuales, setSalidasMensuales, choferes, setChoferes }}
+      value={{
+        salidasMensuales,
+        setSalidasMensuales,
+        choferes,
+        setChoferes,
+        salidasMensualesAdmin,
+      }}
     >
       {children}
     </SalidasContext.Provider>

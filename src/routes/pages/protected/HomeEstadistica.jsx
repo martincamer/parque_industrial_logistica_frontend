@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
 import ProgressBarMetrosEntregados from "../../../components/charts/ProgressBarMetrosEntregados";
 import client from "../../../api/axios";
-import { ImprimirPdfEstadistica } from "../../../components/pdf/ImprimirEstadistica";
+import { useAuth } from "../../../context/AuthProvider";
 
 export const HomeEstadistica = () => {
+  const { user } = useAuth();
+
   const [salidasMensuales, setSalidasMensuales] = useState([]);
   const [remuneracionesMensuales, setRemuneracionesMensuales] = useState([]);
   const [rendicionesMensuales, setRendicionesMensuales] = useState([]);
@@ -32,30 +33,66 @@ export const HomeEstadistica = () => {
       fechaInicio = new Date(fechaInicio).toISOString().split("T")[0];
       fechaFin = new Date(fechaFin).toISOString().split("T")[0];
 
-      const response = await client.post("/salidas-rango-fechas", {
-        fechaInicio,
-        fechaFin,
-      });
+      if (user.localidad === "admin") {
+        const response = await client.post("/salidas-rango-fechas-admin", {
+          fechaInicio,
+          fechaFin,
+        });
 
-      const responseDos = await client.post("/remuneraciones-rango-fechas", {
-        fechaInicio,
-        fechaFin,
-      });
+        const responseDos = await client.post(
+          "/remuneraciones-rango-fechas-admin",
+          {
+            fechaInicio,
+            fechaFin,
+          }
+        );
 
-      const responseTres = await client.post("/rendiciones-rango-fechas", {
-        fechaInicio,
-        fechaFin,
-      });
+        const responseTres = await client.post(
+          "/rendiciones-rango-fechas-admin",
+          {
+            fechaInicio,
+            fechaFin,
+          }
+        );
 
-      const responseCuatro = await client.post("/legales-rango-fechas", {
-        fechaInicio,
-        fechaFin,
-      });
+        const responseCuatro = await client.post(
+          "/legales/rango-fechas-admin",
+          {
+            fechaInicio,
+            fechaFin,
+          }
+        );
 
-      setSalidasMensuales(response.data);
-      setRemuneracionesMensuales(responseDos.data);
-      setRendicionesMensuales(responseTres.data);
-      setLegales(responseCuatro.data);
+        setSalidasMensuales(response.data);
+        setRemuneracionesMensuales(responseDos.data);
+        setRendicionesMensuales(responseTres.data);
+        setLegales(responseCuatro.data);
+      } else {
+        const response = await client.post("/salidas-rango-fechas", {
+          fechaInicio,
+          fechaFin,
+        });
+
+        const responseDos = await client.post("/remuneraciones-rango-fechas", {
+          fechaInicio,
+          fechaFin,
+        });
+
+        const responseTres = await client.post("/rendiciones-rango-fechas", {
+          fechaInicio,
+          fechaFin,
+        });
+
+        const responseCuatro = await client.post("/legales/rango-fechas", {
+          fechaInicio,
+          fechaFin,
+        });
+
+        setSalidasMensuales(response.data);
+        setRemuneracionesMensuales(responseDos.data);
+        setRendicionesMensuales(responseTres.data);
+        setLegales(responseCuatro.data);
+      }
     } catch (error) {
       console.error("Error al obtener salidas:", error);
       // Maneja el error según tus necesidades
@@ -104,25 +141,20 @@ export const HomeEstadistica = () => {
   const nombreDiaActual = nombresDias[numeroDiaActual];
 
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedLocalidad, setSelectedLocalidad] = useState("");
 
   const handleChange = (event) => {
     setSelectedUser(event.target.value);
   };
 
-  const filteredData = selectedUser
-    ? remuneracionesMensuales.filter((item) => item.usuario === selectedUser)
-    : remuneracionesMensuales;
+  const handleChangeLocalidad = (event) => {
+    setSelectedLocalidad(event.target.value);
+  };
 
-  const totalContratosGeneradosEnRemuneraciones = filteredData?.reduce(
-    (total, salida) => {
-      return (
-        total +
-        (salida?.datos_cliente?.datosCliente
-          ? salida?.datos_cliente?.datosCliente.length
-          : 0)
-      );
-    },
-    0
+  const filteredData = remuneracionesMensuales.filter(
+    (item) =>
+      (selectedUser === "" || item.usuario === selectedUser) &&
+      (selectedLocalidad === "" || item.localidad === selectedLocalidad)
   );
 
   const totalEnFletesGeneradosEnRemunerciones = filteredData?.reduce(
@@ -248,19 +280,6 @@ export const HomeEstadistica = () => {
     ventasDelDia[0]
   );
 
-  // const gastosDelDia = salidasMensuales?.filter(
-  //   (item) => item?.created_at?.slice(0, 10) === fechaActualString
-  // );
-
-  // const ultimoGastosDelDia = gastosDelDia?.reduce((ultimaGasto, gasto) => {
-  //   // Convertir las fechas de cadena a objetos Date para compararlas
-  //   const fechaUltimoGasto = new Date(ultimaGasto?.created_at);
-  //   const fechaGasto = new Date(gasto?.created_at);
-
-  //   // Retornar la venta con la hora más reciente
-  //   return fechaGasto > fechaUltimoGasto ? gasto : ultimaGasto;
-  // }, gastosDelDia[0]);
-
   const totalDatos = filteredData?.reduce((total, salida) => {
     return (
       total +
@@ -323,47 +342,20 @@ export const HomeEstadistica = () => {
     )
   );
 
+  const uniqueLocalidad = Array.from(
+    new Set(
+      remuneracionesMensuales.map((remuneracion) =>
+        remuneracion.localidad.toLowerCase()
+      )
+    )
+  );
+
   return (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
       <div className="flex gap-5 items-center">
         <h3 className="text-lg font-semibold uppercase text-slate-600 underline mt-4 md:px-4 max-md:text-base">
           ESTADISTICA FILTRAR
         </h3>
-
-        {/* <PDFDownloadLink
-          target="_blank"
-          download={false}
-          document={
-            <ImprimirPdfEstadistica
-              totalCobroCliente={totalCobroCliente}
-              totalCobroRendiciones={totalCobroRendiciones}
-              totalCobroClienteLegales={totalCobroClienteLegales}
-              totalDatos={totalDatos}
-              totalDatosDos={totalDatosDos}
-              totalDatosMetrosCuadrados={totalDatosMetrosCuadrados}
-              totalDatosMetrosCuadradosLegales={
-                totalDatosMetrosCuadradosLegales
-              }
-            />
-          }
-          className="hover:shadow-md hover:shadow-gray-300 transition-all ease-linear bg-green-100 py-3 px-3 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center"
-        >
-          Descargar estadistica final
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-            />
-          </svg>
-        </PDFDownloadLink> */}
 
         <select
           className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300 uppercase"
@@ -373,6 +365,20 @@ export const HomeEstadistica = () => {
           <option value="">SELECCIONAR USUARIO</option>
 
           {uniqueUsers.map((user, index) => (
+            <option key={index} value={user}>
+              {user}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="py-3 px-4 rounded-xl bg-white border-[1px] border-slate-300 uppercase"
+          value={selectedLocalidad}
+          onChange={handleChangeLocalidad}
+        >
+          <option value="">SELECCIONAR LOCALIDAD</option>
+
+          {uniqueLocalidad.map((user, index) => (
             <option key={index} value={user}>
               {user}
             </option>

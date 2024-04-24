@@ -17,9 +17,11 @@ export const SideBar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Asegurarse de que las referencias no sean null
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
+        sidebarAreaRef.current && // Verificar si no es null
         !sidebarAreaRef.current.contains(event.target)
       ) {
         setVisible(false); // Cerrar menú si el clic es fuera de su área
@@ -30,7 +32,7 @@ export const SideBar = () => {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []); // Se ejecuta solo cuando el componente se monta y se desmonte
+  }, []);
 
   useEffect(() => {
     const handleMouseEnter = () => {
@@ -38,23 +40,34 @@ export const SideBar = () => {
     };
 
     const handleMouseLeave = (event) => {
-      // Verificamos que el mouse realmente dejó la barra lateral antes de cerrarla
-      if (menuRef.current && !menuRef.current.contains(event.relatedTarget)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.relatedTarget) // Verificar si no es null
+      ) {
         setVisible(false);
       }
     };
 
-    sidebarAreaRef.current.addEventListener("mouseenter", handleMouseEnter);
-    menuRef.current.addEventListener("mouseleave", handleMouseLeave);
+    if (sidebarAreaRef.current) {
+      sidebarAreaRef.current.addEventListener("mouseenter", handleMouseEnter);
+    }
+
+    if (menuRef.current) {
+      menuRef.current.addEventListener("mouseleave", handleMouseLeave);
+    }
 
     return () => {
-      sidebarAreaRef.current.removeEventListener(
-        "mouseenter",
-        handleMouseEnter
-      );
-      menuRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      if (sidebarAreaRef.current) {
+        sidebarAreaRef.current.removeEventListener(
+          "mouseenter",
+          handleMouseEnter
+        );
+      }
+      if (menuRef.current) {
+        menuRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      }
     };
-  }, []); // Se ejecuta solo cuando el componente se monta y se desmonte
+  }, []); // Efectos dependientes de la referencia
 
   return (
     <>
@@ -80,33 +93,6 @@ export const SideBar = () => {
           <div className="">
             <div>
               <div className="px-2">
-                {/* <div className="py-4">
-                  <a
-                    onClick={() => toggleSidebar()}
-                    href="#"
-                    className="t group relative flex justify-center rounded bg-slate-200 px-2 py-1.5 text-black-500"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-8 h-8"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                      />
-                    </svg>
-
-                    <span className="invisible absolute start-full w-[120px] text-center top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible">
-                      Cerrar Navegacion
-                    </span>
-                  </a>
-                </div> */}
-
                 <ul className="space-y-1 flex flex-col pt-4">
                   <Link onClick={() => toggleSidebar()} to={"/"}>
                     <a
@@ -226,36 +212,7 @@ export const SideBar = () => {
                       </span>
                     </a>
                   </Link>
-                  {/* 
-                  <Link to={"/transportes"} onClick={() => toggleSidebar()}>
-                    <a
-                      href="#"
-                      className={`${
-                        location.pathname === "/transportes"
-                          ? "bg-slate-100 text-black-500"
-                          : "bg-white"
-                      } group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-slate-200 hover:text-gray-700`}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-7 h-7"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
-                        />
-                      </svg>
 
-                      <span className="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible w-[200px] text-center">
-                        Orden de llegada transportes
-                      </span>
-                    </a>
-                  </Link> */}
                   <Link to={"/rendiciones"} onClick={() => toggleSidebar()}>
                     <a
                       href="#"

@@ -68,7 +68,7 @@ function App() {
                     <OrdenesProvider>
                       <LegalesProvider>
                         <RendicionesProvider>
-                          <SideBar />
+                          {isAuth && <SideBar />}
                           <MenuMobile />
                           <main className="min-h-full max-h-full h-full">
                             <Outlet />

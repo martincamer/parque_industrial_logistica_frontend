@@ -3,6 +3,7 @@ import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
+import { useAuth } from "../../../context/AuthProvider";
 import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
 import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
@@ -12,10 +13,23 @@ import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBa
 import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
 
 export const Home = () => {
-  const { salidasMensuales } = useSalidasContext();
-  const { remuneracionesMensuales, remuneraciones } = useRemuneracionContext();
-  const { rendicionesMensuales, rendiciones } = useRendicionesContext();
-  const { legales, legalesReal } = useLegalesContext();
+  const { user } = useAuth();
+  const { salidasMensuales, salidasMensualesAdmin } = useSalidasContext();
+  const {
+    remuneracionesMensuales,
+    remuneraciones,
+    remuneracionesAdmin,
+    remuneracionesMensualesAdmin,
+  } = useRemuneracionContext();
+
+  const {
+    rendicionesMensuales,
+    rendiciones,
+    rendicionesAdmin,
+    rendicionesMensualesAdmin,
+  } = useRendicionesContext();
+  const { legales, legalesReal, legalesAdmin, legalesMensualesAdmin } =
+    useLegalesContext();
 
   const fechaActual = new Date();
   const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
@@ -224,6 +238,133 @@ export const Home = () => {
       totalCobroClienteLegalesDos
   );
 
+  ///////////////////ADMIN DATOS - TODO////////////////////////////
+
+  const totalCobroClienteAdmin = remuneracionesMensualesAdmin.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroClienteLegalesAdmin = legalesMensualesAdmin.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroRendicionesAdmin = rendicionesMensualesAdmin.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final),
+    0
+  );
+
+  const totalDatosAdmin = remuneracionesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida?.datos_cliente?.datosCliente?.length
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalDatosDosAdmin = legalesMensualesAdmin?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida?.datos_cliente?.datosCliente?.length
+        : 0)
+    );
+  }, 0);
+
+  const totalDatosMetrosCuadradosAdmin = remuneracionesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
+  const totalDatosMetrosCuadradosLegalesAdmin = legalesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
+  const totalCobroSalidasAdmin = salidasMensualesAdmin.reduce((total, item) => {
+    const totalFlete = parseFloat(item.total_flete);
+    const totalControl = parseFloat(item.total_control);
+    const totalViaticos = parseFloat(item.total_viaticos);
+    const espera = parseFloat(item.espera);
+
+    // Asegúrate de que los valores sean números válidos
+    if (
+      !isNaN(totalFlete) &&
+      !isNaN(totalControl) &&
+      !isNaN(totalViaticos) &&
+      !isNaN(espera)
+    ) {
+      return total + totalFlete + totalControl + totalViaticos + espera;
+    } else {
+      console.warn("Datos no válidos en:", item);
+      return total;
+    }
+  }, 0);
+
+  const resultadoNegativo =
+    totalCobroSalidasAdmin > 0
+      ? -totalCobroSalidasAdmin
+      : totalCobroSalidasAdmin;
+
+  const totalCobroClienteDosAdmin = remuneracionesAdmin.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroClienteLegalesDosAdmin = legalesAdmin.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
+
+  const totalCobroRendicionesDosAdmin = rendicionesAdmin.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final),
+    0
+  );
+
+  const totalCobroAdmin =
+    Number(totalCobroClienteDosAdmin + totalCobroRendicionesDosAdmin) +
+    Number(totalCobroClienteLegalesDosAdmin);
+
+  const totalCobroAdminFinalMes =
+    Number(totalCobroClienteAdmin + totalCobroRendicionesAdmin) +
+    Number(totalCobroClienteLegalesAdmin);
+
+  // Determinar si el total es menor, mayor o igual a cero
+  let totalClassAdmin = "";
+
+  if (totalCobroAdmin < 0) {
+    totalClassAdmin = "text-red-600";
+  } else if (totalCobroAdmin > 0) {
+    totalClassAdmin = "text-green-600";
+  } else {
+    totalClassAdmin = "text-green-600"; // Otra clase para cero si lo deseas
+  }
+
+  const totalCajaAdmin = Number(
+    totalCobroClienteDosAdmin +
+      totalCobroRendicionesDosAdmin +
+      totalCobroClienteLegalesDosAdmin
+  );
+
   return isLoading ? (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10">
       {/* Artículo 1 */}
@@ -263,11 +404,533 @@ export const Home = () => {
           <div className="bg-slate-200 py-2 rounded-xl w-full h-[10vh]"></div>
         </div>
       </div>
+    </section>
+  ) : user.localidad === "admin" ? (
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
+      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-400 hover:shadow-md transition-all ease-linear bg-gray-100  p-5 max-md:rounded-xl cursor-pointer">
+          <div
+            className={`inline-flex gap-2 self-end rounded py-1 px-2   ${
+              totalCobroClienteDosAdmin +
+                totalCobroClienteLegalesDosAdmin +
+                totalCobroRendicionesDosAdmin / 100000 <
+              0
+                ? "bg-red-400 p-1 text-white"
+                : totalCobroClienteDosAdmin +
+                    totalCobroClienteLegalesDosAdmin +
+                    totalCobroRendicionesDosAdmin / 100000 >
+                  0
+                ? "text-white bg-green-400"
+                : "text-white bg-green-400"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
 
-      {/* Otros gráficos y datos... */}
+            <span
+              className={`text-xs font-medium uppercase ${
+                totalCobroClienteDosAdmin +
+                  totalCobroClienteLegalesDosAdmin +
+                  totalCobroRendicionesDosAdmin / 100000 <
+                0
+                  ? "text-white"
+                  : totalCobroClienteDosAdmin +
+                      totalCobroClienteLegalesDosAdmin +
+                      totalCobroRendicionesDosAdmin / 100000 >
+                    0
+                  ? "text-white"
+                  : ""
+              }`}
+            >
+              {(
+                Number(
+                  totalCobroClienteDosAdmin +
+                    totalCobroClienteLegalesDosAdmin +
+                    totalCobroRendicionesDosAdmin
+                ) / 100000
+              ).toFixed(2)}{" "}
+              %
+            </span>
+          </div>
+
+          <div>
+            <div className="flex">
+              <strong className="block text-sm font-medium text-slate-800 bg-white shadow py-2 px-4 rounded-xl max-md:text-xs uppercase">
+                Total final de la caja
+              </strong>
+            </div>
+            <div className="bg-white py-2 px-2 rounded-xl mt-2 shadow">
+              <p>
+                <span
+                  className={`text-2xl max-md:text-base font-medium uppercase ${totalClassAdmin}`}
+                >
+                  {totalCobroAdmin.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}{" "}
+                </span>
+                <span
+                  className={`text-xs
+                 `}
+                >
+                  Total final de la caja {"  "}
+                  {Number(
+                    Number(
+                      totalCobroClienteDosAdmin + totalCobroRendicionesDosAdmin
+                    ) + Number(totalCobroClienteLegalesDosAdmin) || 0
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div
+            className={`inline-flex gap-2 self-end rounded ${
+              Number(totalCobroClienteAdmin + totalCobroRendicionesAdmin) >= 0
+                ? "bg-green-100 p-1 text-green-600"
+                : "bg-red-100 p-1 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium uppercase">
+              {" "}
+              {Number(
+                Number(totalCobroClienteAdmin + totalCobroRendicionesAdmin) /
+                  100000
+              ).toFixed(2)}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en remuneraciónes del mes
+            </strong>
+
+            <p
+              className={`${
+                Number(totalCobroClienteAdmin + totalCobroRendicionesAdmin) >= 0
+                  ? "text-green-600"
+                  : "text-red-600"
+              } text-2xl max-md:text-base font-medium`}
+            >
+              {Number(
+                totalCobroClienteAdmin + totalCobroRendicionesAdmin
+              ).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(Number(totalCobroClienteLegalesAdmin) / 100000).toFixed(
+                2
+              )}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en legales del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                {Number(totalCobroClienteLegalesAdmin).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div
+            className={`inline-flex gap-2 self-end rounded   ${
+              totalCobroClienteAdmin +
+                totalCobroRendicionesAdmin +
+                totalCobroClienteLegalesAdmin / 100000 <
+              0
+                ? "bg-red-100 p-1 text-red-600"
+                : totalCobroClienteAdmin +
+                    totalCobroRendicionesAdmin +
+                    totalCobroClienteLegalesAdmin / 100000 >
+                  0
+                ? "text-green-600 bg-green-100"
+                : ""
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span
+              className={`text-xs font-medium uppercase ${
+                totalCobroClienteAdmin +
+                  totalCobroRendicionesAdmin +
+                  totalCobroClienteLegalesAdmin / 100000 <
+                0
+                  ? "text-red-500"
+                  : totalCobroClienteAdmin +
+                      totalCobroRendicionesAdmin +
+                      totalCobroClienteLegalesAdmin / 100000 >
+                    0
+                  ? "text-green-500"
+                  : ""
+              }`}
+            >
+              {(
+                Number(
+                  totalCobroClienteAdmin +
+                    totalCobroRendicionesAdmin +
+                    totalCobroClienteLegalesAdmin
+                ) / 100000
+              ).toFixed(2)}{" "}
+              %
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en remuraciones final con descuentos de legales del mes.
+            </strong>
+
+            <p className="text-slate-500">
+              <span
+                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+              >
+                {totalCobroAdminFinalMes.toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalCobroSalidasAdmin / 100000).toFixed(2)} %{""}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en salidas registradas del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                {Number(resultadoNegativo).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+              />
+            </svg>
+
+            <span className="text-xs font-medium uppercase">
+              {nombreMesActual}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Fecha Actual
+            </strong>
+
+            <p>
+              <span className="text-2xl font-medium text-gray-900 max-md:text-base uppercase">
+                {nombreMesActual}
+              </span>
+
+              <span className="text-xs text-gray-500 uppercase">
+                {" "}
+                Dia {nombreDiaActual}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalDatosAdmin + totalDatosDosAdmin / 10000).toFixed(
+                2
+              )}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total viviendas entregadas
+            </strong>
+
+            <p>
+              <span className="text-3xl max-md:text-base font-medium text-gray-900">
+                {totalDatosAdmin + totalDatosDosAdmin}
+              </span>
+
+              <span className="text-xs text-gray-500 uppercase">
+                {" "}
+                Total en el mes {totalDatosAdmin + totalDatosDosAdmin}{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium uppercase">
+              {" "}
+              {Number(
+                totalDatosMetrosCuadradosAdmin +
+                  totalDatosMetrosCuadradosLegalesAdmin / 10000
+              ).toFixed(2)}{" "}
+              %{" "}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en metros cuadradados
+            </strong>
+
+            <p>
+              <span className="text-3xl font-medium text-gray-900 max-md:text-base uppercase">
+                {Number(
+                  totalDatosMetrosCuadradosAdmin +
+                    totalDatosMetrosCuadradosLegalesAdmin
+                ).toFixed(2)}
+              </span>
+
+              <span className="text-xs text-gray-500 uppercase">
+                {" "}
+                Total en el mes{" "}
+                {Number(
+                  totalDatosMetrosCuadradosAdmin +
+                    totalDatosMetrosCuadradosLegalesAdmin
+                ).toFixed(2)}{" "}
+                mts{" "}
+              </span>
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+        <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
+          <p> Progreso de las entregas</p>
+        </div>
+        <RemuneracionesProgressBar
+          rendicionesMensuales={rendicionesMensualesAdmin}
+          remuneracionesMensuales={remuneracionesMensualesAdmin}
+        />
+        <SalidasProgressBar salidasMensuales={salidasMensualesAdmin} />
+        <ViviendasProgressBar
+          salidasMensuales={remuneracionesMensualesAdmin}
+          legales={legalesAdmin}
+        />
+
+        <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <p className="text-lg mb-3 uppercase max-md:text-sm">
+              Total de la caja
+            </p>
+            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              {Number(totalCajaAdmin).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
+          </div>
+          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+            <div
+              className={`h-3 ${
+                totalCajaAdmin >= 0 ? "bg-green-400" : "bg-red-400"
+              } max-md:h-2`}
+              style={{
+                width: `${Math.abs(totalCajaAdmin / 1000000)}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white h-full w-full">
+        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full transition-all ease-linear">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
+            GRAFICO DE REMUNERACIONES
+          </div>
+          <RemuneracionesColumnChart
+            rendicionesMensuales={rendicionesMensualesAdmin}
+            remuneraciones={remuneracionesMensualesAdmin}
+          />
+        </div>
+      </div>
+
+      <div className="bg-white h-full w-full">
+        <div className="border-slate-200 border-[1px] rounded-xl hover:shadow-md transition-all ease-linear cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full ">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
+            GRAFICO DE RENDICIONES
+          </div>
+          <RendicionesColumnChart
+            rendicionesMensuales={rendicionesMensualesAdmin}
+          />
+        </div>
+      </div>
+
+      <div className="w-full grid-cols-2 grid gap-3 items-start justify-center max-md:grid-cols-1">
+        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md transition-all ease-linear py-10 px-5 flex flex-col items-center max-md:py-5">
+          <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
+            DONUT REMUNERACIONES
+          </div>
+          <RemuneracionesDonutChart
+            remuneraciones={remuneracionesMensualesAdmin}
+          />
+        </div>
+        <ViviendasDataCharts salidasMensuales={salidasMensualesAdmin} />
+      </div>
     </section>
   ) : (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
       <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-400 hover:shadow-md transition-all ease-linear bg-gray-100  p-5 max-md:rounded-xl cursor-pointer">
           <div
