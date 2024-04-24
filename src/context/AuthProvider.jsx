@@ -13,12 +13,15 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) ?? null
-  );
-  const [isAuth, setIsAuth] = useState(
-    JSON.parse(localStorage.getItem("isAuth")) ?? false
-  );
+  const [user, setUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(false);
+
+  // const [user, setUser] = useState(
+  //   JSON.parse(localStorage.getItem("user")) ?? null
+  // );
+  // const [isAuth, setIsAuth] = useState(
+  //   JSON.parse(localStorage.getItem("isAuth")) ?? false
+  // );
   const [error, setError] = useState(null);
   const [spinner, setSpinner] = useState(false);
 
@@ -31,13 +34,13 @@ export const AuthProvider = ({ children }) => {
     }, 1000);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("isAuth", JSON.stringify(isAuth));
-  }, [isAuth]);
+  // useEffect(() => {
+  //   localStorage.setItem("isAuth", JSON.stringify(isAuth));
+  // }, [isAuth]);
 
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
+  // useEffect(() => {
+  //   localStorage.setItem("user", JSON.stringify(user));
+  // }, [user]);
 
   //login
   const signin = async (data) => {
@@ -63,6 +66,19 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data);
       setUser(res.data);
       setIsAuth(true);
+      return res.data;
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setError(error.response.data);
+      }
+      setError([error.response.data.message]);
+    }
+  };
+
+  //registro
+  const signupAdmin = async (data) => {
+    try {
+      const res = await axios.post("/signup-two", data);
       return res.data;
     } catch (error) {
       if (Array.isArray(error.response.data)) {
@@ -105,6 +121,7 @@ export const AuthProvider = ({ children }) => {
         spinner,
         clickProvider,
         setClickProvider,
+        signupAdmin,
       }}
     >
       {children}

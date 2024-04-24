@@ -236,7 +236,7 @@ export const SalidasRegistradas = () => {
       : totalGastosClienteAdmin;
 
   return user.localidad === "admin" ? (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3">
+    <section className="bg-gray-100/50 w-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3 h-full max-h-full min-h-screen">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article
@@ -391,12 +391,12 @@ export const SalidasRegistradas = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full max-md:text-sm max-md:mt-5">
+      <div className="bg-white flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full max-md:text-sm max-md:mt-5 ">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full uppercase text-sm"
+          className="outline-none text-slate-600 w-full uppercase text-sm bg-white"
           placeholder="Buscar el cliente/localidad creador o nombre"
         />
 
@@ -416,7 +416,7 @@ export const SalidasRegistradas = () => {
         </svg>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:overflow-x-scroll">
+      <div className="bg-white rounded-xl border-[1px] border-slate-300 shadow max-md:overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">
@@ -426,7 +426,7 @@ export const SalidasRegistradas = () => {
             </p>
           </div>
         ) : (
-          <table className="w-full divide-y-2 divide-gray-200 text-sm">
+          <table className="w-full divide-y-2 divide-gray-200 text-sm ">
             <thead className="text-left">
               <tr>
                 <th className="px-4 py-3  text-slate-800 font-bold uppercase max-md:text-xs">

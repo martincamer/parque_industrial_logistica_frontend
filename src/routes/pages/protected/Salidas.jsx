@@ -261,7 +261,7 @@ export const Salidas = () => {
   }, 0);
 
   return user.localidad === "admin" ? (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
+    <section className="bg-gray-100/50 w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
       <ToastContainer />
       <div className="grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
@@ -408,12 +408,12 @@ export const Salidas = () => {
       </div>
 
       <div className="flex gap-2 items-center w-1/2 max-md:w-full max-md:flex-col">
-        <div className="py-2 max-md:py-2 px-4 max-md:px-5 border-slate-300 border-[1px] shadow rounded-xl w-full">
+        <div className="py-2 max-md:py-2 px-4 max-md:px-5 bg-white border-slate-300 border-[1px] shadow rounded-xl w-full">
           <input
             value={searchTermCliente}
             onChange={(e) => setSearchTermCliente(e.target.value)}
             type="text"
-            className="outline-none text-slate-600 w-full max-md:text-sm uppercase"
+            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
             placeholder="Buscar por cliente"
           />
         </div>
@@ -553,29 +553,29 @@ export const Salidas = () => {
             ))}
         </div>
       </div>
-      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow-md transition-all ease-linear cursor-pointer max-md:hidden">
+      <div className="bg-white rounded-2xl border-[1px] border-slate-300 hover:shadow-md transition-all ease-linear cursor-pointer max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Numero
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Creador
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Fabrica/Sucursal
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Fecha de creación
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Mes de creación
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Clientes/Localidad/Ver
               </th>
-              <th className="px-4 py-2  text-slate-800 font-bold uppercase">
+              <th className="px-4 py-3 text-slate-800 font-bold uppercase">
                 Fabrica de salida
               </th>
             </tr>

@@ -37,15 +37,16 @@ import { RendicionesProvider } from "./context/RendicionesProvider";
 import { ResumenViewRendicion } from "./routes/pages/protected/ResumenViewRendicion";
 import { RendicionesRegistradas } from "./routes/pages/protected/RendicionesRegistradas";
 import { MenuMobile } from "./components/ui/MenuMobile";
+import { HomeEstadistica } from "./routes/pages/protected/HomeEstadistica.jsx";
+import { Cuentas } from "./routes/pages/protected/Cuentas.jsx";
 // import { HomeEstadistica } from "./routes/pages/protected/HomeEstadisticajsx";
 //import normales
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
-import { HomeEstadistica } from "./routes/pages/protected/HomeEstadistica.jsx";
 
 function App() {
-  const { isAuth } = useAuth();
+  const { isAuth, user } = useAuth();
 
   return (
     <>
@@ -136,13 +137,16 @@ function App() {
                 path="/remuneracion-pdf/:id"
                 element={<ViewPdfRemuneracion />}
               />
-
               <Route
                 path="/viaticos-armadores/:id"
                 element={<ViewPdfArmadores />}
               />
 
               <Route path="/estadistica" element={<HomeEstadistica />} />
+
+              {user?.localidad === "admin" && (
+                <Route path="/cuentas" element={<Cuentas />} />
+              )}
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

@@ -221,6 +221,7 @@ export const HomeEstadistica = () => {
 
   const totalViaticos =
     totalEnViaticosGeneradosEnLegales + totalEnViaticosGeneradosEnRemunerciones;
+
   const totalFletes =
     totalEnFletesGeneradosEnLegales + totalEnFletesGeneradosEnRemunerciones;
 

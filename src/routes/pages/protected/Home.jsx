@@ -365,6 +365,69 @@ export const Home = () => {
       totalCobroClienteLegalesDosAdmin
   );
 
+  const totalEnFletesGeneradosEnRemunerciones =
+    remuneracionesMensualesAdmin?.reduce((total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida.datos_cliente.datosCliente.reduce(
+              (subtotal, cliente) => subtotal + Number(cliente.totalFlete || 0), // Asegurarse de manejar el caso en que totalFlete no esté definido
+              0
+            )
+          : 0)
+      );
+    }, 0);
+
+  const totalEnViaticosGeneradosEnRemunerciones =
+    remuneracionesMensualesAdmin?.reduce((total, salida) => {
+      return total + (salida?.viaticos ? Number(salida.viaticos) : 0);
+    }, 0);
+
+  const totalEnFletesGeneradosEnLegales = legalesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida.datos_cliente.datosCliente.reduce(
+              (subtotal, cliente) => subtotal + Number(cliente.totalFlete || 0), // Asegurarse de manejar el caso en que totalFlete no esté definido
+              0
+            )
+          : 0)
+      );
+    },
+    0
+  );
+
+  const totalEnViaticosGeneradosEnLegales = legalesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return total + (salida?.viaticos ? Number(salida.viaticos) : 0);
+    },
+    0
+  );
+
+  const totalGeneradoEnRefuerzosAdmin = remuneracionesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return total + Number(salida.refuerzo || 0); // Asegúrate de que salida.refuerzo es un número
+    },
+    0
+  );
+
+  const totalGeneradoEnRefuerzosLegalesAdmin = legalesMensualesAdmin?.reduce(
+    (total, salida) => {
+      return total + Number(salida.refuerzo || 0); // Asegúrate de que salida.refuerzo es un número
+    },
+    0
+  );
+
+  const totalRefuerzosAdmin =
+    totalGeneradoEnRefuerzosAdmin + totalGeneradoEnRefuerzosLegalesAdmin;
+
+  const totalViaticos =
+    totalEnViaticosGeneradosEnLegales + totalEnViaticosGeneradosEnRemunerciones;
+
+  const totalFletes =
+    totalEnFletesGeneradosEnLegales + totalEnFletesGeneradosEnRemunerciones;
+
   return isLoading ? (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10">
       {/* Artículo 1 */}
@@ -406,22 +469,26 @@ export const Home = () => {
       </div>
     </section>
   ) : user.localidad === "admin" ? (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20 bg-gray-100/50">
       <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-400 hover:shadow-md transition-all ease-linear bg-gray-100  p-5 max-md:rounded-xl cursor-pointer">
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear  p-5 max-md:rounded-xl cursor-pointer ${
+            totalCobroClienteDosAdmin +
+              totalCobroClienteLegalesDosAdmin +
+              totalCobroRendicionesDosAdmin / 100000 >
+            0
+              ? "border-green-400 bg-green-100"
+              : "border-red-400 bg-red-100"
+          }`}
+        >
           <div
             className={`inline-flex gap-2 self-end rounded py-1 px-2   ${
               totalCobroClienteDosAdmin +
                 totalCobroClienteLegalesDosAdmin +
                 totalCobroRendicionesDosAdmin / 100000 <
               0
-                ? "bg-red-400 p-1 text-white"
-                : totalCobroClienteDosAdmin +
-                    totalCobroClienteLegalesDosAdmin +
-                    totalCobroRendicionesDosAdmin / 100000 >
-                  0
-                ? "text-white bg-green-400"
-                : "text-white bg-green-400"
+                ? "bg-red-400 text-white"
+                : "bg-green-400 text-white"
             }`}
           >
             <svg
@@ -471,8 +538,8 @@ export const Home = () => {
                 Total final de la caja
               </strong>
             </div>
-            <div className="bg-white py-2 px-2 rounded-xl mt-2 shadow">
-              <p>
+            <div className="  mt-2  flex">
+              <p className="bg-white py-2 px-6 rounded-xl shadow">
                 <span
                   className={`text-2xl max-md:text-base font-medium uppercase ${totalClassAdmin}`}
                 >
@@ -481,21 +548,6 @@ export const Home = () => {
                     currency: "ARS",
                     minimumIntegerDigits: 2,
                   })}{" "}
-                </span>
-                <span
-                  className={`text-xs
-                 `}
-                >
-                  Total final de la caja {"  "}
-                  {Number(
-                    Number(
-                      totalCobroClienteDosAdmin + totalCobroRendicionesDosAdmin
-                    ) + Number(totalCobroClienteLegalesDosAdmin) || 0
-                  ).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
                 </span>
               </p>
             </div>
@@ -571,7 +623,7 @@ export const Home = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
               />
             </svg>
 
@@ -591,6 +643,7 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                -{" "}
                 {Number(totalCobroClienteLegalesAdmin).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -644,7 +697,7 @@ export const Home = () => {
                       totalCobroClienteLegalesAdmin / 100000 >
                     0
                   ? "text-green-500"
-                  : ""
+                  : "text-green-500"
               }`}
             >
               {(
@@ -665,7 +718,9 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span
-                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+                className={`text-2xl max-md:text-base font-medium uppercase ${
+                  totalCobroAdminFinalMes > 0 ? "text-red-500" : "text-red-500"
+                }`}
               >
                 {totalCobroAdminFinalMes.toLocaleString("es-AR", {
                   style: "currency",
@@ -708,6 +763,128 @@ export const Home = () => {
             <p className="text-slate-500">
               <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
                 {Number(resultadoNegativo).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalFletes / 100000).toFixed(2)} %{""}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en fletes del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                -{" "}
+                {Number(totalFletes).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+              />
+            </svg>
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalViaticos / 100000).toFixed(2)} %{""}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en viaticos del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                -{" "}
+                {Number(totalViaticos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+              />
+            </svg>
+
+            <span className="text-xs font-medium">
+              {" "}
+              {Number(totalRefuerzosAdmin / 100000).toFixed(2)} %{""}
+            </span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+              Total en refuerzos del mes
+            </strong>
+
+            <p className="text-slate-500">
+              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+                -{" "}
+                {Number(totalRefuerzosAdmin).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -892,10 +1069,88 @@ export const Home = () => {
             ></div>
           </div>
         </div>
-      </div>
 
-      <div className="bg-white h-full w-full">
-        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full transition-all ease-linear">
+        <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <p className="text-lg mb-3 uppercase max-md:text-sm">
+              Total en fletes
+            </p>
+            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              -{" "}
+              {Number(totalFletes).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
+          </div>
+          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+            <div
+              className={`h-3 ${
+                totalFletes >= 0 ? "bg-red-400" : "bg-red-400"
+              } max-md:h-2`}
+              style={{
+                width: `${Math.abs(totalFletes / 1000000)}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+
+        <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <p className="text-lg mb-3 uppercase max-md:text-sm">
+              Total en viaticos
+            </p>
+            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              -{" "}
+              {Number(totalViaticos).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
+          </div>
+          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+            <div
+              className={`h-3 ${
+                totalViaticos >= 0 ? "bg-red-400" : "bg-red-400"
+              } max-md:h-2`}
+              style={{
+                width: `${Math.abs(totalViaticos / 1000000)}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+
+        <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <p className="text-lg mb-3 uppercase max-md:text-sm">
+              Total en refuerzos
+            </p>
+            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              -{" "}
+              {Number(totalRefuerzosAdmin).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </p>
+          </div>
+          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+            <div
+              className={`h-3 ${
+                totalRefuerzosAdmin >= 0 ? "bg-red-400" : "bg-red-400"
+              } max-md:h-2`}
+              style={{
+                width: `${Math.abs(totalRefuerzosAdmin / 1000000)}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+      </div>
+      {/* 
+      <div className="h-full w-full">
+        <div className="bg-white border-slate-200 border-[1px] rounded-2xl hover:shadow-md cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full transition-all ease-linear">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE REMUNERACIONES
           </div>
@@ -906,8 +1161,8 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="bg-white h-full w-full">
-        <div className="border-slate-200 border-[1px] rounded-xl hover:shadow-md transition-all ease-linear cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full ">
+      <div className="h-full w-full">
+        <div className="bg-white border-slate-200 border-[1px] rounded-xl hover:shadow-md transition-all ease-linear cursor-pointer py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full ">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             GRAFICO DE RENDICIONES
           </div>
@@ -918,7 +1173,7 @@ export const Home = () => {
       </div>
 
       <div className="w-full grid-cols-2 grid gap-3 items-start justify-center max-md:grid-cols-1">
-        <div className="border-slate-200 border-[1px] rounded-2xl hover:shadow-md transition-all ease-linear py-10 px-5 flex flex-col items-center max-md:py-5">
+        <div className="bg-white border-slate-200 border-[1px] rounded-2xl hover:shadow-md transition-all ease-linear py-10 px-5 flex flex-col items-center max-md:py-5">
           <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
             DONUT REMUNERACIONES
           </div>
@@ -927,7 +1182,7 @@ export const Home = () => {
           />
         </div>
         <ViviendasDataCharts salidasMensuales={salidasMensualesAdmin} />
-      </div>
+      </div> */}
     </section>
   ) : (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-24 max-md:mb-10 max-md:py-20">
