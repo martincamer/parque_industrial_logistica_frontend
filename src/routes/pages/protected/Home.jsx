@@ -1288,9 +1288,9 @@ export const Home = () => {
             <div className="  mt-2  flex">
               <p className="bg-white py-2 px-6 rounded-xl shadow">
                 <span
-                  className={`text-2xl max-md:text-base font-medium uppercase ${totalClassAdmin}`}
+                  className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
                 >
-                  {totalCobroClienteDos.toLocaleString("es-AR", {
+                  {totalCaja.toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
                     minimumIntegerDigits: 2,

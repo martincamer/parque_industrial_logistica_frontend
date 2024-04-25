@@ -873,7 +873,6 @@ export const Legales = () => {
               <span
                 className={`text-2xl font-medium ${porcentajeColor} max-md:text-base`}
               >
-                -{" "}
                 {Number(totalRecaudación).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
