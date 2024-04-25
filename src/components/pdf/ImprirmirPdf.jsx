@@ -82,6 +82,7 @@ export const ImprimirPdf = ({ unicaSalida }) => {
         size="A4"
         style={{
           padding: "40px 60px",
+          zIndex: "1",
         }}
       >
         <View>

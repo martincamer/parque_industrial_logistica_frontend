@@ -9,7 +9,6 @@ export const ViewPdf = () => {
 
   const params = useParams();
 
-  console.log(unicaSalida);
   useEffect(() => {
     async function loadData() {
       const respuesta = await obtenerUnicaSalida(params.id);

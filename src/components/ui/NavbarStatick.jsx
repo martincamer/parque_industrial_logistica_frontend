@@ -7,14 +7,14 @@ export const NavbarStatick = () => {
 
   return (
     isAuth && (
-      <div className="absolute top-2 right-5 flex gap-2 items-start z-[100] max-md:top-5 mx-8">
+      <div className="absolute top-10 right-5 flex gap-2 items-start max-md:top-5 mx-8">
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
-            className="avatar hover:shadow-md rounded-full transition-all w-full"
+            className="avatar hover:shadow-md rounded-full transition-all w-full "
           >
-            <div className="rounded-full h-[60px] w-[60px]">
+            <div className="rounded-full h-[60px] w-[60px] transition-all ">
               <img
                 src={
                   user?.imagen ||

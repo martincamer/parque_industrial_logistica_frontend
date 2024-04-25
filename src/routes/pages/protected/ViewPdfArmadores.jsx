@@ -21,7 +21,7 @@ export const ViewPdfArmadores = () => {
   }, []);
 
   return (
-    <PDFViewer style={{ width: "100%", height: "100vh" }}>
+    <PDFViewer style={{ width: "100%", height: "100vh", zIndex: "101" }}>
       <ImprimirPdfArmadores unicaSalida={unicaSalida} />
     </PDFViewer>
   );
