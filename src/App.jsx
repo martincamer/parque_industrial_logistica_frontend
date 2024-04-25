@@ -44,6 +44,7 @@ import { Cuentas } from "./routes/pages/protected/Cuentas.jsx";
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Configuraciones } from "./routes/pages/protected/Configuraciones.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -86,6 +87,7 @@ function App() {
               <Route path="/remuneraciones" element={<Remuneraciones />} />
               <Route path="/rendiciones" element={<Rendicones />} />
               <Route path="/legales" element={<Legales />} />
+              <Route path="/configuraciones" element={<Configuraciones />} />
               <Route
                 path="/salidas-registradas"
                 element={<SalidasRegistradas />}
