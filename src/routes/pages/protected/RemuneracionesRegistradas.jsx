@@ -254,6 +254,41 @@ export const RemuneracionesRegistradas = () => {
     0
   );
 
+  const isFilteredResultsAvailable =
+    filteredResults && filteredResults.length > 0;
+
+  const results = isFilteredResultsAvailable
+    ? filteredResults
+    : filteredResultsAdmin;
+
+  const totalDatosRefuerzos = results?.reduce((total, salida) => {
+    return total + Number(salida?.refuerzo || 0);
+  }, 0);
+
+  const totalDatosViaticos = results?.reduce((total, salida) => {
+    return total + Number(salida?.viaticos || 0);
+  }, 0);
+
+  const totalDatosFleteEspera = results?.reduce((total, salida) => {
+    return total + Number(salida?.pago_fletero_espera || 0);
+  }, 0);
+
+  const totalDatosAuto = results?.reduce((total, salida) => {
+    return total + Number(salida?.auto || 0);
+  }, 0);
+
+  const totalEnFletesGenerados = results?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida.datos_cliente.datosCliente.reduce(
+            (subtotal, cliente) => subtotal + Number(cliente.totalFlete || 0), // Asegurarse de manejar el caso en que totalFlete no esté definido
+            0
+          )
+        : 0)
+    );
+  }, 0);
+
   return user.localidad === "admin" ? (
     <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
@@ -298,6 +333,249 @@ export const RemuneracionesRegistradas = () => {
                 } max-md:text-base`}
               >
                 {Number(totalGastosClienteAdmin).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosRefuerzos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosRefuerzos / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en refuerzos de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosRefuerzos) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosRefuerzos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosRefuerzos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalEnFletesGenerados / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en fletes de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalEnFletesGenerados) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalEnFletesGenerados).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosViaticos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosViaticos / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en viaticos de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosViaticos) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosViaticos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosFleteEspera < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosFleteEspera / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en pagos a fletero por espera de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosFleteEspera) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosFleteEspera).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosAuto < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosAuto / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en auto de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosAuto) < 0 ? "text-red-600" : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosAuto).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -676,7 +954,7 @@ export const RemuneracionesRegistradas = () => {
       )}
     </section>
   ) : (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
+    <section className="min-h-screen max-h-full bg-gray-100/50 w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
       <div className="grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none uppercase">
         <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
@@ -719,6 +997,250 @@ export const RemuneracionesRegistradas = () => {
                 } max-md:text-base`}
               >
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosRefuerzos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosRefuerzos / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en refuerzos de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosRefuerzos) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosRefuerzos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosRefuerzos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalEnFletesGenerados / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en fletes de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalEnFletesGenerados) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalEnFletesGenerados).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosRefuerzos < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosViaticos / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en viaticos de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosViaticos) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosViaticos).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosFleteEspera < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosFleteEspera / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en pagos a fletero por espera de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosFleteEspera) < 0
+                    ? "text-red-600"
+                    : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosFleteEspera).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+        </article>
+        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
+          <div
+            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium ${
+              totalDatosAuto < 0
+                ? "bg-red-100 text-red-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+
+            <span>{Number(totalDatosAuto / 100000).toFixed(2)} %</span>
+          </div>
+
+          <div>
+            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
+              Total en auto de la busqueda
+            </strong>
+
+            <p>
+              <span
+                className={`text-2xl font-medium ${
+                  Number(totalDatosAuto) < 0 ? "text-red-600" : "text-red-600"
+                } max-md:text-base`}
+              >
+                -{" "}
+                {Number(totalDatosAuto).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -888,12 +1410,12 @@ export const RemuneracionesRegistradas = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full">
+      <div className="bg-white flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full uppercase text-sm"
+          className="outline-none text-slate-600 w-full uppercase text-sm bg-white"
           placeholder="Buscar el cliente en especifico / o creador"
         />
 
@@ -913,7 +1435,7 @@ export const RemuneracionesRegistradas = () => {
         </svg>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
+      <div className="bg-white rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">

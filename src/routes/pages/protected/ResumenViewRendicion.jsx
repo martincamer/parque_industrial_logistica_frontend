@@ -60,7 +60,7 @@ export const ResumenViewRendicion = () => {
   };
 
   return (
-    <section className="uppercase text-sm w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-10">
+    <section className="bg-gray-100/50 uppercase text-sm w-full h-full min-h-screen max-h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-10">
       <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article className="flex flex-col gap-4 rounded-xl border border-slate-200 hover:shadow bg-white p-6 max-md:pb-3">
           <div
@@ -161,8 +161,8 @@ export const ResumenViewRendicion = () => {
         </article>
       </div>
 
-      <div className="rounded-xl grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl">
+      <div className=" rounded-xl grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
+        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl">
           <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
             Datos de los clientes
           </p>
@@ -198,7 +198,7 @@ export const ResumenViewRendicion = () => {
           </div>
         </div>
 
-        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl">
+        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl bg-white">
           <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
             Rendiciones/Etc
           </p>

@@ -71,7 +71,7 @@ export const ResumenView = () => {
   const textoColor = esNegativo ? "text-red-600" : "text-green-600";
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-12">
+    <section className="bg-gray-100/50 max-h-full min-h-screen w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-12">
       <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article
           className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md bg-white p-6 max-md:p-3 transition-all ease-linear cursor-pointer`}
@@ -278,7 +278,7 @@ export const ResumenView = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow overflow-x-scroll">
+      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow overflow-x-scroll bg-white">
         <table className="w-full divide-y-2 divide-gray-200 text-sm overflow-x-scroll">
           <thead className="text-left">
             <tr>
@@ -367,79 +367,81 @@ export const ResumenView = () => {
         </table>
       </div>
 
-      <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl uppercase">
-        <div>
-          <h3 className="font-bold text-slate-700 text-lg underline max-md:text-base">
-            Lugar de salida/Fabrica
-          </h3>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
-              Lugar de salida
-            </p>
-            {unicaSalida.salida}
-          </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
-              Fabrica / Suc.
-            </p>
-            {unicaSalida.fabrica}
-          </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm">
-              Fecha de salida
-            </p>
-            {unicaSalida?.created_at?.split("T")[0]}
+      <article className="grid grid-cols-4 gap-5">
+        <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl uppercase bg-white">
+          <div>
+            <h3 className="font-bold text-slate-700 text-lg underline max-md:text-base">
+              Lugar de salida/Fabrica
+            </h3>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm">
+                Lugar de salida
+              </p>
+              {unicaSalida.salida}
+            </div>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm">
+                Fabrica / Suc.
+              </p>
+              {unicaSalida.fabrica}
+            </div>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm">
+                Fecha de salida
+              </p>
+              {unicaSalida?.created_at?.split("T")[0]}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl">
-        <div>
-          <h3 className="font-bold text-slate-700 text-lg uppercase underline max-md:text-base">
-            Gastos distribuidos
-          </h3>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
-              Total control
-            </p>
-            {Number(unicaSalida.total_control).toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-              minimumIntegerDigits: 2,
-            })}
-          </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
-              Total Flete
-            </p>
-            {Number(unicaSalida.total_flete).toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-              minimumIntegerDigits: 2,
-            })}
-          </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
-              Espera Flete
-            </p>
-            {Number(unicaSalida.espera).toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-              minimumIntegerDigits: 2,
-            })}
-          </div>
-          <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
-            <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
-              Total Viaticos
-            </p>
-            {Number(unicaSalida.total_viaticos).toLocaleString("es-AR", {
-              style: "currency",
-              currency: "ARS",
-              minimumIntegerDigits: 2,
-            })}
+        <div className="border-[1px] border-slate-300 shadow py-5 px-6 rounded-xl bg-white">
+          <div>
+            <h3 className="font-bold text-slate-700 text-lg uppercase underline max-md:text-base">
+              Gastos distribuidos
+            </h3>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
+                Total control
+              </p>
+              {Number(unicaSalida.total_control).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
+                Total Flete
+              </p>
+              {Number(unicaSalida.total_flete).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
+                Espera Flete
+              </p>
+              {Number(unicaSalida.espera).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
+            <div className="flex gap-2 font-semibold text-red-800 mt-3 max-md:text-sm">
+              <p className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
+                Total Viaticos
+              </p>
+              {Number(unicaSalida.total_viaticos).toLocaleString("es-AR", {
+                style: "currency",
+                currency: "ARS",
+                minimumIntegerDigits: 2,
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </article>
     </section>
   );
 };

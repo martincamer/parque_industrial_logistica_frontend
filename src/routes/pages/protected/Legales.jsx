@@ -832,7 +832,7 @@ export const Legales = () => {
       />
     </section>
   ) : (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-5 py-16 max-h-full min-h-full">
+    <section className="bg-gray-100/50 min-h-screen max-h-full w-full h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-5 py-16">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article
@@ -1107,12 +1107,12 @@ export const Legales = () => {
         </Link>
       </div>
       <div className="flex gap-2 items-center w-1/2 max-md:flex-col max-md:w-full">
-        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full">
+        <div className="bg-white py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full">
           <input
             value={searchTermCliente}
             onChange={(e) => setSearchTermCliente(e.target.value)}
             type="text"
-            className="outline-none text-slate-600 w-full max-md:text-sm uppercase"
+            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
             placeholder="Buscar por cliente"
           />
           {/* Icono de búsqueda para cliente */}
@@ -1249,7 +1249,7 @@ export const Legales = () => {
         </div>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow max-md:hidden">
+      <div className="bg-white rounded-2xl border-[1px] border-slate-300 hover:shadow max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>

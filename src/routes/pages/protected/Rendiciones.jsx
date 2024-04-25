@@ -687,7 +687,7 @@ export const Rendicones = () => {
       )}
     </section>
   ) : (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
+    <section className="bg-gray-100/50 w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-screen max-md:gap-5">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article
@@ -992,7 +992,7 @@ export const Rendicones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:hidden">
+      <div className="bg-white rounded-xl border-[1px] border-slate-300 shadow max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-sm">
           <thead className="text-left">
             <tr>

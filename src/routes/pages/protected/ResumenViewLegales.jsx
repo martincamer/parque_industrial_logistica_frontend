@@ -5,16 +5,6 @@ import { obtenerUnicaOrdenLegal } from "../../../api/ingresos";
 export const ResumenViewLegales = () => {
   const [unicaSalida, setUnicaSalida] = useState([]);
 
-  const [tooltip, setTooltip] = useState(null);
-
-  const handleHover = (name) => {
-    setTooltip(name);
-  };
-
-  const handleLeave = () => {
-    setTooltip(null);
-  };
-
   const params = useParams();
 
   useEffect(() => {
@@ -90,7 +80,7 @@ export const ResumenViewLegales = () => {
   ).toFixed(2);
 
   return (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 bg-gray-100/50 min-h-screen max-h-full">
       <div className="uppercase grid grid-cols-4 gap-3 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none max-md:grid-cols-1">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-300 hover:shadow bg-white p-6 transition-all ease-linear">
           <div
@@ -231,32 +221,8 @@ export const ResumenViewLegales = () => {
         </article>
       </div>
 
-      {/* <div className="flex gap-5">
-        <Link
-          target="_blank"
-          to={`/remuneracion-pdf/${params.id}`}
-          className="bg-green-100 py-3 hover:shadow-md shadow-gray-300 transition-all ease-linear px-6 rounded-xl text-green-700 uppercase text-sm flex gap-2 items-center max-md:text-sm"
-        >
-          Descargar legal formato pdf
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-            />
-          </svg>
-        </Link>
-      </div> */}
-
       <div className="text-sm uppercase grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:py-0 max-md:px-0 max-md:shadow-none max-md:border-none">
-        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
+        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de los clientes
           </p>
@@ -307,7 +273,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
+        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
           <p className="text-slate-700 font-bold text-lg underline">
             Datos de carga/fletero/etc
           </p>
@@ -358,7 +324,7 @@ export const ResumenViewLegales = () => {
           </div>
         </div>
 
-        <div className="border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl flex flex-col gap-2">
+        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl flex flex-col gap-2">
           <p className="text-slate-700 font-bold text-lg underline">
             Remuneraciones/Etc
           </p>

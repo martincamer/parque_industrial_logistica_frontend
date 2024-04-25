@@ -219,8 +219,26 @@ export const HomeEstadistica = () => {
     0
   );
 
+  const totalEnRefuerzosGeneradosEnLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return total + (salida?.refuerzo ? Number(salida.refuerzo) : 0);
+    },
+    0
+  );
+
+  const totalEnRefuerzosGeneradosEnRemuneracion = filteredData?.reduce(
+    (total, salida) => {
+      return total + (salida?.refuerzo ? Number(salida.refuerzo) : 0);
+    },
+    0
+  );
+
   const totalViaticos =
     totalEnViaticosGeneradosEnLegales + totalEnViaticosGeneradosEnRemunerciones;
+
+  const totalRefuerzos =
+    totalEnRefuerzosGeneradosEnRemuneracion +
+    totalEnRefuerzosGeneradosEnLegales;
 
   const totalFletes =
     totalEnFletesGeneradosEnLegales + totalEnFletesGeneradosEnRemunerciones;
@@ -352,7 +370,7 @@ export const HomeEstadistica = () => {
   );
 
   return (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
+    <section className="bg-gray-100/50 w-full h-full min-h-screen max-h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-8 py-20 max-md:mb-10">
       <div className="flex gap-5 items-center">
         <h3 className="text-lg font-semibold uppercase text-slate-600 underline mt-4 md:px-4 max-md:text-base">
           ESTADISTICA FILTRAR
@@ -386,7 +404,7 @@ export const HomeEstadistica = () => {
           ))}
         </select>
       </div>
-      <div className="px-6 border-slate-200 border-[1px] py-4 rounded-xl hover:shadow">
+      <div className="bg-white px-6 border-slate-200 border-[1px] py-4 rounded-xl hover:shadow">
         <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
           <div className="flex gap-2 items-center">
             <label className="text-base text-slate-700 max-md:text-sm uppercase">
@@ -924,6 +942,57 @@ export const HomeEstadistica = () => {
                 </p>
               </div>
             </article>
+            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+
+                <span className="text-xs font-medium uppercase">
+                  {" "}
+                  {Number(Number(totalRefuerzos) / 100000).toFixed(2)} %{" "}
+                </span>
+              </div>
+
+              <div>
+                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                  Total en refuerzo del mes
+                </strong>
+
+                <p className="text-slate-500">
+                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
+                    {Number(Number(totalRefuerzos)).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>{" "}
+                  <span
+                    className={`text-xs
+                 `}
+                  >
+                    {" "}
+                    ultimos en viaticos del mes{" "}
+                    {Number(totalRefuerzos || 0).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </span>
+                </p>
+              </div>
+            </article>
           </div>
 
           <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
@@ -934,7 +1003,6 @@ export const HomeEstadistica = () => {
               rendicionesMensuales={filteredDataRendiciones}
               remuneracionesMensuales={filteredData}
             />
-            {/* <SalidasProgressBar salidasMensuales={filteredDataRendiciones} /> */}
             <ViviendasProgressBar
               salidasMensuales={filteredData}
               legales={filteredDataLegales}
@@ -944,41 +1012,6 @@ export const HomeEstadistica = () => {
               legales={filteredDataLegales}
             />
           </div>
-
-          {/* <div className="bg-white h-full w-full">
-            <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
-              <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
-                GRAFICO DE REMUNERACIONES
-              </div>
-              <RemuneracionesColumnChart
-                rendicionesMensuales={rendicionesMensuales}
-                remuneraciones={remuneracionesMensuales}
-              />
-            </div>
-          </div>
-
-          <div className="bg-white h-full w-full">
-            <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 max-md:py-5 px-5 max-md:px-2 flex flex-col items-center w-full">
-              <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
-                GRAFICO DE RENDICIONES
-              </div>
-              <RendicionesColumnChart
-                rendicionesMensuales={rendicionesMensuales}
-              />
-            </div>
-          </div>
-
-          <div className="w-full grid-cols-2 grid gap-3 items-start justify-center max-md:grid-cols-1">
-            <div className="border-slate-200 border-[1px] rounded-xl shadow py-10 px-5 flex flex-col items-center max-md:py-5">
-              <div className="font-bold text-slate-700 mb-16 max-md:text-sm">
-                DONUT REMUNERACIONES
-              </div>
-              <RemuneracionesDonutChart
-                remuneraciones={remuneracionesMensuales}
-              />
-            </div>
-            <ViviendasDataCharts salidasMensuales={salidasMensuales} />
-          </div> */}
         </>
       )}
     </section>

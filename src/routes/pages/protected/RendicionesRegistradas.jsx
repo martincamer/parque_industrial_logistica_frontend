@@ -546,7 +546,7 @@ export const RendicionesRegistradas = () => {
       )}
     </section>
   ) : (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
+    <section className="bg-gray-100/50 min-h-screen max-h-full w-full h-full px-12 max-md:px-4 flex flex-col gap-8 py-24 max-md:py-20">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-1 max-md:grid-cols-1 max-md:border-none max-md:py-0 max-md:px-0 max-md:shadow-none">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:p-3">
@@ -694,7 +694,7 @@ export const RendicionesRegistradas = () => {
         </div>
       </div>
       {/* tabla de datos  */}
-      <div className="rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
+      <div className="bg-white rounded-xl border-[1px] border-slate-300 shadow overflow-x-scroll">
         {loading ? (
           // Muestra el spinner mientras se cargan los datos
           <div className="flex justify-center items-center h-40">

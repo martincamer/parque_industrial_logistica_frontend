@@ -25,6 +25,7 @@ const SalidasProgressBar = ({ salidasMensuales }) => {
           Total en salidas/gastos/etc
         </p>
         <p className="text-slate-700 text-lg mb-3 max-md:text-sm max-md:font-bold">
+          -{" "}
           {Number(totalRecaudacion).toLocaleString("es-AR", {
             style: "currency",
             currency: "ARS",
