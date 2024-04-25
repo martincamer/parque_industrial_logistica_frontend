@@ -1220,20 +1220,14 @@ export const Home = () => {
       <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
         <article
           className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear  p-5 max-md:rounded-xl cursor-pointer ${
-            totalCobroClienteDos +
-              totalCobroClienteLegalesDos +
-              totalCobroRendicionesDos / 100000 >
-            0
+            totalCaja / 100000 > 0
               ? "border-green-400 bg-green-100"
               : "border-red-400 bg-red-100"
           }`}
         >
           <div
             className={`inline-flex gap-2 self-end rounded py-1 px-2   ${
-              totalCobroClienteDos +
-                totalCobroClienteLegalesDos +
-                totalCobroRendicionesDos / 100000 <
-              0
+              totalCaja / 100000 < 0
                 ? "bg-red-400 text-white"
                 : "bg-green-400 text-white"
             }`}
@@ -1255,27 +1249,14 @@ export const Home = () => {
 
             <span
               className={`text-xs font-medium uppercase ${
-                totalCobroClienteDos +
-                  totalCobroClienteLegalesDos +
-                  totalCobroRendicionesDos / 100000 <
-                0
+                totalCaja / 100000 < 0
                   ? "text-white"
-                  : totalCobroClienteDosAdmin +
-                      totalCobroClienteLegalesDos +
-                      totalCobroRendicionesDosAdmin / 100000 >
-                    0
+                  : totalCaja / 100000 > 0
                   ? "text-white"
                   : ""
               }`}
             >
-              {(
-                Number(
-                  totalCobroClienteDos +
-                    totalCobroClienteLegalesDos +
-                    totalCobroRendicionesDos
-                ) / 100000
-              ).toFixed(2)}{" "}
-              %
+              {(Number(totalCaja) / 100000).toFixed(2)} %
             </span>
           </div>
 
