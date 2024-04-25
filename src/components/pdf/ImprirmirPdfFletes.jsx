@@ -435,14 +435,17 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     borderBottom: "1px dotted #000",
                   }}
                 >
-                  {Number(unicaSalida.fletes_km_precio)?.toLocaleString(
-                    "es-AR",
-                    {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    }
-                  )}{" "}
+                  {unicaSalida.chofer === "Iveco Tecnohouse"
+                    ? ""
+                    : Number(
+                        Number(
+                          unicaSalida.fletes_km * unicaSalida.fletes_km_precio
+                        )
+                      ).toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumIntegerDigits: 2,
+                      })}
                   /{" "}
                   <Text
                     style={{
@@ -452,7 +455,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                       fontSize: "10px",
                     }}
                   >
-                    {unicaSalida.chofer == "Iveco Tecnohouse"
+                    {unicaSalida.chofer === "Iveco Tecnohouse"
                       ? Number(unicaSalida.fletes_km_precio).toLocaleString(
                           "es-AR",
                           {
