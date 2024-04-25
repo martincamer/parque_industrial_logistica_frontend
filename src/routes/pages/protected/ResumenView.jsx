@@ -213,7 +213,6 @@ export const ResumenView = () => {
 
       <div className="flex gap-5 max-md:flex-col">
         <Link
-          target="_blank"
           to={`/control-redencion-de-viajes/${params.id}`}
           className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
@@ -234,7 +233,6 @@ export const ResumenView = () => {
           </svg>
         </Link>
         <Link
-          target="_blank"
           to={`/fletes/${params.id}`}
           className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
@@ -255,7 +253,6 @@ export const ResumenView = () => {
           </svg>
         </Link>
         <Link
-          target="_blank"
           to={`/viaticos-armadores/${params.id}`}
           className="bg-green-100 text-green-700 py-3 text-sm px-6 rounded-xl hover:shadow-md hover:shadow-gray-300 transition-all ease-linear flex gap-2 items-center max-md:text-sm uppercase"
         >
