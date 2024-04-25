@@ -438,9 +438,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   {unicaSalida.chofer === "Iveco Tecnohouse"
                     ? ""
                     : Number(
-                        Number(
-                          unicaSalida.fletes_km * unicaSalida.fletes_km_precio
-                        )
+                        Number(unicaSalida.fletes_km_precio)
                       ).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
@@ -466,7 +464,8 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                         )
                       : Number(
                           Number(
-                            unicaSalida.fletes_km * unicaSalida.fletes_km_precio
+                            Number(unicaSalida.fletes_km) *
+                              Number(unicaSalida.fletes_km_precio)
                           )
                         ).toLocaleString("es-AR", {
                           style: "currency",
@@ -557,8 +556,9 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     )
                   : Number(
                       Number(
-                        unicaSalida.fletes_km * unicaSalida.fletes_km_precio +
-                          unicaSalida.espera
+                        Number(unicaSalida.fletes_km) *
+                          Number(unicaSalida.fletes_km_precio) +
+                          Number(unicaSalida.espera)
                       )
                     ).toLocaleString("es-AR", {
                       style: "currency",
