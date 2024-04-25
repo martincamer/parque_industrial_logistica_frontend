@@ -546,14 +546,25 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   borderBottom: "1px dotted #000",
                 }}
               >
-                {Number(
-                  Number(unicaSalida.fletes_km_precio * unicaSalida.fletes_km) +
-                    Number(unicaSalida.espera)
-                )?.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
+                {unicaSalida.chofer === "Iveco Tecnohouse"
+                  ? Number(unicaSalida.fletes_km_precio).toLocaleString(
+                      "es-AR",
+                      {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumIntegerDigits: 2,
+                      }
+                    )
+                  : Number(
+                      Number(
+                        unicaSalida.fletes_km * unicaSalida.fletes_km_precio +
+                          unicaSalida.espera
+                      )
+                    ).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
               </Text>
             </View>
 
