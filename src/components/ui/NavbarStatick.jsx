@@ -14,11 +14,11 @@ export const NavbarStatick = () => {
             role="button"
             className="avatar hover:shadow-md rounded-full transition-all w-full "
           >
-            <div className="rounded-full h-[60px] w-[60px] transition-all ">
+            <div className="rounded-full h-[60px] w-[60px]">
               <img
                 src={
                   user?.imagen ||
-                  "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  "https://media-eze1-1.cdn.whatsapp.net/v/t61.24694-24/143144780_433365128082776_2065965210607516755_n.jpg?ccb=11-4&oh=01_Q5AaIM0at3JRy1pLTQOpc4pAfeapqNoOS7IePIqPgF0glU69&oe=66364645&_nc_sid=e6ed6c&_nc_cat=103"
                 }
               />
             </div>
