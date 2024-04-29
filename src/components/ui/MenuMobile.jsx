@@ -23,7 +23,7 @@ export const MenuMobile = () => {
     <div
       className={`${
         isOpen ? "w-64 opacity-1" : "w-0 opacity-1"
-      } transition-all ease-linear flex flex-col bg-white min-h-[220vh] max-h-full h-full z-[100] border-r max-md:fixed`}
+      } transition-all ease-linear flex flex-col bg-white min-h-[220vh] max-h-full h-full z-[100] border-r max-md:fixed md:hidden`}
     >
       {/* Botón de menú */}
       <div className={`py-4 px-4 ${isOpen ? "flex justify-between " : ""}`}>
