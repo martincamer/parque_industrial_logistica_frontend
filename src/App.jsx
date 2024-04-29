@@ -70,9 +70,9 @@ function App() {
                     <OrdenesProvider>
                       <LegalesProvider>
                         <RendicionesProvider>
-                          {isAuth && <SideBar />}
-                          <MenuMobile />
-                          <main className="min-h-full max-h-full h-full">
+                          <main className="min-h-full max-h-full h-full flex">
+                            <SideBar />
+                            <MenuMobile />
                             <Outlet />
                           </main>
                         </RendicionesProvider>

@@ -494,47 +494,7 @@ export const Home = () => {
     totalEnFletesGeneradosEnLegalesUsuario +
     totalEnFletesGeneradosEnRemunercionesUsuario;
 
-  return isLoading ? (
-    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-4 flex flex-col gap-20 max-md:gap-8 py-36 max-md:mb-10">
-      {/* Artículo 1 */}
-      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
-        {/* Renderizar 5 artículos */}
-        {Array.from({ length: 5 }).map((_, index) => (
-          <article className="animate-pulse items-start flex gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer py-10s px-5">
-            <div className="bg-slate-200 py-12 px-4 rounded-xl w-full"></div>
-            <div className="bg-slate-200 py-5 px-10 rounded-xl"></div>
-          </article>
-        ))}
-      </div>
-
-      {/* Gráficos */}
-      <div className="bg-white h-full w-full grid grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <article className="animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
-            <div className="bg-slate-200 py-2 px-2 rounded-full w-full"></div>
-          </article>
-        ))}
-        {/* Gráfico de Remuneraciones */}
-      </div>
-
-      <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
-        <div className="bg-slate-200 py-2 rounded-xl w-full h-[50vh]"></div>
-      </div>
-
-      <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
-        <div className="bg-slate-200 py-2 rounded-xl w-full h-[50vh]"></div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-5 items-start">
-        <div className="bg-white h-full w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
-          <div className="bg-slate-200 py-2 rounded-xl w-full h-[30vh]"></div>
-        </div>
-        <div className="bg-white w-full animate-pulse py-10 px-6 border-slate-200 border-[1px] rounded-2xl">
-          <div className="bg-slate-200 py-2 rounded-xl w-full h-[10vh]"></div>
-        </div>
-      </div>
-    </section>
-  ) : user.localidad === "admin" ? (
+  return user.localidad === "admin" ? (
     <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-36 max-md:mb-10 max-md:py-20 bg-gray-100/50">
       <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
         <article
