@@ -470,550 +470,476 @@ export const HomeEstadistica = () => {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex flex-col gap-12">
-          <div className="py-10 px-10 rounded-xl bg-white border-slate-200 border-[1px] shadow grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-            {[...Array(7)].map((_, index) => (
-              <div
-                key={index}
-                className="animate-pulse rounded-xl border border-slate-200 shadow bg-gray-200 p-12 max-md:p-3"
+      <>
+        <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div
+              className={`inline-flex gap-2 self-end rounded py-1 px-1   ${
+                totalCobroCliente +
+                  totalCobroRendiciones +
+                  totalCobroClienteLegales / 100000 <
+                0
+                  ? "bg-red-100 p-1 text-red-600"
+                  : totalCobroCliente +
+                      totalCobroRendiciones +
+                      totalCobroClienteLegales / 100000 >
+                    0
+                  ? "text-green-600 bg-green-100"
+                  : "bg-green-100 text-green-600"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="h-4 w-3/4 bg-gray-300 rounded mb-4"></div>
-                <div className="h-4 bg-gray-300 rounded"></div>
-              </div>
-            ))}
-          </div>
-          <div className="rounded-xl bg-white grid grid-cols-3 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-            {[...Array(3)].map((_, index) => (
-              <div
-                key={index}
-                className="animate-pulse rounded-xl border border-slate-200 bg-gray-200 p-8 max-md:p-3 shadow"
-              >
-                <div className="h-4 w-3/4 bg-gray-300 rounded mb-4"></div>
-              </div>
-            ))}
-          </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
 
-          <div className="rounded-xl bg-white grid grid-cols-1 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-            {[...Array(1)].map((_, index) => (
-              <div
-                key={index}
-                className="animate-pulse rounded-xl border border-slate-200 bg-gray-200 p-8 max-md:p-3 shadow h-[50vh]"
-              ></div>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0">
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div
-                className={`inline-flex gap-2 self-end rounded py-1 px-1   ${
+              <span
+                className={`text-xs font-medium uppercase ${
                   totalCobroCliente +
                     totalCobroRendiciones +
                     totalCobroClienteLegales / 100000 <
                   0
-                    ? "bg-red-100 p-1 text-red-600"
+                    ? "text-red-500"
                     : totalCobroCliente +
                         totalCobroRendiciones +
                         totalCobroClienteLegales / 100000 >
                       0
-                    ? "text-green-600 bg-green-100"
-                    : "bg-green-100 text-green-600"
+                    ? "text-green-500"
+                    : ""
                 }`}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span
-                  className={`text-xs font-medium uppercase ${
+                {(
+                  Number(
                     totalCobroCliente +
                       totalCobroRendiciones +
-                      totalCobroClienteLegales / 100000 <
-                    0
-                      ? "text-red-500"
-                      : totalCobroCliente +
-                          totalCobroRendiciones +
-                          totalCobroClienteLegales / 100000 >
-                        0
-                      ? "text-green-500"
-                      : ""
-                  }`}
+                      totalCobroClienteLegales
+                  ) / 100000
+                ).toFixed(2)}{" "}
+                %
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total en remuraciones + rendiciones final con descuentos de
+                legales /{" "}
+                <span className="font-bold text-slate-800">FINAL CAJA</span>
+              </strong>
+
+              <p className="text-slate-500">
+                <span
+                  className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
                 >
-                  {(
-                    Number(
-                      totalCobroCliente +
-                        totalCobroRendiciones +
-                        totalCobroClienteLegales
-                    ) / 100000
-                  ).toFixed(2)}{" "}
-                  %
+                  {totalCobro.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}{" "}
                 </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en remuraciones + rendiciones final con descuentos de
-                  legales /{" "}
-                  <span className="font-bold text-slate-800">FINAL CAJA</span>
-                </strong>
-
-                <p className="text-slate-500">
-                  <span
-                    className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
-                  >
-                    {totalCobro.toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}{" "}
-                  </span>
-                  <span
-                    className={`text-xs
+                <span
+                  className={`text-xs
                  `}
-                  >
-                    Total final remunerado del mes {"  "}
-                    {Number(
-                      Number(totalCobroCliente + totalCobroRendiciones) +
-                        Number(totalCobroClienteLegales) || 0
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
+                  Total final remunerado{"  "}
+                  {Number(
+                    Number(totalCobroCliente + totalCobroRendiciones) +
+                      Number(totalCobroClienteLegales) || 0
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+            </div>
+          </article>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
 
-                <span className="text-xs font-medium uppercase">
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(Number(totalCobroCliente) / 100000).toFixed(2)} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-green-600 max-md:text-xs">
+                Total contratos - remuneraciónes filtradas
+              </strong>
+
+              <p className="text-slate-500">
+                <span className="text-2xl max-md:text-base font-medium uppercase text-green-600">
+                  {Number(Number(totalCobroCliente)).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>{" "}
+                <span
+                  className={`text-xs
+                 `}
+                >
                   {" "}
-                  {Number(Number(totalCobroCliente) / 100000).toFixed(2)} %{" "}
+                  ultima remuneración del día, cargada{" "}
+                  {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
+                    "es-AR",
+                    {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    }
+                  )}
                 </span>
-              </div>
+              </p>
+            </div>
+          </article>
 
-              <div>
-                <strong className="block text-sm font-medium uppercase text-green-600 max-md:text-xs">
-                  Total en remuneración del mes
-                </strong>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
 
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-green-600">
-                    {Number(Number(totalCobroCliente)).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>{" "}
-                  <span
-                    className={`text-xs
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(Number(totalCobroClienteLegales) / 100000).toFixed(
+                  2
+                )} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total contratos legales filtrados
+              </strong>
+
+              <p className="text-slate-500">
+                <span className="text-2xl max-md:text-base font-medium uppercase text-red-500">
+                  {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>{" "}
+                <span
+                  className={`text-xs
                  `}
-                  >
-                    {" "}
-                    ultima remuneración del día, el total es de{" "}
-                    {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
-                      "es-AR",
-                      {
-                        style: "currency",
-                        currency: "ARS",
-                        minimumIntegerDigits: 2,
-                      }
-                    )}
-                  </span>
-                </p>
-              </div>
-            </article>
-
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(Number(totalCobroClienteLegales) / 100000).toFixed(
-                    2
-                  )}{" "}
-                  %{" "}
+                  ultimo contrato legal del día cargada{" "}
+                  {Number(
+                    ultimaVentaDelDiaDos?.recaudacion || 0
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
                 </span>
-              </div>
+              </p>
+            </div>
+          </article>
 
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en legales del mes
-                </strong>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+                />
+              </svg>
 
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-500">
-                    {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>{" "}
-                  <span
-                    className={`text-xs
-                 `}
-                  >
-                    ultima remuneración legal del día, el total es de{" "}
-                    {Number(
-                      ultimaVentaDelDiaDos?.recaudacion || 0
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
+              <span className="text-xs font-medium uppercase">
+                {nombreMesActual}
+              </span>
+            </div>
 
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                  />
-                </svg>
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Fecha Actual
+              </strong>
 
-                <span className="text-xs font-medium uppercase">
+              <p>
+                <span className="text-2xl font-medium uppercase text-gray-900 max-md:text-base">
                   {nombreMesActual}
                 </span>
-              </div>
 
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Fecha Actual
-                </strong>
-
-                <p>
-                  <span className="text-2xl font-medium uppercase text-gray-900 max-md:text-base">
-                    {nombreMesActual}
-                  </span>
-
-                  <span className="text-xs text-gray-500">
-                    {" "}
-                    Dia {nombreDiaActual}
-                  </span>
-                </p>
-              </div>
-            </article>
-
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
+                <span className="text-xs text-gray-500">
                   {" "}
-                  {Number(totalDatos + totalDatosDos / 10000).toFixed(2)} %{" "}
+                  Dia {nombreDiaActual}
                 </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total viviendas entregadas/contratos
-                </strong>
-
-                <p>
-                  <span className="text-3xl max-md:text-base font-medium uppercase text-gray-900">
-                    {totalDatos + totalDatosDos}
-                  </span>
-
-                  <span className="text-xs text-gray-500">
-                    {" "}
-                    Total en el mes {totalDatos + totalDatosDos}{" "}
-                  </span>
-                </p>
-              </div>
-            </article>
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(
-                    totalDatosMetrosCuadrados +
-                      totalDatosMetrosCuadradosLegales / 10000
-                  ).toFixed(2)}{" "}
-                  %{" "}
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en metros cuadradados
-                </strong>
-
-                <p>
-                  <span className="text-3xl font-medium uppercase text-gray-900 max-md:text-base">
-                    {Number(
-                      totalDatosMetrosCuadrados +
-                        totalDatosMetrosCuadradosLegales
-                    ).toFixed(2)}
-                  </span>
-
-                  <span className="text-xs text-gray-500">
-                    {" "}
-                    Total en el mes{" "}
-                    {Number(
-                      totalDatosMetrosCuadrados +
-                        totalDatosMetrosCuadradosLegales
-                    ).toFixed(2)}{" "}
-                    mts{" "}
-                  </span>
-                </p>
-              </div>
-            </article>
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(Number(totalFletes) / 100000).toFixed(2)} %{" "}
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en fletes del mes
-                </strong>
-
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-slate-900">
-                    {Number(Number(totalFletes)).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>{" "}
-                  <span
-                    className={`text-xs
-                 `}
-                  >
-                    {" "}
-                    ultimos en fletes del mes{" "}
-                    {Number(totalFletes || 0).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(Number(totalViaticos) / 100000).toFixed(2)} %{" "}
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en viaticos del mes
-                </strong>
-
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
-                    {Number(Number(totalViaticos)).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>{" "}
-                  <span
-                    className={`text-xs
-                 `}
-                  >
-                    {" "}
-                    ultimos en viaticos del mes{" "}
-                    {Number(totalViaticos || 0).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
-            <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
-              <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <span className="text-xs font-medium uppercase">
-                  {" "}
-                  {Number(Number(totalRefuerzos) / 100000).toFixed(2)} %{" "}
-                </span>
-              </div>
-
-              <div>
-                <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
-                  Total en refuerzo del mes
-                </strong>
-
-                <p className="text-slate-500">
-                  <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
-                    {Number(Number(totalRefuerzos)).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>{" "}
-                  <span
-                    className={`text-xs
-                 `}
-                  >
-                    {" "}
-                    ultimos en viaticos del mes{" "}
-                    {Number(totalRefuerzos || 0).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </span>
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
-            <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
-              <p> Progreso de las entregas</p>
+              </p>
             </div>
-            <RemuneracionesProgressBar
-              rendicionesMensuales={filteredDataRendiciones}
-              remuneracionesMensuales={filteredData}
-            />
-            <ViviendasProgressBar
-              salidasMensuales={filteredData}
-              legales={filteredDataLegales}
-            />
-            <ProgressBarMetrosEntregados
-              salidasMensuales={filteredData}
-              legales={filteredDataLegales}
-            />
+          </article>
+
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(totalDatos + totalDatosDos / 10000).toFixed(2)} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total viviendas entregadas/contratos
+              </strong>
+
+              <p>
+                <span className="text-3xl max-md:text-base font-medium uppercase text-gray-900">
+                  {totalDatos + totalDatosDos}
+                </span>
+
+                <span className="text-xs text-gray-500">
+                  {" "}
+                  Total en el mes {totalDatos + totalDatosDos}{" "}
+                </span>
+              </p>
+            </div>
+          </article>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(
+                  totalDatosMetrosCuadrados +
+                    totalDatosMetrosCuadradosLegales / 10000
+                ).toFixed(2)}{" "}
+                %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total en metros cuadradados
+              </strong>
+
+              <p>
+                <span className="text-3xl font-medium uppercase text-gray-900 max-md:text-base">
+                  {Number(
+                    totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
+                  ).toFixed(2)}
+                </span>
+
+                <span className="text-xs text-gray-500">
+                  {" "}
+                  Total en el mes{" "}
+                  {Number(
+                    totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
+                  ).toFixed(2)}{" "}
+                  mts{" "}
+                </span>
+              </p>
+            </div>
+          </article>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(Number(totalFletes) / 100000).toFixed(2)} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total en fletes filtrados
+              </strong>
+
+              <p className="text-slate-500">
+                <span className="text-2xl max-md:text-base font-medium uppercase text-slate-900">
+                  {Number(Number(totalFletes)).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>{" "}
+              </p>
+            </div>
+          </article>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(Number(totalViaticos) / 100000).toFixed(2)} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total en viaticos filtrados
+              </strong>
+
+              <p className="text-slate-500">
+                <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
+                  {Number(Number(totalViaticos)).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>{" "}
+              </p>
+            </div>
+          </article>
+          <article className="hover:shadow flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 max-md:p-3">
+            <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                />
+              </svg>
+
+              <span className="text-xs font-medium uppercase">
+                {" "}
+                {Number(Number(totalRefuerzos) / 100000).toFixed(2)} %{" "}
+              </span>
+            </div>
+
+            <div>
+              <strong className="block text-sm font-medium uppercase text-gray-500 max-md:text-xs">
+                Total en refuerzos filtrados
+              </strong>
+
+              <p className="text-slate-500">
+                <span className="text-2xl max-md:text-base font-medium uppercase text-red-600">
+                  {Number(Number(totalRefuerzos)).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>{" "}
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+          <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
+            <p> Progreso de las entregas</p>
           </div>
-        </>
-      )}
+          <RemuneracionesProgressBar
+            rendicionesMensuales={filteredDataRendiciones}
+            remuneracionesMensuales={filteredData}
+          />
+          <ViviendasProgressBar
+            salidasMensuales={filteredData}
+            legales={filteredDataLegales}
+          />
+          <ProgressBarMetrosEntregados
+            salidasMensuales={filteredData}
+            legales={filteredDataLegales}
+          />
+        </div>
+      </>
     </section>
   );
 };

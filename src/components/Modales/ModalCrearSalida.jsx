@@ -14,38 +14,7 @@ import io from "socket.io-client";
 export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const { user } = useAuth();
 
-  const fechaActual = new Date();
-
   const [error, setError] = useState("");
-
-  const nombresMeses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-
-  const nombresDias = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-  ];
-
-  const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
-
-  const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
 
   //useContext
   const { setSalidasMensuales } = useSalidasContext();
@@ -216,7 +185,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const handleUsuario = (usuario) => setUsuario(usuario);
 
   return (
-    <Menu as="div" className="z-50">
+    <Menu as="div" className="z-[101]">
       <Transition appear show={isOpenDos} as={Fragment}>
         <Dialog
           as="div"
@@ -468,74 +437,6 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             </tbody>
                           </table>
                         </div>
-                        {/* 
-                        <div className="flex gap-3 mt-2 max-md:grid max-md:grid-cols-2 max-md:flex-none">
-                          {datosCliente.map((c, index) => (
-                            <div
-                              key={index}
-                              className="bg-white border-[1px] border-slate-300 rounded-xl py-8 px-4 relative shadow max-md:py-10"
-                            >
-                              <div
-                                className="absolute top-2 right-4 cursor-pointer"
-                                onClick={() => eliminarCliente(c.cliente)}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-6 h-6 text-red-800"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                  />
-                                </svg>
-                              </div>
-                              <div
-                                className="absolute top-2 right-10 cursor-pointer"
-                                onClick={() => {
-                                  handleUsuario(c.cliente), openEdit();
-                                }}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="w-5 h-5"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                                  />
-                                </svg>
-                              </div>
-                              <p className="max-md:text-sm">
-                                Nombre y Apellido{" "}
-                                <span className="font-bold capitalize text-slate-700 max-md:text-sm">
-                                  {c.cliente}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Localidad{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.localidad}
-                                </span>
-                              </p>
-                              <p className="max-md:text-sm">
-                                Numero de contrato{" "}
-                                <span className="font-bold capitalize text-slate-700">
-                                  {c.numeroContrato}
-                                </span>
-                              </p>
-                            </div>
-                          ))}
-                        </div> */}
                       </div>
                     </div>
                   </article>

@@ -5,6 +5,8 @@ import { useAuth } from "../../../context/AuthProvider";
 import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import client from "../../../api/axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const SalidasRegistradas = () => {
   const [fechaInicio, setFechaInicio] = useState("");
@@ -236,7 +238,7 @@ export const SalidasRegistradas = () => {
       : totalGastosClienteAdmin;
 
   return user.localidad === "admin" ? (
-    <section className="bg-gray-100/50 w-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3 h-full max-h-full min-h-screen">
+    <section className="bg-gray-100/50 w-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3 h-full max-h-full min-h-screen max-md:py-16">
       <ToastContainer />
       <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
         <article
@@ -284,7 +286,7 @@ export const SalidasRegistradas = () => {
           </div>
         </article>
         <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+          <div className="inline-flex gap-2 self-end rounded-xl bg-green-100 p-2 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -325,29 +327,33 @@ export const SalidasRegistradas = () => {
         </article>
       </div>
 
-      <div className="mt-5 max-md:mt-4">
-        <div className="flex gap-6 items-center max-md:flex-col max-md:items-start max-md:gap-3">
-          <div className="flex gap-2 items-center">
-            <label className="text-sm text-slate-700 max-md:text-sm uppercase">
+      <div className="mt-5 max-md:mt-4 max-md:overflow-x-scroll">
+        <div className="flex gap-6 items-end max-md:items-end max-md:gap-3 max-md:w-[550px]">
+          <div className="flex flex-col  max-md:flex-row items-center md:gap-2">
+            <label className="text-sm text-slate-700 uppercase font-bold w-full">
               Fecha de inicio
             </label>
-            <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
-              type="date"
-              value={fechaInicio}
-              onChange={(e) => setFechaInicio(e.target.value)}
+            <DatePicker
+              selected={fechaInicio}
+              onChange={(date) => setFechaInicio(date)}
+              dateFormat="dd/MM/yyyy" // Formato de la fecha
+              className="text-sm bg-white py-2 px-3 rounded-lg shadow-sm border border-slate-300 text-slate-700 outline-none transition duration-300 ease-in-out w-full"
+              placeholderText="Seleccione fecha" // Texto de marcador de posición
             />
           </div>
           <div className="flex gap-2 items-center">
-            <label className="text-sm text-slate-700 max-md:text-sm uppercase">
-              Fecha fin
-            </label>
-            <input
-              className="text-sm bg-white py-2 px-3 rounded-lg shadow border-slate-300 border-[1px] cursor-pointer text-slate-700 outline-none"
-              type="date"
-              value={fechaFin}
-              onChange={(e) => setFechaFin(e.target.value)}
-            />
+            <div className="flex flex-col max-md:flex-row items-center md:gap-2">
+              <label className="text-sm text-slate-700 uppercase font-bold w-full">
+                Fecha fin
+              </label>
+              <DatePicker
+                selected={fechaFin}
+                onChange={(date) => setFechaFin(date)}
+                dateFormat="dd/MM/yyyy" // Formato de la fecha
+                className="text-sm bg-white py-2 px-3 rounded-lg shadow-sm border border-slate-300 text-slate-700 outline-none transition duration-300 ease-in-out w-full"
+                placeholderText="Seleccione fecha" // Texto de marcador de posición
+              />
+            </div>
             <button
               onClick={buscarIngresosPorFecha}
               className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:block md:hidden max-md:py-1"
@@ -371,7 +377,7 @@ export const SalidasRegistradas = () => {
 
           <button
             onClick={buscarIngresosPorFecha}
-            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-xl px-4 py-2 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:hidden"
+            className="max-md:text-sm bg-white border-slate-300 border-[1px] rounded-full px-3 py-3 shadow flex gap-3 text-slate-700 hover:shadow-md transtion-all ease-in-out duration-200 max-md:hidden"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -391,12 +397,12 @@ export const SalidasRegistradas = () => {
         </div>
       </div>
 
-      <div className="bg-white flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full max-md:text-sm max-md:mt-5 ">
+      <div className="bg-white flex justify-between items-center py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-1/4 max-md:w-full max-md:text-sm max-md:mt-1">
         <input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           type="text"
-          className="outline-none text-slate-600 w-full uppercase text-sm bg-white"
+          className="outline-none text-slate-600 w-full uppercase text-sm bg-white max-md:text-xs"
           placeholder="Buscar el cliente/localidad creador o nombre"
         />
 
