@@ -307,9 +307,24 @@ export const Salidas = () => {
     <>
       <section className="max-md:hidden bg-gray-100/50 w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:py-16 max-md:gap-5">
         <ToastContainer />
+        <div>
+          <p className="font-bold text-2xl text-slate-600">
+            Bienvenido{" "}
+            <span className="capitalize text-green-500/90 underline">
+              {user.username}
+            </span>{" "}
+            a la parte de Salidas del mes 🖐️.
+          </p>
+        </div>
         <div className="grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase">
           <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-            <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+            <div
+              className={`inline-flex gap-2 self-end p-3 rounded-xl ${
+                totalGastosClienteAdmin >= 0
+                  ? "bg-green-500/90 p-1 text-white"
+                  : "bg-red-100 p-1 text-red-600"
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
@@ -325,19 +340,25 @@ export const Salidas = () => {
                 />
               </svg>
 
-              <span className="text-xs font-medium max-md:text-xs">
+              <span className="text-xs font-bold max-md:text-xs">
                 {" "}
-                {Number(totalGastosClienteAdmin / 100000).toFixed(2)} %{""}
+                {Number(totalGastosClienteAdmin % 100).toFixed(2)} %{""}
               </span>
             </div>
 
             <div>
               <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-                Total en Viaticos/Flete/Etc
+                Total en Viaticos del mes/Flete/Etc
               </strong>
 
-              <p>
-                <span className="text-2xl font-medium text-red-600 max-md:text-base">
+              <p className="mt-4">
+                <span
+                  className={`text-2xl font-bold ${
+                    totalGastosClienteAdmin >= 0
+                      ? "bg-green-500/90 p-1 text-white"
+                      : "bg-red-500/90 p-1 text-white"
+                  } rounded-full py-2 px-5`}
+                >
                   {Number(totalGastosClienteAdmin).toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
@@ -349,7 +370,7 @@ export const Salidas = () => {
           </article>
 
           <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-2.5 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -365,29 +386,28 @@ export const Salidas = () => {
                 />
               </svg>
 
-              <span className="text-xs font-medium">{nombreMesActual}</span>
+              <span className="text-xs font-bold">{nombreMesActual}</span>
             </div>
 
             <div>
               <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-                Fecha Actual
+                Fecha Actual del mes
               </strong>
 
-              <p>
-                <span className="text-2xl max-md:text-base font-medium text-gray-900">
+              <p className="flex items-center gap-3">
+                <span className="text-2xl max-md:text-base font-bold text-gray-600">
                   {nombreMesActual}
                 </span>
 
                 <span className="text-xs text-gray-500">
-                  {" "}
-                  Dia {nombreDiaActual}
+                  Día {nombreDiaActual}
                 </span>
               </p>
             </div>
           </article>
 
           <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-            <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+            <div className="inline-flex gap-2 self-end rounded-xl bg-green-500/90 p-3 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
@@ -403,7 +423,7 @@ export const Salidas = () => {
                 />
               </svg>
 
-              <span className="text-xs font-medium">
+              <span className="text-xs font-bold">
                 {" "}
                 {Number(totalSalidasViviendas / 100).toFixed(2)} %{" "}
               </span>
@@ -411,17 +431,20 @@ export const Salidas = () => {
 
             <div>
               <strong className="block text-sm font-medium text-gray-500 max-md:text-sm">
-                Total salidas/viviendas
+                Total salidas en el mes/viviendas/contratos
               </strong>
 
-              <p>
-                <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <p className="flex gap-2 items-center mt-2">
+                <span className="text-2xl font-bold text-white bg-green-500/90 py-1.5 px-4 rounded-2xl max-md:text-base">
                   {totalSalidasViviendas}
                 </span>
 
                 <span className="text-xs text-gray-500">
                   {" "}
-                  Total viviendas entregadas {totalSalidasViviendas}{" "}
+                  Total viviendas entregadas{" "}
+                  <span className="font-bold">
+                    {totalSalidasViviendas}
+                  </span>{" "}
                 </span>
               </p>
             </div>
@@ -451,7 +474,7 @@ export const Salidas = () => {
           </Link>
         </div>
 
-        <div className="flex gap-2 items-center w-1/2 max-md:w-full max-md:flex-col">
+        <div className="flex gap-2 items-center w-2/3 max-md:w-full max-md:flex-col">
           <div className="py-2 max-md:py-2 px-4 max-md:px-5 bg-white border-slate-300 border-[1px] shadow rounded-xl w-full">
             <input
               value={searchTermCliente}
@@ -468,7 +491,7 @@ export const Salidas = () => {
               className="outline-none text-slate-600 bg-white w-full uppercase"
             >
               <option className="uppercase" value="">
-                Seleccionar localidad...
+                Seleccionar localidad/usuario...
               </option>
               {uniqueLocalidad.map((user) => (
                 <option className="uppercase" key={user} value={user}>
@@ -496,173 +519,83 @@ export const Salidas = () => {
           </div>
         </div>
 
-        <div className="max-md:block md:hidden">
+        <div>
           <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
             Datos Registrados
           </div>
-          <div className="grid grid-cols-1 gap-2">
-            {filteredResultsAdmin
-              .sort((a, b) => b.id - a.id)
-              .map((datos) => (
-                <div className="border-slate-300 hover:shadow-md transition-all ease-linear border-[1px] py-3 px-3 rounded-2xl flex justify-between gap-2">
-                  <div className="flex flex-col gap-1 w-full">
-                    <p className="text-xs font-bold uppercase">
-                      Numero: {datos.id}
-                    </p>
-                    <p className="text-xs font-bold uppercase">
-                      Creador:{" "}
-                      <span className="font-normal text-slate-700">
-                        {datos.usuario}
-                      </span>
-                    </p>
-                    <div className="flex flex-col gap-1 font-bold text-xs">
-                      <p>Clientes:</p>
-                      <div className="font-normal uppercase text-slate-700">
-                        {datos.datos_cliente.datosCliente.map((c) => (
-                          <div>
-                            {c.cliente} ({c.numeroContrato})
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 w-full flex-col items-end h-[80px] overflow-y-scroll">
-                    <button
-                      onClick={() => {
-                        handleId(datos.id), openEliminar();
-                      }}
-                      type="button"
-                      className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800 flex items-center gap-2"
-                    >
-                      <span className="text-xs">ELIMINAR</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                        />
-                      </svg>
-                    </button>
-                    <Link
-                      // to={`/editar/${datos.id}`}
-                      onClick={() => openModalDos()}
-                      className="bg-green-500 py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
-                    >
-                      <span className="text-xs">EDITAR</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                        />
-                      </svg>
-                    </Link>
-
-                    <Link
-                      to={`/resumen/${datos.id}`}
-                      className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
-                    >
-                      <span className="text-xs">VER RESUMEN</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                        />
-                      </svg>
-                    </Link>
-                  </div>{" "}
-                </div>
-              ))}
-          </div>
-        </div>
-        <div className="bg-white rounded-2xl border-[1px] border-slate-300 hover:shadow-md transition-all ease-linear cursor-pointer max-md:hidden">
-          <table className="w-full divide-y-2 divide-gray-200 text-sm">
-            <thead className="text-left">
-              <tr>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Numero
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Creador
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Fabrica/Sucursal
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Fecha de creación
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Mes de creación
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Clientes/Localidad/Ver
-                </th>
-                <th className="px-4 py-3 text-slate-800 font-bold uppercase">
-                  Fabrica de salida
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 uppercase">
-              {filteredResultsAdmin.map((s) => (
-                <tr key={s.id}>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {s.id}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-gray-900 upppercase">
-                    {s.usuario}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-gray-900 upppercase">
-                    {s.sucursal}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {s.created_at.split("T")[0]}
-                  </td>{" "}
-                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                    {new Date(s.created_at).toLocaleString("default", {
-                      month: "long",
-                    })}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 upppercase">
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-orange-100 py-2 px-3 rounded-2xl text-orange-700  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
-                    >
-                      VER CLIENTE/LOCALIDAD{" "}
-                      <FaHouseChimneyUser className="text-2xl" />
-                    </button>
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 upppercase">
-                    {s.fabrica}
-                  </td>
+          <div className="bg-white rounded-2xl border-[1px] border-slate-300 hover:shadow-md transition-all ease-linear cursor-pointer max-md:hidden">
+            <table className="w-full divide-y-2 divide-gray-200 text-sm">
+              <thead className="text-left">
+                <tr>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Numero
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Creador
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Localidad/Usuario
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Usuario/Fabrica/Sucursal
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Fecha de creación
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Mes de creación
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Clientes/Localidad/Ver
+                  </th>
+                  <th className="px-4 py-3 text-slate-800 font-bold uppercase">
+                    Fabrica de salida
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-200 uppercase">
+                {filteredResultsAdmin.map((s) => (
+                  <tr key={s.id}>
+                    <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                      {s.id}
+                    </td>
+                    <td className="px-4 py-3 font-bold text-gray-900 upppercase">
+                      {s.usuario}
+                    </td>
+                    <td className="px-4 py-3 font-bold text-gray-900 upppercase">
+                      {s.localidad}
+                    </td>
+                    <td className="px-4 py-3 font-bold text-gray-900 upppercase">
+                      {s.sucursal}
+                    </td>
+                    <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                      {s.created_at.split("T")[0]}
+                    </td>{" "}
+                    <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                      {new Date(s.created_at).toLocaleString("default", {
+                        month: "long",
+                      })}
+                    </td>
+                    <td className="px-4 py-3 font-medium text-gray-900 upppercase">
+                      <button
+                        onClick={() => {
+                          handleID(s.id), openVerCliente();
+                        }}
+                        type="button"
+                        className="bg-orange-400 py-2 px-5 rounded-full text-white  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
+                      >
+                        VER CLIENTE/LOCALIDAD{" "}
+                        <FaHouseChimneyUser className="text-2xl" />
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 font-medium text-gray-900 upppercase">
+                      {s.fabrica}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         {totalPagesAdmin > 1 && (
           <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">

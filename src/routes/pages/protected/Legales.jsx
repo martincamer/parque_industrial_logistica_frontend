@@ -262,18 +262,6 @@ export const Legales = () => {
         salida.localidad.toLowerCase() === selectedLocalidad.toLowerCase())
   );
 
-  // Filtrar por cliente y usuario
-  // const filteredResultsAdmin = currentResultsAdmin.filter((salida) =>
-  //   salida.datos_cliente.datosCliente.some(
-  //     (d) =>
-  //       d.cliente
-  //         .toLowerCase()
-  //         .includes(searchTermClienteAdmin.toLowerCase()) &&
-  //       (selectedUserAdmin === "" ||
-  //         salida.usuario.toLowerCase() === selectedUserAdmin)
-  //   )
-  // );
-
   const totalDatosAdmin = filteredResultsAdmin.reduce((total, salida) => {
     return (
       total +
@@ -302,14 +290,27 @@ export const Legales = () => {
   );
 
   return user.localidad === "admin" ? (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-5 py-24 max-h-full min-h-full">
+    <section className="bg-gray-100/50 w-full px-12 max-md:px-4 flex flex-col gap-10 max-md:gap-5 py-24 max-h-full min-h-full">
       <ToastContainer />
+      <div>
+        <p className="font-bold text-2xl text-slate-600">
+          Bienvenido{" "}
+          <span className="capitalize text-green-500/90 underline">
+            {user.username}
+          </span>{" "}
+          a la parte de Legales del mes 🖐️.
+        </p>
+      </div>
       <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
         <article
           className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer`}
         >
           <div
-            className={`inline-flex gap-2 self-end rounded ${indicadorColor} p-1`}
+            className={`inline-flex gap-2 self-end ${
+              totalRecaudación < 0
+                ? "bg-green-500/90 text-white"
+                : "bg-red-500/90 text-white"
+            } p-3 rounded-2xl`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -329,8 +330,8 @@ export const Legales = () => {
                 }
               />
             </svg>
-            <span className="text-xs font-medium">
-              {Number(totalRecaudaciónAdmin / 10000).toFixed(2)} %
+            <span className="text-xs font-bold">
+              {Number(totalRecaudaciónAdmin % 100).toFixed(2)} %
             </span>
           </div>
 
@@ -339,9 +340,13 @@ export const Legales = () => {
               Total en legales
             </strong>
 
-            <p>
+            <p className="mt-3">
               <span
-                className={`text-2xl font-medium ${porcentajeColor} max-md:text-base`}
+                className={`text-2xl font-bold ${
+                  totalRecaudación < 0
+                    ? "bg-green-500/90 text-white"
+                    : "bg-red-500/90 text-white"
+                } max-md:text-base py-2 px-5 rounded-full`}
               >
                 {Number(totalRecaudaciónAdmin).toLocaleString("es-AR", {
                   style: "currency",
@@ -354,7 +359,7 @@ export const Legales = () => {
         </article>
 
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+          <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-2.5 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -370,7 +375,7 @@ export const Legales = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">{nombreMesActual}</span>
+            <span className="text-xs font-bold">{nombreMesActual}</span>
           </div>
 
           <div>
@@ -379,12 +384,11 @@ export const Legales = () => {
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+              <span className="text-2xl font-bold text-gray-900 max-md:text-base">
                 {nombreMesActual}
               </span>
 
-              <span className="text-xs text-gray-500">
-                {" "}
+              <span className="text-xs text-gray-500 ml-2">
                 Dia {nombreDiaActual}
               </span>
             </p>
@@ -392,7 +396,7 @@ export const Legales = () => {
         </article>
 
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+          <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-2.5 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -408,9 +412,9 @@ export const Legales = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalDatosAdmin / 100).toFixed(2)} %{" "}
+              {Number(totalDatosAdmin % 100).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -419,12 +423,12 @@ export const Legales = () => {
               Total legales/viviendas
             </strong>
 
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+            <p className="mt-2">
+              <span className="text-2xl font-bold text-white bg-green-500/90 px-3 py-1.5 rounded-2xl max-md:text-base">
                 {totalDatosAdmin}
               </span>
 
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 ml-3">
                 {" "}
                 Total viviendas entregadas {totalDatosAdmin}{" "}
               </span>
@@ -433,7 +437,7 @@ export const Legales = () => {
         </article>
 
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+          <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500 p-3 text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -449,9 +453,9 @@ export const Legales = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalDatosMetrosCuadradosAdmin / 10000).toFixed(2)} %{" "}
+              {Number(totalDatosMetrosCuadradosAdmin % 100).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -461,14 +465,8 @@ export const Legales = () => {
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900 max-md:text-base">
-                {Number(totalDatosMetrosCuadradosAdmin).toFixed(2)}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Total en el mes{" "}
-                {Number(totalDatosMetrosCuadradosAdmin).toFixed(2)} mts{" "}
+              <span className="text-2xl font-bold text-gray-900 max-md:text-base">
+                {Number(totalDatosMetrosCuadradosAdmin).toFixed(2)} MTRS
               </span>
             </p>
           </div>
@@ -496,8 +494,8 @@ export const Legales = () => {
           </svg>
         </Link>
       </div>
-      <div className="flex gap-2 items-center w-1/2 max-md:flex-col max-md:w-full">
-        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full">
+      <div className="flex gap-2 items-center w-2/3 max-md:flex-col max-md:w-full bg-white">
+        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full bg-white">
           <input
             value={searchTermClienteAdmin}
             onChange={(e) => setSearchTermClienteAdmin(e.target.value)}
@@ -514,7 +512,7 @@ export const Legales = () => {
             className="outline-none text-slate-600 bg-white w-full uppercase"
           >
             <option className="uppercase" value="">
-              Seleccionar localidad...
+              Seleccionar Usuario/localidad...
             </option>
             {uniqueLocalidad.map((user) => (
               <option className="uppercase" key={user} value={user}>
@@ -538,232 +536,127 @@ export const Legales = () => {
           </select>
         </div>
       </div>
-      <div className="max-md:block md:hidden">
+
+      <div>
         <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
           Datos Registrados
         </div>
-        <div className="grid grid-cols-1 gap-2">
-          {filteredResultsAdmin.map((datos) => (
-            <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex justify-between items-center gap-2">
-              <div className="flex flex-col gap-1">
-                <p className="text-xs font-bold uppercase">
-                  Numero: {datos.id}
-                </p>
-                <p className="text-xs font-bold uppercase">
-                  Creador:{" "}
-                  <span className="font-normal text-slate-700">
-                    {datos.usuario}
-                  </span>
-                </p>
-                <div className="flex flex-col gap-1 font-bold text-xs">
-                  <p className="uppercase">Clientes:</p>
-                  <div className="font-normal uppercase text-slate-700">
-                    {datos.datos_cliente.datosCliente.map((c) => (
-                      <div>
-                        {c.cliente} ({c.numeroContrato})
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1 items-start">
-                  <p className="font-bold text-xs items-start uppercase">
-                    Recaudacion
-                  </p>
-                  <p
-                    className={`font-bold text-xs text-${
-                      datos.recaudacion >= 0 ? "green" : "red"
-                    }-500 uppercase`}
-                  >
-                    {Number(datos.recaudacion).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2 w-full items-end h-[80px] overflow-y-scroll">
-                <button
-                  onClick={() => {
-                    handleId(datos.id), openEliminar();
-                  }}
-                  type="button"
-                  className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800 flex items-center gap-1"
-                >
-                  <span className="text-xs">ELIMINAR</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </button>
-                <Link
-                  onClick={() => {
-                    handleID(datos.id), openModalDos();
-                  }}
-                  className="bg-green-500 py-2 px-2 text-center rounded-xl text-white flex items-center gap-1"
-                >
-                  <span className="text-xs">EDITAR</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                    />
-                  </svg>
-                </Link>
 
-                <Link
-                  to={`/legales  /${datos.id}`}
-                  className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-1"
-                >
-                  <span className="text-xs">VER LEGALES</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                    />
-                  </svg>
-                </Link>
-              </div>{" "}
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* tabla de datos  */}
-      <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow max-md:hidden">
-        <table className="w-full divide-y-2 divide-gray-200 text-sm">
-          <thead className="text-left">
-            <tr>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Numero
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Creador
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Fabrica/Sucursal
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Localidad
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Clientes
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Fecha de creación
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Mes de creación
-              </th>
-              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                Total Final
-              </th>
-              <th className="px-1 py-4  text-slate-800 font-bold uppercase text-center">
-                Acciones
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="divide-y divide-gray-200 uppercase">
-            {filteredResultsAdmin.map((s) => (
-              <tr key={s.id}>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {s.id}
-                </td>
-                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                  {s.usuario}
-                </td>
-                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                  {s.sucursal}
-                </td>
-                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                  {s.localidad}
-                </td>
-                <td className="px-4 py-3 font-medium text-gray-900 upppercase">
-                  <button
-                    onClick={() => {
-                      handleID(s.id), openVerCliente();
-                    }}
-                    type="button"
-                    className="bg-orange-100 py-2 px-3 rounded-2xl text-orange-700  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
-                  >
-                    VER CLIENTE/LOCALIDAD{" "}
-                    <FaHouseChimneyUser className="text-2xl" />
-                  </button>
-                </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {s.created_at.split("T")[0]}
-                </td>
-                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                  {new Date(s.created_at).toLocaleString("default", {
-                    month: "long",
-                  })}
-                </td>
-                <td
-                  className={`px-4 py-3 font-bold text-${
-                    s.recaudacion >= 0 ? "green" : "red"
-                  }-600 uppercase`}
-                >
-                  {Number(s.recaudacion).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  })}
-                </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer">
-                  <div className="flex">
-                    <Link
-                      to={`/legales/${s.id}`}
-                      className="flex gap-2 items-center bg-black border-[1px] border-black py-1 hover:border-slate-300 hover:bg-white hover:text-slate-700 hover:border-[1px] hover:shadaw transition-all ease-linear px-5 text-center rounded-xl text-white"
-                    >
-                      {/* Ver Recaudación */}
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                        />
-                      </svg>
-                    </Link>
-                  </div>
-                </td>
+        {/* tabla de datos  */}
+        <div className="rounded-2xl border-[1px] border-slate-300 hover:shadow max-md:hidden bg-white">
+          <table className="w-full divide-y-2 divide-gray-200 text-sm">
+            <thead className="text-left">
+              <tr>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Numero
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Creador
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Fabrica/Sucursal
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Localidad
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Clientes
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Fecha de creación
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Mes de creación
+                </th>
+                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                  Total Final
+                </th>
+                <th className="px-1 py-4  text-slate-800 font-bold uppercase text-center">
+                  Acciones
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="divide-y divide-gray-200 uppercase">
+              {filteredResultsAdmin.map((s) => (
+                <tr key={s.id}>
+                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                    {s.id}
+                  </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {s.usuario}
+                  </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {s.sucursal}
+                  </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {s.localidad}
+                  </td>
+                  <td className="px-4 py-3 font-medium text-gray-900 upppercase">
+                    <button
+                      onClick={() => {
+                        handleID(s.id), openVerCliente();
+                      }}
+                      type="button"
+                      className="bg-orange-400 py-2 px-5 rounded-full text-white  hover:shadow-md transition-all ease-linear flex gap-2 items-center"
+                    >
+                      VER CLIENTE/LOCALIDAD{" "}
+                      <FaHouseChimneyUser className="text-2xl" />
+                    </button>
+                  </td>
+                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                    {s.created_at.split("T")[0]}
+                  </td>
+                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                    {new Date(s.created_at).toLocaleString("default", {
+                      month: "long",
+                    })}
+                  </td>
+                  <td className={`px-4 py-3 font-bold`}>
+                    <div className="flex">
+                      <p
+                        className={`${
+                          s.recaudacion >= 0 ? "bg-green-500/90" : "bg-red-500 "
+                        } uppercase rounded-full text-center text-white px-4 py-3 font-bold`}
+                      >
+                        {Number(s.recaudacion).toLocaleString("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumIntegerDigits: 2,
+                        })}
+                      </p>
+                    </div>
+                  </td>
+                  <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
+                    <div className="flex">
+                      <Link
+                        to={`/legales/${s.id}`}
+                        className="bg-white border py-2 px-4 rounded-2xl hover:shadow transition-all"
+                      >
+                        {/* Ver Recaudación */}
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {totalPagesAdmin > 1 && (
         <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">

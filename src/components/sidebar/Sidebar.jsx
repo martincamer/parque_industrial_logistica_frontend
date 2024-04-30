@@ -34,11 +34,11 @@ export const SideBar = () => {
           isOpen ? "flex justify-between" : ""
         } transition-all ease-linear duration-300 py-3 px-4 border-b-[2px] border-slate-300`}
       >
-        <button className="text-3xl text-orange-500" onClick={handleToggle}>
+        <button className="text-3xl text-gray-500" onClick={handleToggle}>
           {isOpen ? <IoCloseOutline /> : <IoMenuOutline />}
         </button>
         {isOpen && (
-          <p className="bg-orange-500 py-1 px-2 rounded-xl text-sm text-white capitalize">
+          <p className="bg-gray-500 py-1 px-2 rounded-xl text-sm text-white capitalize">
             {user?.username}
           </p>
         )}
@@ -48,8 +48,8 @@ export const SideBar = () => {
           <Link
             to={"/"}
             className={`${
-              location.pathname === "/" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/" ? "bg-gray-100" : "bg-none"
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Inicio/estadistica/compras
           </Link>
@@ -57,8 +57,8 @@ export const SideBar = () => {
           <Link
             to={"/salidas"}
             className={`${
-              location.pathname === "/salidas" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/salidas" ? "bg-gray-100" : "bg-none"
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas salidas/ver/editar
           </Link>
@@ -66,33 +66,33 @@ export const SideBar = () => {
             to={"/remuneraciones"}
             className={`${
               location.pathname === "/remuneraciones"
-                ? "bg-orange-100"
+                ? "bg-gray-100"
                 : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas remuneraciones/ver/editar
           </Link>
           <Link
             to={"/legales"}
             className={`${
-              location.pathname === "/legales" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/legales" ? "bg-gray-100" : "bg-none"
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
           <Link
             to={"/rendiciones"}
             className={`${
-              location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/rendiciones" ? "bg-gray-100" : "bg-none"
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
           <Link
             to={"/estadistica"}
             className={`${
-              location.pathname === "/estadistica" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
+            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
           >
             Filtrar estadisticas del mes
           </Link>
@@ -100,8 +100,8 @@ export const SideBar = () => {
             <Link
               to={"/cuentas"}
               className={`${
-                location.pathname === "/cuentas" ? "bg-orange-100" : "bg-none"
-              } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+                location.pathname === "/cuentas" ? "bg-gray-100" : "bg-none"
+              } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
             >
               Crear cuentas/editar/administrar
             </Link>
@@ -111,7 +111,7 @@ export const SideBar = () => {
         <div className="flex flex-col justify-center">
           <div
             className={`${
-              location.pathname === "/" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
@@ -120,7 +120,7 @@ export const SideBar = () => {
                 data-tip="INICIO/ESTADISTICAS/ETC"
               >
                 <Link to={"/"}>
-                  <CiHome className="text-3xl text-orange-700" />
+                  <CiHome className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -128,7 +128,7 @@ export const SideBar = () => {
 
           <div
             className={`${
-              location.pathname === "/salidas" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/salidas" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
@@ -137,7 +137,7 @@ export const SideBar = () => {
                 data-tip="SALIDAS/CREAR/EDITAR"
               >
                 <Link to={"/salidas"}>
-                  <CiViewList className="text-3xl text-orange-700" />
+                  <CiViewList className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -146,7 +146,7 @@ export const SideBar = () => {
           <div
             className={`${
               location.pathname === "/remuneraciones"
-                ? "bg-orange-100"
+                ? "bg-gray-100"
                 : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
@@ -156,7 +156,7 @@ export const SideBar = () => {
                 data-tip="CREAR REMUNERACIONES/VER/EDITAR"
               >
                 <Link to={"/remuneraciones"}>
-                  <CiMoneyBill className="text-3xl text-orange-700" />
+                  <CiMoneyBill className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -164,7 +164,7 @@ export const SideBar = () => {
 
           <div
             className={`${
-              location.pathname === "/legales" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/legales" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
@@ -173,7 +173,7 @@ export const SideBar = () => {
                 data-tip="CREAR NUEVAS ORDENES LEGALES/EDITAR/VER"
               >
                 <Link to={"/legales"}>
-                  <CiMemoPad className="text-3xl text-orange-700" />
+                  <CiMemoPad className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -181,7 +181,7 @@ export const SideBar = () => {
 
           <div
             className={`${
-              location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/rendiciones" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
@@ -190,7 +190,7 @@ export const SideBar = () => {
                 data-tip="CREAR NUEVAS RENDICIONES EDITAR/VER"
               >
                 <Link to={"/rendiciones"}>
-                  <CiBag1 className="text-3xl text-orange-700" />
+                  <CiBag1 className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -198,7 +198,7 @@ export const SideBar = () => {
 
           <div
             className={`${
-              location.pathname === "/estadistica" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
@@ -207,7 +207,7 @@ export const SideBar = () => {
                 data-tip="FILTRAR ESTADISTICAS MESES"
               >
                 <Link to={"/estadistica"}>
-                  <CiAlignBottom className="text-3xl text-orange-700" />
+                  <CiAlignBottom className="text-3xl text-gray-700" />
                 </Link>
               </div>
             </div>
@@ -216,7 +216,7 @@ export const SideBar = () => {
           {user.localidad === "admin" && (
             <div
               className={`${
-                location.pathname === "/cuentas" ? "bg-orange-100" : "bg-none"
+                location.pathname === "/cuentas" ? "bg-gray-100" : "bg-none"
               } w-full text-center py-2 items-center transition-all`}
             >
               <div className="w-full text-center py-2 items-center transition-all ">
@@ -225,7 +225,7 @@ export const SideBar = () => {
                   data-tip="REGISTRAR USUARIOS/EDITARLOS/ETC"
                 >
                   <Link to={"/cuentas"}>
-                    <CiSettings className="text-3xl text-orange-700" />
+                    <CiSettings className="text-3xl text-gray-700" />
                   </Link>
                 </div>
               </div>
