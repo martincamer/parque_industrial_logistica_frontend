@@ -110,7 +110,7 @@ export const Configuraciones = () => {
   //
 
   return (
-    <section className="bg-gray-100/50 py-28 ">
+    <section className="bg-gray-100/50 py-28 w-full">
       <div className="bg-white container mx-auto border-slate-200 px-10 py-10 shadow-sm rounded-2xl border-[1px]">
         <ToastContainer />
 
