@@ -669,7 +669,6 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
-                -{" "}
                 {Number(totalCobroClienteLegalesAdmin).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
