@@ -53,7 +53,7 @@ export const MenuMobile = () => {
             to={"/salidas"}
             className={`${
               location.pathname === "/salidas" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
           >
             Crear nuevas salidas/ver/editar
           </Link>
@@ -64,7 +64,7 @@ export const MenuMobile = () => {
               location.pathname === "/remuneraciones"
                 ? "bg-orange-100"
                 : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
           >
             Crear nuevas remuneraciones/ver/editar
           </Link>
@@ -73,7 +73,7 @@ export const MenuMobile = () => {
             to={"/legales"}
             className={`${
               location.pathname === "/legales" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
@@ -82,7 +82,7 @@ export const MenuMobile = () => {
             to={"/rendiciones"}
             className={`${
               location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
@@ -93,7 +93,7 @@ export const MenuMobile = () => {
               location.pathname === "/estadistica" ? "bg-orange-100" : "bg-none"
             } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
-            Filtrar estadisticas del mes
+            Filtrar estadisticas del semanales/mensuales/anuales
           </Link>
           {user.localidad === "admin" && (
             <Link

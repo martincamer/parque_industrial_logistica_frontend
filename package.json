@@ -16,7 +16,7 @@
     "@headlessui/react": "^1.7.17",
     "@react-pdf/renderer": "^3.3.8",
     "@tanstack/react-table": "^8.10.6",
-    "apexcharts": "^3.47.0",
+    "apexcharts": "^3.49.0",
     "axios": "^1.5.1",
     "date-fns": "^3.6.0",
     "handsontable": "^14.2.0",

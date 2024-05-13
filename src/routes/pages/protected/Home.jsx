@@ -4,13 +4,11 @@ import { useRemuneracionContext } from "../../../context/RemuneracionesProvider"
 import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useAuth } from "../../../context/AuthProvider";
-import RemuneracionesColumnChart from "../../../components/charts/RemuneracionesColumnChart";
-import RemuneracionesDonutChart from "../../../components/charts/RemuneracionesDonuts";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
 import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
-import ViviendasDataCharts from "../../../components/charts/ViviendasDataCharts";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
-import RendicionesColumnChart from "../../../components/charts/RendicionesColumnChart";
+import ApexChart from "../../../components/apexchart/ApexChart";
+import ApexColumnChart from "../../../components/apexchart/ApexChartColumn";
 
 export const Home = () => {
   const { user } = useAuth();
@@ -494,10 +492,13 @@ export const Home = () => {
     totalEnFletesGeneradosEnLegalesUsuario +
     totalEnFletesGeneradosEnRemunercionesUsuario;
 
+  console.log("legales", legales);
+  console.log("remuneraciones", remuneracionesMensuales);
+
   return user.localidad === "admin" ? (
     <section className="w-full h-full min-h-full max-h-full px-10 max-md:px-6 flex flex-col gap-16 max-md:gap-8 py-36 max-md:mb-10 max-md:py-16 bg-gray-100/50">
       <div>
-        <p className="font-bold text-2xl text-slate-600">
+        <p className="font-bold text-2xl text-slate-600 max-md:text-xl max-md:text-center">
           Bienvenido{" "}
           <span className="capitalize text-green-500/90 underline">
             {user.username}
@@ -505,7 +506,7 @@ export const Home = () => {
           a la parte de estadisticas del mes 🖐️.
         </p>
       </div>
-      <div className="md:overflow-y-auto scroll-bar md:h-[30vh] max-md:scrollbar-hidden">
+      <div className="md:overflow-y-auto scroll-bar md:h-[30vh] max-md:scrollbar-hidden max-md:overflow-y-scroll max-md:h-[30vh] max-md:px-3">
         <div className="grid md:grid-cols-3 max-md:grid-cols-1 w-full gap-2 px-2 max-md:px-0">
           <article
             className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear  p-5 max-md:rounded-xl cursor-pointer ${
@@ -1092,11 +1093,11 @@ export const Home = () => {
 
       <div>
         <div className="mb-6">
-          <p className="font-bold text-xl text-slate-600">
+          <p className="font-bold text-xl text-slate-600 max-md:text-base max-md:text-center">
             Porcentaje de todo lo cargado en la app 👉.
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+        <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:h-[30vh] scroll-bar max-md:px-3">
           <RemuneracionesProgressBar
             rendicionesMensuales={rendicionesMensualesAdmin}
             remuneracionesMensuales={remuneracionesMensualesAdmin}
@@ -1109,10 +1110,12 @@ export const Home = () => {
 
           <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
             <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-              <p className="text-lg mb-3 uppercase max-md:text-sm">
+              <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
                 Total de la caja
               </p>
-              <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              <p
+                className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              >
                 {Number(totalCajaAdmin).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -1133,11 +1136,13 @@ export const Home = () => {
           </div>
 
           <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
-            <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <div className="flex items-center justify-between max-md:flex-col max-md:items-start font-semibold">
               <p className="text-lg mb-3 uppercase max-md:text-sm">
                 Total en fletes
               </p>
-              <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              <p
+                className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              >
                 -{" "}
                 {Number(totalFletes).toLocaleString("es-AR", {
                   style: "currency",
@@ -1159,11 +1164,13 @@ export const Home = () => {
           </div>
 
           <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
-            <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <div className="flex items-center justify-between max-md:flex-col max-md:items-start font-semibold">
               <p className="text-lg mb-3 uppercase max-md:text-sm">
                 Total en viaticos
               </p>
-              <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              <p
+                className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              >
                 -{" "}
                 {Number(totalViaticos).toLocaleString("es-AR", {
                   style: "currency",
@@ -1185,11 +1192,13 @@ export const Home = () => {
           </div>
 
           <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
-            <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <div className="flex items-center justify-between max-md:flex-col max-md:items-start font-semibold">
               <p className="text-lg mb-3 uppercase max-md:text-sm">
                 Total en refuerzos
               </p>
-              <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+              <p
+                className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              >
                 -{" "}
                 {Number(totalRefuerzosAdmin).toLocaleString("es-AR", {
                   style: "currency",
@@ -1213,20 +1222,28 @@ export const Home = () => {
       </div>
     </section>
   ) : (
-    <section className="bg-gray-100/50 w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-20 max-md:gap-8 py-36 max-md:mb-10 max-md:py-16">
-      <div className="grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-0 uppercase">
+    <section className="w-full h-full min-h-full max-h-full px-12 max-md:px-6 flex flex-col gap-10 max-md:gap-8 py-36 max-md:mb-10 max-md:py-16">
+      <div>
+        <p className="font-bold text-2xl text-slate-600 max-md:text-lg max-md:text-center text-justify">
+          Bienvenido{" "}
+          <span className="capitalize text-green-500/90 underline">
+            {user.username}
+          </span>{" "}
+          a la parte de estadísticas mensuales 🖐️.
+        </p>
+      </div>
+
+      <div className="px-3 overflow-y-scroll h-[40vh] grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-2 max-md:px-3 uppercase scroll-bar max-md:gap-5">
         <article
-          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear  p-5 max-md:rounded-xl cursor-pointer ${
-            totalCaja / 100000 > 0
-              ? "border-green-400 bg-green-100"
-              : "border-red-400 bg-red-100"
+          className={`shadow-lg flex flex-col gap-4 rounded-2xl p-5 max-md:rounded-xl cursor-pointer  max-md:border-none ${
+            totalCaja > 0 ? "bg-green-500" : "border-red-400 bg-red-100"
           }`}
         >
           <div
-            className={`inline-flex gap-2 self-end rounded py-1 px-2   ${
-              totalCaja / 100000 < 0
-                ? "bg-red-400 text-white"
-                : "bg-green-400 text-white"
+            className={`inline-flex gap-2 self-end rounded py-2 px-3 ${
+              totalCaja < 0
+                ? "bg-white text-red-500"
+                : "bg-white text-green-500"
             }`}
           >
             <svg
@@ -1245,28 +1262,34 @@ export const Home = () => {
             </svg>
 
             <span
-              className={`text-xs font-medium uppercase ${
-                totalCaja / 100000 < 0
-                  ? "text-white"
-                  : totalCaja / 100000 > 0
-                  ? "text-white"
+              className={`text-xs font-bold uppercase ${
+                totalCaja < 0
+                  ? "text-red-500"
+                  : totalCaja > 0
+                  ? "text-green-500"
                   : ""
               }`}
             >
-              {(Number(totalCaja) / 100000).toFixed(2)} %
+              {(Number(totalCaja) % 100).toFixed(2)} %
             </span>
           </div>
 
           <div>
             <div className="flex">
-              <strong className="block text-sm font-medium text-slate-800 bg-white shadow py-2 px-4 rounded-xl max-md:text-xs uppercase">
+              <strong className="block text-sm font-bold text-slate-600 bg-white shadow py-2 px-4 rounded-xl max-md:text-xs uppercase">
                 Total final de la caja
               </strong>
             </div>
             <div className="  mt-2  flex">
               <p className="bg-white py-2 px-6 rounded-xl shadow">
                 <span
-                  className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+                  className={`text-2xl max-md:text-base font-bold uppercase ${
+                    totalCaja < 0
+                      ? "text-red-500"
+                      : totalCaja > 0
+                      ? "text-green-500"
+                      : ""
+                  } `}
                 >
                   {totalCaja.toLocaleString("es-AR", {
                     style: "currency",
@@ -1279,8 +1302,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 py-2 px-3 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1296,22 +1319,22 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium uppercase">
+            <span className="text-xs font-bold uppercase">
               {" "}
               {Number(
-                Number(totalCobroCliente + totalCobroRendiciones) / 100000
+                Number(totalCobroCliente + totalCobroRendiciones) % 100
               ).toFixed(2)}{" "}
               %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en remuneración del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-slate-900">
+              <span className="text-2xl max-md:text-base font-bold text-slate-900">
                 {Number(
                   Number(totalCobroCliente + totalCobroRendiciones)
                 ).toLocaleString("es-AR", {
@@ -1321,7 +1344,7 @@ export const Home = () => {
                 })}
               </span>{" "}
               <span
-                className={`text-xs uppercase
+                className={`text-xs uppercase font-semibold
                  `}
               >
                 {" "}
@@ -1339,8 +1362,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 py-2 px-3 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1356,21 +1379,19 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(Number(totalCobroClienteLegales) / 100000).toFixed(
-                2
-              )} %{" "}
+              {Number(Number(totalCobroClienteLegales) % 100).toFixed(2)} %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en legales del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+              <span className="text-2xl max-md:text-base font-bold text-red-500 uppercase">
                 {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -1378,7 +1399,7 @@ export const Home = () => {
                 })}
               </span>{" "}
               <span
-                className={`text-xs uppercase
+                className={`text-xs uppercase font-semibold
                  `}
               >
                 ultima remuneración legal del día, el total es de{" "}
@@ -1395,20 +1416,20 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
           <div
-            className={`inline-flex gap-2 self-end rounded   ${
+            className={`inline-flex gap-2 self-end py-2 px-3 rounded  ${
               totalCobroCliente +
                 totalCobroRendiciones +
-                totalCobroClienteLegales / 100000 <
+                totalCobroClienteLegales <
               0
-                ? "bg-red-100 p-1 text-red-600"
+                ? "bg-red-100 text-red-600"
                 : totalCobroCliente +
                     totalCobroRendiciones +
-                    totalCobroClienteLegales / 100000 >
+                    totalCobroClienteLegales >
                   0
                 ? "text-green-600 bg-green-100"
-                : ""
+                : "bg-gray-100"
             }`}
           >
             <svg
@@ -1427,15 +1448,15 @@ export const Home = () => {
             </svg>
 
             <span
-              className={`text-xs font-medium uppercase ${
+              className={`text-xs font-bold uppercase ${
                 totalCobroCliente +
                   totalCobroRendiciones +
-                  totalCobroClienteLegales / 100000 <
+                  totalCobroClienteLegales <
                 0
                   ? "text-red-500"
                   : totalCobroCliente +
                       totalCobroRendiciones +
-                      totalCobroClienteLegales / 100000 >
+                      totalCobroClienteLegales >
                     0
                   ? "text-green-500"
                   : ""
@@ -1446,7 +1467,7 @@ export const Home = () => {
                   totalCobroCliente +
                     totalCobroRendiciones +
                     totalCobroClienteLegales
-                ) / 100000
+                ) % 100
               ).toFixed(2)}{" "}
               %
             </span>
@@ -1459,7 +1480,19 @@ export const Home = () => {
 
             <p className="text-slate-500">
               <span
-                className={`text-2xl max-md:text-base font-medium uppercase ${totalClass}`}
+                className={`text-2xl max-md:text-base font-bold uppercase ${
+                  totalCobroCliente +
+                    totalCobroRendiciones +
+                    totalCobroClienteLegales <
+                  0
+                    ? "text-red-500"
+                    : totalCobroCliente +
+                        totalCobroRendiciones +
+                        totalCobroClienteLegales >
+                      0
+                    ? "text-green-500"
+                    : ""
+                }`}
               >
                 {totalCobro.toLocaleString("es-AR", {
                   style: "currency",
@@ -1468,7 +1501,7 @@ export const Home = () => {
                 })}{" "}
               </span>
               <span
-                className={`text-xs
+                className={`text-xs font-semibold
                  `}
               >
                 Total final remunerado del mes {"  "}
@@ -1485,8 +1518,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 py-2 px-3 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1502,19 +1535,19 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalGastosCliente / 100000).toFixed(2)} %{""}
+              {Number(totalGastosCliente % 100).toFixed(2)} %{""}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en salidas registradas del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+              <span className="text-2xl max-md:text-base font-bold text-red-500 uppercase">
                 {Number(totalGastosCliente).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -1522,7 +1555,7 @@ export const Home = () => {
                 })}
               </span>
 
-              <span className="text-xs text-gray-500 uppercase">
+              <span className="text-xs text-gray-500 uppercase font-semibold">
                 {" "}
                 ultimos gastos en salidas en el día{" "}
                 {Number(
@@ -1540,8 +1573,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 py-2 px-3 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1557,19 +1590,19 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalFletesUsuario / 100000).toFixed(2)} %{""}
+              {Number(totalFletesUsuario % 100).toFixed(2)} %{""}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en fletes del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+              <span className="text-2xl max-md:text-base font-bold text-red-500 uppercase">
                 -{" "}
                 {Number(totalFletesUsuario).toLocaleString("es-AR", {
                   style: "currency",
@@ -1581,8 +1614,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 py-2 px-3 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1597,19 +1630,19 @@ export const Home = () => {
                 d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
               />
             </svg>
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalViaticosUsuario / 100000).toFixed(2)} %{""}
+              {Number(totalViaticosUsuario % 100).toFixed(2)} %{""}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en viaticos del mes
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+              <span className="text-2xl max-md:text-base font-bold text-red-500 uppercase">
                 -{" "}
                 {Number(totalViaticosUsuario).toLocaleString("es-AR", {
                   style: "currency",
@@ -1621,8 +1654,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-red-100 py-2 px-3 text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1638,9 +1671,9 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalRefuerzosUsuario / 100000).toFixed(2)} %{""}
+              {Number(totalRefuerzosUsuario % 100).toFixed(2)} %{""}
             </span>
           </div>
 
@@ -1650,7 +1683,7 @@ export const Home = () => {
             </strong>
 
             <p className="text-slate-500">
-              <span className="text-2xl max-md:text-base font-medium text-red-500 uppercase">
+              <span className="text-2xl max-md:text-base font-bold text-red-500 uppercase">
                 -{" "}
                 {Number(totalRefuerzosUsuario).toLocaleString("es-AR", {
                   style: "currency",
@@ -1662,8 +1695,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 py-2 px-3 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -1679,22 +1712,22 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium uppercase">
+            <span className="text-xs font-bold uppercase">
               {nombreMesActual}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Fecha Actual
             </strong>
 
             <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base uppercase">
+              <span className="text-2xl font-bold text-gray-900 max-md:text-base uppercase">
                 {nombreMesActual}
               </span>
 
-              <span className="text-xs text-gray-500 uppercase">
+              <span className="text-xs text-gray-500 uppercase font-semibold">
                 {" "}
                 Dia {nombreDiaActual}
               </span>
@@ -1702,8 +1735,8 @@ export const Home = () => {
           </div>
         </article>
 
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 py-2 px-3 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1719,31 +1752,31 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalDatos + totalDatosDos / 10000).toFixed(2)} %{" "}
+              {Number(totalDatos + (totalDatosDos % 100)).toFixed(2)} %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total viviendas entregadas
             </strong>
 
             <p>
-              <span className="text-3xl max-md:text-base font-medium text-gray-900">
+              <span className="text-3xl max-md:text-base font-bold text-gray-900">
                 {totalDatos + totalDatosDos}
               </span>
 
-              <span className="text-xs text-gray-500 uppercase">
+              <span className="text-xs text-gray-500 uppercase font-semibold">
                 {" "}
                 Total en el mes {totalDatos + totalDatosDos}{" "}
               </span>
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer max-md:shadow-lg max-md:hover:shadow-lg max-md:border-none">
+          <div className="inline-flex gap-2 self-end rounded bg-green-100 py-2 px-3 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -1759,29 +1792,29 @@ export const Home = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium uppercase">
+            <span className="text-xs font-bold uppercase">
               {" "}
               {Number(
                 totalDatosMetrosCuadrados +
-                  totalDatosMetrosCuadradosLegales / 10000
+                  (totalDatosMetrosCuadradosLegales % 100)
               ).toFixed(2)}{" "}
               %{" "}
             </span>
           </div>
 
           <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs uppercase">
+            <strong className="block text-sm font-bold text-gray-500 max-md:text-xs uppercase">
               Total en metros cuadradados
             </strong>
 
             <p>
-              <span className="text-3xl font-medium text-gray-900 max-md:text-base uppercase">
+              <span className="text-3xl font-bold text-gray-900 max-md:text-base uppercase">
                 {Number(
                   totalDatosMetrosCuadrados + totalDatosMetrosCuadradosLegales
                 ).toFixed(2)}
               </span>
 
-              <span className="text-xs text-gray-500 uppercase">
+              <span className="text-xs text-gray-500 uppercase font-semibold">
                 {" "}
                 Total en el mes{" "}
                 {Number(
@@ -1794,18 +1827,41 @@ export const Home = () => {
         </article>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
+      <div className="py-0 px-4 max-md:hidden">
+        <div className="pb-4">
+          <p className="font-bold text-lg uppercase text-gray-600">
+            Graficos del mes
+          </p>
+        </div>
+        <div className="w-full grid grid-cols-2 gap-5">
+          <div className="bg-white py-5 px-5 rounded-2xl">
+            <ApexChart
+              remuneraciones={remuneracionesMensuales}
+              legales={legales}
+            />
+          </div>
+          <div className="bg-white py-5 px-5 rounded-2xl">
+            <ApexColumnChart
+              totalFletesUsuario={totalFletesUsuario}
+              totalViaticosUsuario={totalViaticosUsuario}
+              totalRefuerzosUsuario={totalRefuerzosUsuario}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1  px-2 overflow-y-scroll h-[30vh] max-md:px-3 scroll-bar">
         <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
           <p> Progreso de las entregas</p>
         </div>
 
         <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm">
+            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
               Total de la caja
             </p>
             <p
-              className={`text-lg mb-3 max-md:text-sm ${
+              className={`text-lg mb-3 max-md:text-sm font-bold ${
                 totalCaja >= 0 ? "text-green-500" : "text-red-500"
               }`}
             >
@@ -1840,10 +1896,12 @@ export const Home = () => {
 
         <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm">
+            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
               Total en fletes
             </p>
-            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+            <p
+              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+            >
               -{" "}
               {Number(totalFletesUsuario).toLocaleString("es-AR", {
                 style: "currency",
@@ -1866,10 +1924,12 @@ export const Home = () => {
 
         <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm">
+            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
               Total en viaticos
             </p>
-            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+            <p
+              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+            >
               -{" "}
               {Number(totalViaticosUsuario).toLocaleString("es-AR", {
                 style: "currency",
@@ -1892,10 +1952,12 @@ export const Home = () => {
 
         <div className="bg-white border-slate-200 border-[1px] py-8 px-5 rounded-xl hover:shadow-md transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm">
+            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
               Total en refuerzos
             </p>
-            <p className={`text-lg mb-3 max-md:text-sm text-slate-700`}>
+            <p
+              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+            >
               -{" "}
               {Number(totalRefuerzosUsuario).toLocaleString("es-AR", {
                 style: "currency",

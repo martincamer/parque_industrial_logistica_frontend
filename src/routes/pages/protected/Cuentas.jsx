@@ -100,20 +100,20 @@ export const Cuentas = () => {
   }, []);
 
   return (
-    <section className="bg-gray-100/50 mx-auto w-full">
+    <section className="bg-gray-100/50 mx-auto w-full max-md:border-none">
       <ToastContainer />
 
-      <div className="bg-white my-28 container mx-auto border-slate-200 py-10 px-10 shadow-sm rounded-2xl border-[1px]">
-        <div>
-          <p className="text-orange-500 text-lg underline">
+      <div className="max-md:w-full max-md:border-none max-md:bg-gray-100/50 bg-white my-28 max-md:my-10 container mx-auto border-slate-200 py-10 px-10 shadow-sm rounded-2xl border-[1px] max-md:px-5">
+        <div className="max-md:bg-white max-md:py-3 max-md:px-3 max-md:rounded-2xl max-md:shadow-lg max-md:border-none">
+          <p className="text-orange-500 text-lg underline max-md:font-bold">
             Bienvenido {user.username}
           </p>
-          <p className="text-slate-600 font-light mt-2">
+          <p className="text-slate-600 font-light mt-2 max-md:text-sm max-md:font-semibold">
             Administra los usuarios, crear, editar,etc
           </p>
         </div>
 
-        <div className="mt-12 relative h-max overflow-auto">
+        <div className="mt-12 relative h-max overflow-auto max-md:bg-white max-md:px-5 max-md:py-5 max-md:rounded-2xl max-md:shadow-lg scrollbar-hidden max-md:border-none">
           <table className="w-full table-auto text-sm text-left capitalize">
             <thead className="text-gray-600 font-medium border-b">
               <tr>
@@ -189,14 +189,14 @@ export const Cuentas = () => {
           </table>
         </div>
         <div className="mt-10">
-          <div>
-            <p className="font-normal text-lg underline text-orange-500">
+          <div className="max-md:bg-white max-md:py-3 max-md:px-3 max-md:shadow-lg max-md:rounded-2xl max-md:border-none">
+            <p className="font-normal text-lg underline text-orange-500 max-md:font-bold">
               Crear un nuevo usuario
             </p>
           </div>
           <form
             onSubmit={onSubmit}
-            className="flex w-1/2 mt-5 flex-col gap-4 bg-white border-[1px] border-slate-200 px-10 py-10 rounded-2xl  shadow"
+            className="flex w-1/2 mt-5 flex-col gap-4 bg-white border-[1px] border-slate-200 px-10 py-10 rounded-2xl shadow max-md:shadow-lg max-md:border-none max-md:w-full "
           >
             <div className="text-lg text-slate-700 w-full text-center">
               Registro de usuario

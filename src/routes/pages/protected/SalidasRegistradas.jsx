@@ -240,12 +240,12 @@ export const SalidasRegistradas = () => {
   return user.localidad === "admin" ? (
     <section className="bg-gray-100/50 w-full px-12 max-md:px-4 flex flex-col gap-6 py-24 max-md:gap-3 h-full max-h-full min-h-screen max-md:py-16">
       <ToastContainer />
-      <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0">
+      <div className="uppercase grid grid-cols-4 gap-3 mb-0 max-md:grid-cols-1 max-md:shadow-none max-md:border-none max-md:px-0 max-md:py-0 max-md:gap-5">
         <article
-          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3`}
+          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-4 max-md:border-none max-md:shadow-lg max-md:hover:shadow-none`}
         >
           <div
-            className={`inline-flex gap-2 self-end rounded ${colorDeFondo} p-1`}
+            className={`inline-flex gap-2 self-end rounded-2xl ${colorDeFondo} p-3`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -262,8 +262,8 @@ export const SalidasRegistradas = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
-              {Number(totalGastosClienteAdmin / 100000).toFixed(2)} %{""}
+            <span className="text-xs font-bold">
+              {Number(totalGastosClienteAdmin % 100).toFixed(2)} %{""}
             </span>
           </div>
 
@@ -274,7 +274,7 @@ export const SalidasRegistradas = () => {
 
             <p>
               <span
-                className={`text-2xl font-medium ${textoColor} max-md:text-base`}
+                className={`text-2xl font-bold ${textoColor} max-md:text-base`}
               >
                 {Number(resultadoNegativo).toLocaleString("es-AR", {
                   style: "currency",
@@ -285,8 +285,10 @@ export const SalidasRegistradas = () => {
             </p>
           </div>
         </article>
-        <article className="flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded-xl bg-green-100 p-2 text-green-600">
+        <article
+          className={`flex flex-col gap-4 rounded-2xl border hover:shadow-md transition-all ease-linear border-slate-200 bg-white p-6 max-md:p-4 max-md:border-none max-md:shadow-lg max-md:hover:shadow-none`}
+        >
+          <div className="inline-flex gap-2 self-end rounded-xl bg-green-100 p-3 text-green-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -302,9 +304,9 @@ export const SalidasRegistradas = () => {
               />
             </svg>
 
-            <span className="text-xs font-medium">
+            <span className="text-xs font-bold">
               {" "}
-              {Number(totalDatosAdmin / 100).toFixed(2)} %{" "}
+              {Number(totalDatosAdmin % 100).toFixed(2)} %{" "}
             </span>
           </div>
 
@@ -330,7 +332,7 @@ export const SalidasRegistradas = () => {
       <div className="mt-5 max-md:mt-4 max-md:overflow-x-scroll">
         <div className="flex gap-6 items-end max-md:items-end max-md:gap-3 max-md:w-[550px]">
           <div className="flex flex-col  max-md:flex-row items-center md:gap-2">
-            <label className="text-sm text-slate-700 uppercase font-bold w-full">
+            <label className="text-sm text-slate-700 uppercase font-bold w-full max-md:w-auto max-md:text-center">
               Fecha de inicio
             </label>
             <DatePicker
@@ -343,7 +345,7 @@ export const SalidasRegistradas = () => {
           </div>
           <div className="flex gap-2 items-center">
             <div className="flex flex-col max-md:flex-row items-center md:gap-2">
-              <label className="text-sm text-slate-700 uppercase font-bold w-full">
+              <label className="text-sm text-slate-700 uppercase font-bold w-full max-md:w-auto max-md:text-center">
                 Fecha fin
               </label>
               <DatePicker
@@ -504,7 +506,7 @@ export const SalidasRegistradas = () => {
                       month: "long",
                     })}
                   </td>
-                  <td className="px-4 py-4 font-medium text-gray-900 max-md:text-xs">
+                  <td className="px-4 py-4 font-bold text-gray-900 max-md:text-xs">
                     {s.fabrica}
                   </td>
                   <td className="px-4 py-4 font-bold text-gray-900 max-md:text-xs">

@@ -46,6 +46,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Configuraciones } from "./routes/pages/protected/Configuraciones.jsx";
 import { useEffect, useState } from "react";
+import { PageRegistros } from "./routes/pages/protected/PageRegistros.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -101,6 +102,7 @@ function App() {
             >
               <Route index path="/" element={<Home />} />
               <Route path="/salidas" element={<Salidas />} />
+              <Route path="/registros" element={<PageRegistros />} />
               <Route path="/remuneraciones" element={<Remuneraciones />} />
               <Route path="/rendiciones" element={<Rendicones />} />
               <Route path="/legales" element={<Legales />} />

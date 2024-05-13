@@ -666,8 +666,8 @@ export const Salidas = () => {
       {/* MOBILE */}
       <div className="py-12 w-full md:hidden bg-gray-100/50 min-h-screen max-h-full h-full">
         <div>
-          <p className="text-orange-500 mb-4 text-center font-semibold">
-            Salidas del mes
+          <p className="text-slate-500 mb-4 text-center font-semibold">
+            Salidas del mes 👋
           </p>
         </div>
         <Tab.Group
@@ -677,9 +677,9 @@ export const Salidas = () => {
           <Tab.List className="flex gap-2 bg-gray-200 py-2 px-2 w-full justify-center">
             <Tab
               className={clsx(
-                "py-2 px-3 rounded-xl text-sm transition-colors duration-300 outline-none",
+                "py-2 px-3 rounded-xl text-sm transition-colors duration-300 outline-none font-semibold",
                 {
-                  "bg-orange-500 text-white": activeTab === 0, // Aplica color azul para la pestaña activa
+                  "bg-slate-600 text-white": activeTab === 0, // Aplica color azul para la pestaña activa
                   "bg-white text-gray-700": activeTab !== 0, // Color blanco para las no activas
                 }
               )}
@@ -689,9 +689,9 @@ export const Salidas = () => {
 
             <Tab
               className={clsx(
-                "py-2 px-3 rounded-xl text-sm transition-colors duration-300 outline-none",
+                "py-2 px-3 rounded-xl text-sm transition-colors duration-300 outline-none font-semibold",
                 {
-                  "bg-orange-500 text-white": activeTab === 1, // Segunda pestaña activa
+                  "bg-slate-600 text-white": activeTab === 1, // Segunda pestaña activa
                   "bg-white text-gray-700": activeTab !== 1, // Color blanco si no está activa
                 }
               )}
@@ -703,9 +703,15 @@ export const Salidas = () => {
             className="transition-transform duration-300" // Transición suave entre paneles
           >
             <Tab.Panel key="1" className={"py-5 px-5"}>
-              <div className="rounded-xl grid grid-cols-3 gap-3 mb-2 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-                <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-                  <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
+              <div className="grid grid-cols-1 gap-5">
+                <article className="flex flex-col gap-4 rounded-2xl shadow-lg bg-white p-4">
+                  <div
+                    className={`inline-flex gap-2 self-end p-2 rounded-xl ${
+                      totalGastosClienteAdmin >= 0
+                        ? "bg-green-500/90 p-1 text-white"
+                        : "bg-red-100 p-1 text-red-600"
+                    }`}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
@@ -721,20 +727,25 @@ export const Salidas = () => {
                       />
                     </svg>
 
-                    <span className="text-xs font-medium max-md:text-xs">
+                    <span className="text-xs font-bold max-md:text-xs">
                       {" "}
-                      {Number(totalGastosClienteAdmin / 100000).toFixed(2)} %
-                      {""}
+                      {Number(totalGastosClienteAdmin % 100).toFixed(2)} %{""}
                     </span>
                   </div>
 
                   <div>
-                    <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-                      Total en Viaticos/Flete/Etc
+                    <strong className="block text-sm font-bold text-gray-500 max-md:text-xs">
+                      Total en Viaticos del mes/Flete/Etc
                     </strong>
 
-                    <p>
-                      <span className="text-2xl font-medium text-red-600 max-md:text-base">
+                    <p className="mt-4">
+                      <span
+                        className={`text-base font-bold ${
+                          totalGastosClienteAdmin >= 0
+                            ? "bg-green-500/90 p-1 text-white"
+                            : "bg-red-500/90 p-1 text-white"
+                        } rounded-full py-2 px-5`}
+                      >
                         {Number(totalGastosClienteAdmin).toLocaleString(
                           "es-AR",
                           {
@@ -748,8 +759,8 @@ export const Salidas = () => {
                   </div>
                 </article>
 
-                <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-                  <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+                <article className="flex flex-col gap-4 rounded-2xl shadow-lg bg-white p-4">
+                  <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-2 text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -765,31 +776,24 @@ export const Salidas = () => {
                       />
                     </svg>
 
-                    <span className="text-xs font-medium">
-                      {nombreMesActual}
-                    </span>
+                    <span className="text-xs font-bold">{nombreMesActual}</span>
                   </div>
 
                   <div>
-                    <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-                      Fecha Actual
+                    <strong className="block text-sm font-bold text-gray-500 max-md:text-xs">
+                      Fecha Actual del mes
                     </strong>
 
                     <p>
-                      <span className="text-2xl max-md:text-base font-medium text-gray-900">
+                      <span className="text-2xl max-md:text-base font-bold text-gray-600">
                         {nombreMesActual}
-                      </span>
-
-                      <span className="text-xs text-gray-500">
-                        {" "}
-                        Dia {nombreDiaActual}
                       </span>
                     </p>
                   </div>
                 </article>
 
-                <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
-                  <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+                <article className="flex flex-col gap-4 rounded-2xl shadow-lg bg-white p-4">
+                  <div className="inline-flex gap-2 self-end rounded-xl bg-green-500/90 p-2 text-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
@@ -805,25 +809,28 @@ export const Salidas = () => {
                       />
                     </svg>
 
-                    <span className="text-xs font-medium">
+                    <span className="text-xs font-bold">
                       {" "}
                       {Number(totalSalidasViviendas / 100).toFixed(2)} %{" "}
                     </span>
                   </div>
 
                   <div>
-                    <strong className="block text-sm font-medium text-gray-500 max-md:text-sm">
-                      Total salidas/viviendas
+                    <strong className="block text-sm font-bold text-gray-500 max-md:text-sm">
+                      Total salidas en el mes/viviendas/contratos
                     </strong>
 
-                    <p>
-                      <span className="text-2xl font-medium text-gray-900 max-md:text-base">
+                    <p className="flex gap-2 items-center mt-2">
+                      <span className="text-2xl font-bold text-white bg-green-500/90 py-1.5 px-4 rounded-2xl max-md:text-sm">
                         {totalSalidasViviendas}
                       </span>
 
                       <span className="text-xs text-gray-500">
                         {" "}
-                        Total viviendas entregadas {totalSalidasViviendas}{" "}
+                        Total viviendas entregadas{" "}
+                        <span className="font-bold">
+                          {totalSalidasViviendas}
+                        </span>{" "}
                       </span>
                     </p>
                   </div>
@@ -865,7 +872,7 @@ export const Salidas = () => {
                     <select
                       value={selectedLocalidad}
                       onChange={(e) => setSelectedLocalidad(e.target.value)}
-                      className="outline-none text-slate-600 bg-white w-full uppercase"
+                      className="outline-none text-slate-600 bg-white w-full uppercase text-sm"
                     >
                       <option className="uppercase" value="">
                         Seleccionar localidad...
@@ -882,7 +889,7 @@ export const Salidas = () => {
                     <select
                       value={selectedUser}
                       onChange={(e) => setSelectedUser(e.target.value)}
-                      className="outline-none text-slate-600 bg-white w-full uppercase"
+                      className="outline-none text-slate-600 bg-white w-full uppercase text-sm"
                     >
                       <option className="uppercase" value="">
                         Seleccionar usuario...
@@ -900,7 +907,7 @@ export const Salidas = () => {
               <div className="px-3 mt-2 flex">
                 <Link
                   to={"/salidas-registradas"}
-                  className="bg-orange-500 py-2 px-4 rounded-full text-white font-semibold text-sm flex gap-2 items-center"
+                  className="bg-green-500/90 py-2 px-4 rounded-full text-white font-semibold text-sm flex gap-2 items-center"
                 >
                   Salidas registradas
                   <svg
@@ -931,8 +938,17 @@ export const Salidas = () => {
       </div>
     </>
   ) : (
-    <section className="bg-gray-100/50 w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
+    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-5">
       <ToastContainer />
+      <div>
+        <p className="font-bold text-2xl text-slate-600 max-md:text-lg max-md:text-center text-justify">
+          Bienvenido{" "}
+          <span className="capitalize text-green-500/90 underline">
+            {user.username}
+          </span>{" "}
+          a la parte de salidas mensuales 🖐️.
+        </p>
+      </div>
       <div className="grid grid-cols-3 gap-3 mb-8 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase">
         <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer">
           <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
