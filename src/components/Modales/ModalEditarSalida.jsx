@@ -164,7 +164,11 @@ export const ModalEditarSalida = ({
       salida,
       fabrica,
       total_control: Number(km_viaje_control * km_viaje_control_precio),
-      total_flete: Number(fletes_km * fletes_km_precio),
+      total_flete: Number(
+        chofer !== "Iveco Tecnohouse"
+          ? fletes_km * fletes_km_precio
+          : fletes_km_precio
+      ),
       espera,
       chofer_vehiculo,
       datos_cliente: { datosCliente },
