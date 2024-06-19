@@ -269,7 +269,7 @@ export const Legales = () => {
                   Total viviendas entregadas/contratos.
                 </p>
                 <p className="font-bold text-lg text-blue-500 text-center">
-                  {totalContratosEntregados}
+                  {totalContratosEntregados?.toFixed(2)}
                 </p>
               </div>
               <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
@@ -277,7 +277,7 @@ export const Legales = () => {
                   Total metros cuadrados entregados.
                 </p>
                 <p className="font-bold text-lg text-blue-500 text-center">
-                  {totalMetrosCuadrados} mts.
+                  {totalMetrosCuadrados?.toFixed(2)} mts.
                 </p>
               </div>
             </div>

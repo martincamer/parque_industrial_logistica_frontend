@@ -664,7 +664,7 @@ export const Home = () => {
                   totalMetrosCuadrados < 0 ? "text-red-500" : "text-blue-500"
                 } font-extrabold`}
               >
-                {totalMetrosCuadrados} mts
+                {totalMetrosCuadrados?.toFixed(2)} mts
               </p>
             </div>
             <div className="flex">
@@ -675,7 +675,7 @@ export const Home = () => {
                     : "bg-blue-500 text-white"
                 } rounded py-1.5 px-4  font-bold text-xs`}
               >
-                Porcentaje {totalMetrosCuadrados % 100} %
+                Porcentaje {Number(totalMetrosCuadrados % 100).toFixed(2)} %
               </div>
             </div>
           </div>
