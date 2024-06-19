@@ -17,7 +17,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
   const [error, setError] = useState("");
 
   //useContext
-  const { setSalidasMensuales } = useSalidasContext();
+  const { setSalidas } = useSalidasContext();
   const { choferes, setChoferes } = useSalidasContext();
 
   //obtenerChoferes
@@ -95,7 +95,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
     setSocket(newSocket);
 
     newSocket.on("nueva-salida", (nuevaSalida) => {
-      setSalidasMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+      setSalidas(nuevaSalida);
     });
 
     return () => newSocket.close();
@@ -233,7 +233,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-2/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-2/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
                 <div className="flex justify-end cursor-pointer">
                   <p
                     onClick={closeModalDos}
@@ -256,7 +256,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                   </p>
                 </div>
 
-                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
+                <div className="text-xl font-bold text-blue-500 mb-5 border-b-2 border-blue-500">
                   Crear nueva salida
                 </div>
 
@@ -268,19 +268,19 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                   </div>
                 )}
 
-                <form className="flex flex-col gap-5 max-md:px-1 max-md:border-none max-md:shadow-none">
+                <form className="flex flex-col gap-3 max-md:px-1 max-md:border-none max-md:shadow-none">
                   <div className="flex gap-4">
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-blue-500 px-4 text-white rounded-full font-bold text-sm py-1.5"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-orange-500 px-4 text-white rounded-full font-bold text-sm py-1.5"
                     >
                       Ver choferes creados
                     </button>
@@ -296,7 +296,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             onChange={(e) => setFabrica(e.target.value)}
                             value={fabrica}
                             type="text"
-                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full "
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5  px-3 text-slate-900 uppercase w-full text-sm font-bold"
                           >
                             <option value="">Fabrica</option>
                             {/* <option value="iraola">Iraola</option>
@@ -306,7 +306,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             </option>
                           </select>
 
-                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             Seleccionar fabrica
                           </span>
                         </label>
@@ -317,10 +317,10 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                               value={salida}
                               onChange={(e) => setSalida(e.target.value)}
                               type="text"
-                              className="max-md:text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                              className="max-md:text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-slate-700 px-3 uppercase text-sm font-bold"
                             />
 
-                            <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                               Localidad o Provincia de salida
                             </span>
                           </label>
@@ -342,15 +342,15 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             onChange={(e) => setChofer(e.target.value)}
                             value={chofer}
                             type="text"
-                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase w-full"
+                            className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm  px-3 text-slate-900 uppercase w-full"
                           >
                             <option value="">Seleccionar chofer</option>
                             {choferes.map((c) => (
-                              <option>{c.chofer}</option>
+                              <option key={c.id}>{c.chofer}</option>
                             ))}
                           </select>
 
-                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             Chofer
                           </span>
                         </label>
@@ -359,7 +359,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         <button
                           onClick={() => openModal()}
                           type="button"
-                          className="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white text-sm py-3 px-4 hover:shadow rounded-xl uppercase flex gap-2 items-center"
+                          className="bg-green-500 text-white font-semibold text-sm py-1.5 rounded-full flex gap-2 items-center px-5"
                         >
                           Crear Clientes
                           <svg
@@ -447,20 +447,20 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                       </h3>
                     </div>
                     <div className="max-md:w-full">
-                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm w-2/3">
                         <input
                           value={chofer_vehiculo}
                           onChange={(e) => setChoferVehiculo(e.target.value)}
                           type="text"
-                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm text-slate-700 px-3 uppercase font-bold"
                         />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                        <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                           Chofer Vehiculo
                         </span>
                       </label>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3 max-md:text-sm">
@@ -470,10 +470,10 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={km_viaje_control}
                             onChange={(e) => setKmViajeControl(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-slate-700 px-3 uppercase font-bold"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             KM de viaje
                           </span>
                         </label>
@@ -489,16 +489,16 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                               setKmViajeControlPrecio(e.target.value)
                             }
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             KM Precio
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base w-3/4 text-center">
-                        <p>
+                      <div className="flex">
+                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
                           {Number(
                             km_viaje_control * km_viaje_control_precio
                           ).toLocaleString("es-AR", {
@@ -517,7 +517,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         Fletes
                       </h3>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <span className="font-bold text-slate-500 px-3">
@@ -527,10 +527,10 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={fletes_km}
                             onChange={(e) => setKmFletes(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             KM de viaje
                           </span>
                         </label>
@@ -544,16 +544,16 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={fletes_km_precio}
                             onChange={(e) => setKmFletesPrecio(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 max-md:text-sm uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm text-slate-700 px-3 max-md:text-sm uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base max-md:text-sm uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             KM Precio
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 max-md:text-base py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] text-center">
-                        <p>
+                      <div className="flex">
+                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
                           {chofer !== "Iveco Tecnohouse"
                             ? Number(
                                 fletes_km * fletes_km_precio
@@ -577,16 +577,16 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                           value={espera}
                           onChange={(e) => setEspera(e.target.value)}
                           type="text"
-                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                          className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold text-slate-700 px-3 uppercase"
                         />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                        <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                           Espera del Fletero
                         </span>
                       </label>
 
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
-                        <p>
+                      <div className="flex">
+                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
                           {Number(espera).toLocaleString("es-AR", {
                             style: "currency",
                             currency: "ARS",
@@ -603,17 +603,17 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         Viaticos Armadores
                       </h3>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <input
                             value={armadores}
                             onChange={(e) => setArmadores(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             Armador/Nombre/Apellido
                           </span>
                         </label>
@@ -627,16 +627,16 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                             value={total_viaticos}
                             onChange={(e) => setTotalViaticos(e.target.value)}
                             type="text"
-                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 text-slate-700 px-3 uppercase"
+                            className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm text-slate-700 px-3 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="max-md:text-sm pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base  transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             Total en Viaticos
                           </span>
                         </label>
                       </div>
-                      <div className="bg-slate-100 py-2 px-4 rounded-xl shadow font-bold text-slate-700 text-lg border-slate-300 border-[1px] max-md:text-base text-center">
-                        <p>
+                      <div className="flex">
+                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
                           {Number(total_viaticos).toLocaleString("es-AR", {
                             style: "currency",
                             currency: "ARS",
@@ -651,7 +651,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                       </p>
                       <div className="mt-2">
                         <select
-                          className="py-2 px-3 bg-white border-slate-300 border-[1px] shadow rounded-xl text-slate-700  max-md:text-sm uppercase"
+                          className="py-2 px-4 text-sm font-bold bg-white outline-none border-blue-500 border-[1px] text-slate-700  max-md:text-sm uppercase"
                           value={motivo}
                           onChange={(e) => setMotivo(e.target.value)}
                         >
@@ -664,11 +664,11 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                       </div>
                       <div className="flex gap-2 mt-2 max-md:text-sm">
                         {motivo === "refuerzo" ? (
-                          <p className="bg-green-500 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-green-500 py-3 px-5 uppercase text-sm rounded font-bold text-white cursor-pointer">
                             Refuerzo
                           </p>
                         ) : motivo === "no cobra en base" ? (
-                          <p className="bg-red-800 py-3 px-5 uppercase text-sm rounded-xl shadow text-white cursor-pointer">
+                          <p className="bg-red-800 py-3 px-5 uppercase rounded font-bold text-sm text-white cursor-pointer">
                             No cobra en base
                           </p>
                         ) : null}
@@ -680,7 +680,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     <button
                       type="button"
                       onClick={() => onSubmit()}
-                      className="bg-green-100 text-green-700 rounded-xl hover:shadow hover:bg-green-500 hover:text-white transition-all ease-linear py-2 px-6 max-md:text-sm uppercase text-sm flex gap-2 items-center"
+                      className="flex items-center font-bold py-2 px-4  rounded-full bg-blue-500 text-white gap-2 text-sm hover:bg-orange-500 transition-all"
                     >
                       Crear nueva salida
                       <svg

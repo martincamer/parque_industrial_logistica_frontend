@@ -15,39 +15,7 @@ export const ResumenViewRecaudacion = () => {
     }
 
     loadData();
-  }, []);
-
-  const fechaActual = new Date();
-  const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
-
-  const nombresDias = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-  ];
-
-  const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
-  const nombresMeses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
+  }, [params.id]);
 
   const totalSuma = unicaSalida?.datos_cliente?.datosCliente.reduce(
     (acumulador, elemento) => {
@@ -55,187 +23,65 @@ export const ResumenViewRecaudacion = () => {
       return acumulador + parseFloat(elemento.totalFlete);
     },
     0
-  ); // Iniciar el acumulador en 0
-
-  const total =
-    Number(unicaSalida.refuerzo) +
-    Number(unicaSalida.viaticos) +
-    Number(unicaSalida.pago_fletero_espera) +
-    Number(totalSuma);
-  const refuerzoPercentage = (
-    (Number(unicaSalida.refuerzo) / total) *
-    100
-  ).toFixed(2);
-  const recaudacionPercentage = (
-    (Number(unicaSalida.recaudacion) / total) *
-    100
-  ).toFixed(2);
-  const viaticosPercentage = (
-    (Number(unicaSalida.viaticos) / total) *
-    100
-  ).toFixed(2);
-  const totalFleteEsperaPercentage = (
-    (Number(unicaSalida.pago_fletero_espera) / Number(total)) *
-    100
-  ).toFixed(2);
+  );
 
   return (
-    <section className="bg-gray-100/50 min-h-screen max-h-full w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-24 max-md:gap-10">
-      <div className="uppercase grid grid-cols-4 gap-3 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:pb-3 transition-all ease-linear">
-          <div
-            className={`inline-flex gap-2 self-end rounded p-1 text-xs font-medium 
-    ${
-      unicaSalida.recaudacion >= 0
-        ? "bg-green-100 text-green-600"
-        : "bg-red-100 text-red-600"
-    }`}
+    <section className="w-full max-w-full h-full max-h-full min-h-screen">
+      <div className="bg-white mb-4 h-10 flex">
+        <Link
+          to={"/remuneraciones"}
+          className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
+        >
+          Remuneraciones
+        </Link>{" "}
+        <Link className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white">
+          Remuneracion N° {params.id}
+        </Link>
+      </div>
+      <div className="mx-5 my-10 bg-white py-6 px-6">
+        <p className="font-bold text-blue-500 text-xl">
+          Observa la remuneración obtenida, ver los datos, etc.
+        </p>
+      </div>
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+        <div className="dropdown dropdown-bottom">
+          <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
+            Ver estadistica de la remuneración
+          </button>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span>{Number(unicaSalida.recaudacion / 100000).toFixed(2)}%</span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total remunerado en esta entrega
-            </strong>
-
-            <p>
-              <span
-                className={`text-2xl font-medium max-md:text-base ${
-                  unicaSalida.recaudacion >= 0
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                {" "}
-                {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>{" "}
-              <span className="text-xs text-gray-500">
-                el total es de{" "}
-                {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}{" "}
-              </span>
-            </p>
-          </div>
-        </article>
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:pb-3 transition-all ease-linear">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">MARZO</span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Fecha Actual
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
-                {nombreMesActual}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Dia {nombreDiaActual}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow bg-white p-6 max-md:pb-3 transition-all ease-linear">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {/* {salidasMensuales.length / 10000} %{" "} */}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total de viviendas
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
-                {unicaSalida.datos_cliente?.datosCliente?.length}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Total final de entregadas{" "}
-                <span className="font-bold text-slate-700">
-                  {unicaSalida.datos_cliente?.datosCliente?.length}
-                </span>
-              </span>
-            </p>
-          </div>
-        </article>
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total de la remuneración.
+                </p>
+                <p className="font-bold text-lg text-blue-500 text-center">
+                  {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+            </div>
+          </ul>
+        </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase text-sm">
-        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
-          <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
+      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase text-sm mx-5 my-10">
+        <div className="bg-white border-blue-500 border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm max-md:text-sm max-md:uppercase">
             Datos de los clientes
           </p>
-          <div className="py-2 px-2 flex flex-col gap-3 h-[200px] overflow-y-scroll">
+          <div className="py-2 px-2 flex flex-col gap-3 h-[200px] overflow-y-scroll scroll-bar">
             {unicaSalida?.datos_cliente?.datosCliente?.map((datos, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-1 bg-white border-slate-200 border-[1px] rounded-xl py-2 px-2 shadow max-md:border-slate-300 max-md:px-5"
+                className="flex flex-col gap-1 bg-white border-blue-500 border py-2 px-2"
               >
                 <div>
-                  <p className="text-slate-600 max-md:text-sm">
+                  <p className="text-slate-600 text-sm">
                     Nombre y Apellido:{" "}
                     <span className="text-slate-700 font-semibold">
                       {datos.cliente} ({datos.numeroContrato})
@@ -243,7 +89,7 @@ export const ResumenViewRecaudacion = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-slate-600 max-md:text-sm">
+                  <p className="text-slate-600 text-sm">
                     Localidad / Entregas:{" "}
                     <span className="text-slate-700 font-semibold ">
                       {datos.localidad}
@@ -251,7 +97,7 @@ export const ResumenViewRecaudacion = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-slate-600 max-md:text-sm">
+                  <p className="text-slate-600 text-sm">
                     Metros Cuadrados:{" "}
                     <span className="text-slate-700 font-semibold">
                       {datos.metrosCuadrados} mts
@@ -259,7 +105,7 @@ export const ResumenViewRecaudacion = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-slate-600 max-md:text-sm">
+                  <p className="text-slate-600 text-sm">
                     Total Flete:{" "}
                     <span className="text-slate-700 font-semibold">
                       {Number(datos.totalFlete).toLocaleString("es-AR", {
@@ -275,8 +121,8 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
-          <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
+        <div className="bg-white border-blue-500 border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm max-md:uppercase">
             Datos de carga/fletero/etc
           </p>
           <div className="py-2 px-2 flex flex-col gap-3 mt-2">
@@ -326,8 +172,8 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-2xl">
-          <p className="text-slate-700 font-bold text-lg underline max-md:text-sm max-md:uppercase">
+        <div className="bg-white border-blue-500 border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm underline max-md:text-sm max-md:uppercase">
             Remuneraciones/Etc
           </p>
           <div className="flex flex-col gap-2">
@@ -402,7 +248,7 @@ export const ResumenViewRecaudacion = () => {
                   className={
                     unicaSalida.recaudacion < 0
                       ? "text-red-600 font-bold"
-                      : "text-green-600 font-bold"
+                      : "text-blue-600 font-bold"
                   }
                 >
                   {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
@@ -417,10 +263,10 @@ export const ResumenViewRecaudacion = () => {
         </div>
       </div>
 
-      <article className="grid grid-cols-3 gap-4 items-start max-md:grid-cols-1">
+      <article className="grid grid-cols-3 gap-4 items-start max-md:grid-cols-1 mx-5">
         <div className="flex gap-3">
           <div
-            className={`bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-3 ${
+            className={`bg-white border-blue-500 border hover:shadow py-5 px-5 w-full relative max-md:py-3 ${
               Number(unicaSalida.recaudacion) >= 0
                 ? "text-green-600"
                 : "text-red-600"
@@ -428,27 +274,13 @@ export const ResumenViewRecaudacion = () => {
           >
             <div className="flex justify-between items-center max-md:text-sm">
               <p className="text-slate-500 text-lg flex gap-2 max-md:text-sm">
-                {Number(
-                  Number(unicaSalida.viaticos) +
-                    Number(totalSuma) +
-                    Number(unicaSalida.refuerzo) +
-                    Number(unicaSalida.pago_fletero_espera)
-                ).toLocaleString("es-AR", {
+                {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
                 <span className="font-bold text-slate-700 max-md:text-sm">
-                  °{" "}
-                  {Number(
-                    Number(
-                      Number(unicaSalida.viaticos) +
-                        Number(totalSuma) +
-                        Number(unicaSalida.refuerzo) +
-                        Number(unicaSalida.pago_fletero_espera)
-                    ) / 100000
-                  ).toFixed(2)}{" "}
-                  %{" "}
+                  ° {Number(unicaSalida.recaudacion / 100000).toFixed(2)} %{" "}
                 </span>
               </p>
               <p
@@ -477,7 +309,7 @@ export const ResumenViewRecaudacion = () => {
                 }`}
                 style={{
                   width: `${Math.abs(
-                    Number(unicaSalida.recaudacion) / 100
+                    Number(unicaSalida.recaudacion) / 10000
                   ).toFixed(2)}%`,
                 }}
               ></div>
@@ -489,7 +321,7 @@ export const ResumenViewRecaudacion = () => {
         </div>
 
         <div className="flex gap-3">
-          <div className="bg-white border-slate-200 border-[1px] hover:shadow py-5 px-5 rounded-xl w-full relative max-md:py-2">
+          <div className="bg-white border-blue-500 border hover:shadow py-5 px-5 w-full relative max-md:py-2">
             <div className="flex justify-between items-center">
               <p className="text-slate-500 text-lg flex gap-2 max-md:text-sm">
                 {Number(
@@ -526,9 +358,7 @@ export const ResumenViewRecaudacion = () => {
                         Number(totalSuma) +
                         Number(unicaSalida.refuerzo) +
                         Number(unicaSalida.pago_fletero_espera)
-                    ) /
-                    100 /
-                    100
+                    ) / 100000
                   ).toFixed(2)}%`,
                 }}
               ></div>
@@ -538,101 +368,6 @@ export const ResumenViewRecaudacion = () => {
             </span>
           </div>
         </div>
-        {/* <div className="flex justify-center items-center border border-gray-300 rounded-xl hover:shadow py-10">
-          <div className="w-64 relative">
-            <svg viewBox="0 0 36 36" className="overflow-visible">
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#f56565"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(refuerzoPercentage)} ${
-                  100 - Number(refuerzoPercentage)
-                }`}
-                transform="rotate(-90 18 18)"
-                onMouseEnter={() => handleHover("Refuerzo")}
-                onMouseLeave={handleLeave}
-              />
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#4299e1"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(recaudacionPercentage)} ${
-                  100 - Number(recaudacionPercentage)
-                }`}
-                transform={`rotate(${Number(refuerzoPercentage)} 18 18)`}
-                onMouseEnter={() => handleHover("Recaudación")}
-                onMouseLeave={handleLeave}
-              />
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#f6e05e"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(viaticosPercentage)} ${
-                  100 - Number(viaticosPercentage)
-                }`}
-                transform={`rotate(${
-                  Number(refuerzoPercentage) + Number(recaudacionPercentage)
-                } 18 18)`}
-                onMouseEnter={() => handleHover("Viáticos")}
-                onMouseLeave={handleLeave}
-              />
-              <circle
-                cx="18"
-                cy="18"
-                r="15.9155"
-                fill="transparent"
-                stroke="#38a169"
-                strokeWidth="3.5"
-                strokeDasharray={`${Number(totalFleteEsperaPercentage)} ${
-                  100 - Number(totalFleteEsperaPercentage)
-                }`}
-                transform={`rotate(${
-                  Number(refuerzoPercentage) +
-                  Number(recaudacionPercentage) +
-                  Number(viaticosPercentage)
-                } 18 18)`}
-                onMouseEnter={() => handleHover("Total Flete Espera")}
-                onMouseLeave={handleLeave}
-              />
-              <text
-                x="18"
-                y="18"
-                textAnchor="middle"
-                fontSize="3"
-                fill="#4a5568"
-                className="font-bold text-gray-700"
-                dy=".3em"
-              >{`${Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}`}</text>
-            </svg>
-            {tooltip && (
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-white text-sm pointer-events-none">
-                <div className="bg-gray-800 bg-opacity-90 p-2 rounded-md shadow-md">
-                  {tooltip === "Refuerzo" &&
-                    `Refuerzo: ${unicaSalida.refuerzo}`}
-                  {tooltip === "Recaudación" &&
-                    `Recaudación: ${unicaSalida.recaudacion}`}
-                  {tooltip === "Viáticos" &&
-                    `Viáticos: ${unicaSalida.viaticos}`}
-                  {tooltip === "Total Flete Espera" &&
-                    `Total Flete Espera: ${unicaSalida.pago_fletero_espera}`}
-                </div>
-              </div>
-            )}
-          </div>
-        </div> */}
       </article>
     </section>
   );

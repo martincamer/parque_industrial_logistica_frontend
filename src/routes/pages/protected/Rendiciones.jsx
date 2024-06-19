@@ -5,110 +5,97 @@ import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { ModalCrearRendicion } from "../../../components/Modales/ModalCrearRendicion";
 import { ModalEliminarRendicion } from "../../../components/Modales/ModalEliminarRendicion";
 import { ModalEditarRendiciones } from "../../../components/Modales/ModalEditarRendicion";
-import { useAuth } from "../../../context/AuthProvider";
+import { FaSearch } from "react-icons/fa";
 
 export const Rendicones = () => {
-  const { user } = useAuth();
-  const { rendicionesMensuales, rendicionesMensualesAdmin } =
-    useRendicionesContext();
+  const { rendiciones } = useRendicionesContext();
 
-  const fechaActual = new Date();
-  const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
-
-  const nombresDias = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-  ];
-
-  const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
-  const nombresMeses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
-
-  const totalRecaudación = rendicionesMensuales.reduce(
-    (total, item) => total + parseFloat(item.rendicion_final),
-
-    0
-  );
-  // Obtener la fecha en formato de cadena (YYYY-MM-DD)
-  const fechaActualString = fechaActual.toISOString().slice(0, 10);
-
-  // Filtrar los objetos de 'data' que tienen la misma fecha que la fecha actual
-  const ventasDelDia = rendicionesMensuales?.filter(
-    (item) => item?.created_at.slice(0, 10) === fechaActualString
-  );
-
-  // Encontrar la venta más reciente del día
-  const ultimaVentaDelDia = ventasDelDia?.reduce((ultimaVenta, venta) => {
-    // Convertir las fechas de cadena a objetos Date para compararlas
-    const fechaUltimaVenta = new Date(ultimaVenta?.created_at);
-    const fechaVenta = new Date(venta?.created_at);
-
-    // Retornar la venta con la hora más reciente
-    return fechaVenta > fechaUltimaVenta ? venta : ultimaVenta;
-  }, ventasDelDia[0]);
-
-  const itemsPerPage = 10; // Cantidad de elementos por página
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Ordenar el arreglo de rendicionesMensuales por ID de mayor a menor
-  const sortedRendicionesMensuales = rendicionesMensuales
-    .slice()
-    .sort((a, b) => b.id - a.id);
-
-  // Calcular el índice del último y primer elemento de la página actual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
-  // Obtener los resultados de la página actual
-  const currentResults = sortedRendicionesMensuales.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-
-  // Calcular el número total de páginas
-  const totalPages = Math.ceil(
-    sortedRendicionesMensuales.length / itemsPerPage
-  );
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const rangeSize = 5;
-
-  const startPage = Math.max(1, currentPage - Math.floor(rangeSize / 2));
-  const endPage = Math.min(totalPages, startPage + rangeSize - 1);
-
+  const [searchTermCliente, setSearchTermCliente] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
 
   // Obtener lista de usuarios únicos
   const uniqueUsers = Array.from(
     new Set(
-      sortedRendicionesMensuales.map((rendicion) =>
-        rendicion.usuario.toLowerCase()
-      )
+      rendiciones.map((remuneracion) => remuneracion.usuario.toLowerCase())
     )
   );
+
+  const handleSearchClienteChange = (e) => {
+    setSearchTermCliente(e.target.value);
+  };
+
+  const handleUserChange = (e) => {
+    setSelectedUser(e.target.value);
+  };
+
+  const handleFechaInicioChange = (e) => {
+    setFechaInicio(e.target.value);
+  };
+
+  const handleFechaFinChange = (e) => {
+    setFechaFin(e.target.value);
+  };
+
+  let filteredData = rendiciones.filter((item) => {
+    const matchesSearchTerm = item.armador
+      .toLowerCase()
+      .includes(searchTermCliente.toLowerCase());
+
+    const matchesUser =
+      selectedUser === "" ||
+      item.usuario.toLowerCase() === selectedUser.toLowerCase();
+
+    return matchesSearchTerm && matchesUser;
+  });
+
+  // Filtrar por rango de fechas
+  if (fechaInicio && fechaFin) {
+    const fechaInicioObj = new Date(fechaInicio);
+    const fechaFinObj = new Date(fechaFin);
+    filteredData = filteredData.filter((item) => {
+      const fechaOrden = new Date(item.created_at);
+      return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
+    });
+  }
+
+  // Ordenar por fecha de mayor a menor
+  filteredData?.sort((a, b) => {
+    const fechaA = new Date(a.created_at);
+    const fechaB = new Date(b.created_at);
+    return fechaB - fechaA; // Ordena de mayor a menor (fecha más reciente primero)
+  });
+
+  // Filtrar pedidos del mes actual
+  const currentMonth = new Date().getMonth() + 1;
+
+  const filteredByMonth = rendiciones.filter((salida) => {
+    const createdAtMonth = new Date(salida.created_at).getMonth() + 1;
+    return createdAtMonth === currentMonth;
+  });
+
+  // Obtener la fecha actual
+  const currentDate = new Date();
+
+  // Obtener el número del día de la semana (0 para domingo, 1 para lunes, etc.)
+  const currentDayOfWeek = currentDate.getDay();
+
+  // Calcular la fecha del primer día de la semana (lunes)
+  const firstDayOfWeek = new Date(currentDate);
+  firstDayOfWeek.setDate(
+    currentDate.getDate() - currentDayOfWeek + (currentDayOfWeek === 0 ? -6 : 1)
+  );
+
+  // Calcular la fecha del último día de la semana (domingo)
+  const lastDayOfWeek = new Date(currentDate);
+  lastDayOfWeek.setDate(currentDate.getDate() - currentDayOfWeek + 7);
+
+  // Filtrar las salidas por la semana actual
+  const filteredByWeek = rendiciones.filter((salida) => {
+    const createdAtDate = new Date(salida.created_at);
+    return createdAtDate >= firstDayOfWeek && createdAtDate <= lastDayOfWeek;
+  });
 
   const [eliminarModal, setEliminarModal] = useState(false);
   const [obtenerId, setObtenerId] = useState(null);
@@ -146,632 +133,66 @@ export const Rendicones = () => {
     setIsOpenModalEditar(false);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-  // Filtrar por usuario
-  const filteredResults = currentResults.filter(
-    (salida) =>
-      selectedUser === "" ||
-      salida.usuario.toLowerCase() === selectedUser.toLowerCase()
-  );
-
-  const esNegativo = Number(totalRecaudación) > 0;
-
-  // Clases para el indicador visual
-  const indicadorColor = esNegativo
-    ? "bg-green-100 text-green-800"
-    : "bg-red-100 text-red-800";
-  const porcentajeColor = esNegativo ? "text-green-600" : "text-red-600";
-
-  /////////////ADMIN//////////////
-  const itemsPerPageAdmin = 10; // Cantidad de elementos por página para administración
-  const [currentPageAdmin, setCurrentPageAdmin] = useState(1);
-
-  const sortedRendicionesMensualesAdmin = rendicionesMensualesAdmin
-    .slice()
-    .sort((a, b) => b.id - a.id);
-
-  // Calcular el índice del último y primer elemento de la página actual
-  const indexOfLastItemAdmin = currentPageAdmin * itemsPerPageAdmin;
-  const indexOfFirstItemAdmin = indexOfLastItemAdmin - itemsPerPageAdmin;
-
-  // Obtener los resultados de la página actual
-  const currentResultsAdmin = sortedRendicionesMensualesAdmin.slice(
-    indexOfFirstItemAdmin,
-    indexOfLastItemAdmin
-  );
-
-  // Calcular el número total de páginas
-  const totalPagesAdmin = Math.ceil(
-    sortedRendicionesMensualesAdmin.length / itemsPerPageAdmin
-  );
-
-  const handlePageChangeAdmin = (newPageAdmin) => {
-    setCurrentPageAdmin(newPageAdmin);
-  };
-
-  const rangeSizeAdmin = 5;
-
-  const startPageAdmin = Math.max(
-    1,
-    currentPageAdmin - Math.floor(rangeSizeAdmin / 2)
-  );
-  const endPageAdmin = Math.min(
-    totalPagesAdmin,
-    startPageAdmin + rangeSizeAdmin - 1
-  );
-
-  const [selectedUserAdmin, setSelectedUserAdmin] = useState("");
-
-  const [selectedLocalidad, setSelectedLocalidad] = useState("");
-
-  const uniqueLocalidad = Array.from(
-    new Set(
-      rendicionesMensualesAdmin.map((salida) => salida.localidad.toLowerCase())
-    )
-  );
-
-  const filteredResultsAdmin = currentResultsAdmin.filter(
-    (salida) =>
-      (selectedUser === "" || salida.usuario.toLowerCase() === selectedUser) &&
-      (selectedLocalidad === "" ||
-        salida.localidad.toLowerCase() === selectedLocalidad.toLowerCase())
-  );
-
-  // Obtener lista de usuarios únicos
-  const uniqueUsersAdmin = Array.from(
-    new Set(
-      sortedRendicionesMensualesAdmin.map((rendicion) =>
-        rendicion.usuario.toLowerCase()
-      )
-    )
-  );
-
-  const totalRecaudaciónAdmin = rendicionesMensualesAdmin.reduce(
+  const totalCobroRendicionesFinal = filteredData.reduce(
     (total, item) => total + parseFloat(item.rendicion_final),
-
     0
   );
 
-  const esNegativoAdmin = Number(totalRecaudaciónAdmin) > 0;
-
-  // Clases para el indicador visual
-  const indicadorColorAdmin = esNegativoAdmin
-    ? "bg-green-100 text-green-800"
-    : "bg-red-100 text-red-800";
-  const porcentajeColorAdmin = esNegativoAdmin
-    ? "text-green-600"
-    : "text-red-600";
-
-  return user.localidad === "admin" ? (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-full max-md:gap-5">
+  return (
+    <section className="w-full h-full  max-w-full max-h-full min-h-screen">
       <ToastContainer />
 
-      <div>
-        <p className="font-bold text-2xl text-slate-600">
-          Bienvenido{" "}
-          <span className="capitalize text-green-500/90 underline">
-            {user.username}
-          </span>{" "}
-          a la parte de Rendiciones del mes 🖐️.
-        </p>
-      </div>
-
-      <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article
-          className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer`}
-        >
-          <div
-            className={`inline-flex gap-2 self-end rounded-2xl bg-green-500/90 text-white p-3`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={
-                  esNegativoAdmin
-                    ? "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                    : "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                }
-              />
-            </svg>
-            <span className="text-xs font-medium">
-              {Number(totalRecaudaciónAdmin % 100).toFixed(2)} %
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-slate-500 max-md:text-xs">
-              Total en rendiciones del mes
-            </strong>
-
-            <p>
-              <span
-                className={`text-2xl text-slate-600 font-bold max-md:text-base`}
-              >
-                {Number(totalRecaudaciónAdmin).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-2.5 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">{nombreMesActual}</span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Fecha Actual
-            </strong>
-
-            <p>
-              <span className="text-2xl font-bold text-gray-900 max-md:text-base">
-                {nombreMesActual}
-              </span>
-
-              <span className="text-xs text-gray-500 ml-3">
-                {" "}
-                Dia {nombreDiaActual}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded-2xl bg-green-500/90 p-3 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-bold">
-              {" "}
-              {Number(rendicionesMensualesAdmin.length % 100).toFixed(2)} %{" "}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total rendiciones
-            </strong>
-
-            <p>
-              <span className="text-2xl font-bold text-gray-900 max-md:text-base">
-                {rendicionesMensualesAdmin.length}
-              </span>
-
-              <span className="text-xs text-gray-500 ml-2">
-                {" "}
-                Total rendiciones {rendicionesMensualesAdmin.length}{" "}
-              </span>
-            </p>
-          </div>
-        </article>
-      </div>
-      <div className="flex">
+      <div className="bg-white mb-4 h-10 flex">
         <Link
-          to={"/rendiciones-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase  text-sm"
+          to={"/"}
+          className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
         >
-          Ver rendiciones/filtar por mes
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-            />
-          </svg>
+          Inicio
+        </Link>{" "}
+        <Link
+          to={"/rendiciones"}
+          className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white"
+        >
+          Rendiciones
         </Link>
       </div>
-
-      <div className="flex gap-2 items-center w-1/2 max-md:w-full">
-        <div className="py-2 px-4 max-md:text-sm border-slate-300 border-[1px] shadow rounded-xl w-full bg-white">
-          <select
-            value={selectedLocalidad}
-            onChange={(e) => setSelectedLocalidad(e.target.value)}
-            className="outline-none text-slate-600 bg-white w-full uppercase"
-          >
-            <option className="uppercase" value="">
-              Seleccionar Usuario/localidad...
-            </option>
-            {uniqueLocalidad.map((user) => (
-              <option className="uppercase" key={user} value={user}>
-                {user}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full bg-white max-md:text-sm">
-          <select
-            value={selectedUserAdmin}
-            onChange={(e) => setSelectedUserAdmin(e.target.value)}
-            className="outline-none text-slate-600 bg-white w-full uppercase"
-          >
-            <option value="">Seleccionar usuario...</option>
-            {uniqueUsersAdmin.map((user) => (
-              <option key={user} value={user}>
-                {user}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
-          Datos Registrados
-        </div>
-        <div className="rounded-xl border-[1px] border-slate-300 shadow max-md:hidden bg-white">
-          <table className="w-full divide-y-2 divide-gray-200 text-sm">
-            <thead className="text-left">
-              <tr>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Numero
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Creador
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Usuario/localidad
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Usuario/Fabrica/Sucursal
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Detalle/clientes/etc
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Armador/Entrega{" "}
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Fecha de creación
-                </th>
-                <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                  Rendicion total
-                </th>
-
-                <th className="px-1 py-4  text-slate-800 font-bold uppercase">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="divide-y divide-gray-200">
-              {filteredResultsAdmin.map((s) => (
-                <tr key={s.id}>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {s.id}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                    {s.usuario}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                    {s.localidad}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                    {s.sucursal}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {s.detalle}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {s.armador}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                    {formatDate(s.created_at)}
-                  </td>
-                  <td className={`px-4 py-3 font-bold`}>
-                    <div className="flex">
-                      <p className="text-white bg-green-500/90 py-2 px-5 rounded-full">
-                        {Number(s.rendicion_final).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
-                    <div className="flex">
-                      <Link
-                        to={`/rendicion/${s.id}`}
-                        className="bg-white border py-2 px-4 rounded-2xl hover:shadow transition-all"
-                      >
-                        {/* Ver Recaudación */}
-
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {totalPagesAdmin > 1 && (
-        <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
-          <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-            onClick={() => handlePageChangeAdmin(currentPageAdmin - 1)}
-            disabled={currentPageAdmin === 1}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5 8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-          {Array.from({ length: endPageAdmin - startPageAdmin + 1 }).map(
-            (_, index) => (
-              <button
-                key={index}
-                className={`mx-1 px-3 py-1 rounded ${
-                  currentPage === startPage + index
-                    ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
-                    : "bg-gray-100 shadow shadow-black/20 text-sm"
-                }`}
-                onClick={() => handlePageChangeAdmin(startPageAdmin + index)}
-              >
-                {startPageAdmin + index}
-              </button>
-            )
-          )}
-          <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-            onClick={() => handlePageChangeAdmin(currentPageAdmin + 1)}
-            disabled={currentPageAdmin === totalPagesAdmin}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m8.25 4.5 7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
-    </section>
-  ) : (
-    <section className="w-full h-full px-12 max-md:px-4 flex flex-col gap-10 py-16 max-h-full min-h-screen max-md:gap-5">
-      <ToastContainer />
-      <div>
-        <p className="font-bold text-2xl text-slate-600 max-md:text-lg max-md:text-center text-justify">
-          Bienvenido{" "}
-          <span className="capitalize text-green-500/90 underline">
-            {user.username}
-          </span>{" "}
-          a la parte de rendiciones mensuales 🖐️.
+      <div className="mx-5 my-10 bg-white py-6 px-6">
+        <p className="font-bold text-blue-500 text-xl">
+          Crea tus rendiciones en esta sección y lleva el control de ellas.
         </p>
       </div>
-      <div className="uppercase grid grid-cols-4 gap-3 mb-6 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0">
-        <article
-          className={`flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow-md transition-all ease-linear bg-white p-6 max-md:p-3 max-md:rounded-xl cursor-pointer`}
-        >
-          <div
-            className={`inline-flex gap-2 self-end rounded ${indicadorColor} p-1`}
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+        <div className="dropdown dropdown-bottom">
+          <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
+            Ver estadisticas de las rendiciones
+          </button>
+          <ul
+            tabIndex={0}
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={
-                  esNegativo
-                    ? "M11 17l-8-8m0 0v8m0-8h8m13 0h-8m0 0v8"
-                    : "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                }
-              />
-            </svg>
-            <span className="text-xs font-medium">
-              {Number(totalRecaudación / 10000).toFixed(2)} %
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-slate-500 max-md:text-xs">
-              Total en rendiciones del mes
-            </strong>
-
-            <p>
-              <span
-                className={`text-2xl font-medium ${porcentajeColor} max-md:text-base`}
-              >
-                {Number(totalRecaudación).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                ultima rendición del día, el total es de{" "}
-                {Number(ultimaVentaDelDia?.recaudacion || 0).toLocaleString(
-                  "es-AR",
-                  {
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en rendiciones del mes.
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  {totalCobroRendicionesFinal.toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
-                    minimumIntegerDigits: 2,
-                  }
-                )}{" "}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">{nombreMesActual}</span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Fecha Actual
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
-                {nombreMesActual}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Dia {nombreDiaActual}
-              </span>
-            </p>
-          </div>
-        </article>
-
-        <article className="flex flex-col gap-4 rounded-2xl border border-slate-200 hover:shadow transition-all ease-linear bg-white p-6 max-md:p-3">
-          <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              />
-            </svg>
-
-            <span className="text-xs font-medium">
-              {" "}
-              {Number(rendicionesMensuales.length / 100).toFixed(2)} %{" "}
-            </span>
-          </div>
-
-          <div>
-            <strong className="block text-sm font-medium text-gray-500 max-md:text-xs">
-              Total rendiciones
-            </strong>
-
-            <p>
-              <span className="text-2xl font-medium text-gray-900 max-md:text-base">
-                {rendicionesMensuales.length}
-              </span>
-
-              <span className="text-xs text-gray-500">
-                {" "}
-                Total rendiciones {rendicionesMensuales.length}{" "}
-              </span>
-            </p>
-          </div>
-        </article>
+                  })}
+                </p>
+              </div>
+            </div>
+          </ul>
+        </div>
       </div>
 
-      <div className="flex gap-5 max-md:gap-2">
+      <div className="flex max-md:flex-col max-md:gap-2 max-md:items-start gap-5 mx-5 my-5 bg-white py-4 px-5">
         <Link
           onClick={() => openModal()}
-          className="bg-black py-3 px-6 rounded-xl text-white flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase  text-sm"
+          className="bg-orange-400 hover:bg-blue-500 transition-all flex py-1.5 px-4 rounded-full text-white font-semibold text-sm gap-2 items-center"
         >
-          Crear rendicion
+          Crear nueva rendición
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -787,148 +208,62 @@ export const Rendicones = () => {
             />
           </svg>
         </Link>
-
-        <Link
-          to={"/rendiciones-registradas"}
-          className="bg-white border-slate-300 border-[1px] py-3 px-6 rounded-xl text-blacks flex gap-2 items-center max-md:text-sm max-md:py-2 max-md:px-2 uppercase  text-sm"
-        >
-          Ver rendiciones
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-            />
-          </svg>
-        </Link>
       </div>
 
-      <div className="flex gap-2 items-center w-1/4 max-md:w-full">
-        <div className="py-2 px-4 border-slate-300 border-[1px] shadow rounded-xl w-full bg-white max-md:text-sm">
+      <div className="flex gap-2 items-center w-2/3 max-md:w-full max-md:flex-col my-5 mx-5">
+        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
+          <input
+            value={searchTermCliente}
+            onChange={handleSearchClienteChange}
+            type="text"
+            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
+            placeholder="Buscar por cliente"
+          />
+          <FaSearch className="text-blue-500" />
+        </div>
+        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer">
           <select
             value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}
+            onChange={handleUserChange}
             className="outline-none text-slate-600 bg-white w-full uppercase"
           >
-            <option value="">Seleccionar usuario...</option>
+            <option className="uppercase font-bold text-orange-400" value="">
+              Seleccionar usuario...
+            </option>
             {uniqueUsers.map((user) => (
-              <option key={user} value={user}>
+              <option
+                className="uppercase font-semibold"
+                key={user}
+                value={user}
+              >
                 {user}
               </option>
             ))}
           </select>
         </div>
-      </div>
-
-      <div className="max-md:block md:hidden">
-        <div className="font-bold text-base text-slate-600 uppercase underline pb-3">
-          Datos Registrados
+        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
+          <input
+            value={fechaInicio}
+            onChange={handleFechaInicioChange}
+            type="date"
+            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
+            placeholder="Fecha de inicio"
+          />
         </div>
-        <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
-          {filteredResults.map((datos) => (
-            <div className="border-slate-300 shadow border-[1px] py-3 px-3 rounded-xl flex justify-between gap-2">
-              <div className="flex flex-col gap-1">
-                <p className="text-xs font-bold uppercase">
-                  Numero: {datos.id}
-                </p>
-                <div className="flex flex-col items-start gap-1">
-                  <p className="font-bold text-xs uppercase">Rendición total</p>
-                  <p
-                    className={`font-bold text-xs uppercase text-${
-                      datos.rendicion_final >= 0 ? "green" : "red"
-                    }-600`}
-                  >
-                    {Number(datos.rendicion_final).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2 w-full items-end h-[80px] overflow-y-scroll">
-                <button
-                  onClick={() => {
-                    handleId(datos.id), openEliminar();
-                  }}
-                  type="button"
-                  className="bg-red-100 py-2 px-2 text-center rounded-xl text-red-800 flex items-center gap-2"
-                >
-                  <span className="text-xs">ELIMINAR</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                </button>
-                <Link
-                  onClick={() => {
-                    handleID(datos.id), openModalDos();
-                  }}
-                  className="bg-green-500 py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
-                >
-                  <span className="text-xs">EDITAR</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                    />
-                  </svg>
-                </Link>
-
-                <Link
-                  to={`/rendicion/${datos.id}`}
-                  className="bg-black py-2 px-2 text-center rounded-xl text-white flex items-center gap-2"
-                >
-                  <span className="text-xs">ELIMINAR</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                    />
-                  </svg>
-                </Link>
-              </div>{" "}
-            </div>
-          ))}
+        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
+          <input
+            value={fechaFin}
+            onChange={handleFechaFinChange}
+            type="date"
+            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
+            placeholder="Fecha fin"
+          />
         </div>
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white rounded-xl border-[1px] border-slate-300 shadow max-md:hidden">
-        <table className="w-full divide-y-2 divide-gray-200 text-sm">
+      <div className="bg-white mx-5 my-5">
+        <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
@@ -960,9 +295,9 @@ export const Rendicones = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {filteredResults.map((s) => (
+            {filteredData.map((s) => (
               <tr key={s.id}>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.id}
                 </td>
                 <td className="px-4 py-3 font-bold text-gray-900 uppercase">
@@ -971,19 +306,19 @@ export const Rendicones = () => {
                 <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.sucursal}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.detalle}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
                   {s.armador}
                 </td>
-                <td className="px-4 py-3 font-medium text-gray-900 uppercase">
-                  {formatDate(s.created_at)}
+                <td className="px-4 py-3 font-bold text-gray-900 uppercase">
+                  {s.created_at.split("T")[0]}
                 </td>
                 <td
                   className={`px-4 py-3 font-bold text-${
-                    s.rendicion_final >= 0 ? "green" : "red"
-                  }-600 uppercase`}
+                    s.rendicion_final >= 0 ? "blue" : "red"
+                  }-500 uppercase`}
                 >
                   {Number(s.rendicion_final).toLocaleString("es-AR", {
                     style: "currency",
@@ -991,12 +326,12 @@ export const Rendicones = () => {
                     minimumIntegerDigits: 2,
                   })}
                 </td>
-                <td className="px-1 py-3 font-medium text-gray-900 uppercase w-[150px] cursor-pointer space-x-2 flex">
+                <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer space-x-2 flex">
                   <div className="dropdown dropdown-left">
                     <div
                       tabIndex={0}
                       role="button"
-                      className="btn bg-white border-none shadow-none hover:bg-orange-100 hover:rounded-xl m-1"
+                      className="bg-blue-500 py-2 px-2 rounded-full text-white m-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1004,7 +339,7 @@ export const Rendicones = () => {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-6 h-6"
+                        className="w-5 h-5"
                       >
                         <path
                           strokeLinecap="round"
@@ -1015,7 +350,7 @@ export const Rendicones = () => {
                     </div>
                     <ul
                       tabIndex={0}
-                      className="dropdown-content z-[1] menu p-2 shadow-md border-[1px] border-slate-200 bg-base-100 rounded-box w-52"
+                      className="font-bold text-xs dropdown-content z-[1] menu p-2 shadow-md border-[1px] border-slate-200 bg-base-100 rounded-box w-52"
                     >
                       <li>
                         <button
@@ -1037,11 +372,11 @@ export const Rendicones = () => {
                           Eliminar
                         </button>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link className="capitalize" to={`/rendicion/${s.id}`}>
                           Ver la rendición
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </td>
@@ -1050,64 +385,6 @@ export const Rendicones = () => {
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && (
-        <div className="flex flex-wrap justify-center mt-4 mb-4 gap-1">
-          <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5 8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-          {Array.from({ length: endPage - startPage + 1 }).map((_, index) => (
-            <button
-              key={index}
-              className={`mx-1 px-3 py-1 rounded ${
-                currentPage === startPage + index
-                  ? "bg-orange-500 hover:bg-white hover:text-black transition-all ease-in-out text-white shadow shadow-black/20 text-sm"
-                  : "bg-gray-100 shadow shadow-black/20 text-sm"
-              }`}
-              onClick={() => handlePageChange(startPage + index)}
-            >
-              {startPage + index}
-            </button>
-          ))}
-          <button
-            className="mx-1 px-3 py-1 rounded bg-gray-100 shadow shadow-black/20 text-sm flex gap-1 items-center hover:bg-orange-500 transiton-all ease-in duration-100 hover:text-white"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m8.25 4.5 7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
 
       <ModalCrearRendicion isOpen={isOpenModal} closeModal={closeModal} />
 

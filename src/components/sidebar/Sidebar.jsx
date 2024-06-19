@@ -11,6 +11,8 @@ import {
   CiSettings,
   CiViewList,
 } from "react-icons/ci";
+import { FaDatabase, FaTruckMoving, FaWallet } from "react-icons/fa6";
+import { FaFileAlt, FaMoneyBillWaveAlt, FaThList } from "react-icons/fa";
 
 export const SideBar = () => {
   const { user } = useAuth();
@@ -26,19 +28,19 @@ export const SideBar = () => {
     <div
       className={`${
         isOpen ? "w-64 opacity-1" : "w-16 opacity-1"
-      } transition-all ease-linear flex flex-col bg-white min-h-[220vh] max-h-full h-full z-[100] border-r max-md:hidden`}
+      } transition-all ease-linear flex flex-col bg-white z-[100] border-r max-md:hidden`}
     >
       {/* Botón de menú */}
       <div
         className={`${
           isOpen ? "flex justify-between" : ""
-        } transition-all ease-linear duration-300 py-3 px-4 border-b-[2px] border-slate-300`}
+        } transition-all ease-linear duration-300 py-3 px-4 border-b-[2px] border-blue-500`}
       >
-        <button className="text-3xl text-gray-500" onClick={handleToggle}>
+        <button className="text-3xl text-blue-500" onClick={handleToggle}>
           {isOpen ? <IoCloseOutline /> : <IoMenuOutline />}
         </button>
         {isOpen && (
-          <p className="bg-gray-500 py-1 px-2 rounded-xl text-sm text-white capitalize">
+          <p className="bg-orange-500 py-1 px-2 rounded-xl text-sm font-semibold text-white capitalize">
             {user?.username}
           </p>
         )}
@@ -49,7 +51,7 @@ export const SideBar = () => {
             to={"/"}
             className={`${
               location.pathname === "/" ? "bg-gray-100" : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-gray-700 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Inicio/estadistica/compras
           </Link>
@@ -58,7 +60,7 @@ export const SideBar = () => {
             to={"/salidas"}
             className={`${
               location.pathname === "/salidas" ? "bg-gray-100" : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas salidas/ver/editar
           </Link>
@@ -68,7 +70,7 @@ export const SideBar = () => {
               location.pathname === "/remuneraciones"
                 ? "bg-gray-100"
                 : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas remuneraciones/ver/editar
           </Link>
@@ -76,7 +78,7 @@ export const SideBar = () => {
             to={"/legales"}
             className={`${
               location.pathname === "/legales" ? "bg-gray-100" : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
@@ -84,7 +86,7 @@ export const SideBar = () => {
             to={"/rendiciones"}
             className={`${
               location.pathname === "/rendiciones" ? "bg-gray-100" : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
@@ -92,7 +94,7 @@ export const SideBar = () => {
             to={"/estadistica"}
             className={`${
               location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
-            } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
           >
             Filtrar estadisticas del mes
           </Link>
@@ -101,7 +103,7 @@ export const SideBar = () => {
               to={"/cuentas"}
               className={`${
                 location.pathname === "/cuentas" ? "bg-gray-100" : "bg-none"
-              } hover:text-gray-700 text-gray-700 text-sm transition-all py-3 px-3`}
+              } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
             >
               Crear cuentas/editar/administrar
             </Link>
@@ -116,11 +118,11 @@ export const SideBar = () => {
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="INICIO/ESTADISTICAS/ETC"
               >
                 <Link to={"/"}>
-                  <CiHome className="text-3xl text-gray-700" />
+                  <FaDatabase className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
@@ -133,11 +135,11 @@ export const SideBar = () => {
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="SALIDAS/CREAR/EDITAR"
               >
                 <Link to={"/salidas"}>
-                  <CiViewList className="text-3xl text-gray-700" />
+                  <FaTruckMoving className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
@@ -152,11 +154,11 @@ export const SideBar = () => {
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="CREAR REMUNERACIONES/VER/EDITAR"
               >
                 <Link to={"/remuneraciones"}>
-                  <CiMoneyBill className="text-3xl text-gray-700" />
+                  <FaMoneyBillWaveAlt className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
@@ -169,11 +171,11 @@ export const SideBar = () => {
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="CREAR NUEVAS ORDENES LEGALES/EDITAR/VER"
               >
                 <Link to={"/legales"}>
-                  <CiMemoPad className="text-3xl text-gray-700" />
+                  <FaFileAlt className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
@@ -186,32 +188,32 @@ export const SideBar = () => {
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="CREAR NUEVAS RENDICIONES EDITAR/VER"
               >
                 <Link to={"/rendiciones"}>
-                  <CiBag1 className="text-3xl text-gray-700" />
+                  <FaWallet className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
           </div>
 
-          <div
+          {/* <div
             className={`${
               location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
-                className="tooltip tooltip-right"
+                className="tooltip tooltip-right font-bold"
                 data-tip="FILTRAR ESTADISTICAS MESES"
               >
                 <Link to={"/estadistica"}>
-                  <CiAlignBottom className="text-3xl text-gray-700" />
+                  <FaThList className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {user.localidad === "admin" && (
             <div
@@ -225,7 +227,7 @@ export const SideBar = () => {
                   data-tip="REGISTRAR USUARIOS/EDITARLOS/ETC"
                 >
                   <Link to={"/cuentas"}>
-                    <CiSettings className="text-3xl text-gray-700" />
+                    <CiSettings className="text-3xl text-blue-600" />
                   </Link>
                 </div>
               </div>

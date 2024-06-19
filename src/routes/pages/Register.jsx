@@ -11,11 +11,7 @@ export const Register = () => {
 
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
     const user = await signup(data);
@@ -39,7 +35,10 @@ export const Register = () => {
           <div>
             <div className="flex flex-col gap-1">
               {error?.map((e) => (
-                <span className="bg-red-500/10 rounded-lg px-2 py-1 text-red-600 text-sm border-[1px] border-red-500/30">
+                <span
+                  key={e}
+                  className="bg-red-500/10 rounded-lg px-2 py-1 text-red-600 text-sm border-[1px] border-red-500/30"
+                >
                   {e}
                 </span>
               ))}
@@ -81,15 +80,6 @@ export const Register = () => {
             type={"localidad"}
           />
         </div>
-
-        {/* <div className="flex flex-col gap-2">
-          <Label label="Rol" />
-          <Input
-            register={register}
-            placeholder={"1 admin - 2 user"}
-            type={"role_id"}
-          />
-        </div> */}
 
         <div className="flex flex-col gap-2">
           <Label label="Contraseña" />

@@ -4,14 +4,14 @@ import { toast } from "react-toastify";
 import { useRemuneracionContext } from "../../context/RemuneracionesProvider";
 import client from "../../api/axios";
 import io from "socket.io-client";
+import { IoIosAlert } from "react-icons/io";
 
 export const ModalEliminarRecaudacion = ({
   eliminarModal,
   closeEliminar,
   obtenerId,
 }) => {
-  const { remuneracionesMensuales, setRemuneracionesMensuales } =
-    useRemuneracionContext();
+  const { setRemuneraciones } = useRemuneracionContext();
 
   const [socket, setSocket] = useState(null);
 
@@ -22,10 +22,8 @@ export const ModalEliminarRecaudacion = ({
 
     setSocket(newSocket);
 
-    newSocket.on("eliminar-remuneracion", (salidaEliminada) => {
-      setRemuneracionesMensuales((prevSalidas) =>
-        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
-      );
+    newSocket.on("eliminar-remuneracion", (nuevaSalida) => {
+      setRemuneraciones(nuevaSalida);
     });
 
     return () => newSocket.close();
@@ -35,7 +33,7 @@ export const ModalEliminarRecaudacion = ({
     const res = await client.delete(`/remuneraciones/${id}`);
 
     if (socket) {
-      socket.emit("eliminar-remuneracion", { id });
+      socket.emit("eliminar-remuneracion", res.data);
     }
 
     toast.error("¡Eliminado correctamente!", {
@@ -108,48 +106,33 @@ export const ModalEliminarRecaudacion = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="max-md:w-full inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="flex justify-end cursor-pointer">
-                  <p
-                    onClick={closeEliminar}
-                    className="text-red-700 bg-red-100 py-2 px-2 rounded-xl"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18 18 6M6 6l12 12"
-                      />
-                    </svg>
+              <div className="inline-block w-1/4 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
+                <div className="flex justify-center flex-col gap-2 items-center">
+                  <IoIosAlert className="text-yellow-400 text-9xl py-1" />
+
+                  <p className="text-3xl text-yellow-500">¡Espera! ✋</p>
+
+                  <p className="font-light text-sm mt-2">
+                    ¿Estas seguro de eliminar la remuneración? No podras
+                    recuperarla una vez eliminada.
                   </p>
-                </div>
 
-                <div className="font-bold uppercase max-md:text-sm max-md:uppercase text-sm text-slate-700 mb-3 border-b-[1px]">
-                  Elimar la remuneracion
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEliminarChofer(obtenerId)}
-                    className="bg-red-100 text-red-800 py-2 px-4 rounded-xl w-full max-md:text-sm"
-                    type="button"
-                  >
-                    ELIMINAR
-                  </button>
-                  <button
-                    onClick={closeEliminar}
-                    className="bg-green-500 text-white py-2 px-4 rounded-xl w-full max-md:text-sm"
-                    type="button"
-                  >
-                    CERRAR
-                  </button>
+                  <div className="mt-3 flex items-center justify-between gap-5">
+                    <button
+                      onClick={closeEliminar}
+                      className="text-sm font-bold text-gray-400 hover:bg-gray-300 py-2 px-4 rounded-full hover:text-gray-600"
+                      type="button"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      className="text-base font-bold text-white bg-orange-500 hover:bg-orange-600 py-2 px-6 rounded-full hover:text-white"
+                      type="button"
+                      onClick={() => handleEliminarChofer(obtenerId)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
               </div>
             </Transition.Child>

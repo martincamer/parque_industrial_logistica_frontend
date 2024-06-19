@@ -5,6 +5,7 @@ import client from "../../api/axios";
 
 export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
   const [salida, setSalida] = useState([]);
+
   useEffect(() => {
     async function loadData() {
       const res = await client.get(`/salidas/${obtenerId}`);
@@ -62,57 +63,49 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl  max-md:hidden">
-                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
+              <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none max-md:hidden">
+                <div className="text-sm font-bold text-blue-500 mb-3 border-b-2 border-blue-500 uppercase">
                   Cliente y localidad obtenida
                 </div>
 
                 <div className="flex flex-col gap-1">
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
-                    Chofer de viaje{" "}
-                    <span className="font-normal underline">
-                      {salida.chofer}
-                    </span>
+                    Chofer de viaje
+                    <span className="font-medium">{salida.chofer}</span>
                   </p>
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
-                    Armador{" "}
-                    <span className="font-normal underline">
-                      {salida.armadores}
-                    </span>
+                    Armador
+                    <span className="font-medium">{salida.armadores}</span>
                   </p>
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
-                    Salida{" "}
-                    <span className="font-normal underline">
-                      {salida.salida}
-                    </span>
+                    Salida
+                    <span className="font-medium">{salida.salida}</span>
                   </p>
                 </div>
 
                 <div className="mt-2">
-                  <p className="uppercase text-sm mb-1 font-bold text-orange-500 underline px-3">
-                    Clientes
-                  </p>
+                  <div className="flex">
+                    <p className="uppercase text-base border-b-2 border-orange-500 mb-3 font-bold text-orange-500">
+                      Clientes
+                    </p>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {salida?.datos_cliente?.datosCliente?.map((s) => (
-                    <div className="border-slate-300 border-[1px] hover:shadow-md transition-all py-2 px-3 rounded-xl">
+                    <div
+                      key={s.id}
+                      className="border-blue-500 border transition-all py-2 px-3"
+                    >
                       <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
-                        Cliente{" "}
-                        <span className="font-normal underline">
-                          {s.cliente}
-                        </span>
+                        Cliente <span className="font-medium">{s.cliente}</span>
                       </p>
                       <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                         Numero de contrato{" "}
-                        <span className="font-normal underline">
-                          {s.numeroContrato}
-                        </span>
+                        <span className="font-medium">{s.numeroContrato}</span>
                       </p>
                       <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                         Localidad{" "}
-                        <span className="font-normal underline">
-                          {s.localidad}
-                        </span>
+                        <span className="font-medium">{s.localidad}</span>
                       </p>
                     </div>
                   ))}
@@ -121,7 +114,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                 <div className="mt-2">
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                     Total Control{" "}
-                    <span className="font-normal">
+                    <span className="font-medium">
                       {Number(salida.total_control).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
@@ -131,7 +124,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                   </p>
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                     Total Fletes{" "}
-                    <span className="font-normal">
+                    <span className="font-medium">
                       {Number(salida.total_flete).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
@@ -141,7 +134,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                   </p>
                   <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                     Total Viaticos{" "}
-                    <span className="font-normal">
+                    <span className="font-medium">
                       {Number(salida.total_viaticos).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
@@ -227,7 +220,10 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {salida?.datos_cliente?.datosCliente?.map((s) => (
-                  <div className="border-slate-300 border-[1px] hover:shadow-md transition-all py-2 px-3 rounded-xl">
+                  <div
+                    key={s.id}
+                    className="border-slate-300 border-[1px] hover:shadow-md transition-all py-2 px-3 rounded-xl"
+                  >
                     <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
                       Cliente{" "}
                       <span className="font-normal underline">{s.cliente}</span>

@@ -4,13 +4,14 @@ import { toast } from "react-toastify";
 import { useRendicionesContext } from "../../context/RendicionesProvider";
 import client from "../../api/axios";
 import io from "socket.io-client";
+import { IoIosAlert } from "react-icons/io";
 
 export const ModalEliminarRendicion = ({
   eliminarModal,
   closeEliminar,
   obtenerId,
 }) => {
-  const { setRendicionesMensuales } = useRendicionesContext();
+  const { setRendiciones } = useRendicionesContext();
 
   const [socket, setSocket] = useState(null);
 
@@ -21,10 +22,8 @@ export const ModalEliminarRendicion = ({
 
     setSocket(newSocket);
 
-    newSocket.on("eliminar-rendicion", (salidaEliminada) => {
-      setRendicionesMensuales((prevSalidas) =>
-        prevSalidas.filter((salida) => salida.id !== salidaEliminada.id)
-      );
+    newSocket.on("eliminar-rendicion", (nuevaSalida) => {
+      setRendiciones(nuevaSalida);
     });
 
     return () => newSocket.close();
@@ -33,13 +32,8 @@ export const ModalEliminarRendicion = ({
   const handleEliminarChofer = async (id) => {
     const res = await client.delete(`/rendiciones/${id}`);
 
-    // const updatedTipos = remuneracionesMensuales.filter(
-    //   (chofer) => chofer.id !== id
-    // );
-    // setRemuneracionesMensuales(updatedTipos);
-
     if (socket) {
-      socket.emit("eliminar-rendicion", { id });
+      socket.emit("eliminar-rendicion", res.data);
     }
 
     toast.error("¡Eliminado correctamente!", {
@@ -112,36 +106,33 @@ export const ModalEliminarRendicion = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="max-md:w-full inline-block w-1/3 p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="max-md:text-sm max-md:uppercase text-lg text-slate-700 mb-3 border-b-[1px] capitalize">
-                  Elimar la rendicion
-                </div>
+              <div className="inline-block w-1/4 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
+                <div className="flex justify-center flex-col gap-2 items-center">
+                  <IoIosAlert className="text-yellow-400 text-9xl py-1" />
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEliminarChofer(obtenerId)}
-                    className="bg-red-100 text-red-800 py-2 px-4 rounded-xl w-full max-md:text-sm"
-                    type="button"
-                  >
-                    ELIMINAR
-                  </button>
-                  <button
-                    onClick={closeEliminar}
-                    className="bg-green-500 text-white py-2 px-4 rounded-xl w-full max-md:text-sm"
-                    type="button"
-                  >
-                    CERRAR
-                  </button>
-                </div>
+                  <p className="text-3xl text-yellow-500">¡Espera! ✋</p>
 
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeEliminar}
-                  >
-                    Cerrar Ventana
-                  </button>
+                  <p className="font-light text-sm mt-2">
+                    ¿Estas seguro de eliminar la rendición? No podras
+                    recuperarla una vez eliminada.
+                  </p>
+
+                  <div className="mt-3 flex items-center justify-between gap-5">
+                    <button
+                      onClick={closeEliminar}
+                      className="text-sm font-bold text-gray-400 hover:bg-gray-300 py-2 px-4 rounded-full hover:text-gray-600"
+                      type="button"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      className="text-base font-bold text-white bg-orange-500 hover:bg-orange-600 py-2 px-6 rounded-full hover:text-white"
+                      type="button"
+                      onClick={() => handleEliminarChofer(obtenerId)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
               </div>
             </Transition.Child>

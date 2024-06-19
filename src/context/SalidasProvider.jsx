@@ -19,6 +19,7 @@ export const useSalidasContext = () => {
 export const SalidasProvider = ({ children }) => {
   const [salidasMensuales, setSalidasMensuales] = useState([]);
   const [salidasMensualesAdmin, setSalidasMensualesAdmin] = useState([]);
+  const [salidas, setSalidas] = useState([]);
 
   const [choferes, setChoferes] = useState([]);
 
@@ -26,6 +27,15 @@ export const SalidasProvider = ({ children }) => {
     async function loadData() {
       const respuesta = await obtenerSalidaMensual();
       setSalidasMensuales(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/salidas");
+      setSalidas(respuesta.data);
     }
 
     loadData();
@@ -48,6 +58,8 @@ export const SalidasProvider = ({ children }) => {
         choferes,
         setChoferes,
         salidasMensualesAdmin,
+        salidas,
+        setSalidas,
       }}
     >
       {children}

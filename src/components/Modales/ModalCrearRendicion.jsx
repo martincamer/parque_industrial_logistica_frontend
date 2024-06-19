@@ -2,76 +2,12 @@ import { useEffect, useState, Fragment } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { crearRendicion } from "../../api/ingresos";
 import { useRendicionesContext } from "../../context/RendicionesProvider";
-import { useSalidasContext } from "../../context/SalidasProvider";
 import { toast } from "react-toastify";
-import client from "../../api/axios";
 import io from "socket.io-client";
 
 export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
-  const fechaActual = new Date();
+  const { setRendiciones } = useRendicionesContext();
 
-  const { setRendicionesMensuales } = useRendicionesContext();
-
-  const nombresMeses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-
-  const nombresDias = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
-  ];
-
-  const numeroDiaActual = fechaActual.getDay(); // Obtener el día del mes actual
-
-  const numeroMesActual = fechaActual.getMonth() + 1; // Obtener el mes actual
-
-  const nombreMesActual = nombresMeses[numeroMesActual - 1]; // Obtener el nombre del mes actual
-
-  const nombreDiaActual = nombresDias[numeroDiaActual]; // Obtener el nombre del día actual
-
-  //useContext
-  const { choferes, setChoferes } = useSalidasContext();
-
-  //obtenerChoferes
-  useEffect(() => {
-    async function loadData() {
-      const res = await client.get("/chofer");
-
-      setChoferes(res.data);
-    }
-
-    loadData();
-  }, []);
-
-  //daots del cliente
-  const [datosCliente, setDatosCliente] = useState([]);
-  //eliminar cliente
-  const eliminarCliente = (nombreClienteAEliminar) => {
-    // Filtrar la lista de clientes para obtener una nueva lista sin el cliente a eliminar
-    const nuevaListaClientes = datosCliente.filter(
-      (cliente) => cliente.cliente !== nombreClienteAEliminar
-    );
-    // Actualizar el estado con la nueva lista de clientes
-    setDatosCliente(nuevaListaClientes);
-  };
-
-  //estados del formulario
   const [armador, setArmador] = useState("");
   const [detalle, setDetalle] = useState("");
   const [rendicion_final, setRendicion] = useState("");
@@ -86,7 +22,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
     setSocket(newSocket);
 
     newSocket.on("crear-rendicion", (nuevaSalida) => {
-      setRendicionesMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+      setRendiciones(nuevaSalida);
     });
 
     return () => newSocket.close();
@@ -178,10 +114,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-sm text-slate-700 mb-3 border-b-[1px] font-bold uppercase">
-                  Crear nueva rendición
-                </div>
+              <div className="inline-block w-1/3 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
                 <div className="flex justify-end cursor-pointer">
                   <p
                     onClick={tres}
@@ -203,6 +136,10 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                     </svg>
                   </p>
                 </div>
+                <div className="text-lg border-blue-500 text-blue-500 mb-3 border-b-2 font-bold uppercase">
+                  Crear nueva rendición
+                </div>
+
                 <form
                   onSubmit={onSubmit}
                   className="py-5 flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
@@ -216,15 +153,15 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                     {/* datos del formulario  */}
                     <div className="flex flex-col gap-6 max-md:gap-6">
                       <div className="w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500 shadow-sm max-md:text-sm">
                           <input
                             onChange={(e) => setArmador(e.target.value)}
                             value={armador}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 px-3 text-slate-900 uppercase text-sm"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900 uppercase"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase text-blue-500 font-bold">
                             Armador
                           </span>
                         </label>
@@ -233,16 +170,16 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
 
                     <div className="flex flex-col gap-6 max-md:gap-6">
                       <div className="w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500 shadow-sm max-md:text-sm">
                           <textarea
                             onChange={(e) => setDetalle(e.target.value)}
                             value={detalle}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 uppercase text-sm px-3 text-slate-900 w-full"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 uppercase px-3 text-slate-900 w-full font-bold text-sm"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
-                            Clientes/Detlle de la rendicion
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
+                            Clientes/Detalles de la rendicion
                           </span>
                         </label>
                       </div>
@@ -256,16 +193,16 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                       </h3>
                     </div>
                     <div className="flex flex-col gap-3 max-md:w-full max-md:flex-col max-md:items-start">
-                      <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm max-md:w-full">
+                      <label className="relative block border border-blue-500 shadow-sm max-md:text-sm">
                         <span className="font-bold text-slate-500 px-3">$</span>
                         <input
                           onChange={(e) => setRendicion(e.target.value)}
                           value={rendicion_final}
                           type="text"
-                          className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900 text-sm uppercase"
+                          className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold  px-3 text-slate-900 text-sm uppercase"
                         />
 
-                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                        <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                           Total de la rendición
                         </span>
                       </label>
@@ -284,7 +221,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                   <div>
                     <button
                       type="submit"
-                      className="bg-green-100 text-green-700 rounded-xl hover:shadow py-3 px-6 max-md:text-sm uppercase text-sm flex gap-2 items-center"
+                      className="bg-blue-500 flex gap-2 items-center py-1.5 px-6 font-semibold text-sm text-white rounded-full hover:bg-orange-500 transition-all"
                     >
                       Crear nueva rendicion
                       <svg

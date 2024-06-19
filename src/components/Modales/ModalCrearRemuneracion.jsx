@@ -15,7 +15,7 @@ import io from "socket.io-client";
 export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
   const fechaActual = new Date();
 
-  const { setRemuneracionesMensuales } = useRemuneracionContext();
+  const { setRemuneraciones } = useRemuneracionContext();
 
   const nombresMeses = [
     "Enero",
@@ -135,7 +135,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
     setSocket(newSocket);
 
     newSocket.on("nueva-remuneracion", (nuevaSalida) => {
-      setRemuneracionesMensuales((prevTipos) => [...prevTipos, nuevaSalida]);
+      setRemuneraciones(nuevaSalida);
     });
 
     return () => newSocket.close();
@@ -255,7 +255,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-5/6 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-5/6 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white  rounded-none">
                 <div className="flex justify-end cursor-pointer">
                   <p
                     onClick={tres}
@@ -278,9 +278,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                   </p>
                 </div>
 
-                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Crear nueva remuneracion
+                <div className="text-xl font-bold text-blue-500 mb-5 border-b-2 border-blue-500">
+                  Crear nueva remuneración
                 </div>
+
                 {error && error.length > 0 && (
                   <div className="flex justify-center">
                     <p className="bg-red-100 py-3 px-4 text-center mb-4 rounded-2xl uppercase text-sm text-red-800 font-bold">
@@ -297,14 +298,14 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
-                      className="bg-orange-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-blue-500 px-4 text-white rounded-full font-bold text-sm py-1.5"
                     >
                       Crear choferes
                     </button>
                     <button
                       type="button"
                       onClick={() => openModalVerChofer()}
-                      className="bg-green-500 py-2 px-4 rounded-xl text-white shadow max-md:text-sm uppercase text-sm"
+                      className="bg-orange-500 px-4 text-white rounded-full font-bold text-sm py-1.5"
                     >
                       Ver choferes creados
                     </button>
@@ -317,36 +318,36 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                     </div>
                     {/* datos del formulario  */}
                     <div className="flex flex-col gap-6 max-md:gap-6">
-                      <div className="grid grid-cols-2 gap-2 w-4/5">
+                      <div className="grid grid-cols-3 gap-2 w-4/5">
                         <div className="w-full max-md:text-sm">
-                          <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:w-full">
+                          <label className="relative block rounded-xl border border-slate-300 max-md:w-full">
                             <select
                               onChange={(e) => setChofer(e.target.value)}
                               value={chofer}
                               type="text"
-                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 uppercase"
+                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-semibold text-sm  px-3 text-slate-900 uppercase w-full"
                             >
                               <option value="">Seleccionar chofer</option>
                               {choferes.map((c) => (
-                                <option>{c.chofer}</option>
+                                <option key={c.id}>{c.chofer}</option>
                               ))}
                             </select>
 
-                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                               Transportista
                             </span>
                           </label>
                         </div>
                         <div className="w-full">
-                          <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                          <label className="relative block rounded-xl border border-slate-300 max-md:text-sm">
                             <input
                               onChange={(e) => setArmador(e.target.value)}
                               value={armador}
                               type="text"
-                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 uppercase px-3 text-slate-900"
+                              className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm uppercase px-3 text-slate-900"
                             />
 
-                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                            <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                               Armador
                             </span>
                           </label>
@@ -356,7 +357,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                         <button
                           onClick={() => openModal()}
                           type="button"
-                          className="bg-green-100 text-green-700 hover:bg-green-500 hover:text-white text-sm py-3 px-4 hover:shadow rounded-xl uppercase flex gap-2 items-center"
+                          className="bg-green-500 text-white font-semibold text-sm py-1.5 rounded-full flex gap-2 items-center px-5"
                         >
                           Crear Clientes
                           <svg
@@ -407,7 +408,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                                     {datos.localidad}
                                   </td>
                                   <td className="px-4 py-2 font-medium text-gray-900 uppercase">
-                                    {datos.metrosCuadrados}
+                                    {datos.metrosCuadrados} Mts
                                   </td>
                                   <td className="px-4 py-2 text-gray-900 font-bold uppercase">
                                     {Number(datos.totalFlete).toLocaleString(
@@ -457,17 +458,17 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                         Fechas de carga/entrega
                       </h3>
                     </div>
-                    <div className="flex gap-5 w-4/5">
+                    <div className="flex gap-5 w-4/12">
                       <div className="max-md:w-full w-full">
                         <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
                           <input
                             onChange={(e) => setFechaCarga(e.target.value)}
                             value={fecha_carga}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 max-md:text-sm"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900 max-md:text-sm w-full"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Fecha de carga
                           </span>
                         </label>
@@ -478,10 +479,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setFechaEntrega(e.target.value)}
                             value={fecha_entrega}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3.5  px-3 text-slate-900 max-md:text-sm"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900 max-md:text-sm w-full"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Fecha de entrega
                           </span>
                         </label>
@@ -515,17 +516,17 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                     <div className="grid grid-cols-2 gap-5">
                       <div className="grid grid-cols-2 gap-2 items-center">
                         <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
-                          <span className="font-bold text-slate-500 px-3">
+                          {/* <span className="font-bold text-slate-500 px-3">
                             $
-                          </span>
+                          </span> */}
                           <input
                             onChange={(e) => setKmLineal(e.target.value)}
                             value={km_lineal}
                             type="text"
-                            className="max-md:w-full peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3 px-3 text-slate-900"
+                            className="max-md:w-full peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Total KM lineal
                           </span>
                         </label>
@@ -544,10 +545,9 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setPagoFletero(e.target.value)}
                             value={pago_fletero_espera}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900"
                           />
-
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Pago fletero + espera
                           </span>
                         </label>
@@ -571,10 +571,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setViaticos(e.target.value)}
                             value={viaticos}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Total en viaticos
                           </span>
                         </label>
@@ -598,10 +598,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setAuto(e.target.value)}
                             value={auto}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Total Auto
                           </span>
                         </label>
@@ -625,10 +625,10 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                             onChange={(e) => setRefuerzo(e.target.value)}
                             value={refuerzo}
                             type="text"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-3  px-3 text-slate-900"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900"
                           />
 
-                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase">
+                          <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
                             Total refuerzo
                           </span>
                         </label>
@@ -645,7 +645,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                     </div>
 
                     <div className="flex">
-                      <div className="flex max-md:flex-col max-md:w-full max-md:gap-1 max-md:py-1 max-md:items-start gap-3 bg-white border-[1px] border-slate-300 shadow py-4 px-4 rounded-xl mt-5 items-center">
+                      <div className="flex max-md:flex-col max-md:w-full max-md:gap-1 max-md:py-1 max-md:items-start gap-3 bg-white border border-blue-500 py-4 px-4 mt-5 items-center">
                         <span className="font-bold text-slate-700 max-md:text-sm max-md:uppercase uppercase text-sm">
                           Recaudación final
                         </span>
@@ -658,8 +658,8 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                               auto -
                               refuerzo <
                             0
-                              ? "text-red-500 font-bold text-lg"
-                              : "text-green-500 font-bold text-lg"
+                              ? "text-red-600 font-bold"
+                              : "text-blue-500 font-bold"
                           }
                         >
                           {Number(
@@ -681,7 +681,7 @@ export const ModalCrearRemuneracion = ({ isOpen: dos, closeModal: tres }) => {
                   <div>
                     <button
                       type="submit"
-                      className="bg-green-100 text-green-700 rounded-xl hover:shadow-md py-3 uppercase text-sm hover:bg-green-500 hover:text-white px-6 max-md:text-sm transition-all ease-linear flex gap-2 items-center"
+                      className="flex items-center font-bold py-2 px-4  rounded-full bg-blue-500 text-white gap-2 text-sm hover:bg-orange-500 transition-all"
                     >
                       Crear nueva remuneracion
                       <svg

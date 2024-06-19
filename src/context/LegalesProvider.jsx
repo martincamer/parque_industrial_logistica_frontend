@@ -69,6 +69,7 @@ export const LegalesProvider = ({ children }) => {
         legalesReal,
         legalesAdmin,
         legalesMensualesAdmin,
+        setLegalesReal,
       }}
     >
       {children}

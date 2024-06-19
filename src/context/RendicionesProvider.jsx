@@ -45,7 +45,7 @@ export const RendicionesProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadData() {
-      const respuesta = await client.get("/rendicion");
+      const respuesta = await client.get("/rendiciones");
 
       setRendiciones(respuesta.data);
     }
@@ -71,6 +71,7 @@ export const RendicionesProvider = ({ children }) => {
         rendiciones,
         rendicionesAdmin,
         rendicionesMensualesAdmin,
+        setRendiciones,
       }}
     >
       {children}

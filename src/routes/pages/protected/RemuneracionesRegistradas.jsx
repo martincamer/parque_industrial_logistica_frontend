@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { ModalEliminar } from "../../../components/Modales/ModalEliminar";
-import { ToastContainer } from "react-toastify";
 import { SyncLoader } from "react-spinners";
 import client from "../../../api/axios";
-import * as XLSX from "xlsx";
 import { ModalEditarRemuneracion } from "../../../components/Modales/ModalEditarRemuneracion";
 import { useAuth } from "../../../context/AuthProvider";
+import * as XLSX from "xlsx";
 
 export const RemuneracionesRegistradas = () => {
   const { user } = useAuth();

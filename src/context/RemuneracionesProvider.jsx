@@ -70,6 +70,7 @@ export const RemuneracionProvider = ({ children }) => {
         remuneraciones,
         remuneracionesAdmin,
         remuneracionesMensualesAdmin,
+        setRemuneraciones,
       }}
     >
       {children}
