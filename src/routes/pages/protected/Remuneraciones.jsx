@@ -270,7 +270,7 @@ export const Remuneraciones = () => {
                   Total viviendas entregadas/contratos.
                 </p>
                 <p className="font-bold text-lg text-blue-500 text-center">
-                  {totalContratosEntregados?.toFixed(2)}
+                  {totalContratosEntregados}
                 </p>
               </div>
               <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
