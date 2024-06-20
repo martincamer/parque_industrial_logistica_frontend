@@ -89,7 +89,7 @@ export const ModalCrearCliente = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-[500px] max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-[500px] max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
                 <div className="flex justify-end cursor-pointer">
                   <p
                     onClick={closeModal}
@@ -123,7 +123,7 @@ export const ModalCrearCliente = ({
                       value={cliente}
                       placeholder="@NOMBRE Y APELLIDO DEL CLIENTE"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -134,7 +134,7 @@ export const ModalCrearCliente = ({
                       value={localidad}
                       placeholder="Ej: Venado Tuerto, Santa Fe"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -145,7 +145,7 @@ export const ModalCrearCliente = ({
                       value={numeroContrato}
                       placeholder="123-500"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -156,7 +156,7 @@ export const ModalCrearCliente = ({
                         handleCliente();
                         closeModal();
                       }}
-                      className="bg-orange-500 text-sm text-white rounded-xl py-2 px-4 shadow uppercase max-md:text-sm"
+                      className="py-1.5 px-6 bg-blue-500 hover:bg-orange-500 text-white transition-all rounded-full font-semibold text-sm"
                     >
                       Crear nuevo cliente
                     </button>

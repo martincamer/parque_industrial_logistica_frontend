@@ -360,7 +360,7 @@ export const Remuneraciones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white mx-5 my-5">
+      <div className="bg-white mx-5 my-5 mb-20">
         <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>

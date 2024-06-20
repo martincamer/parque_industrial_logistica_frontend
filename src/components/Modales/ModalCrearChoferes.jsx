@@ -7,25 +7,16 @@ import client from "../../api/axios";
 
 export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
   const { choferes, setChoferes } = useSalidasContext();
+
   const [error, setError] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       const res = await client.post("/chofer", data);
 
-      // Verificar si el tipo ya existe antes de agregarlo al estado
-      const tipoExistente = choferes.find((tipo) => tipo.id === res.data.id);
-
-      if (!tipoExistente) {
-        // Actualizar el estado de tipos agregando el nuevo tipo al final
-        setChoferes((prevTipos) => [...prevTipos, res.data]);
-      }
+      setChoferes(res.data);
 
       toast.success("¡Chofer creado correctamente!", {
         position: "top-center",
@@ -37,10 +28,7 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
         progress: undefined,
         theme: "light",
         style: {
-          padding: "12px",
-          borderRadius: "15px",
-          fontWeight: "bold",
-          textTransform: "uppercase",
+          borderRadius: 0,
         },
       });
 
@@ -104,7 +92,7 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block max-md:w-full w-[500px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block max-md:w-full w-[500px] p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
                 <div className="flex justify-end cursor-pointer">
                   <p
                     onClick={closeModal}
@@ -152,28 +140,19 @@ export const ModalCrearChoferes = ({ isOpen, closeModal }) => {
                       {...register("chofer", { required: true })}
                       placeholder="NOMBRE Y APELLIDO DEL CHOFER"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
                   <div>
                     <button
                       type="submit"
-                      className="bg-orange-100 text-orange-700 rounded-xl py-3 px-5 uppercase hover:text-sm hover:font-bold hover:shadow-md transition-all ease-linear hover:shadow-gray-300"
+                      className="py-1.5 px-6 bg-blue-500 hover:bg-orange-500 text-white transition-all rounded-full font-semibold text-sm"
                     >
                       Crear nuevo chofer
                     </button>
                   </div>
                 </form>
-                {/* <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div> */}
               </div>
             </Transition.Child>
           </div>

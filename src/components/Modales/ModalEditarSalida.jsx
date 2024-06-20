@@ -298,8 +298,8 @@ export const ModalEditarSalida = ({
                   </p>
                 </div>
 
-                <div className="text-sm font-bold text-slate-700 mb-3 border-b-[1px] uppercase">
-                  Editar salida
+                <div className="text-xl font-bold text-blue-500 mb-5 border-b-2 border-blue-500">
+                  Actualizar la salida
                 </div>
 
                 <form className="flex flex-col gap-3 max-md:px-1 max-md:border-none max-md:shadow-none">
@@ -325,16 +325,14 @@ export const ModalEditarSalida = ({
                         Seleccionar Fabrica de Salida y Localidad
                       </h3>
                       <div className="grid grid-cols-2 items-center gap-2">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                        <label className="relative block border border-blue-500">
                           <select
                             onChange={(e) => setFabrica(e.target.value)}
                             value={fabrica}
                             type="text"
                             className="max-md:text-sm peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5  px-3 text-slate-900 uppercase w-full text-sm font-bold"
                           >
-                            <option value="">Fabrica</option>
-                            {/* <option value="iraola">Iraola</option>
-                            <option value="long">Long</option> */}
+                            <option value="">Selecciona la fabrica</option>
                             <option value={user?.sucursal}>
                               {user?.sucursal}
                             </option>
@@ -346,7 +344,7 @@ export const ModalEditarSalida = ({
                         </label>
 
                         <div className="w-full">
-                          <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                          <label className="relative block border border-blue-500">
                             <input
                               value={salida}
                               onChange={(e) => setSalida(e.target.value)}
@@ -371,7 +369,7 @@ export const ModalEditarSalida = ({
                     {/* datos del formulario  */}
                     <div className="flex flex-col gap-3">
                       <div className="w-1/3 max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm">
+                        <label className="relative block border border-blue-500">
                           <select
                             onChange={(e) => setChofer(e.target.value)}
                             value={chofer}
@@ -412,8 +410,8 @@ export const ModalEditarSalida = ({
                           </svg>
                         </button>
 
-                        <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
-                          <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+                        <div className="bg-white w-full border">
+                          <table className="table w-full max-w-full min-w-full">
                             <thead className="text-left">
                               <tr>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
@@ -423,7 +421,7 @@ export const ModalEditarSalida = ({
                                   Localidad
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
-                                  Localidad
+                                  N° contrato
                                 </th>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                                   Acciones
@@ -450,7 +448,7 @@ export const ModalEditarSalida = ({
                                           eliminarCliente(datos.cliente)
                                         }
                                         type="button"
-                                        className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
+                                        className="bg-red-100 py-1 px-3 text-xs font-semibold text-center rounded-xl text-red-800 uppercase"
                                       >
                                         Eliminar
                                       </button>
@@ -460,7 +458,7 @@ export const ModalEditarSalida = ({
                                           handleUsuario(datos.cliente),
                                             openEdit();
                                         }}
-                                        className="bg-green-100 py-2 px-5 text-center rounded-xl uppercase text-green-700"
+                                        className="bg-green-100 py-1 px-3 text-xs font-semibold text-center rounded-xl uppercase text-green-700"
                                       >
                                         Editar
                                       </button>
@@ -481,7 +479,7 @@ export const ModalEditarSalida = ({
                       </h3>
                     </div>
                     <div className="max-md:w-full">
-                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm w-2/3">
+                      <label className="relative block border border-blue-500">
                         <input
                           value={chofer_vehiculo}
                           onChange={(e) => setChoferVehiculo(e.target.value)}
@@ -496,7 +494,7 @@ export const ModalEditarSalida = ({
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3 max-md:text-sm">
                             KM
                           </span>
@@ -513,7 +511,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="max-md:w-full max-md:text-sm">
-                        <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -532,7 +530,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="flex">
-                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
+                        <p className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
                           {Number(
                             km_viaje_control * km_viaje_control_precio
                           ).toLocaleString("es-AR", {
@@ -553,7 +551,7 @@ export const ModalEditarSalida = ({
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             KM
                           </span>
@@ -570,7 +568,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -587,7 +585,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="flex">
-                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
+                        <p className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
                           {chofer !== "Iveco Tecnohouse"
                             ? Number(
                                 fletes_km * fletes_km_precio
@@ -605,7 +603,7 @@ export const ModalEditarSalida = ({
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm max-md:w-full">
+                      <label className="relative block border border-blue-500">
                         <span className="font-bold text-slate-500 px-3">$</span>
                         <input
                           value={espera}
@@ -620,7 +618,7 @@ export const ModalEditarSalida = ({
                       </label>
 
                       <div className="flex">
-                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
+                        <p className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
                           {Number(espera).toLocaleString("es-AR", {
                             style: "currency",
                             currency: "ARS",
@@ -639,7 +637,7 @@ export const ModalEditarSalida = ({
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div className="max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <input
                             value={armadores}
                             onChange={(e) => setArmadores(e.target.value)}
@@ -653,7 +651,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="max-md:w-full">
-                        <label className="relative block rounded-xl border border-slate-300 bg-white shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -670,7 +668,7 @@ export const ModalEditarSalida = ({
                         </label>
                       </div>
                       <div className="flex">
-                        <p className="bg-blue-500 text-white font-bold py-2 w-auto rounded px-3 flex items-center">
+                        <p className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
                           {Number(total_viaticos).toLocaleString("es-AR", {
                             style: "currency",
                             currency: "ARS",

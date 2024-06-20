@@ -134,7 +134,7 @@ export const ModalCrearClienteRemuneracion = ({
                   </p>
                 </div>
 
-                <div className="text-sm text-slate-700 mb-3 border-b-[1px] uppercase font-bold max-md:text-sm">
+                <div className="text-sm text-slate-700 mb-3 uppercase font-bold">
                   Crear nuevo cliente
                 </div>
                 {error && (
@@ -153,7 +153,7 @@ export const ModalCrearClienteRemuneracion = ({
                       value={cliente}
                       placeholder="@NOMBRE Y APELLIDO DEL CLIENTE"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -164,7 +164,7 @@ export const ModalCrearClienteRemuneracion = ({
                       value={localidad}
                       placeholder="Ej: Venado Tuerto, Santa Fe"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -175,7 +175,7 @@ export const ModalCrearClienteRemuneracion = ({
                       value={numeroContrato}
                       placeholder="123-500"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -186,7 +186,7 @@ export const ModalCrearClienteRemuneracion = ({
                       value={metrosCuadrados}
                       placeholder="30"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                   </div>
 
@@ -197,10 +197,10 @@ export const ModalCrearClienteRemuneracion = ({
                       value={totalFlete}
                       placeholder="$ 7000000"
                       type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px] uppercase text-sm"
+                      className="bg-white border border-blue-500 py-2 px-3 font-semibold uppercase outline-none"
                     />
                     <div className="flex">
-                      <p className="bg-slate-200/50 rounded-xl py-2 px-3 text-sm font-bold ">
+                      <p className="bg-blue-500 text-white py-2 px-3 text-sm font-bold ">
                         {Number(totalFlete).toLocaleString("es-AR", {
                           style: "currency",
                           currency: "ARS",
@@ -217,7 +217,7 @@ export const ModalCrearClienteRemuneracion = ({
                         handleCliente();
                         // closeModal();
                       }}
-                      className="bg-orange-100 text-orange-600 rounded-xl py-2 px-4 uppercase max-md:text-sm hover:shadow-md transition-all ease-linear hover:font-bold"
+                      className="py-1.5 px-6 bg-blue-500 hover:bg-orange-500 text-white transition-all rounded-full font-semibold text-sm"
                     >
                       Crear nuevo cliente
                     </button>
