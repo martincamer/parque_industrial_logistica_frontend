@@ -178,7 +178,7 @@ export const Salidas = () => {
   return (
     <section className="w-full h-full min-h-screen max-h-full">
       <ToastContainer />
-      <div className="bg-white mb-4 h-10 flex">
+      <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
           to={"/"}
           className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
@@ -193,7 +193,7 @@ export const Salidas = () => {
         </Link>
       </div>
       <div className="mx-5 my-10 bg-white py-6 px-6">
-        <p className="font-bold text-blue-500 text-xl">
+        <p className="font-bold text-blue-500 text-xl max-md:text-lg">
           Crea tus salidas en esta sección y lleva el control de ellas.
         </p>
       </div>
@@ -204,9 +204,9 @@ export const Salidas = () => {
           </button>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-[300px]"
           >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1 max-md:h-[300px] scrollbar-hidden max-md:overflow-y-scroll">
               <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
                 <p className="font-medium text-sm text-center">
                   Total en salidas del mes.
@@ -283,7 +283,7 @@ export const Salidas = () => {
         </Link>
       </div>
 
-      <div className="flex gap-2 items-center w-2/3 max-md:w-full max-md:flex-col my-5 mx-5">
+      <div className="flex gap-2 items-center w-2/3  max-md:w-auto max-md:flex-col my-5 mx-5">
         <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
           <input
             value={searchTermCliente}
@@ -334,7 +334,7 @@ export const Salidas = () => {
         </div>
       </div>
 
-      <div className="bg-white mx-5 my-5">
+      <div className="bg-white mx-5 my-5 max-md:hidden">
         <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>
@@ -464,6 +464,58 @@ export const Salidas = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="grid grid-cols-1 gap-2 mx-5 bg-white py-4 px-4 md:hidden">
+        {filteredData.map((f) => (
+          <div
+            key={f.id}
+            className="bg-white border border-blue-500 py-2 px-4 text-xs"
+          >
+            <div className="flex flex-col gap-2">
+              <p className="font-medium">
+                Numero <span className="font-bold">{f.id}</span>
+              </p>
+              <p className="font-medium">
+                Creador/Usuario{" "}
+                <span className="font-bold capitalize">{f.usuario}</span>
+              </p>
+              <p className="font-medium">
+                Localidad/Usuario{" "}
+                <span className="font-bold capitalize">{f.localidad}</span>
+              </p>
+              <p className="font-medium">
+                Fab-Suc/Usuario{" "}
+                <span className="font-bold capitalize">{f.fabrica}</span>
+              </p>
+              <p className="font-medium">
+                <span className="mr-1">Total </span>
+                <span className="font-bold capitalize text-white bg-red-600 py-0.5 px-1 rounded">
+                  {Number(
+                    parseFloat(f.total_flete) +
+                      parseFloat(f.total_control) +
+                      parseFloat(f.total_viaticos) +
+                      parseFloat(f.espera)
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </span>
+              </p>
+              <button
+                onClick={() => {
+                  handleID(f.id), openVerCliente();
+                }}
+                type="button"
+                className="bg-white border-blue-500 border py-1 px-4 rounded text-blue-500 font-bold flex gap-2 items-center text-center w-full justify-center mt-1"
+              >
+                VER CLIENTE/LOCALIDAD{" "}
+                <FaHouseChimneyUser className="text-2xl" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
       <ModalEliminar

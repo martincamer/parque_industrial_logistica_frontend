@@ -48,7 +48,7 @@ export const MenuMobile = () => {
             Inicio/estadistica/compras
           </Link>
 
-          <Link
+          {/* <Link
             onClick={() => setIsOpen(!isOpen)}
             to={"/salidas"}
             className={`${
@@ -105,7 +105,7 @@ export const MenuMobile = () => {
             >
               Crear cuentas/editar/administrar
             </Link>
-          )}
+          )} */}
         </div>
       )}
       {isOpen && (

@@ -293,11 +293,11 @@ export const Home = () => {
   // Efecto para obtener la fecha actual al montar el componente
   useEffect(() => {
     obtenerFechaActual();
-  }, []); // Se ejecuta solo una vez al montar el componente
+  }, []);
 
   return (
-    <section className="w-full h-full min-h-screen max-h-full max-w-full">
-      <div className="bg-white mb-4 h-10 flex">
+    <section className="w-full h-full min-h-screen max-h-full max-w-full max-md:py-5">
+      <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
           to={"/"}
           className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white max-md:text-sm"
@@ -311,7 +311,7 @@ export const Home = () => {
         </p>
         <p className="font-bold">Fecha actual {fechaActual}</p>
       </div>
-      <div className="flex gap-2 items-center w-2/3 max-md:w-auto max-md:flex-col my-5 mx-5">
+      <div className="flex gap-2 items-center w-2/3 max-md:w-auto max-md:flex-col my-5 mx-5 ">
         <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer">
           <select
             value={selectedUser}
