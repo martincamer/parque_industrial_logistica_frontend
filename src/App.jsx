@@ -90,7 +90,7 @@ function App() {
                         <RendicionesProvider>
                           <main className="min-h-full max-h-full h-full flex">
                             <SideBar />
-                            {/* <MenuMobile /> */}
+                            <MenuMobile />
                             <Outlet />
                           </main>
                         </RendicionesProvider>

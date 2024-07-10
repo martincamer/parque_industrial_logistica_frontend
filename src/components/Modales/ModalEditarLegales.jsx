@@ -298,7 +298,7 @@ export const ModalEditarLegales = ({
                     <div className="flex flex-col gap-6 max-md:gap-6">
                       <div className="grid grid-cols-3 gap-2 w-4/5">
                         <div className="w-full max-md:text-sm">
-                          <label className="relative block rounded-xl border border-slate-300 max-md:w-full">
+                          <label className="relative block border border-blue-500">
                             <select
                               onChange={(e) => setChofer(e.target.value)}
                               value={chofer}
@@ -317,7 +317,7 @@ export const ModalEditarLegales = ({
                           </label>
                         </div>
                         <div className="w-full">
-                          <label className="relative block rounded-xl border border-slate-300 max-md:text-sm">
+                          <label className="relative block border border-blue-500">
                             <input
                               onChange={(e) => setArmador(e.target.value)}
                               value={armador}
@@ -354,8 +354,8 @@ export const ModalEditarLegales = ({
                           </svg>
                         </button>
 
-                        <div className="rounded-2xl mt-2 border-[1px] border-slate-300 w-full">
-                          <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+                        <div className="bg-white w-full border">
+                          <table className="table w-full max-w-full min-w-full">
                             <thead className="text-left">
                               <tr>
                                 <th className="px-4 py-4  text-slate-800 font-bold uppercase">
@@ -405,7 +405,7 @@ export const ModalEditarLegales = ({
                                           eliminarCliente(datos.cliente)
                                         }
                                         type="button"
-                                        className="bg-red-100 py-2 px-5 text-center rounded-xl text-red-800 uppercase"
+                                        className="bg-red-100 py-1 px-3 text-xs font-semibold text-center rounded-xl text-red-800 uppercase"
                                       >
                                         Eliminar
                                       </button>
@@ -415,7 +415,7 @@ export const ModalEditarLegales = ({
                                           handleUsuario(datos.cliente),
                                             openEdit();
                                         }}
-                                        className="bg-green-100 py-2 px-5 text-center rounded-xl uppercase text-green-700"
+                                        className="bg-green-100 py-1 px-3 text-xs font-semibold text-center rounded-xl uppercase text-green-700"
                                       >
                                         Editar
                                       </button>
@@ -438,12 +438,12 @@ export const ModalEditarLegales = ({
                     </div>
                     <div className="flex gap-5 w-4/12">
                       <div className="max-md:w-full w-full">
-                        <label className="relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <input
                             onChange={(e) => setFechaCarga(e.target.value)}
                             value={fecha_carga}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900 max-md:text-sm w-full"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 font-bold text-sm px-3 text-slate-900 max-md:text-sm w-full uppercase"
                           />
 
                           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
@@ -452,12 +452,12 @@ export const ModalEditarLegales = ({
                         </label>
                       </div>
                       <div className="max-md:w-full w-full">
-                        <label className=" relative block rounded-xl border border-slate-300 shadow-sm max-md:text-sm">
+                        <label className="relative block border border-blue-500">
                           <input
                             onChange={(e) => setFechaEntrega(e.target.value)}
                             value={fecha_entrega}
                             type="date"
-                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900 max-md:text-sm w-full"
+                            className="peer border-none bg-white/10 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 py-5 text-sm font-bold px-3 text-slate-900 max-md:text-sm w-full uppercase"
                           />
 
                           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
@@ -469,14 +469,14 @@ export const ModalEditarLegales = ({
                   </article>
 
                   <article className="flex flex-col gap-5">
-                    <div>
-                      <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
-                        Totales
-                      </h3>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="flex gap-5 bg-white border-[1px] border-slate-300 shadow py-2 px-6 rounded-xl">
-                        <div className="flex gap-2 items-center">
+                    <div className="flex flex-col gap-2">
+                      <div>
+                        <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
+                          Totales del viaje
+                        </h3>
+                      </div>
+                      <div className="flex gap-5 ">
+                        <div className="flex gap-2 items-center bg-white border border-blue-500 py-2 px-3">
                           <p className="text-orange-500 font-bold max-md:text-sm uppercase">
                             Total en fletes
                           </p>
@@ -493,10 +493,7 @@ export const ModalEditarLegales = ({
 
                     <div className="grid grid-cols-2 gap-5">
                       <div className="grid grid-cols-2 gap-2 items-center">
-                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
-                          {/* <span className="font-bold text-slate-500 px-3">
-                            $
-                          </span> */}
+                        <label className="relative block border border-blue-500">
                           <input
                             onChange={(e) => setKmLineal(e.target.value)}
                             value={km_lineal}
@@ -509,13 +506,15 @@ export const ModalEditarLegales = ({
                           </span>
                         </label>
 
-                        <span className="font-bold text-slate-700">
-                          {km_lineal} KM FINAL
-                        </span>
+                        <div className="flex">
+                          <span className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
+                            {km_lineal} KM FINAL
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 items-center">
-                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -530,18 +529,23 @@ export const ModalEditarLegales = ({
                           </span>
                         </label>
 
-                        <span className="font-bold text-slate-700 max-md:mb-6">
-                          {Number(pago_fletero_espera).toLocaleString("es-AR", {
-                            style: "currency",
-                            currency: "ARS",
-                            minimumIntegerDigits: 2,
-                          })}{" "}
-                          VALOR ASIGNADO
-                        </span>
+                        <div className="flex">
+                          <span className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
+                            {Number(pago_fletero_espera).toLocaleString(
+                              "es-AR",
+                              {
+                                style: "currency",
+                                currency: "ARS",
+                                minimumIntegerDigits: 2,
+                              }
+                            )}{" "}
+                            VALOR ASIGNADO
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 items-center">
-                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -557,18 +561,20 @@ export const ModalEditarLegales = ({
                           </span>
                         </label>
 
-                        <span className="font-bold text-slate-700 max-md:mb-5">
-                          {Number(viaticos).toLocaleString("es-AR", {
-                            style: "currency",
-                            currency: "ARS",
-                            minimumIntegerDigits: 2,
-                          })}{" "}
-                          VALOR ASIGNADO
-                        </span>
+                        <div className="flex">
+                          <span className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
+                            {Number(viaticos).toLocaleString("es-AR", {
+                              style: "currency",
+                              currency: "ARS",
+                              minimumIntegerDigits: 2,
+                            })}{" "}
+                            VALOR ASIGNADO
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 items-center">
-                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -584,18 +590,20 @@ export const ModalEditarLegales = ({
                           </span>
                         </label>
 
-                        <span className="font-bold text-slate-700 max-md:mb-5">
-                          {Number(auto).toLocaleString("es-AR", {
-                            style: "currency",
-                            currency: "ARS",
-                            minimumIntegerDigits: 2,
-                          })}{" "}
-                          VALOR ASIGNADO
-                        </span>
+                        <div className="flex">
+                          <span className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
+                            {Number(auto).toLocaleString("es-AR", {
+                              style: "currency",
+                              currency: "ARS",
+                              minimumIntegerDigits: 2,
+                            })}{" "}
+                            VALOR ASIGNADO
+                          </span>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 items-center">
-                        <label className="w-full relative block rounded-xl border border-slate-300 bg-white shadow-smmax-md:w-full max-md:flex max-md:items-center">
+                        <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
                           </span>
@@ -611,14 +619,16 @@ export const ModalEditarLegales = ({
                           </span>
                         </label>
 
-                        <span className="font-bold text-slate-700">
-                          {Number(refuerzo).toLocaleString("es-AR", {
-                            style: "currency",
-                            currency: "ARS",
-                            minimumIntegerDigits: 2,
-                          })}{" "}
-                          VALOR ASIGNADO
-                        </span>
+                        <div className="flex">
+                          <span className="border border-blue-500 text-blue-500 font-bold py-2 w-auto px-3 flex items-center">
+                            {Number(refuerzo).toLocaleString("es-AR", {
+                              style: "currency",
+                              currency: "ARS",
+                              minimumIntegerDigits: 2,
+                            })}{" "}
+                            VALOR ASIGNADO
+                          </span>
+                        </div>
                       </div>
                     </div>
 
