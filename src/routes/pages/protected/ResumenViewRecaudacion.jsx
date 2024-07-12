@@ -26,8 +26,8 @@ export const ResumenViewRecaudacion = () => {
   );
 
   return (
-    <section className="w-full max-w-full h-full max-h-full min-h-screen">
-      <div className="bg-white mb-4 h-10 flex">
+    <section className="w-full max-w-full h-full max-h-full min-h-screen max-md:py-12">
+      <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
           to={"/remuneraciones"}
           className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
@@ -38,21 +38,21 @@ export const ResumenViewRecaudacion = () => {
           Remuneracion N° {params.id}
         </Link>
       </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6">
+      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
         <p className="font-bold text-blue-500 text-xl">
           Observa la remuneración obtenida, ver los datos, etc.
         </p>
       </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3 max-md:my-5">
         <div className="dropdown dropdown-bottom">
           <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
             Ver estadistica de la remuneración
           </button>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-80"
           >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1">
               <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
                 <p className="font-medium text-sm text-center">
                   Total de la remuneración.

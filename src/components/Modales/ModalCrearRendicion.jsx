@@ -144,7 +144,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                   onSubmit={onSubmit}
                   className="py-5 flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
                 >
-                  <article className="flex flex-col gap-4">
+                  <article className="flex flex-col gap-4 max-md:gap-8">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Ingresar datos de la rendición
@@ -179,7 +179,7 @@ export const ModalCrearRendicion = ({ isOpen: dos, closeModal: tres }) => {
                           />
 
                           <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-base uppercase font-bold text-blue-500">
-                            Clientes/Detalles de la rendicion
+                            Clientes/detalle
                           </span>
                         </label>
                       </div>

@@ -268,8 +268,8 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                   </div>
                 )}
 
-                <form className="flex flex-col gap-3 max-md:px-1 max-md:border-none max-md:shadow-none">
-                  <div className="flex gap-4">
+                <form className="flex flex-col gap-3 max-md:gap-5 max-md:px-1 max-md:border-none max-md:shadow-none">
+                  <div className="flex gap-4 max-md:gap-2">
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
@@ -286,11 +286,11 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     </button>
                   </div>
                   <article>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 max-md:gap-5">
                       <h3 className="font-bold text-slate-700 max-md:text-sm uppercase text-base">
                         Seleccionar Fabrica de Salida y Localidad
                       </h3>
-                      <div className="grid grid-cols-2 items-center gap-2">
+                      <div className="grid grid-cols-2 items-center gap-2 max-md:grid-cols-1 max-md:gap-5">
                         <label className="relative block border border-blue-500">
                           <select
                             onChange={(e) => setFabrica(e.target.value)}
@@ -376,7 +376,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                           </svg>
                         </button>
 
-                        <div className="bg-white w-full border">
+                        <div className="bg-white w-full border max-md:overflow-x-auto">
                           <table className="table w-full max-w-full min-w-full">
                             <thead className="text-left">
                               <tr>
@@ -438,7 +438,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                       </div>
                     </div>
                   </article>
-                  <article className="flex flex-col gap-5 mt-5 w-4/5">
+                  <article className="flex flex-col gap-5 mt-5 w-4/5 max-md:w-full">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Chofer/Vehiculo
@@ -458,7 +458,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         </span>
                       </label>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
                       <div className="max-md:w-full">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3 max-md:text-sm">
@@ -509,13 +509,13 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-5 w-4/5">
+                  <article className="flex flex-col gap-5 w-4/5 max-md:w-full">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 max-md:text-sm uppercase">
                         Fletes
                       </h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
                       <div className="max-md:w-full">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
@@ -568,7 +568,7 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-3 max-md:grid-cols-1">
                       <label className="relative block border border-blue-500">
                         <span className="font-bold text-slate-500 px-3">$</span>
                         <input
@@ -595,13 +595,13 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
                     </div>
                   </article>
 
-                  <article className="flex flex-col gap-5 w-4/5">
+                  <article className="flex flex-col gap-5 w-4/5 max-md:w-full">
                     <div>
                       <h3 className="font-bold text-base text-slate-700 uppercase max-md:text-sm">
                         Viaticos Armadores
                       </h3>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
                       <div className="max-md:w-full">
                         <label className="relative block border border-blue-500">
                           <input

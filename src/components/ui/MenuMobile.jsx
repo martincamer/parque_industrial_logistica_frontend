@@ -48,12 +48,12 @@ export const MenuMobile = () => {
             Inicio/estadistica/compras
           </Link>
 
-          {/* <Link
+          <Link
             onClick={() => setIsOpen(!isOpen)}
             to={"/salidas"}
             className={`${
               location.pathname === "/salidas" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas salidas/ver/editar
           </Link>
@@ -64,7 +64,7 @@ export const MenuMobile = () => {
               location.pathname === "/remuneraciones"
                 ? "bg-orange-100"
                 : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas remuneraciones/ver/editar
           </Link>
@@ -73,7 +73,7 @@ export const MenuMobile = () => {
             to={"/legales"}
             className={`${
               location.pathname === "/legales" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
@@ -82,11 +82,11 @@ export const MenuMobile = () => {
             to={"/rendiciones"}
             className={`${
               location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3 max-md:hidden`}
+            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
-          <Link
+          {/* <Link
             onClick={() => setIsOpen(!isOpen)}
             to={"/estadistica"}
             className={`${
@@ -94,7 +94,7 @@ export const MenuMobile = () => {
             } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
             Filtrar estadisticas del semanales/mensuales/anuales
-          </Link>
+          </Link> */}
           {user.localidad === "admin" && (
             <Link
               onClick={() => setIsOpen(!isOpen)}
@@ -105,7 +105,7 @@ export const MenuMobile = () => {
             >
               Crear cuentas/editar/administrar
             </Link>
-          )} */}
+          )}
         </div>
       )}
       {isOpen && (

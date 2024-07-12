@@ -26,8 +26,8 @@ export const ResumenView = () => {
     parseFloat(unicaSalida.espera);
 
   return (
-    <section className="h-full max-h-full min-h-screen w-full max-w-full">
-      <div className="bg-white mb-4 h-10 flex">
+    <section className="h-full max-h-full min-h-screen w-full max-w-full max-md:py-12 min-w-full">
+      <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
           to={"/salidas"}
           className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
@@ -38,21 +38,21 @@ export const ResumenView = () => {
           Salida N° {params.id}
         </Link>
       </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6">
+      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
         <p className="font-bold text-blue-500 text-xl">
           Datos de la salida obtenida, descarga los documentos, etc.
         </p>
       </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3  max-md:my-5">
         <div className="dropdown dropdown-bottom">
           <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
             Ver estadisticas de la salida
           </button>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-72"
           >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1">
               <div className="flex flex-col gap-1 border border-sky-300 py-3 px-3">
                 <p className="font-medium text-sm text-center">
                   Total de la salida.
@@ -69,7 +69,7 @@ export const ResumenView = () => {
         </div>
       </div>
 
-      <div className="flex gap-5 max-md:flex-col mx-5 my-6">
+      <div className="flex gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll">
         <Link
           target="_blank"
           to={`/control-redencion-de-viajes/${params.id}`}
@@ -82,7 +82,7 @@ export const ResumenView = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6  max-md:hidden"
           >
             <path
               strokeLinecap="round"
@@ -103,7 +103,7 @@ export const ResumenView = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6  max-md:hidden"
           >
             <path
               strokeLinecap="round"
@@ -124,7 +124,7 @@ export const ResumenView = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 max-md:hidden"
           >
             <path
               strokeLinecap="round"
@@ -136,7 +136,7 @@ export const ResumenView = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white mx-5 my-5">
+      <div className="bg-white mx-5 my-5 overflow-x-auto">
         <table className="table">
           <thead className="text-left">
             <tr>
@@ -227,8 +227,8 @@ export const ResumenView = () => {
         </table>
       </div>
 
-      <article className="grid grid-cols-4 gap-5 mx-5 my-10">
-        <div className="bg-white py-5 px-5  text-base">
+      <article className="grid grid-cols-4 gap-5 mx-5 my-10 max-md:grid-cols-1">
+        <div className="bg-white py-5 px-5  text-base max-md:text-sm">
           <div>
             <h3 className="font-bold text-slate-700 underline uppercase">
               Lugar de salida/Fabrica
@@ -250,7 +250,7 @@ export const ResumenView = () => {
           </div>
         </div>
 
-        <div className="bg-white py-5 px-5 text-base">
+        <div className="bg-white py-5 px-5 text-base max-md:text-sm">
           <div>
             <h3 className="font-bold text-slate-700 uppercase underline text-base">
               Gastos distribuidos

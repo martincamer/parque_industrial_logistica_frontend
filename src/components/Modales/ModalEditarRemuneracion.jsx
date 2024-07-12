@@ -284,7 +284,7 @@ export const ModalEditarRemuneracion = ({
                   onSubmit={onSubmit}
                   className="flex flex-col gap-5 max-md:py-2 max-md:px-2 max-md:border-none max-md:shadow-none"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 max-md:gap-1">
                     <button
                       type="button"
                       onClick={() => openModalChofer()}
@@ -308,7 +308,7 @@ export const ModalEditarRemuneracion = ({
                     </div>
                     {/* datos del formulario  */}
                     <div className="flex flex-col gap-6 max-md:gap-6">
-                      <div className="grid grid-cols-3 gap-2 w-4/5">
+                      <div className="grid grid-cols-3 gap-2 w-4/5 max-md:w-full max-md:grid-cols-1 max-md:gap-5">
                         <div className="w-full max-md:text-sm">
                           <label className="relative block border border-blue-500">
                             <select
@@ -366,7 +366,7 @@ export const ModalEditarRemuneracion = ({
                           </svg>
                         </button>
 
-                        <div className="bg-white w-full border">
+                        <div className="bg-white w-full border max-md:overflow-x-auto">
                           <table className="table w-full max-w-full min-w-full">
                             <thead className="text-left">
                               <tr>
@@ -448,7 +448,7 @@ export const ModalEditarRemuneracion = ({
                         Fechas de carga/entrega
                       </h3>
                     </div>
-                    <div className="flex gap-5 w-4/12">
+                    <div className="flex gap-5 w-4/12 max-md:w-full max-md:flex-col">
                       <div className="max-md:w-full w-full">
                         <label className="relative block border border-blue-500">
                           <input
@@ -503,8 +503,8 @@ export const ModalEditarRemuneracion = ({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-5">
-                      <div className="grid grid-cols-2 gap-2 items-center">
+                    <div className="grid grid-cols-2 gap-5 max-md:w-full max-md:grid-cols-1">
+                      <div className="grid grid-cols-2 gap-2 items-center max-md:w-full max-md:grid-cols-1">
                         <label className="relative block border border-blue-500">
                           <input
                             onChange={(e) => setKmLineal(e.target.value)}
@@ -525,7 +525,7 @@ export const ModalEditarRemuneracion = ({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 items-center">
+                      <div className="grid grid-cols-2 gap-2 items-center max-md:w-full max-md:grid-cols-1">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
@@ -556,7 +556,7 @@ export const ModalEditarRemuneracion = ({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 items-center">
+                      <div className="grid grid-cols-2 gap-2 items-center max-md:w-full max-md:grid-cols-1">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
@@ -585,7 +585,7 @@ export const ModalEditarRemuneracion = ({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 items-center">
+                      <div className="grid grid-cols-2 gap-2 items-center max-md:w-full max-md:grid-cols-1">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $
@@ -614,7 +614,7 @@ export const ModalEditarRemuneracion = ({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 items-center">
+                      <div className="grid grid-cols-2 gap-2 items-center max-md:w-full max-md:grid-cols-1">
                         <label className="relative block border border-blue-500">
                           <span className="font-bold text-slate-500 px-3">
                             $

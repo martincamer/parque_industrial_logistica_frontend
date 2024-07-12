@@ -8,6 +8,7 @@ import { ModalCrearSalida } from "../../../components/Modales/ModalCrearSalida";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { ModalVerClienteLocalidad } from "../../../components/Modales/ModalVerClienteLocalidad";
 import { FaSearch } from "react-icons/fa";
+import { formatearFecha } from "../../../helpers/formatearFecha";
 
 export const Salidas = () => {
   const { salidas } = useSalidasContext();
@@ -185,7 +186,7 @@ export const Salidas = () => {
   );
 
   return (
-    <section className="w-full h-full min-h-screen max-h-full">
+    <section className="w-full h-full min-h-screen max-h-full max-md:py-12">
       <ToastContainer />
       <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
@@ -201,12 +202,12 @@ export const Salidas = () => {
           Salidas
         </Link>
       </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6">
+      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
         <p className="font-bold text-blue-500 text-xl max-md:text-lg">
           Crea tus salidas en esta sección y lleva el control de ellas.
         </p>
       </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3 max-md:my-5">
         <div className="dropdown dropdown-bottom">
           <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
             Ver estadisticas de las salidas
@@ -343,7 +344,7 @@ export const Salidas = () => {
         </div>
       </div>
 
-      <div className="bg-white mx-5 my-5 max-md:hidden">
+      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto max-md:h-[60vh] max-md:overflow-y-auto">
         <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>
@@ -352,6 +353,9 @@ export const Salidas = () => {
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Creador
+              </th>
+              <th className="px-4 py-4  text-slate-800 font-bold uppercase">
+                Fecha
               </th>
               <th className="px-4 py-4  text-slate-800 font-bold uppercase">
                 Localidad/Creador
@@ -381,6 +385,9 @@ export const Salidas = () => {
                 </td>
                 <td className="px-4 py-3 font-bold text-gray-900 upppercase">
                   {s.usuario}
+                </td>
+                <td className="px-4 py-3 font-bold text-gray-900 upppercase">
+                  {formatearFecha(s.created_at)}
                 </td>
                 <td className="px-4 py-3 font-bold text-gray-900 upppercase">
                   {s.localidad}
@@ -475,7 +482,7 @@ export const Salidas = () => {
         </table>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 mx-5 bg-white py-4 px-4 md:hidden">
+      <div className="grid grid-cols-1 gap-2 mx-5 bg-white py-4 px-4 hidden">
         {filteredData.map((f) => (
           <div
             key={f.id}

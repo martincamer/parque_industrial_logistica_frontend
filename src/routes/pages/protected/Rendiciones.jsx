@@ -6,6 +6,7 @@ import { ModalCrearRendicion } from "../../../components/Modales/ModalCrearRendi
 import { ModalEliminarRendicion } from "../../../components/Modales/ModalEliminarRendicion";
 import { ModalEditarRendiciones } from "../../../components/Modales/ModalEditarRendicion";
 import { FaSearch } from "react-icons/fa";
+import { formatearFecha } from "../../../helpers/formatearFecha";
 
 export const Rendicones = () => {
   const { rendiciones } = useRendicionesContext();
@@ -148,10 +149,10 @@ export const Rendicones = () => {
   );
 
   return (
-    <section className="w-full h-full  max-w-full max-h-full min-h-screen">
+    <section className="w-full h-full max-w-full max-h-full min-h-screen max-md:py-12">
       <ToastContainer />
 
-      <div className="bg-white mb-4 h-10 flex">
+      <div className="bg-white mb-4 h-10 flex max-md:hidden">
         <Link
           to={"/"}
           className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
@@ -165,21 +166,21 @@ export const Rendicones = () => {
           Rendiciones
         </Link>
       </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6">
+      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
         <p className="font-bold text-blue-500 text-xl">
           Crea tus rendiciones en esta sección y lleva el control de ellas.
         </p>
       </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3">
+      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3 max-md:my-5">
         <div className="dropdown dropdown-bottom">
           <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
             Ver estadisticas de las rendiciones
           </button>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border"
+            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-80"
           >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full">
+            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1">
               <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
                 <p className="font-medium text-sm text-center">
                   Total en rendiciones del mes.
@@ -219,7 +220,7 @@ export const Rendicones = () => {
         </Link>
       </div>
 
-      <div className="flex gap-2 items-center w-2/3 max-md:w-full max-md:flex-col my-5 mx-5">
+      <div className="flex gap-2 items-center w-2/3 max-md:w-auto max-md:flex-col my-5 mx-5">
         <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
           <input
             value={searchTermCliente}
@@ -271,7 +272,7 @@ export const Rendicones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white mx-5 my-5">
+      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto max-md:h-[50vh] max-md:overflow-y-auto">
         <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>
@@ -322,7 +323,7 @@ export const Rendicones = () => {
                   {s.armador}
                 </td>
                 <td className="px-4 py-3 font-bold text-gray-900 uppercase">
-                  {s.created_at.split("T")[0]}
+                  {formatearFecha(s.created_at)}
                 </td>
                 <td
                   className={`px-4 py-3 font-bold text-${
