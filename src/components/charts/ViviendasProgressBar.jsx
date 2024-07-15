@@ -30,7 +30,7 @@ const ViviendasProgressBar = ({ salidasMensuales, legales }) => {
     <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
       <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
         <p className="text-slate-700 text-sm mb-3 uppercase max-md:text-sm font-semibold">
-          Total vivivendas entregadas
+          Total vivivendas entregadas remuneradas/legales
         </p>
         <p className="text-slate-700 text-sm mb-3 max-md:text-sm font-bold">
           <span>{Number(totalDatos + totalDatosDos)}</span>{" "}

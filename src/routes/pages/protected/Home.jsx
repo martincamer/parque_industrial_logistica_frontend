@@ -164,6 +164,17 @@ export const Home = () => {
     },
     0
   );
+  const totalContratosEnSalidas = filteredDataSalidas?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente
+          ? salida?.datos_cliente?.datosCliente?.length
+          : 0)
+      );
+    },
+    0
+  );
 
   const totalContratosLegales = filteredDataLegales?.reduce((total, salida) => {
     return (
@@ -456,7 +467,7 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalCobroClienteLegales < 0 ? "border-red-500" : "border-blue-500"
+            totalCobroClienteLegales <= 0 ? "border-red-500" : "border-blue-500"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -464,7 +475,7 @@ export const Home = () => {
               <p className="font-bold">Total en rendiciones.</p>
               <p
                 className={`${
-                  totalCobroRendiciones < 0 ? "text-red-500" : "text-green-500"
+                  totalCobroRendiciones <= 0 ? "text-red-500" : "text-green-500"
                 } font-extrabold`}
               >
                 {Number(totalCobroRendiciones).toLocaleString("es-AR", {
@@ -477,7 +488,7 @@ export const Home = () => {
             <div className="flex">
               <div
                 className={`${
-                  totalCobroRendiciones < 0
+                  totalCobroRendiciones <= 0
                     ? "text-white bg-red-500"
                     : "bg-blue-500 text-white"
                 } rounded py-1.5 px-4  font-bold text-xs`}
@@ -630,13 +641,46 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en viviendas/contratos.</p>
+              <p className="font-bold">
+                Total en viviendas/contratos Remunerados/Legales.
+              </p>
               <p
                 className={`${
                   totalContratos < 0 ? "text-red-500" : "text-blue-500"
                 } font-extrabold`}
               >
                 {totalContratos}
+              </p>
+            </div>
+            <div className="flex">
+              <div
+                className={`${
+                  totalContratos < 0
+                    ? "text-white bg-red-500"
+                    : "bg-blue-500 text-white"
+                } rounded py-1.5 px-4  font-bold text-xs`}
+              >
+                Porcentaje {totalContratos % 100} %
+              </div>
+            </div>
+          </div>
+        </div>{" "}
+        <div
+          className={`border ${
+            totalContratosEnSalidas < 0 ? "border-red-500" : "border-blue-500"
+          } py-5 px-5 bg-white`}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="font-bold">
+                Total en viviendas/contratos de salidas.
+              </p>
+              <p
+                className={`${
+                  totalContratosEnSalidas < 0 ? "text-red-500" : "text-blue-500"
+                } font-extrabold`}
+              >
+                {totalContratosEnSalidas}
               </p>
             </div>
             <div className="flex">
@@ -749,11 +793,11 @@ export const Home = () => {
 
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
+            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total de la caja
             </p>
             <p
-              className={`text-lg mb-3 max-md:text-sm font-bold ${
+              className={`text-sm mb-3 max-md:text-sm font-bold ${
                 totalCaja >= 0 ? "text-blue-500" : "text-red-500"
               }`}
             >
@@ -785,6 +829,29 @@ export const Home = () => {
           salidasMensuales={filteredDataRemuneraciones}
           legales={filteredDataLegales}
         />
+
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
+            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
+              Total Viviendas en salidas
+            </p>
+            <p
+              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
+            >
+              {totalContratosEnSalidas}
+            </p>
+          </div>
+          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
+            <div
+              className={`h-3 ${
+                totalContratosEnSalidas >= 0 ? "bg-red-400" : "bg-red-400"
+              } max-md:h-2`}
+              style={{
+                width: `${Math.abs(totalContratosEnSalidas / 1000000)}%`,
+              }}
+            ></div>
+          </div>
+        </div>
 
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
