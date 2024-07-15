@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { FaSearch } from "react-icons/fa";
 import { formatearFecha } from "../../../helpers/formatearFecha";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { ImprimirPdfContratos } from "../../../components/pdf/ImprimirPdfContratos";
 
 export const Contratos = () => {
   const { salidas } = useSalidasContext();
@@ -61,6 +63,15 @@ export const Contratos = () => {
     setFechaFin(e.target.value);
   };
 
+  const totalContratosEnSalidas = filteredSalidas?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida?.datos_cliente?.datosCliente?.length
+        : 0)
+    );
+  }, 0);
+
   return (
     <section className="min-h-screen max-h-full w-full h-full max-w-full max-md:py-12">
       <div className="bg-white mb-4 h-10 flex max-md:hidden">
@@ -83,15 +94,15 @@ export const Contratos = () => {
         </p>
       </div>
 
-      <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5">
+      <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5 max-md:grid-cols-1">
         <div className="bg-white py-5 px-5 border border-blue-500">
           <p className="font-medium text-blue-500">Total en contratos</p>
-          <p className="font-bold text-lg">{filteredSalidas.length}</p>
+          <p className="font-bold text-lg">{totalContratosEnSalidas}</p>
         </div>
       </div>
 
-      <div className="flex gap-2 items-center w-auto max-md:w-auto max-md:flex-col my-5 mx-5 bg-white py-5 px-5">
-        <div className="bg-white py-2 px-3 text-sm font-bold w-1/3 border border-blue-500 cursor-pointer flex items-center">
+      <div className="flex gap-2 items-center w-auto max-md:w-auto max-md:flex-col my-5 mx-5 bg-white py-5 px-5 max-md:items-start">
+        <div className="bg-white py-2 px-3 text-sm font-bold w-1/3 border border-blue-500 cursor-pointer flex items-center max-md:w-full">
           <input
             type="text"
             value={searchTermCliente}
@@ -101,7 +112,7 @@ export const Contratos = () => {
           />
           <FaSearch className="text-blue-500" />
         </div>
-        <div className="bg-white py-2 px-3 text-sm font-bold w-auto border border-blue-500 cursor-pointer">
+        <div className="bg-white py-2 px-3 text-sm  max-md:w-full font-bold w-auto border border-blue-500 cursor-pointer">
           <select
             value={selectedUser}
             onChange={handleUserChange}
@@ -142,9 +153,17 @@ export const Contratos = () => {
             />
           </div>
         </div>
+        <div className="">
+          <PDFDownloadLink
+            document={<ImprimirPdfContratos datos={filteredSalidas} />}
+            className="bg-blue-500 py-1.5 max-md:mt-2 max-md:w- px-2 text-sm font-semibold text-white rounded hover:shadow transition-all"
+          >
+            Descargar contratos filtrados
+          </PDFDownloadLink>
+        </div>
       </div>
 
-      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto max-md:h-[50vh] max-md:overflow-y-auto">
+      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto max-md:overflow-y-auto">
         <table className="w-full divide-y-2 divide-gray-200 text-xs table">
           <thead className="text-left">
             <tr>
@@ -191,6 +210,10 @@ export const Contratos = () => {
           </tbody>
         </table>
       </div>
+
+      {/* <PDFViewer className="h-screen w-full">
+        <ImprimirPdfContratos datos={filteredSalidas} />
+      </PDFViewer> */}
     </section>
   );
 };

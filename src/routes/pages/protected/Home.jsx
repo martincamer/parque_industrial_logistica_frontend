@@ -164,6 +164,7 @@ export const Home = () => {
     },
     0
   );
+
   const totalContratosEnSalidas = filteredDataSalidas?.reduce(
     (total, salida) => {
       return (

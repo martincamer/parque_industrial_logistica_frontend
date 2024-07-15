@@ -175,6 +175,7 @@ export const Salidas = () => {
       parseFloat(salida.espera),
     0
   );
+
   const totalEnSalidasAnual = filteredData.reduce(
     (total, salida) =>
       total +
@@ -182,6 +183,23 @@ export const Salidas = () => {
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
       parseFloat(salida.espera),
+    0
+  );
+
+  const totalFletes = filteredData.reduce(
+    (total, salida) => total + parseFloat(salida.total_flete),
+    0
+  );
+  const totalControl = filteredData.reduce(
+    (total, salida) => total + parseFloat(salida.total_control),
+    0
+  );
+  const totalViaticos = filteredData.reduce(
+    (total, salida) => total + parseFloat(salida.total_viaticos),
+    0
+  );
+  const totalEspera = filteredData.reduce(
+    (total, salida) => total + parseFloat(salida.espera),
     0
   );
 
@@ -261,6 +279,66 @@ export const Salidas = () => {
                 </p>
                 <p className="font-bold text-lg text-orange-500 text-center">
                   {totalEnSalidasAnual.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en fletes
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  -{" "}
+                  {totalFletes.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en control fletes
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  -{" "}
+                  {totalControl.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en viaticos
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  -{" "}
+                  {totalViaticos.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en viaticos
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  -{" "}
+                  {totalViaticos.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en esperas fletero
+                </p>
+                <p className="font-bold text-lg text-red-500 text-center">
+                  -{" "}
+                  {totalEspera.toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",
                   })}
