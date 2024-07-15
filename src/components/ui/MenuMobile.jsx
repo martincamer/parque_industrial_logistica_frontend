@@ -86,15 +86,16 @@ export const MenuMobile = () => {
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
-          {/* <Link
+          <Link
             onClick={() => setIsOpen(!isOpen)}
-            to={"/estadistica"}
+            to={"/rendiciones"}
             className={`${
-              location.pathname === "/estadistica" ? "bg-orange-100" : "bg-none"
+              location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
             } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
           >
-            Filtrar estadisticas del semanales/mensuales/anuales
-          </Link> */}
+            Crear nuevas rendiciones/editar/ver
+          </Link>
+
           {user.localidad === "admin" && (
             <Link
               onClick={() => setIsOpen(!isOpen)}

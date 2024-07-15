@@ -12,7 +12,12 @@ import {
   CiViewList,
 } from "react-icons/ci";
 import { FaDatabase, FaTruckMoving, FaWallet } from "react-icons/fa6";
-import { FaFileAlt, FaMoneyBillWaveAlt, FaThList } from "react-icons/fa";
+import {
+  FaClipboardList,
+  FaFileAlt,
+  FaMoneyBillWaveAlt,
+  FaThList,
+} from "react-icons/fa";
 
 export const SideBar = () => {
   const { user } = useAuth();
@@ -82,6 +87,7 @@ export const SideBar = () => {
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
+
           <Link
             to={"/rendiciones"}
             className={`${
@@ -90,14 +96,7 @@ export const SideBar = () => {
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
-          <Link
-            to={"/estadistica"}
-            className={`${
-              location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
-            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
-          >
-            Filtrar estadisticas del mes
-          </Link>
+
           {user.localidad === "admin" && (
             <Link
               to={"/cuentas"}
@@ -198,22 +197,22 @@ export const SideBar = () => {
             </div>
           </div>
 
-          {/* <div
+          <div
             className={`${
-              location.pathname === "/estadistica" ? "bg-gray-100" : "bg-none"
+              location.pathname === "/contratos" ? "bg-gray-100" : "bg-none"
             } w-full text-center py-2 items-center transition-all`}
           >
             <div className="w-full text-center py-2 items-center transition-all ">
               <div
                 className="tooltip tooltip-right font-bold"
-                data-tip="FILTRAR ESTADISTICAS MESES"
+                data-tip="OBSERVAR CONTRATOS ENTREGADOS, ETC."
               >
-                <Link to={"/estadistica"}>
-                  <FaThList className="text-3xl text-blue-600" />
+                <Link to={"/contratos"}>
+                  <FaClipboardList className="text-3xl text-blue-600" />
                 </Link>
               </div>
             </div>
-          </div> */}
+          </div>
 
           {user.localidad === "admin" && (
             <div

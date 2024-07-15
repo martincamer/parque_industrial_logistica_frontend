@@ -8,7 +8,6 @@ import { Home } from "./routes/pages/protected/Home";
 import { SideBar } from "./components/sidebar/Sidebar";
 import { SalidasProvider } from "./context/SalidasProvider";
 import { Salidas } from "./routes/pages/protected/Salidas";
-import { NavbarStatick } from "./components/ui/NavbarStatick";
 import { CrearSalida } from "./routes/pages/protected/CrearSalida";
 import { ResumenView } from "./routes/pages/protected/ResumenView";
 import { ViewPdf } from "./routes/pages/protected/ViewPdf";
@@ -47,6 +46,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { Configuraciones } from "./routes/pages/protected/Configuraciones.jsx";
 import { useEffect, useState } from "react";
 import { PageRegistros } from "./routes/pages/protected/PageRegistros.jsx";
+import { Contratos } from "./routes/pages/protected/Contratos.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -106,6 +106,7 @@ function App() {
               <Route path="/remuneraciones" element={<Remuneraciones />} />
               <Route path="/rendiciones" element={<Rendicones />} />
               <Route path="/legales" element={<Legales />} />
+              <Route path="/contratos" element={<Contratos />} />
               <Route path="/configuraciones" element={<Configuraciones />} />
               <Route
                 path="/salidas-registradas"

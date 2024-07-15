@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
 import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
+import ApexChartColumnLegalesRemuneraciones from "../../../components/apexchart/ApexChartColumnLegalesRemuneraciones";
 
 export const Home = () => {
   const { salidas } = useSalidasContext();
@@ -725,9 +726,10 @@ export const Home = () => {
         </div>
         <div className="w-full grid grid-cols-2 gap-5 max-md:grid-cols-1">
           <div className="bg-white py-5 px-5">
-            <ApexChart
-              remuneraciones={remuneracionesMensuales}
-              legales={legales}
+            <ApexChartColumnLegalesRemuneraciones
+              totalSalidas={totalEnSalidas}
+              totalLegales={totalCobroRendiciones}
+              totaslRemuneraciones={totalCobroCliente}
             />
           </div>
           <div className="bg-white py-5 px-5">
@@ -786,11 +788,11 @@ export const Home = () => {
 
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
+            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en fletes
             </p>
             <p
-              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
             >
               -{" "}
               {Number(totalFletes).toLocaleString("es-AR", {
@@ -814,11 +816,11 @@ export const Home = () => {
 
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
+            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en viaticos
             </p>
             <p
-              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
             >
               -{" "}
               {Number(totalViaticos).toLocaleString("es-AR", {
@@ -842,11 +844,11 @@ export const Home = () => {
 
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-lg mb-3 uppercase max-md:text-sm font-semibold">
+            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en refuerzos
             </p>
             <p
-              className={`text-lg mb-3 max-md:text-sm text-slate-700 font-bold`}
+              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
             >
               -{" "}
               {Number(totalRefuerzos).toLocaleString("es-AR", {
