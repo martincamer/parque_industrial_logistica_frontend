@@ -203,6 +203,15 @@ export const Salidas = () => {
     0
   );
 
+  const totalContratosEnSalidas = filteredData?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.datos_cliente?.datosCliente
+        ? salida?.datos_cliente?.datosCliente?.length
+        : 0)
+    );
+  }, 0);
+
   return (
     <section className="w-full h-full min-h-screen max-h-full max-md:py-12">
       <ToastContainer />
@@ -342,6 +351,14 @@ export const Salidas = () => {
                     style: "currency",
                     currency: "ARS",
                   })}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
+                <p className="font-medium text-sm text-center">
+                  Total en contratos/salidas
+                </p>
+                <p className="font-bold text-lg text-green-500 text-center">
+                  {totalContratosEnSalidas}
                 </p>
               </div>
             </div>
