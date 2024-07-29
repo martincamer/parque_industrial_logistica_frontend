@@ -866,7 +866,7 @@ const ModalCrearSalida = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={km_viaje_control}
+                    value={km_viaje_control || 0}
                     onChange={(e) => setKmViajeControl(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -878,7 +878,7 @@ const ModalCrearSalida = () => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={km_viaje_control_precio}
+                      value={km_viaje_control_precio || 0}
                       onChange={(e) => setKmViajeControlPrecio(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -924,7 +924,7 @@ const ModalCrearSalida = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={fletes_km}
+                    value={fletes_km || 0}
                     onChange={(e) => setKmFletes(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -936,7 +936,7 @@ const ModalCrearSalida = () => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={fletes_km_precio}
+                      value={fletes_km_precio || 0}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -984,7 +984,7 @@ const ModalCrearSalida = () => {
                       Espera del fletero
                     </label>
                     <input
-                      value={espera}
+                      value={espera || 0}
                       onChange={(e) => setEspera(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1034,7 +1034,7 @@ const ModalCrearSalida = () => {
                       Total en viaticos
                     </label>
                     <input
-                      value={total_viaticos}
+                      value={total_viaticos || 0}
                       onChange={(e) => setTotalViaticos(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1496,7 +1496,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={km_viaje_control}
+                    value={km_viaje_control || 0}
                     onChange={(e) => setKmViajeControl(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -1508,7 +1508,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={km_viaje_control_precio}
+                      value={km_viaje_control_precio || 0}
                       onChange={(e) => setKmViajeControlPrecio(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1554,7 +1554,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={fletes_km}
+                    value={fletes_km || 0}
                     onChange={(e) => setKmFletes(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -1566,7 +1566,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={fletes_km_precio}
+                      value={fletes_km_precio || 0}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -1614,7 +1614,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                       Espera del fletero
                     </label>
                     <input
-                      value={espera}
+                      value={espera || 0}
                       onChange={(e) => setEspera(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1664,7 +1664,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                       Total en viaticos
                     </label>
                     <input
-                      value={total_viaticos}
+                      value={total_viaticos || 0}
                       onChange={(e) => setTotalViaticos(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
