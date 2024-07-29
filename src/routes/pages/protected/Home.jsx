@@ -3,9 +3,9 @@ import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
-import ApexChart from "../../../components/apexchart/ApexChart";
-import ApexColumnChart from "../../../components/apexchart/ApexChartColumn";
+import { useAuth } from "../../../context/AuthProvider";
 import { Link } from "react-router-dom";
+import ApexColumnChart from "../../../components/apexchart/ApexChartColumn";
 import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
 import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
 import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
@@ -13,22 +13,25 @@ import ApexChartColumnLegalesRemuneraciones from "../../../components/apexchart/
 
 export const Home = () => {
   const { salidas } = useSalidasContext();
-  const { remuneracionesMensuales, remuneraciones } = useRemuneracionContext();
+
+  const { remuneraciones } = useRemuneracionContext();
 
   const { rendiciones } = useRendicionesContext();
 
   const { legales, legalesReal } = useLegalesContext();
 
-  //fltros
   const [selectedUser, setSelectedUser] = useState("");
 
-  // Obtener lista de usuarios únicos
+  const { user } = useAuth();
+
+  // Obtener lista de usuarios únicos filtrando por localidad del usuario
   const uniqueUsers = Array.from(
     new Set(
-      remuneraciones.map((remuneracion) => remuneracion.usuario.toLowerCase())
+      salidas
+        .filter((remuneracion) => remuneracion.localidad === user.localidad)
+        .map((remuneracion) => remuneracion.usuario.toLowerCase())
     )
   );
-
   const handleUserChange = (e) => {
     setSelectedUser(e.target.value);
   };
@@ -43,27 +46,35 @@ export const Home = () => {
 
   // Obtener el primer día del mes actual
   const today = new Date();
+
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
   const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
   // Convertir las fechas en formato YYYY-MM-DD para los inputs tipo date
   const fechaInicioPorDefecto = firstDayOfMonth.toISOString().split("T")[0];
+
   const fechaFinPorDefecto = lastDayOfMonth.toISOString().split("T")[0];
 
   // Estado inicial de las fechas con el rango del mes actual
   const [fechaInicio, setFechaInicio] = useState(fechaInicioPorDefecto);
+
   const [fechaFin, setFechaFin] = useState(fechaFinPorDefecto);
 
   // Filtro por rango de fechas (si están definidas)
   const fechaInicioObj = new Date(fechaInicio);
+
   const fechaFinObj = new Date(fechaFin);
-  // Filtro por término de búsqueda y usuario seleccionado
+
+  // Filtro por término de búsqueda y usuario seleccionado en remuneraciones
   let filteredDataRemuneraciones = remuneraciones.filter((item) => {
     const matchesUser =
       selectedUser === "" ||
       item.usuario.toLowerCase() === selectedUser.toLowerCase();
 
-    return matchesUser;
+    const matchesLocalidad = user.localidad === item.localidad;
+
+    return matchesUser && matchesLocalidad;
   });
 
   filteredDataRemuneraciones = filteredDataRemuneraciones.filter((item) => {
@@ -71,13 +82,15 @@ export const Home = () => {
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
-  // Filtro por término de búsqueda y usuario seleccionado
+  // Filtro por término de búsqueda y usuario seleccionado en legalesReal
   let filteredDataLegales = legalesReal.filter((item) => {
     const matchesUser =
       selectedUser === "" ||
       item.usuario.toLowerCase() === selectedUser.toLowerCase();
 
-    return matchesUser;
+    const matchesLocalidad = user.localidad === item.localidad;
+
+    return matchesUser && matchesLocalidad;
   });
 
   filteredDataLegales = filteredDataLegales.filter((item) => {
@@ -85,13 +98,15 @@ export const Home = () => {
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
-  // Filtro por término de búsqueda y usuario seleccionado
+  // Filtro por término de búsqueda y usuario seleccionado en rendiciones
   let filteredDataRendiciones = rendiciones.filter((item) => {
     const matchesUser =
       selectedUser === "" ||
       item.usuario.toLowerCase() === selectedUser.toLowerCase();
 
-    return matchesUser;
+    const matchesLocalidad = user.localidad === item.localidad;
+
+    return matchesUser && matchesLocalidad;
   });
 
   filteredDataRendiciones = filteredDataRendiciones.filter((item) => {
@@ -99,13 +114,15 @@ export const Home = () => {
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
-  // Filtro por término de búsqueda y usuario seleccionado
+  // Filtro por término de búsqueda y usuario seleccionado en salidas
   let filteredDataSalidas = salidas.filter((item) => {
     const matchesUser =
       selectedUser === "" ||
       item.usuario.toLowerCase() === selectedUser.toLowerCase();
 
-    return matchesUser;
+    const matchesLocalidad = user.localidad === item.localidad;
+
+    return matchesUser && matchesLocalidad;
   });
 
   filteredDataSalidas = filteredDataSalidas.filter((item) => {
@@ -128,20 +145,20 @@ export const Home = () => {
     0
   );
 
-  const totalCobroClienteFinal = remuneraciones.reduce(
-    (total, item) => total + parseFloat(item.recaudacion),
-    0
-  );
+  // Total de cobro para remuneraciones por localidad del usuario actual
+  const totalCobroClienteFinal = remuneraciones
+    .filter((item) => user.localidad === item.localidad)
+    .reduce((total, item) => total + parseFloat(item.recaudacion), 0);
 
-  const totalCobroClienteLegalesFinal = legalesReal.reduce(
-    (total, item) => total + parseFloat(item.recaudacion),
-    0
-  );
+  // Total de cobro para legalesReal por localidad del usuario actual
+  const totalCobroClienteLegalesFinal = legalesReal
+    .filter((item) => user.localidad === item.localidad)
+    .reduce((total, item) => total + parseFloat(item.recaudacion), 0);
 
-  const totalCobroRendicionesFinal = rendiciones.reduce(
-    (total, item) => total + parseFloat(item.rendicion_final),
-    0
-  );
+  // Total de cobro para rendiciones por localidad del usuario actual
+  const totalCobroRendicionesFinal = rendiciones
+    .filter((item) => user.localidad === item.localidad)
+    .reduce((total, item) => total + parseFloat(item.rendicion_final), 0);
 
   const totalEnSalidas = filteredDataSalidas.reduce(
     (total, item) =>
@@ -309,65 +326,57 @@ export const Home = () => {
   }, []);
 
   return (
-    <section className="w-full h-full min-h-screen max-h-full max-w-full max-md:py-5">
-      <div className="bg-white mb-4 h-10 flex max-md:hidden">
-        <Link
-          to={"/"}
-          className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white max-md:text-sm"
-        >
-          Inicio/estadisticas
-        </Link>{" "}
-      </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:py-3 max-md:px-4 flex justify-between items-center">
-        <p className="font-bold text-blue-500 text-xl max-md:text-base">
-          Observa las estadisticas, filtra por mes, anualmente resultados, etc.
+    <section className="w-full h-full min-h-screen max-h-full max-w-full">
+      <div className=" bg-gray-100 py-10 px-6 max-md:py-10 max-md:px-4 flex justify-between items-center">
+        <p className="font-bold text-gray-800 text-xl max-md:text-base">
+          Observa las estadisticas de la zona logistica, fletes, caja, etc.
         </p>
-        <p className="font-bold">Fecha actual {fechaActual}</p>
+        <p className="font-bold max-md:hidden">Fecha actual {fechaActual}</p>
       </div>
-      <div className="flex gap-2 items-center w-2/3 max-md:w-auto max-md:flex-col my-5 mx-5 ">
-        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer">
-          <select
-            value={selectedUser}
-            onChange={handleUserChange}
-            className="outline-none text-slate-600 bg-white w-full uppercase"
-          >
-            <option className="uppercase font-bold text-orange-400" value="">
-              Seleccionar usuario...
+      <div className="flex gap-2 items-center max-md:w-auto max-md:flex-col my-5 mx-10 max-md:items-start max-md:mx-5">
+        <select
+          value={selectedUser}
+          onChange={handleUserChange}
+          className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none"
+        >
+          <option className="capitalize font-bold text-primary" value="">
+            Seleccionar usuario...
+          </option>
+          {uniqueUsers.map((user) => (
+            <option
+              className="capitalize font-semibold"
+              key={user}
+              value={user}
+            >
+              {user}
             </option>
-            {uniqueUsers.map((user) => (
-              <option
-                className="uppercase font-semibold"
-                key={user}
-                value={user}
-              >
-                {user}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
-          <input
-            value={fechaInicio}
-            onChange={handleFechaInicioChange}
-            type="date"
-            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
-            placeholder="Fecha de inicio"
-          />
-        </div>
-        <div className="bg-white py-2 px-3 text-sm font-bold w-full border border-blue-500 cursor-pointer flex items-center">
-          <input
-            value={fechaFin}
-            onChange={handleFechaFinChange}
-            type="date"
-            className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
-            placeholder="Fecha fin"
-          />
+          ))}
+        </select>
+        <div className="flex gap-2">
+          <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md outline-none font-semibold">
+            <input
+              value={fechaInicio}
+              onChange={handleFechaInicioChange}
+              type="date"
+              className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
+              placeholder="Fecha de inicio"
+            />
+          </div>
+          <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md outline-none font-semibold">
+            <input
+              value={fechaFin}
+              onChange={handleFechaFinChange}
+              type="date"
+              className="outline-none text-slate-600 w-full max-md:text-sm uppercase bg-white"
+              placeholder="Fecha fin"
+            />
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:h-[50vh] scrollbar-hidden">
+      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:h-[50vh] scrollbar-hidden max-md:mx-0">
         <div
           className={`border ${
-            totalCaja < 0 ? "border-red-500" : "border-blue-500"
+            totalCaja < 0 ? "border-red-500" : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -375,7 +384,7 @@ export const Home = () => {
               <p className="font-bold">Total de la caja actual.</p>
               <p
                 className={`${
-                  totalCaja < 0 ? "text-red-500" : "text-green-500"
+                  totalCaja <= 0 ? "text-red-500" : "text-green-500"
                 } font-extrabold`}
               >
                 {Number(totalCaja).toLocaleString("es-AR", {
@@ -388,7 +397,7 @@ export const Home = () => {
             <div className="flex">
               <div
                 className={`${
-                  totalCaja < 0
+                  totalCaja <= 0
                     ? "text-white bg-red-500"
                     : "bg-blue-500 text-white"
                 } rounded py-1.5 px-4  font-bold text-xs`}
@@ -400,7 +409,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalCobroCliente < 0 ? "border-red-500" : "border-blue-500"
+            totalCobroCliente <= 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -433,7 +444,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalCobroClienteLegales < 0 ? "border-red-500" : "border-blue-500"
+            totalCobroClienteLegales <= 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -441,7 +454,7 @@ export const Home = () => {
               <p className="font-bold">Total en legales.</p>
               <p
                 className={`${
-                  totalCobroClienteLegales < 0
+                  totalCobroClienteLegales <= 0
                     ? "text-red-500"
                     : "text-green-500"
                 } font-extrabold`}
@@ -468,7 +481,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalCobroClienteLegales <= 0 ? "border-red-500" : "border-blue-500"
+            totalCobroRendiciones <= 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -501,7 +516,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalEnSalidas < 0 ? "border-red-500" : "border-red-500"
+            totalEnSalidas <= 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -535,7 +552,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalViaticos < 0 ? "border-red-500" : "border-red-500"
+            totalViaticos < 0
+              ? "border-red-500 rounded-md"
+              : "border-red-500 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -569,7 +588,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalFletes < 0 ? "border-red-500" : "border-red-500"
+            totalFletes < 0
+              ? "border-red-500 rounded-md"
+              : "border-red-500 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -603,7 +624,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalRefuerzos < 0 ? "border-red-500" : "border-red-500"
+            totalRefuerzos < 0
+              ? "border-red-500 rounded-md"
+              : "border-red-500 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -637,7 +660,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalContratos < 0 ? "border-red-500" : "border-blue-500"
+            totalContratos < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -668,7 +693,9 @@ export const Home = () => {
         </div>{" "}
         <div
           className={`border ${
-            totalContratosEnSalidas < 0 ? "border-red-500" : "border-blue-500"
+            totalContratosEnSalidas < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -699,7 +726,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalMetrosCuadrados < 0 ? "border-red-500" : "border-blue-500"
+            totalMetrosCuadrados < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -728,7 +757,9 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalCajaFiltrada < 0 ? "border-red-500" : "border-blue-500"
+            totalCajaFiltrada < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white col-span-2 max-md:col-span-1`}
         >
           <div className="flex flex-col gap-4">
@@ -763,21 +794,21 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="mx-5 my-10">
-        <div className="py-5 px-5 mb-5 text-white bg-blue-500">
+      <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md">
+        <div className="py-5 px-5 mb-5 text-white bg-primary rounded-md">
           <p className="font-bold text-lg uppercase max-md:text-sm">
             Graficos del mes
           </p>
         </div>
         <div className="w-full grid grid-cols-2 gap-5 max-md:grid-cols-1">
-          <div className="bg-white py-5 px-5">
+          <div className="rounded-md py-5 px-5 bg-white">
             <ApexChartColumnLegalesRemuneraciones
               totalSalidas={totalEnSalidas}
               totalLegales={totalCobroRendiciones}
               totaslRemuneraciones={totalCobroCliente}
             />
           </div>
-          <div className="bg-white py-5 px-5">
+          <div className="bg-white py-5 px-5 rounded-md">
             <ApexColumnChart
               totalFletesUsuario={totalFletes}
               totalViaticosUsuario={totalViaticos}
@@ -787,12 +818,8 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1  px-2 mx-5 my-10">
-        <div className="hidden md:hidden max-md:block font-semibold text-sm uppercase text-slate-600 underline">
-          <p> Progreso de las entregas</p>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 mx-5 my-10 bg-gray-800 py-10 px-10 rounded-md">
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total de la caja
@@ -831,7 +858,7 @@ export const Home = () => {
           legales={filteredDataLegales}
         />
 
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total Viviendas en salidas
@@ -854,7 +881,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en fletes
@@ -882,7 +909,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en viaticos
@@ -910,7 +937,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer">
+        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
               Total en refuerzos

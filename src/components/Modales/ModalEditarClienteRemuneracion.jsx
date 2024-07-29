@@ -1,10 +1,7 @@
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { formatearDinero } from "../../helpers/FormatearDinero";
 
 export const ModalEditarClienteRemuneracion = ({
-  isOpen,
-  closeModal,
   setDatosCliente,
   datosCliente,
   usuario,
@@ -50,175 +47,136 @@ export const ModalEditarClienteRemuneracion = ({
       return clienteExistente;
     });
 
-    toast.success("¡Cliente editado correctamente!", {
-      position: "top-center",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      style: {
-        padding: "12px",
-        borderRadius: "15px",
-        fontWeight: "bold",
-        textTransform: "uppercase",
-      },
-    });
-
     // Actualizar el estado con la lista de clientes actualizada
     setDatosCliente(datosClienteActualizados);
 
-    // Cerrar el modal después de editar el cliente
-    closeModal();
+    document.getElementById("my_modal_editar_cliente_remuneracion").close();
+  };
+
+  const [isEditable, setIsEditable] = useState(false);
+  const [isEditableMetros, setIsEditableMetros] = useState(false);
+
+  const handleInputClick = () => {
+    setIsEditable(true);
+  };
+
+  const handleInputClickMetros = () => {
+    setIsEditableMetros(true);
   };
 
   return (
-    <Menu as="div" className="z-50">
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+    <dialog id="my_modal_editar_cliente_remuneracion" className="modal">
+      <div className="modal-box rounded-md">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
 
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-[500px] max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <div className="text-lg text-slate-700 mb-3 border-b-[1px] capitalize max-md:text-sm max-md:uppercase">
-                  Editar el cliente
-                </div>
-                <form className="flex flex-col gap-3" action="">
-                  <div className="flex flex-col gap-2 max-md:text-sm">
-                    <label htmlFor="">Nombre y Apellido</label>
-                    <input
-                      onChange={(e) => setCliente(e.target.value)}
-                      value={cliente}
-                      placeholder="@NOMBRE Y APELLIDO DEL CLIENTE"
-                      type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2 max-md:text-sm">
-                    <label htmlFor="">Localidad</label>
-                    <input
-                      onChange={(e) => setLocalidad(e.target.value)}
-                      value={localidad}
-                      placeholder="Ej: Venado Tuerto, Santa Fe"
-                      type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2 max-md:text-sm">
-                    <label htmlFor="">Numero de contrato</label>
-                    <input
-                      onChange={(e) => setNumeroContrato(e.target.value)}
-                      value={numeroContrato}
-                      placeholder="123-500"
-                      type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2 max-md:text-sm">
-                    <label htmlFor="">Metros Cuadrados</label>
-                    <input
-                      onChange={(e) => setMetrosCuadrados(e.target.value)}
-                      value={metrosCuadrados}
-                      placeholder="30"
-                      type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-2 max-md:text-sm">
-                    <label htmlFor="">Total del flete</label>
-                    <input
-                      onChange={(e) => setTotalFlete(e.target.value)}
-                      value={totalFlete}
-                      placeholder="$ 7000000"
-                      type="text"
-                      className="bg-white rounded-xl py-2 px-2 border-slate-300 border-[1px]"
-                    />
-                    <div className="flex">
-                      <p className="bg-slate-200/50 rounded-xl py-2 px-3 text-sm font-bold ">
-                        {Number(totalFlete).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleCliente();
-                        closeModal();
-                      }}
-                      className="bg-orange-500 text-white rounded-xl py-2 px-4 shadow uppercase max-md:text-sm"
-                    >
-                      Editar el cliente
-                    </button>
-                  </div>
-                </form>
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs"
-                    onClick={closeModal}
-                  >
-                    Cerrar Ventana
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
+        <form className="flex flex-col gap-3 text-sm">
+          <div className="flex flex-col gap-2 max-md:text-sm text-sm">
+            <label className="font-bold" htmlFor="">
+              Nombre y Apellido
+            </label>
+            <input
+              onChange={(e) => setCliente(e.target.value)}
+              value={cliente}
+              placeholder="@NOMBRE Y APELLIDO DEL CLIENTE"
+              type="text"
+              className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
+            />
           </div>
-        </Dialog>
-      </Transition>
-    </Menu>
+
+          <div className="flex flex-col gap-2 max-md:text-sm">
+            <label className="font-bold" htmlFor="">
+              Localidad
+            </label>
+            <input
+              onChange={(e) => setLocalidad(e.target.value)}
+              value={localidad}
+              placeholder="Ej: Venado Tuerto, Santa Fe"
+              type="text"
+              className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 max-md:text-sm">
+            <label className="font-bold" htmlFor="">
+              Numero de contrato
+            </label>
+            <input
+              onChange={(e) => setNumeroContrato(e.target.value)}
+              value={numeroContrato}
+              placeholder="123-500"
+              type="text"
+              className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
+            />
+          </div>
+
+          <div className="cursor-pointer" onClick={handleInputClickMetros}>
+            {isEditableMetros ? (
+              <div className="flex flex-col gap-2">
+                <label className="font-bold text-sm">Metros cuadrados</label>
+                <input
+                  onChange={(e) => setMetrosCuadrados(e.target.value)}
+                  value={metrosCuadrados}
+                  onBlur={() => {
+                    setIsEditableMetros(false);
+                  }}
+                  type="text"
+                  className="border border-gray-300 py-2 px-2 rounded-md font-bold capitalize text-sm outline-none w-auto"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <label className="font-bold text-sm">Metros cuadrados</label>
+
+                <p className="border border-gray-300 py-2 px-2 rounded-md font-bold capitalize text-sm outline-none w-auto">
+                  {metrosCuadrados || 0} mtrs.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="cursor-pointer" onClick={handleInputClick}>
+            {isEditable ? (
+              <div className="flex flex-col gap-2">
+                <label className="font-bold text-sm"> Total del flete</label>
+                <input
+                  onChange={(e) => setTotalFlete(e.target.value)}
+                  value={totalFlete}
+                  onBlur={() => {
+                    setIsEditable(false);
+                  }}
+                  type="text"
+                  className="border border-gray-300 py-2 px-2 rounded-md font-bold capitalize text-sm outline-none w-auto"
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <label className="font-bold text-sm"> Total del flete</label>
+
+                <p className="border border-gray-300 py-2 px-2 rounded-md font-bold capitalize text-sm outline-none w-auto">
+                  {formatearDinero(Number(totalFlete) || 0)}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <button
+              type="button"
+              onClick={() => {
+                handleCliente();
+              }}
+              className="py-1.5 px-6 bg-primary hover:shadow-md text-white transition-all rounded-md font-semibold text-sm"
+            >
+              Actualizar el cliente
+            </button>
+          </div>
+        </form>
+      </div>
+    </dialog>
   );
 };

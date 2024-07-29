@@ -25,7 +25,7 @@ export const Login = () => {
 
   return (
     <section className="flex items-center h-screen justify-center gap-12 max-md:px-5 max-md:h-screen relative">
-      <div className="w-full bottom-0 absolute max-md:hidden">
+      {/* <div className="w-full bottom-0 absolute max-md:hidden">
         <svg
           className=" bottom-0 w-full h-1/3"
           xmlns="http://www.w3.org/2000/svg"
@@ -43,19 +43,25 @@ export const Login = () => {
             </linearGradient>
           </defs>
         </svg>
-      </div>
+      </div> */}
       <div className="w-full z-[103]">
         <form
           onSubmit={onSubmit}
-          className="flex w-1/3 mx-auto flex-col gap-4 bg-white px-10 py-12 rounded-2xl  shadow-xl max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103]"
+          className="flex w-1/3 mx-auto flex-col gap-4 bg-white px-10 py-12 rounded-md max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103] border border-gray-300"
         >
           <div className="flex justify-center">
-            <h4 className="font-semibold text-2xl text-orange-500 max-md:text-xl">
+            <img
+              className="w-[40px]"
+              src="https://app.holded.com/assets/img/brand/holded-logo.svg"
+            />
+          </div>
+          <div className="flex justify-center">
+            <h4 className="font-semibold text-2xl text-gray-900 max-md:text-xl">
               Te damos la bienvenida 👋
             </h4>
           </div>
           <div className="text-base font-medium text-slate-500 text-center max-md:text-sm">
-            Ingresa al sistema de logistica de{" "}
+            Ingresa al sistema de Logistica de{" "}
             <span className="font-bold text-slate-600">Tecnohouse</span>.
           </div>
           {

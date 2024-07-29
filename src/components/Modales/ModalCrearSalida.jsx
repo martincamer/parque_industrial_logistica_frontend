@@ -134,6 +134,8 @@ export const ModalCrearSalida = ({ isOpenDos, closeModalDos }) => {
         socket.emit("nueva-salida", res.data);
       }
 
+      console.log("res", res.data);
+
       toast.success("¡Salida creada correctamente!", {
         position: "top-center",
         autoClose: 1500,

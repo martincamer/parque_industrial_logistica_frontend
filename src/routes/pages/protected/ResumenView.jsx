@@ -1,6 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { obtenerUnicaSalida } from "../../../api/ingresos";
+import { PDFViewer } from "@react-pdf/renderer";
+import { ImprimirPdfFletes } from "../../../components/pdf/ImprirmirPdfFletes";
+import { ImprimirPdf } from "../../../components/pdf/ImprirmirPdf";
+import { ImprimirPdfArmadores } from "../../../components/pdf/ImprirmirPdfArmadores";
 
 export const ResumenView = () => {
   const [unicaSalida, setUnicaSalida] = useState([]);
@@ -26,54 +30,28 @@ export const ResumenView = () => {
     parseFloat(unicaSalida.espera);
 
   return (
-    <section className="h-full max-h-full min-h-screen w-full max-w-full max-md:py-12 min-w-full">
-      <div className="bg-white mb-4 h-10 flex max-md:hidden">
-        <Link
-          to={"/salidas"}
-          className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
-        >
-          Salidas
-        </Link>{" "}
-        <Link className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white">
-          Salida N° {params.id}
-        </Link>
-      </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
-        <p className="font-bold text-blue-500 text-xl">
-          Datos de la salida obtenida, descarga los documentos, etc.
-        </p>
-      </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3  max-md:my-5">
-        <div className="dropdown dropdown-bottom">
-          <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
-            Ver estadisticas de la salida
-          </button>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-72"
-          >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1">
-              <div className="flex flex-col gap-1 border border-sky-300 py-3 px-3">
-                <p className="font-medium text-sm text-center">
-                  Total de la salida.
-                </p>
-                <p className="font-bold text-lg text-rose-500 text-center">
-                  {totalEnSalidas.toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                  })}
-                </p>
-              </div>
-            </div>
-          </ul>
+    <section className="h-full max-h-full min-h-screen w-full">
+      <div className="bg-gray-800 py-12 px-10 w-1/2 mx-auto rounded-b-2xl max-md:w-full">
+        <div className="flex flex-col gap-5">
+          <p className="font-bold text-white text-xl text-center">
+            Salida obtenida, imprimir los documentos.
+          </p>
+          <p className="text-white text-xl max-md:text-center">
+            Numero de la salida{" "}
+            <span className="font-bold text-primary">{params.id}</span>{" "}
+          </p>
         </div>
       </div>
 
-      <div className="flex gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll">
-        <Link
-          target="_blank"
-          to={`/control-redencion-de-viajes/${params.id}`}
-          className="flex gap-2 items-center text-sm font-semibold bg-blue-500 py-1.5 px-6 rounded-full text-white hover:bg-orange-500 transition-all"
+      <div className="mt-12 flex gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll">
+        <button
+          type="button"
+          onClick={() =>
+            document
+              .getElementById("my_modal_rendiciones_contro_viajes")
+              .showModal()
+          }
+          className="flex items-center gap-2 bg-primary px-4 text-white text-sm font-bold rounded-md hover:shadow-md transition-all py-2"
         >
           Descargar Control y Rendicion de Viajes Documento
           <svg
@@ -90,11 +68,13 @@ export const ResumenView = () => {
               d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
             />
           </svg>
-        </Link>
-        <Link
-          target="_blank"
-          to={`/fletes/${params.id}`}
-          className="flex gap-2 items-center text-sm font-semibold bg-blue-500 py-1.5 px-6 rounded-full text-white hover:bg-orange-500 transition-all"
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("my_modal_documnto_flete").showModal()
+          }
+          className="flex items-center gap-2 bg-blue-500 px-4 text-white text-sm font-bold rounded-md hover:shadow-md transition-all py-2"
         >
           Descargar Fletes Documento
           <svg
@@ -111,11 +91,13 @@ export const ResumenView = () => {
               d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
             />
           </svg>
-        </Link>
-        <Link
-          target="_blank"
-          to={`/viaticos-armadores/${params.id}`}
-          className="flex gap-2 items-center text-sm font-semibold bg-blue-500 py-1.5 px-6 rounded-full text-white hover:bg-orange-500 transition-all"
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("my_modal_viaticos_armadores").showModal()
+          }
+          className="flex items-center gap-2 bg-gray-800 px-4 text-white text-sm font-bold rounded-md hover:shadow-md transition-all py-2"
         >
           Descargar Viaticos Armadores Documento
           <svg
@@ -132,70 +114,46 @@ export const ResumenView = () => {
               d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
             />
           </svg>
-        </Link>
+        </button>
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white mx-5 my-5 overflow-x-auto">
+      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto">
         <table className="table">
-          <thead className="text-left">
-            <tr>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Clientes
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Localidad/Entregas
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Chofer Vehiculo
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Chofer
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Total KM Control
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                KM Control Precio
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                Total KM Flete
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-5 font-bold uppercase">
-                KM Flete Precio
-              </th>
-              <th className="px-4 py-5  text-slate-700 max-md:py-3 font-bold uppercase">
-                Espera
-              </th>
+          <thead className="">
+            <tr className="text-sm text-gray-800">
+              <th>Clientes</th>
+              <th>Localidad/Entregas</th>
+              <th>Chofer Vehiculo</th>
+              <th>Chofer</th>
+              <th>Total KM Control</th>
+              <th>KM Control Precio</th>
+              <th>Total KM Flete</th>
+              <th>KM Flete Precio</th>
+              <th>Espera</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-200">
-            <tr>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+          <tbody className="">
+            <tr className="text-xs font-medium capitalize">
+              <td>
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div key={""} className="font-bold text-slate-700">
                     {c.cliente} ({c.numeroContrato})
                   </div>
                 ))}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+              <td>
                 {unicaSalida?.datos_cliente?.datosCliente.map((c) => (
                   <div key={""} className="font-bold text-slate-700">
                     {c.localidad}
                   </div>
                 ))}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
-                {unicaSalida.chofer_vehiculo}
-              </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
-                {unicaSalida.chofer}
-              </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
-                {unicaSalida.km_viaje_control} KM
-              </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+              <td>{unicaSalida.chofer_vehiculo}</td>
+              <td>{unicaSalida.chofer}</td>
+              <td>{unicaSalida.km_viaje_control} KM</td>
+              <td>
                 {Number(unicaSalida.km_viaje_control_precio).toLocaleString(
                   "es-AR",
                   {
@@ -205,17 +163,15 @@ export const ResumenView = () => {
                   }
                 )}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
-                {unicaSalida.fletes_km} KM
-              </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+              <td>{unicaSalida.fletes_km} KM</td>
+              <td>
                 {Number(unicaSalida.fletes_km_precio).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
                 })}
               </td>
-              <td className="px-4 py-4 font-medium text-gray-900 uppercase">
+              <td>
                 {Number(unicaSalida.espera).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -228,21 +184,21 @@ export const ResumenView = () => {
       </div>
 
       <article className="grid grid-cols-4 gap-5 mx-5 my-10 max-md:grid-cols-1">
-        <div className="bg-white py-5 px-5  text-base max-md:text-sm">
+        <div className="bg-white py-5 px-5  text-base max-md:text-sm border border-gray-300 rounded-md">
           <div>
-            <h3 className="font-bold text-slate-700 underline uppercase">
+            <h3 className="font-bold text-slate-700 underline capitalize">
               Lugar de salida/Fabrica
             </h3>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase">
+            <div className="flex gap-2 font-medium text-gray-700 mt-3 capitalize">
               <p className="font-bold text-slate-700">Lugar de salida</p>
               {unicaSalida.salida}
             </div>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3 uppercase">
+            <div className="flex gap-2 font-medium text-gray-700 mt-3 capitalize">
               <p className="font-bold text-slate-700">Fabrica / Suc.</p>
               {unicaSalida.fabrica}
             </div>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3">
-              <p className="font-bold text-slate-700 max-md:text-sm uppercase">
+            <div className="flex gap-2 font-medium text-gray-700 mt-3">
+              <p className="font-bold text-slate-700 max-md:text-sm capitalize">
                 Fecha de salida
               </p>
               {unicaSalida?.created_at?.split("T")[0]}
@@ -250,13 +206,13 @@ export const ResumenView = () => {
           </div>
         </div>
 
-        <div className="bg-white py-5 px-5 text-base max-md:text-sm">
+        <div className="bg-white py-5 px-5  text-base max-md:text-sm border border-gray-300 rounded-md">
           <div>
-            <h3 className="font-bold text-slate-700 uppercase underline text-base">
+            <h3 className="font-bold text-slate-700 capitalize underline text-base">
               Gastos distribuidos
             </h3>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3">
-              <p className="font-bold text-slate-700 uppercase">
+            <div className="flex gap-2 font-medium text-gray-700 mt-3">
+              <p className="font-bold text-slate-700 capitalize">
                 Total control
               </p>
               {Number(unicaSalida.total_control).toLocaleString("es-AR", {
@@ -265,24 +221,26 @@ export const ResumenView = () => {
                 minimumIntegerDigits: 2,
               })}
             </div>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3">
-              <p className="font-bold text-slate-700 uppercase">Total Flete</p>
+            <div className="flex gap-2 font-medium text-gray-700 mt-3">
+              <p className="font-bold text-slate-700 capitalize">Total Flete</p>
               {Number(unicaSalida.total_flete).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
                 minimumIntegerDigits: 2,
               })}
             </div>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3">
-              <p className="font-bold text-slate-700 uppercase">Espera Flete</p>
+            <div className="flex gap-2 font-medium text-gray-700 mt-3">
+              <p className="font-bold text-slate-700 capitalize">
+                Espera Flete
+              </p>
               {Number(unicaSalida.espera).toLocaleString("es-AR", {
                 style: "currency",
                 currency: "ARS",
                 minimumIntegerDigits: 2,
               })}
             </div>
-            <div className="flex gap-2 font-semibold text-red-800 mt-3">
-              <p className="font-bold text-slate-700 uppercase">
+            <div className="flex gap-2 font-medium text-gray-700 mt-3">
+              <p className="font-bold text-slate-700 capitalize">
                 Total Viaticos
               </p>
               {Number(unicaSalida.total_viaticos).toLocaleString("es-AR", {
@@ -294,6 +252,115 @@ export const ResumenView = () => {
           </div>
         </div>
       </article>
+
+      <ModalControlViajes />
+      <ModalFletesDocumento />
+      <ModalViaticosArmadores />
     </section>
+  );
+};
+
+export const ModalControlViajes = () => {
+  const [unicaSalida, setUnicaSalida] = useState([]);
+
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await obtenerUnicaSalida(params.id);
+
+      setUnicaSalida(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  return (
+    <dialog id="my_modal_rendiciones_contro_viajes" className="modal">
+      <div className="modal-box max-w-6xl h-full rounded-none scroll-bar">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-lg mb-2">
+          Descargar o imprimir control y rendición de viajes documento.
+        </h3>
+        <PDFViewer className="w-full h-full">
+          <ImprimirPdf unicaSalida={unicaSalida} />
+        </PDFViewer>
+      </div>
+    </dialog>
+  );
+};
+
+export const ModalFletesDocumento = () => {
+  const [unicaSalida, setUnicaSalida] = useState([]);
+
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await obtenerUnicaSalida(params.id);
+
+      setUnicaSalida(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  return (
+    <dialog id="my_modal_documnto_flete" className="modal">
+      <div className="modal-box max-w-6xl h-full rounded-none scroll-bar">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-lg mb-2">
+          Descargar o imprimir documento de fletes.
+        </h3>
+        <PDFViewer className="w-full h-full">
+          <ImprimirPdfFletes unicaSalida={unicaSalida} />
+        </PDFViewer>
+      </div>
+    </dialog>
+  );
+};
+
+export const ModalViaticosArmadores = () => {
+  const [unicaSalida, setUnicaSalida] = useState([]);
+
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await obtenerUnicaSalida(params.id);
+
+      setUnicaSalida(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  return (
+    <dialog id="my_modal_viaticos_armadores" className="modal">
+      <div className="modal-box max-w-6xl h-full rounded-none scroll-bar">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-lg mb-2">
+          Descargar documento viaticos, armadores.
+        </h3>
+        <PDFViewer className="w-full h-full">
+          <ImprimirPdfArmadores unicaSalida={unicaSalida} />
+        </PDFViewer>
+      </div>
+    </dialog>
   );
 };

@@ -1,11 +1,9 @@
-//import {}
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { useAuth } from "./context/AuthProvider";
 import { NotFound } from "./routes/pages/protected/NotFound";
 import { Login } from "./routes/pages/Login";
 import { Register } from "./routes/pages/Register";
 import { Home } from "./routes/pages/protected/Home";
-import { SideBar } from "./components/sidebar/Sidebar";
 import { SalidasProvider } from "./context/SalidasProvider";
 import { Salidas } from "./routes/pages/protected/Salidas";
 import { CrearSalida } from "./routes/pages/protected/CrearSalida";
@@ -38,15 +36,15 @@ import { RendicionesRegistradas } from "./routes/pages/protected/RendicionesRegi
 import { MenuMobile } from "./components/ui/MenuMobile";
 import { HomeEstadistica } from "./routes/pages/protected/HomeEstadistica.jsx";
 import { Cuentas } from "./routes/pages/protected/Cuentas.jsx";
-// import { HomeEstadistica } from "./routes/pages/protected/HomeEstadisticajsx";
-//import normales
-import RutaProtegida from "./layouts/RutaProtejida";
-import "react-toastify/dist/ReactToastify.css";
-import "react-toastify/dist/ReactToastify.min.css";
 import { Configuraciones } from "./routes/pages/protected/Configuraciones.jsx";
 import { useEffect, useState } from "react";
 import { PageRegistros } from "./routes/pages/protected/PageRegistros.jsx";
 import { Contratos } from "./routes/pages/protected/Contratos.jsx";
+import { Navbar } from "./components/ui/Navbar.jsx";
+//import normales
+import RutaProtegida from "./layouts/RutaProtejida";
+import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -88,8 +86,9 @@ function App() {
                     <OrdenesProvider>
                       <LegalesProvider>
                         <RendicionesProvider>
-                          <main className="min-h-full max-h-full h-full flex">
-                            <SideBar />
+                          <main className="min-h-full max-h-full h-full flex flex-col">
+                            {/* <SideBar /> */}
+                            <Navbar />
                             <MenuMobile />
                             <Outlet />
                           </main>
@@ -182,7 +181,7 @@ export default App;
 
 const LoadingScreen = () => {
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gray-200">
+    <div className="w-full h-screen flex items-center justify-center bg-gray-50">
       <div className="flex flex-col items-center">
         <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full border-t-orange-500 border-b-transparent"></div>
         <p className="mt-4 text-lg font-bold text-gray-700">Cargando...</p>

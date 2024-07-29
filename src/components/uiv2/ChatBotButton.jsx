@@ -16,7 +16,7 @@ const ChatBotButton = () => {
       className="fixed bottom-8 right-8 z-50 max-md:hidden" // Posición fija, en la parte inferior derecha
     >
       <button
-        className="flex items-center justify-center p-4 bg-green-500 font-semibold rounded-full text-white hover:bg-indigo-500 transition-all shadow-lg"
+        className="flex items-center justify-center p-4 bg-blue-500 font-semibold rounded-full text-white hover:bg-primary transition-all shadow-lg"
         onClick={handleChatClick}
         aria-label="Chatear"
       >

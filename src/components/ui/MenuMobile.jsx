@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoMenuOutline, IoCloseOutline } from "react-icons/io5";
 
 export const MenuMobile = () => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -26,14 +26,20 @@ export const MenuMobile = () => {
       } transition-all ease-linear flex flex-col bg-white min-h-[220vh] max-h-full h-full z-[100] border-r max-md:fixed md:hidden`}
     >
       {/* Botón de menú */}
-      <div className={`py-4 px-4 ${isOpen ? "flex justify-between " : ""}`}>
-        <button className="text-3xl text-orange-500" onClick={handleToggle}>
+      <div
+        className={`py-4 px-4 ${
+          isOpen ? "flex justify-between items-center" : ""
+        }`}
+      >
+        <button className="text-4xl text-primary" onClick={handleToggle}>
           {isOpen ? <IoCloseOutline /> : <IoMenuOutline />}
         </button>
         {isOpen && (
-          <p className="bg-orange-500 py-1 px-2 rounded-xl text-sm text-white capitalize">
-            {user?.username}
-          </p>
+          <div>
+            <p className="bg-gray-800 py-1 px-2 rounded-md text-xs text-white capitalize font-bold">
+              {user?.username}
+            </p>
+          </div>
         )}
       </div>
       {isOpen && (
@@ -42,8 +48,8 @@ export const MenuMobile = () => {
             onClick={() => setIsOpen(!isOpen)}
             to={"/"}
             className={`${
-              location.pathname === "/" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/" ? "bg-primary text-white" : "bg-none"
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
             Inicio/estadistica/compras
           </Link>
@@ -52,8 +58,10 @@ export const MenuMobile = () => {
             onClick={() => setIsOpen(!isOpen)}
             to={"/salidas"}
             className={`${
-              location.pathname === "/salidas" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/salidas"
+                ? "bg-primary text-white"
+                : "bg-none"
+            } hover:text-orange-700 font-semibold text-sm transition-all py-3 px-3`}
           >
             Crear nuevas salidas/ver/editar
           </Link>
@@ -62,9 +70,9 @@ export const MenuMobile = () => {
             to={"/remuneraciones"}
             className={`${
               location.pathname === "/remuneraciones"
-                ? "bg-orange-100"
+                ? "bg-primary text-white"
                 : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
             Crear nuevas remuneraciones/ver/editar
           </Link>
@@ -72,8 +80,10 @@ export const MenuMobile = () => {
             onClick={() => setIsOpen(!isOpen)}
             to={"/legales"}
             className={`${
-              location.pathname === "/legales" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/legales"
+                ? "bg-primary text-white"
+                : "bg-none"
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
             Crear nuevas ordenes legales/ver/editar
           </Link>
@@ -81,20 +91,31 @@ export const MenuMobile = () => {
             onClick={() => setIsOpen(!isOpen)}
             to={"/rendiciones"}
             className={`${
-              location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/rendiciones"
+                ? "bg-primary text-white"
+                : "bg-none"
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
             Crear nuevas rendiciones/editar/ver
           </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
-            to={"/rendiciones"}
+            to={"/contratos"}
             className={`${
-              location.pathname === "/rendiciones" ? "bg-orange-100" : "bg-none"
-            } hover:text-orange-700 text-slate-700 text-sm transition-all py-3 px-3`}
+              location.pathname === "/contratos"
+                ? "bg-primary text-white"
+                : "bg-none"
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Crear nuevas rendiciones/editar/ver
+            Contratos
           </Link>
+          <button
+            type="button"
+            onClick={() => signout()}
+            className={`bg-gray-800 py-2 px-3 text-white font-bold text-sm`}
+          >
+            Cerrar sesión
+          </button>
 
           {user.localidad === "admin" && (
             <Link

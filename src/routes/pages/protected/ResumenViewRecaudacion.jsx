@@ -26,59 +26,29 @@ export const ResumenViewRecaudacion = () => {
   );
 
   return (
-    <section className="w-full max-w-full h-full max-h-full min-h-screen max-md:py-12">
-      <div className="bg-white mb-4 h-10 flex max-md:hidden">
-        <Link
-          to={"/remuneraciones"}
-          className="bg-blue-100 flex h-full px-4 justify-center items-center font-bold text-blue-600"
-        >
-          Remuneraciones
-        </Link>{" "}
-        <Link className="bg-blue-500 flex h-full px-4 justify-center items-center font-bold text-white">
-          Remuneracion N° {params.id}
-        </Link>
-      </div>
-      <div className="mx-5 my-10 bg-white py-6 px-6 max-md:my-5">
-        <p className="font-bold text-blue-500 text-xl">
-          Observa la remuneración obtenida, ver los datos, etc.
-        </p>
-      </div>
-      <div className="bg-white py-5 px-5 mx-5 my-10 flex gap-3 max-md:my-5">
-        <div className="dropdown dropdown-bottom">
-          <button className="font-bold text-sm bg-rose-400 py-2 px-4 text-white rounded">
-            Ver estadistica de la remuneración
-          </button>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 mt-2 bg-white w-[800px] border max-md:w-80"
-          >
-            <div className="py-5 px-5 grid grid-cols-3 gap-5 w-full max-md:grid-cols-1">
-              <div className="flex flex-col gap-1 border border-blue-500 py-3 px-3">
-                <p className="font-medium text-sm text-center">
-                  Total de la remuneración.
-                </p>
-                <p className="font-bold text-lg text-blue-500 text-center">
-                  {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
-                    style: "currency",
-                    currency: "ARS",
-                  })}
-                </p>
-              </div>
-            </div>
-          </ul>
+    <section className="w-full max-w-full h-full max-h-full min-h-screen">
+      {" "}
+      <div className="bg-gray-800 py-12 px-10 w-1/2 mx-auto rounded-b-2xl max-md:w-full">
+        <div className="flex flex-col gap-5 max-md:text-center">
+          <p className="font-bold text-white text-xl text-center">
+            Remuneración obtenida, observa los datos.
+          </p>
+          <p className="text-white text-xl">
+            Numero de la remuneración{" "}
+            <span className="font-bold text-primary">{params.id}</span>{" "}
+          </p>
         </div>
       </div>
-
-      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 uppercase text-sm mx-5 my-10">
-        <div className="bg-white border-blue-500 border py-5 px-5">
-          <p className="text-slate-700 font-bold text-sm max-md:text-sm max-md:uppercase">
+      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1 max-md:border-none max-md:shadow-none max-md:py-0 max-md:px-0 capitalize text-sm mx-5 my-10">
+        <div className="bg-white border-gray-300 rounded-md border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm max-md:text-sm max-md:capitalize">
             Datos de los clientes
           </p>
           <div className="py-2 px-2 flex flex-col gap-3 h-[200px] overflow-y-scroll scroll-bar">
             {unicaSalida?.datos_cliente?.datosCliente?.map((datos, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-1 bg-white border-blue-500 border py-2 px-2"
+                className="flex flex-col gap-1 bg-white border-gray-200 rounded-md border py-2 px-2"
               >
                 <div>
                   <p className="text-slate-600 text-sm">
@@ -121,8 +91,8 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="bg-white border-blue-500 border py-5 px-5">
-          <p className="text-slate-700 font-bold text-sm max-md:uppercase">
+        <div className="bg-white border-gray-300 rounded-md border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm max-md:capitalize">
             Datos de carga/fletero/etc
           </p>
           <div className="py-2 px-2 flex flex-col gap-3 mt-2">
@@ -172,8 +142,8 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="bg-white border-blue-500 border py-5 px-5">
-          <p className="text-slate-700 font-bold text-sm underline max-md:text-sm max-md:uppercase">
+        <div className="bg-white border-gray-300 rounded-md border py-5 px-5">
+          <p className="text-slate-700 font-bold text-sm underline max-md:text-sm max-md:capitalize">
             Remuneraciones/Etc
           </p>
           <div className="flex flex-col gap-2">
@@ -243,12 +213,12 @@ export const ResumenViewRecaudacion = () => {
             </div>
             <div className="">
               <p className="text-slate-600 max-md:text-sm">
-                Recaudacion:{" "}
+                Remunerado:{" "}
                 <span
                   className={
                     unicaSalida.recaudacion < 0
                       ? "text-red-600 font-bold"
-                      : "text-blue-600 font-bold"
+                      : "text-gray-600 font-bold"
                   }
                 >
                   {Number(unicaSalida.recaudacion).toLocaleString("es-AR", {
@@ -262,11 +232,10 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
       </div>
-
       <article className="grid grid-cols-3 gap-4 items-start max-md:grid-cols-1 mx-5">
         <div className="flex gap-3">
           <div
-            className={`bg-white border-blue-500 border hover:shadow py-5 px-5 w-full relative max-md:py-3 ${
+            className={`bg-white border-gray-300 rounded-md border hover:shadow py-5 px-5 w-full relative max-md:py-3 ${
               Number(unicaSalida.recaudacion) >= 0
                 ? "text-green-600"
                 : "text-red-600"
@@ -320,8 +289,8 @@ export const ResumenViewRecaudacion = () => {
           </div>
         </div>
 
-        <div className="flex gap-3">
-          <div className="bg-white border-blue-500 border hover:shadow py-5 px-5 w-full relative max-md:py-2">
+        <div className="flex gap-3 max-md:pb-10">
+          <div className="bg-white border-gray-300 rounded-md border hover:shadow py-5 px-5 w-full relative max-md:py-2">
             <div className="flex justify-between items-center">
               <p className="text-slate-500 text-lg flex gap-2 max-md:text-sm">
                 {Number(

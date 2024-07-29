@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthProvider";
 import { Link, useLocation } from "react-router-dom";
-import { IoMenuOutline, IoCloseOutline } from "react-icons/io5";
+import { IoMenuOutline, IoCloseOutline, IoLogOut } from "react-icons/io5";
 import {
   CiAlignBottom,
   CiBag1,
@@ -20,7 +20,7 @@ import {
 } from "react-icons/fa";
 
 export const SideBar = () => {
-  const { user } = useAuth();
+  const { user, signout } = useAuth();
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ export const SideBar = () => {
           isOpen ? "flex justify-between" : ""
         } transition-all ease-linear duration-300 py-3 px-4 border-b-[2px] border-blue-500`}
       >
-        <button className="text-3xl text-blue-500" onClick={handleToggle}>
+        <button className="text-3xl text-primary" onClick={handleToggle}>
           {isOpen ? <IoCloseOutline /> : <IoMenuOutline />}
         </button>
         {isOpen && (
@@ -97,6 +97,15 @@ export const SideBar = () => {
             Crear nuevas rendiciones/editar/ver
           </Link>
 
+          <Link
+            onClick={() => signout()}
+            className={`${
+              location.pathname === "/rendiciones" ? "bg-gray-100" : "bg-none"
+            } hover:text-blue-500 text-blue-500 text-sm transition-all py-3 px-3`}
+          >
+            Cerrar sesión
+          </Link>
+
           {user.localidad === "admin" && (
             <Link
               to={"/cuentas"}
@@ -121,7 +130,7 @@ export const SideBar = () => {
                 data-tip="INICIO/ESTADISTICAS/ETC"
               >
                 <Link to={"/"}>
-                  <FaDatabase className="text-3xl text-blue-600" />
+                  <FaDatabase className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
@@ -138,7 +147,7 @@ export const SideBar = () => {
                 data-tip="SALIDAS/CREAR/EDITAR"
               >
                 <Link to={"/salidas"}>
-                  <FaTruckMoving className="text-3xl text-blue-600" />
+                  <FaTruckMoving className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
@@ -157,7 +166,7 @@ export const SideBar = () => {
                 data-tip="CREAR REMUNERACIONES/VER/EDITAR"
               >
                 <Link to={"/remuneraciones"}>
-                  <FaMoneyBillWaveAlt className="text-3xl text-blue-600" />
+                  <FaMoneyBillWaveAlt className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
@@ -174,7 +183,7 @@ export const SideBar = () => {
                 data-tip="CREAR NUEVAS ORDENES LEGALES/EDITAR/VER"
               >
                 <Link to={"/legales"}>
-                  <FaFileAlt className="text-3xl text-blue-600" />
+                  <FaFileAlt className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
@@ -191,7 +200,7 @@ export const SideBar = () => {
                 data-tip="CREAR NUEVAS RENDICIONES EDITAR/VER"
               >
                 <Link to={"/rendiciones"}>
-                  <FaWallet className="text-3xl text-blue-600" />
+                  <FaWallet className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
@@ -208,12 +217,24 @@ export const SideBar = () => {
                 data-tip="OBSERVAR CONTRATOS ENTREGADOS, ETC."
               >
                 <Link to={"/contratos"}>
-                  <FaClipboardList className="text-3xl text-blue-600" />
+                  <FaClipboardList className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                 </Link>
               </div>
             </div>
           </div>
 
+          <div onClick={() => signout()}>
+            <div className="w-full text-center py-2 items-center transition-all ">
+              <div
+                className="tooltip tooltip-right font-bold"
+                data-tip="CERRAR SESIÓN."
+              >
+                <Link to={"/contratos"}>
+                  <IoLogOut className="text-4xl text-gray-700 hover:text-[#FD454D] transition-all" />
+                </Link>
+              </div>
+            </div>
+          </div>
           {user.localidad === "admin" && (
             <div
               className={`${
@@ -226,7 +247,7 @@ export const SideBar = () => {
                   data-tip="REGISTRAR USUARIOS/EDITARLOS/ETC"
                 >
                   <Link to={"/cuentas"}>
-                    <CiSettings className="text-3xl text-blue-600" />
+                    <CiSettings className="text-3xl text-blue-600 hover:text-[#FD454D] transition-all" />
                   </Link>
                 </div>
               </div>

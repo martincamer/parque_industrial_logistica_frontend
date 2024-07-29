@@ -72,45 +72,43 @@ export const ModalVerClienteRemuneracion = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-1/2 max-md:w-full p-8 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-none">
-                <div className="text-sm font-bold text-blue-500 mb-3 border-b-2 border-blue-500 uppercase">
-                  Cliente y localidad obtenida
+              <div className="inline-block w-1/2 max-md:w-full p-8 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-md">
+                <div className="font-bold mb-3 text-lg">
+                  Cliente y localidad obtenida.
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                  <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                     Chofer de viaje{" "}
                     <span className="font-medium">{remuneracion.chofer}</span>
                   </p>
-                  <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                  <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                     Armador{" "}
                     <span className="font-medium">{remuneracion.armador}</span>
                   </p>
                 </div>
 
                 <div className="mt-2 flex mb-2">
-                  <p className="uppercase text-sm mb-1 font-bold text-orange-500 border-b-2 border-orange-500">
-                    Clientes
-                  </p>
+                  <p className="font-bold text-primary text-lg">Clientes.</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {remuneracion?.datos_cliente?.datosCliente?.map((s) => (
                     <div
                       key={s.id}
-                      className="border border-blue-500 py-2 px-2"
+                      className="border border-gray-300 rounded-md py-2 px-2"
                     >
-                      <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                      <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                         Cliente <span className="font-medium">{s.cliente}</span>
                       </p>
-                      <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                      <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                         Numero de contrato{" "}
                         <span className="font-medium">{s.numeroContrato}</span>
                       </p>
-                      <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                      <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                         Localidad{" "}
                         <span className="font-medium">{s.localidad}</span>
                       </p>
-                      <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
+                      <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
                         Total del flete{" "}
                         <span className="font-medium">
                           {Number(s.totalFlete).toLocaleString("es-AR", {
@@ -125,13 +123,13 @@ export const ModalVerClienteRemuneracion = ({
                 </div>
 
                 <div className="mt-2">
-                  <p className="text-sm uppercase font-bold text-slate-600 flex gap-2 items-center">
-                    Total Final Remunerado{" "}
+                  <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
+                    Remunerado{" "}
                     <span
                       className={
                         remuneracion.recaudacion < 0
-                          ? "font-semibold bg-red-600 py-1 px-2 text-white"
-                          : "font-semibold bg-blue-500 py-1 px-2 text-white"
+                          ? "font-semibold bg-red-100/90 py-1 px-2 text-red-700 rounded-md"
+                          : "font-semibold bg-green-100/90 py-1 px-2 text-green-700 rounded-md"
                       }
                     >
                       {Number(remuneracion.recaudacion).toLocaleString(
@@ -144,16 +142,6 @@ export const ModalVerClienteRemuneracion = ({
                       )}
                     </span>
                   </p>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 duration-300 cursor-pointer max-md:text-xs font-bold"
-                    onClick={closeOpen}
-                  >
-                    Cerrar Ventana
-                  </button>
                 </div>
               </div>
             </Transition.Child>
