@@ -46,7 +46,7 @@ export const Salidas = () => {
   // Obtener el primer día del mes actual
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
 
   // Convertir las fechas en formato YYYY-MM-DD para los inputs tipo date
   const fechaInicioPorDefecto = firstDayOfMonth.toISOString().split("T")[0];
@@ -556,17 +556,18 @@ const ModalCrearSalida = () => {
 
   //estados del formulario
   const [chofer, setChofer] = useState("");
-  const [km_viaje_control, setKmViajeControl] = useState("");
-  const [km_viaje_control_precio, setKmViajeControlPrecio] = useState("");
-  const [fletes_km, setKmFletes] = useState("");
-  const [fletes_km_precio, setKmFletesPrecio] = useState("");
+  const [km_viaje_control, setKmViajeControl] = useState(0);
+  const [km_viaje_control_precio, setKmViajeControlPrecio] = useState(0);
+  const [fletes_km, setKmFletes] = useState(0);
+  const [fletes_km_precio, setKmFletesPrecio] = useState(0);
   const [armadores, setArmadores] = useState("");
-  const [total_viaticos, setTotalViaticos] = useState("");
+  const [total_viaticos, setTotalViaticos] = useState(0);
   const [motivo, setMotivo] = useState("");
-  const [salida, setSalida] = useState("");
   const [fabrica, setFabrica] = useState("");
-  const [espera, setEspera] = useState("");
+  const [salida, setSalida] = useState("");
+  const [espera, setEspera] = useState(0);
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
+
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -619,16 +620,16 @@ const ModalCrearSalida = () => {
       showSuccessToast("Creado correctamente");
 
       setChofer("");
-      setKmViajeControl("");
-      setKmViajeControlPrecio("");
-      setKmFletes("");
-      setKmFletesPrecio("");
+      setKmViajeControl(0);
+      setKmViajeControlPrecio(0);
+      setKmFletes(0);
+      setKmFletesPrecio(0);
       setArmadores("");
-      setTotalViaticos("");
+      setTotalViaticos(0);
       setMotivo("");
       setSalida("");
       setFabrica("");
-      setEspera("");
+      setEspera(0);
       setChoferVehiculo("");
 
       setDatosCliente([]);
@@ -866,7 +867,7 @@ const ModalCrearSalida = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={km_viaje_control || 0}
+                    value={km_viaje_control}
                     onChange={(e) => setKmViajeControl(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -878,7 +879,7 @@ const ModalCrearSalida = () => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={km_viaje_control_precio || 0}
+                      value={km_viaje_control_precio}
                       onChange={(e) => setKmViajeControlPrecio(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -924,7 +925,7 @@ const ModalCrearSalida = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">KM de viaje</label>
                   <input
-                    value={fletes_km || 0}
+                    value={fletes_km}
                     onChange={(e) => setKmFletes(e.target.value)}
                     type="text"
                     className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
@@ -936,7 +937,7 @@ const ModalCrearSalida = () => {
                   <div className="flex flex-col gap-2">
                     <label className="font-bold text-sm">KM precio</label>
                     <input
-                      value={fletes_km_precio || 0}
+                      value={fletes_km_precio}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -984,7 +985,7 @@ const ModalCrearSalida = () => {
                       Espera del fletero
                     </label>
                     <input
-                      value={espera || 0}
+                      value={espera}
                       onChange={(e) => setEspera(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1034,7 +1035,7 @@ const ModalCrearSalida = () => {
                       Total en viaticos
                     </label>
                     <input
-                      value={total_viaticos || 0}
+                      value={total_viaticos}
                       onChange={(e) => setTotalViaticos(e.target.value)}
                       onBlur={() => {
                         setIsEditable(false);
@@ -1216,16 +1217,16 @@ const ModalActualizarSalida = ({ obtenerID }) => {
 
   //estados del formulario
   const [chofer, setChofer] = useState("");
-  const [km_viaje_control, setKmViajeControl] = useState("");
-  const [km_viaje_control_precio, setKmViajeControlPrecio] = useState("");
-  const [fletes_km, setKmFletes] = useState("");
-  const [fletes_km_precio, setKmFletesPrecio] = useState("");
+  const [km_viaje_control, setKmViajeControl] = useState(0);
+  const [km_viaje_control_precio, setKmViajeControlPrecio] = useState(0);
+  const [fletes_km, setKmFletes] = useState(0);
+  const [fletes_km_precio, setKmFletesPrecio] = useState(0);
   const [armadores, setArmadores] = useState("");
-  const [total_viaticos, setTotalViaticos] = useState("");
+  const [total_viaticos, setTotalViaticos] = useState(0);
   const [motivo, setMotivo] = useState("");
-  const [salida, setSalida] = useState("");
   const [fabrica, setFabrica] = useState("");
-  const [espera, setEspera] = useState("");
+  const [salida, setSalida] = useState("");
+  const [espera, setEspera] = useState(0);
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
 
   const [socket, setSocket] = useState(null);
