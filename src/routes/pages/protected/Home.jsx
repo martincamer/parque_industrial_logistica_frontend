@@ -49,7 +49,7 @@ export const Home = () => {
 
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
 
   // Convertir las fechas en formato YYYY-MM-DD para los inputs tipo date
   const fechaInicioPorDefecto = firstDayOfMonth.toISOString().split("T")[0];
@@ -794,7 +794,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md">
+      <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md max-md:px-4 max-md:py-4 ">
         <div className="py-5 px-5 mb-5 text-white bg-primary rounded-md">
           <p className="font-bold text-lg uppercase max-md:text-sm">
             Graficos del mes
@@ -818,7 +818,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 mx-5 my-10 bg-gray-800 py-10 px-10 rounded-md">
+      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 mx-5 my-10 bg-gray-800 py-10 px-10 rounded-md max-md:px-4 max-md:py-4">
         <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
           <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
             <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">

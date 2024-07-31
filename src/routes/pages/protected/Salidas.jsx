@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useState, useEffect, Fragment } from "react";
-import { FaHouseChimneyUser } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaDeleteLeft, FaHouseChimneyUser } from "react-icons/fa6";
+import {
+  FaArrowAltCircleLeft,
+  FaArrowAltCircleRight,
+  FaEdit,
+  FaSearch,
+} from "react-icons/fa";
 import { formatearFecha } from "../../../helpers/formatearFecha";
 import { useAuth } from "../../../context/AuthProvider";
 import { crearNuevaSalida } from "../../../api/ingresos";
@@ -398,7 +403,7 @@ export const Salidas = () => {
         </div>
       </div>
 
-      <div className="max-md:overflow-x-auto mx-5 mt-10">
+      <div className="max-md:overflow-x-auto mx-5 mt-10 scrollbar-hidden">
         <table className="table">
           <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
@@ -444,7 +449,32 @@ export const Salidas = () => {
                     </button>
                   </td>
                   <td className="">{s.usuario}</td>
-                  <td className="">
+                  <td className="md:hidden">
+                    <div className="flex gap-1">
+                      <FaEdit
+                        onClick={() => {
+                          handleObtenerId(s.id),
+                            document
+                              .getElementById("my_modal_actualizar_salida")
+                              .showModal();
+                        }}
+                        className="text-xl text-blue-500"
+                      />
+                      <FaDeleteLeft
+                        onClick={() => {
+                          handleObtenerId(s.id),
+                            document
+                              .getElementById("my_modal_eliminar")
+                              .showModal();
+                        }}
+                        className="text-xl text-red-500"
+                      />
+                      <Link className="capitalize" to={`/resumen/${s.id}`}>
+                        <FaArrowAltCircleRight className="text-xl text-gray-700" />
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="max-md:hidden">
                     <div className="dropdown dropdown-left">
                       <div
                         tabIndex={0}

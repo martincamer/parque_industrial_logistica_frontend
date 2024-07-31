@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { obtenerUnicaSalida } from "../../../api/ingresos";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { ImprimirPdfFletes } from "../../../components/pdf/ImprirmirPdfFletes";
 import { ImprimirPdf } from "../../../components/pdf/ImprirmirPdf";
 import { ImprimirPdfArmadores } from "../../../components/pdf/ImprirmirPdfArmadores";
@@ -43,7 +43,31 @@ export const ResumenView = () => {
         </div>
       </div>
 
-      <div className="mt-12 flex gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll">
+      <div className="max-md:flex hidden mt-12  gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll scrollbar-hidden">
+        <PDFDownloadLink
+          className="bg-primary text-sm rounded-md px-2 py-2 text-white font-bold"
+          fileName={`Control y rendición de viajes documento n° ${params.id}`}
+          document={<ImprimirPdf unicaSalida={unicaSalida} />}
+        >
+          Descargar o imprimir control y rendición de viajes documento.
+        </PDFDownloadLink>
+        <PDFDownloadLink
+          className="bg-primary text-sm rounded-md px-2 py-2 text-white font-bold"
+          fileName={` Documento de fletes n° ${params.id}`}
+          document={<ImprimirPdfFletes unicaSalida={unicaSalida} />}
+        >
+          Descargar o imprimir documento de fletes.
+        </PDFDownloadLink>
+        <PDFDownloadLink
+          className="bg-primary text-sm rounded-md px-2 py-2 text-white font-bold"
+          fileName={`Documento viaticos, armadores. n° ${params.id}`}
+          document={<ImprimirPdfArmadores unicaSalida={unicaSalida} />}
+        >
+          Descargar o imprimir documento de fletes.
+        </PDFDownloadLink>
+      </div>
+
+      <div className="max-md:hidden mt-12 flex gap-5 max-md:flex-col mx-5 my-6 max-md:h-[10vh] max-md:bg-white max-md:py-5 max-md:px-5 max-md:overflow-y-scroll">
         <button
           type="button"
           onClick={() =>
@@ -118,7 +142,7 @@ export const ResumenView = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto">
+      <div className="bg-white mx-5 my-5 max-md:overflow-x-auto scrollbar-hidden">
         <table className="table">
           <thead className="">
             <tr className="text-sm text-gray-800">

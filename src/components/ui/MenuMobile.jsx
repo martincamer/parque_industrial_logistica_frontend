@@ -31,8 +31,12 @@ export const MenuMobile = () => {
           isOpen ? "flex justify-between items-center" : ""
         }`}
       >
-        <button className="text-4xl text-primary" onClick={handleToggle}>
-          {isOpen ? <IoCloseOutline /> : <IoMenuOutline />}
+        <button className="text-4xl px-2" onClick={handleToggle}>
+          {isOpen ? (
+            <IoCloseOutline className="text-primary" />
+          ) : (
+            <IoMenuOutline className="text-white" />
+          )}
         </button>
         {isOpen && (
           <div>

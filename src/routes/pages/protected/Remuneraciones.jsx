@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { crearNuevaRemuneracion } from "../../../api/ingresos";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
-import { FaEye, FaHouseChimneyUser } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
+import { FaDeleteLeft, FaEye, FaHouseChimneyUser } from "react-icons/fa6";
+import { FaArrowAltCircleRight, FaEdit, FaSearch } from "react-icons/fa";
 import { formatearFecha } from "../../../helpers/formatearFecha";
 import { useAuth } from "../../../context/AuthProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
@@ -285,7 +285,7 @@ export const Remuneraciones = () => {
           </div>
         </div>
 
-        <div className="dropdown dropdown-left dropdown-hover">
+        <div className="dropdown dropdown-left dropdown-hover max-md:hidden">
           <button className="font-bold text-sm bg-primary py-2 px-4 text-white rounded">
             Ver estadisticas de remuneradas
           </button>
@@ -358,7 +358,7 @@ export const Remuneraciones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="px-5 max-md:overflow-x-auto">
+      <div className="px-5 max-md:overflow-x-auto scrollbar-hidden">
         <table className="table">
           <thead className="text-sm font-bold text-gray-800">
             <tr>
@@ -417,7 +417,34 @@ export const Remuneraciones = () => {
                       </p>
                     </div>
                   </td>
-                  <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer">
+                  <td className="md:hidden">
+                    <div className="flex gap-1">
+                      <FaEdit
+                        onClick={() => {
+                          handleObtenerId(s.id),
+                            document
+                              .getElementById(
+                                "my_modal_actualizar_remuneracion"
+                              )
+                              .showModal();
+                        }}
+                        className="text-xl text-blue-500"
+                      />
+                      <FaDeleteLeft
+                        onClick={() => {
+                          handleObtenerId(s.id),
+                            document
+                              .getElementById("my_modal_eliminar")
+                              .showModal();
+                        }}
+                        className="text-xl text-red-500"
+                      />
+                      <Link className="capitalize" to={`/recaudacion/${s.id}`}>
+                        <FaArrowAltCircleRight className="text-xl text-gray-700" />
+                      </Link>
+                    </div>
+                  </td>
+                  <td className="px-1 py-3 font-medium text-gray-900 uppercase cursor-pointer max-md:hidden">
                     <div className="dropdown dropdown-left">
                       <div
                         tabIndex={0}
@@ -569,11 +596,11 @@ export const ModalCrearRemuneracion = () => {
   const [armador, setArmador] = useState("");
   const [fecha_carga, setFechaCarga] = useState("");
   const [fecha_entrega, setFechaEntrega] = useState("");
-  const [km_lineal, setKmLineal] = useState("");
-  const [pago_fletero_espera, setPagoFletero] = useState("");
-  const [viaticos, setViaticos] = useState("");
-  const [refuerzo, setRefuerzo] = useState("");
-  const [auto, setAuto] = useState("");
+  const [km_lineal, setKmLineal] = useState(0);
+  const [pago_fletero_espera, setPagoFletero] = useState(0);
+  const [viaticos, setViaticos] = useState(0);
+  const [refuerzo, setRefuerzo] = useState(0);
+  const [auto, setAuto] = useState(0);
 
   // Utilizar reduce para calcular la suma total de la propiedad totalFlete
   const totalSuma = datosCliente.reduce((acumulador, elemento) => {
@@ -639,11 +666,11 @@ export const ModalCrearRemuneracion = () => {
       setArmador("");
       setFechaCarga("");
       setFechaEntrega("");
-      setKmLineal("");
-      setPagoFletero("");
-      setViaticos("");
-      setRefuerzo("");
-      setAuto("");
+      setKmLineal(0);
+      setPagoFletero(0);
+      setViaticos(0);
+      setRefuerzo(0);
+      setAuto(0);
 
       setDatosCliente([]);
 
@@ -876,7 +903,7 @@ export const ModalCrearRemuneracion = () => {
               <div className="flex flex-col gap-2">
                 <label className="font-bold text-sm">KM Lineal</label>
                 <input
-                  value={km_lineal || 0}
+                  value={km_lineal}
                   onChange={(e) => setKmLineal(e.target.value)}
                   onBlur={() => {
                     setIsEditable(false);
@@ -895,7 +922,7 @@ export const ModalCrearRemuneracion = () => {
                     </label>
                     <input
                       onChange={(e) => setPagoFletero(e.target.value)}
-                      value={pago_fletero_espera || 0}
+                      value={pago_fletero_espera}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -926,7 +953,7 @@ export const ModalCrearRemuneracion = () => {
                     </label>
                     <input
                       onChange={(e) => setViaticos(e.target.value)}
-                      value={viaticos || 0}
+                      value={viaticos}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -954,7 +981,7 @@ export const ModalCrearRemuneracion = () => {
                     <label className="font-bold text-sm"> Total Auto</label>
                     <input
                       onChange={(e) => setAuto(e.target.value)}
-                      value={auto || 0}
+                      value={auto}
                       onBlur={() => {
                         setIsEditable(false);
                       }}
@@ -979,7 +1006,7 @@ export const ModalCrearRemuneracion = () => {
                     <label className="font-bold text-sm"> Total refuerzo</label>
                     <input
                       onChange={(e) => setRefuerzo(e.target.value)}
-                      value={refuerzo || 0}
+                      value={refuerzo}
                       onBlur={() => {
                         setIsEditable(false);
                       }}

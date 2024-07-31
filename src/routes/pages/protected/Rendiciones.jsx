@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRendicionesContext } from "../../../context/RendicionesProvider";
-import { FaSearch } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaEdit, FaSearch } from "react-icons/fa";
 import { formatearFecha } from "../../../helpers/formatearFecha";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
 import { crearRendicion } from "../../../api/ingresos";
@@ -13,6 +13,7 @@ import {
 import client from "../../../api/axios";
 import { useObtenerId } from "../../../helpers/obtenerId";
 import { useForm } from "react-hook-form";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 export const Rendicones = () => {
   const { rendiciones } = useRendicionesContext();
@@ -255,7 +256,7 @@ export const Rendicones = () => {
       </div>
 
       {/* tabla de datos  */}
-      <div className="max-md:overflow-x-auto mx-5 mt-10">
+      <div className="max-md:overflow-x-auto mx-5 mt-10 scrollbar-hidden">
         <table className="table">
           <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
@@ -292,7 +293,20 @@ export const Rendicones = () => {
                       </p>
                     </div>
                   </td>
-                  <td className="">
+                  <td className="md:hidden">
+                    <div className="flex gap-1">
+                      <FaDeleteLeft
+                        onClick={() => {
+                          handleObtenerId(s.id),
+                            document
+                              .getElementById("my_modal_eliminar")
+                              .showModal();
+                        }}
+                        className="text-xl text-red-500"
+                      />
+                    </div>
+                  </td>
+                  <td className="max-md:hidden">
                     <div className="dropdown dropdown-left">
                       <div
                         tabIndex={0}
