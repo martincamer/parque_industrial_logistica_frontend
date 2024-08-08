@@ -47,7 +47,7 @@ export const Login = () => {
       <div className="w-full z-[103]">
         <form
           onSubmit={onSubmit}
-          className="flex w-1/3 mx-auto flex-col gap-4 bg-white px-10 py-12 rounded-md max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103] border border-gray-300"
+          className="flex w-1/3 mx-auto flex-col gap-4 bg-white px-10 py-12 rounded-md max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103] border border-gray-300  max-md:border-none"
         >
           <div className="flex justify-center">
             <img
