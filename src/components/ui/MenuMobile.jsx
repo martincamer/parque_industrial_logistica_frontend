@@ -55,7 +55,9 @@ export const MenuMobile = () => {
               location.pathname === "/" ? "bg-primary text-white" : "bg-none"
             } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Inicio/estadistica/compras
+            {user?.tipo === "admin"
+              ? "Panel de control"
+              : "Inicio/estadistica/compras"}
           </Link>
 
           <Link
@@ -67,7 +69,9 @@ export const MenuMobile = () => {
                 : "bg-none"
             } hover:text-orange-700 font-semibold text-sm transition-all py-3 px-3`}
           >
-            Crear nuevas salidas/ver/editar
+            {user?.tipo === "admin"
+              ? "Sector salidas"
+              : " Crear nuevas salidas/ver/editar"}
           </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
@@ -78,7 +82,9 @@ export const MenuMobile = () => {
                 : "bg-none"
             } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Crear nuevas remuneraciones/ver/editar
+            {user?.tipo === "admin"
+              ? "Sector contratos remunerados"
+              : " Crear nuevas remuneraciones/ver/editar"}
           </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
@@ -89,7 +95,9 @@ export const MenuMobile = () => {
                 : "bg-none"
             } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Crear nuevas ordenes legales/ver/editar
+            {user?.tipo === "admin"
+              ? "Sector contratos legalizados"
+              : "Crear nuevas ordenes legales/ver/editar"}
           </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
@@ -100,7 +108,9 @@ export const MenuMobile = () => {
                 : "bg-none"
             } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Crear nuevas rendiciones/editar/ver
+            {user?.tipo === "admin"
+              ? "Sector rendiciones por armadores"
+              : "Crear nuevas rendicions/ver/editar"}
           </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
@@ -111,7 +121,7 @@ export const MenuMobile = () => {
                 : "bg-none"
             } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
           >
-            Contratos
+            Contratos entregados
           </Link>
           <button
             type="button"

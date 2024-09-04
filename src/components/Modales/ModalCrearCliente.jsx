@@ -1,5 +1,4 @@
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const ModalCrearCliente = ({ setDatosCliente, datosCliente }) => {

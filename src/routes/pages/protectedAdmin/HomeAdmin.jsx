@@ -5,32 +5,56 @@ import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useAuth } from "../../../context/AuthProvider";
 import ApexColumnChart from "../../../components/apexchart/ApexChartColumn";
-import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
-import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
-import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
 import ApexChartColumnLegalesRemuneraciones from "../../../components/apexchart/ApexChartColumnLegalesRemuneraciones";
+import client from "../../../api/axios";
 
-export const Home = () => {
-  const { salidas } = useSalidasContext();
+export const HomeAdmin = () => {
+  const [salidas, setSalidas] = useState([]);
+  const [remuneraciones, setRemuneraciones] = useState([]);
+  const [rendiciones, setRendiciones] = useState([]);
+  const [legales, setLegales] = useState([]);
 
-  const { remuneraciones } = useRemuneracionContext();
+  useEffect(() => {
+    async function loadDataSalidas() {
+      const respuesta = await client.get("/salidas-admin");
+      setSalidas(respuesta.data);
+    }
 
-  const { rendiciones } = useRendicionesContext();
+    loadDataSalidas();
 
-  const { legales, legalesReal } = useLegalesContext();
+    async function loadDataRemuneraciones() {
+      const respuesta = await client.get("/remuneraciones-admin");
+      setRemuneraciones(respuesta.data);
+    }
+
+    loadDataRemuneraciones();
+
+    async function loadDataLegales() {
+      const respuesta = await client.get("/legales-admin");
+      setLegales(respuesta.data);
+    }
+
+    loadDataLegales();
+
+    async function loadDataRendiciones() {
+      const respuesta = await client.get("/rendiciones-admin");
+      setRendiciones(respuesta.data);
+    }
+
+    loadDataRendiciones();
+  }, []);
 
   const [selectedUser, setSelectedUser] = useState("");
-
-  const { user } = useAuth();
 
   // Obtener lista de usuarios únicos filtrando por localidad del usuario
   const uniqueUsers = Array.from(
     new Set(
       salidas
-        .filter((remuneracion) => remuneracion.localidad === user.localidad)
-        .map((remuneracion) => remuneracion.usuario.toLowerCase())
+        .filter((remuneracion) => remuneracion.localidad)
+        .map((remuneracion) => remuneracion.localidad.toLowerCase())
     )
   );
+
   const handleUserChange = (e) => {
     setSelectedUser(e.target.value);
   };
@@ -67,13 +91,9 @@ export const Home = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en remuneraciones
   let filteredDataRemuneraciones = remuneraciones.filter((item) => {
-    const matchesUser =
-      selectedUser === "" ||
-      item.usuario.toLowerCase() === selectedUser.toLowerCase();
+    const matchesUser = item.localidad.toLowerCase();
 
-    const matchesLocalidad = user.localidad === item.localidad;
-
-    return matchesUser && matchesLocalidad;
+    return matchesUser;
   });
 
   filteredDataRemuneraciones = filteredDataRemuneraciones.filter((item) => {
@@ -82,14 +102,10 @@ export const Home = () => {
   });
 
   // Filtro por término de búsqueda y usuario seleccionado en legalesReal
-  let filteredDataLegales = legalesReal.filter((item) => {
-    const matchesUser =
-      selectedUser === "" ||
-      item.usuario.toLowerCase() === selectedUser.toLowerCase();
+  let filteredDataLegales = legales.filter((item) => {
+    const matchesUser = item.localidad.toLowerCase();
 
-    const matchesLocalidad = user.localidad === item.localidad;
-
-    return matchesUser && matchesLocalidad;
+    return matchesUser;
   });
 
   filteredDataLegales = filteredDataLegales.filter((item) => {
@@ -99,13 +115,9 @@ export const Home = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en rendiciones
   let filteredDataRendiciones = rendiciones.filter((item) => {
-    const matchesUser =
-      selectedUser === "" ||
-      item.usuario.toLowerCase() === selectedUser.toLowerCase();
+    const matchesUser = item.localidad.toLowerCase();
 
-    const matchesLocalidad = user.localidad === item.localidad;
-
-    return matchesUser && matchesLocalidad;
+    return matchesUser;
   });
 
   filteredDataRendiciones = filteredDataRendiciones.filter((item) => {
@@ -115,13 +127,9 @@ export const Home = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en salidas
   let filteredDataSalidas = salidas.filter((item) => {
-    const matchesUser =
-      selectedUser === "" ||
-      item.usuario.toLowerCase() === selectedUser.toLowerCase();
+    const matchesUser = item.localidad.toLowerCase();
 
-    const matchesLocalidad = user.localidad === item.localidad;
-
-    return matchesUser && matchesLocalidad;
+    return matchesUser;
   });
 
   filteredDataSalidas = filteredDataSalidas.filter((item) => {
@@ -145,19 +153,22 @@ export const Home = () => {
   );
 
   // Total de cobro para remuneraciones por localidad del usuario actual
-  const totalCobroClienteFinal = remuneraciones
-    .filter((item) => user.localidad === item.localidad)
-    .reduce((total, item) => total + parseFloat(item.recaudacion), 0);
+  const totalCobroClienteFinal = remuneraciones.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
 
   // Total de cobro para legalesReal por localidad del usuario actual
-  const totalCobroClienteLegalesFinal = legalesReal
-    .filter((item) => user.localidad === item.localidad)
-    .reduce((total, item) => total + parseFloat(item.recaudacion), 0);
+  const totalCobroClienteLegalesFinal = legales.reduce(
+    (total, item) => total + parseFloat(item.recaudacion),
+    0
+  );
 
   // Total de cobro para rendiciones por localidad del usuario actual
-  const totalCobroRendicionesFinal = rendiciones
-    .filter((item) => user.localidad === item.localidad)
-    .reduce((total, item) => total + parseFloat(item.rendicion_final), 0);
+  const totalCobroRendicionesFinal = rendiciones.reduce(
+    (total, item) => total + parseFloat(item.rendicion_final),
+    0
+  );
 
   const totalEnSalidas = filteredDataSalidas.reduce(
     (total, item) =>
@@ -341,13 +352,13 @@ export const Home = () => {
           <option className="capitalize font-bold text-primary" value="">
             Seleccionar usuario...
           </option>
-          {uniqueUsers.map((user) => (
+          {uniqueUsers.map((localidad) => (
             <option
               className="capitalize font-semibold"
-              key={user}
-              value={user}
+              key={localidad}
+              value={localidad}
             >
-              {user}
+              {localidad}
             </option>
           ))}
         </select>
@@ -380,7 +391,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total de la caja actual.</p>
+              <p className="font-bold">Total ganancias en la caja.</p>
               <p
                 className={`${
                   totalCaja <= 0 ? "text-red-500" : "text-green-500"
@@ -415,7 +426,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en remuneraciones.</p>
+              <p className="font-bold">Total en ganancias remuneradas.</p>
               <p
                 className={`${
                   totalCobroCliente < 0 ? "text-red-500" : "text-green-500"
@@ -450,7 +461,9 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en legales.</p>
+              <p className="font-bold">
+                Total en perdidas por contratos legales.
+              </p>
               <p
                 className={`${
                   totalCobroClienteLegales <= 0
@@ -666,9 +679,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en viviendas/contratos Remunerados/Legales.
-              </p>
+              <p className="font-bold">Contratos finalizados, entregados.</p>
               <p
                 className={`${
                   totalContratos < 0 ? "text-red-500" : "text-blue-500"
@@ -699,9 +710,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en viviendas/contratos de salidas.
-              </p>
+              <p className="font-bold">Contratos de salidas por entregar.</p>
               <p
                 className={`${
                   totalContratosEnSalidas < 0 ? "text-red-500" : "text-blue-500"
@@ -732,7 +741,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en metros cuadrados.</p>
+              <p className="font-bold">Total en metros cuadrados entregados.</p>
               <p
                 className={`${
                   totalMetrosCuadrados < 0 ? "text-red-500" : "text-blue-500"
@@ -764,7 +773,7 @@ export const Home = () => {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between max-md:flex-col">
               <p className="font-bold">
-                Total remuneraciónes/rendiciones - legales.
+                Total en ganancia final, rendiciones + remuneraciones - legales.
               </p>
               <p
                 className={`${
@@ -813,154 +822,6 @@ export const Home = () => {
               totalViaticosUsuario={totalViaticos}
               totalRefuerzosUsuario={totalRefuerzos}
             />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 mx-5 my-10 bg-gray-800 py-10 px-10 rounded-md max-md:px-4 max-md:py-4">
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total de la caja
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm font-bold ${
-                totalCaja >= 0 ? "text-blue-500" : "text-red-500"
-              }`}
-            >
-              {Number(totalCaja).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalCaja >= 0 ? "bg-blue-500" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalCaja / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <RemuneracionesProgressBar
-          rendicionesMensuales={filteredDataRendiciones}
-          remuneracionesMensuales={filteredDataRemuneraciones}
-        />
-        <SalidasProgressBar salidasMensuales={filteredDataSalidas} />
-        <ViviendasProgressBar
-          salidasMensuales={filteredDataRemuneraciones}
-          legales={filteredDataLegales}
-        />
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total Viviendas en salidas
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              {totalContratosEnSalidas}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalContratosEnSalidas >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalContratosEnSalidas / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en fletes
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalFletes).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalFletes >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalFletes / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en viaticos
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalViaticos).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalViaticos >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalViaticos / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en refuerzos
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalRefuerzos).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalRefuerzos >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalRefuerzos / 1000000)}%`,
-              }}
-            ></div>
           </div>
         </div>
       </div>

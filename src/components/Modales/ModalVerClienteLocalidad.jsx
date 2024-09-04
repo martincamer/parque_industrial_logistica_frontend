@@ -90,7 +90,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
                   {salida?.datos_cliente?.datosCliente?.map((s) => (
                     <div
                       key={s.id}

@@ -45,6 +45,13 @@ import { Navbar } from "./components/ui/Navbar.jsx";
 import RutaProtegida from "./layouts/RutaProtejida";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.min.css";
+//Import admin
+import { HomeAdmin } from "./routes/pages/protectedAdmin/HomeAdmin.jsx";
+import { SalidasAdmin } from "./routes/pages/protectedAdmin/SalidasAdmin.jsx";
+import { RemuneracionesAdmin } from "./routes/pages/protectedAdmin/RemuneracionesAdmin.jsx";
+import { LegalesAdmin } from "./routes/pages/protectedAdmin/LegalesAdmin.jsx";
+import { ContratosAdmin } from "./routes/pages/protectedAdmin/ContratosAdmin.jsx";
+import { RendicionesAdmin } from "./routes/pages/protectedAdmin/RendicionesAdmin.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -68,7 +75,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {/* <NavbarStatick /> */}
         <Routes>
           <Route
             element={<RutaProtegida isAllowed={!isAuth} redirectTo={"/"} />}
@@ -87,7 +93,6 @@ function App() {
                       <LegalesProvider>
                         <RendicionesProvider>
                           <main className="min-h-full max-h-full h-full flex flex-col">
-                            {/* <SideBar /> */}
                             <Navbar />
                             <MenuMobile />
                             <Outlet />
@@ -99,74 +104,100 @@ function App() {
                 </SalidasProvider>
               }
             >
-              <Route index path="/" element={<Home />} />
-              <Route path="/salidas" element={<Salidas />} />
-              <Route path="/registros" element={<PageRegistros />} />
-              <Route path="/remuneraciones" element={<Remuneraciones />} />
-              <Route path="/rendiciones" element={<Rendicones />} />
-              <Route path="/legales" element={<Legales />} />
-              <Route path="/contratos" element={<Contratos />} />
-              <Route path="/configuraciones" element={<Configuraciones />} />
-              <Route
-                path="/salidas-registradas"
-                element={<SalidasRegistradas />}
-              />
-              <Route index path="/transportes" element={<Transportes />} />
-              <Route
-                path="/remuneraciones-registradas"
-                element={<RemuneracionesRegistradas />}
-              />
-              <Route
-                path="/rendiciones-registradas"
-                element={<RendicionesRegistradas />}
-              />
-              <Route
-                path="/ordenes-registradas"
-                element={<OrdenesRegistradas />}
-              />
-              <Route
-                path="/legales-registrados"
-                element={<LegalesRegistrados />}
-              />
-              <Route path="/crear-salida" element={<CrearSalida />} />
-              <Route
-                path="/crear-remuneracion"
-                element={<CrearRemuneracion />}
-              />
+              {user?.tipo === "admin" && (
+                <>
+                  <Route index path="/" element={<HomeAdmin />} />
+                  <Route index path="/salidas" element={<SalidasAdmin />} />
+                  <Route
+                    path="/remuneraciones"
+                    element={<RemuneracionesAdmin />}
+                  />
+                  <Route path="/legales" element={<LegalesAdmin />} />
+                  <Route path="/contratos" element={<ContratosAdmin />} />
+                  <Route path="/rendiciones" element={<RendicionesAdmin />} />
+                </>
+              )}
+              {user?.tipo !== "admin" && (
+                <>
+                  <Route index path="/" element={<Home />} />
+                  <Route path="/salidas" element={<Salidas />} />
+                  <Route path="/registros" element={<PageRegistros />} />
+                  <Route path="/remuneraciones" element={<Remuneraciones />} />
+                  <Route path="/rendiciones" element={<Rendicones />} />
+                  <Route path="/legales" element={<Legales />} />
+                  <Route path="/contratos" element={<Contratos />} />
+                  <Route
+                    path="/configuraciones"
+                    element={<Configuraciones />}
+                  />
+                  <Route
+                    path="/salidas-registradas"
+                    element={<SalidasRegistradas />}
+                  />
+                  <Route index path="/transportes" element={<Transportes />} />
+                  <Route
+                    path="/remuneraciones-registradas"
+                    element={<RemuneracionesRegistradas />}
+                  />
+                  <Route
+                    path="/rendiciones-registradas"
+                    element={<RendicionesRegistradas />}
+                  />
+                  <Route
+                    path="/ordenes-registradas"
+                    element={<OrdenesRegistradas />}
+                  />
+                  <Route
+                    path="/legales-registrados"
+                    element={<LegalesRegistrados />}
+                  />
+                  <Route path="/crear-salida" element={<CrearSalida />} />
+                  <Route
+                    path="/crear-remuneracion"
+                    element={<CrearRemuneracion />}
+                  />
 
-              <Route path="/crear-legal" element={<CrearLegales />} />
+                  <Route path="/crear-legal" element={<CrearLegales />} />
 
-              <Route path="/editar/:id" element={<EditarSalida />} />
-              <Route
-                path="/editar-remuneracion/:id"
-                element={<EditarRemuneracion />}
-              />
-              <Route path="/editar-legales/:id" element={<EditarLegales />} />
-              <Route path="/resumen/:id" element={<ResumenView />} />
-              <Route
-                path="/recaudacion/:id"
-                element={<ResumenViewRecaudacion />}
-              />
-              <Route path="/rendicion/:id" element={<ResumenViewRendicion />} />
-              <Route path="/legales/:id" element={<ResumenViewLegales />} />
-              <Route
-                path="/control-redencion-de-viajes/:id"
-                element={<ViewPdf />}
-              />
-              <Route path="/fletes/:id" element={<ViewPdfFletes />} />
-              <Route
-                path="/remuneracion-pdf/:id"
-                element={<ViewPdfRemuneracion />}
-              />
-              <Route
-                path="/viaticos-armadores/:id"
-                element={<ViewPdfArmadores />}
-              />
+                  <Route path="/editar/:id" element={<EditarSalida />} />
+                  <Route
+                    path="/editar-remuneracion/:id"
+                    element={<EditarRemuneracion />}
+                  />
+                  <Route
+                    path="/editar-legales/:id"
+                    element={<EditarLegales />}
+                  />
+                  <Route path="/resumen/:id" element={<ResumenView />} />
+                  <Route
+                    path="/recaudacion/:id"
+                    element={<ResumenViewRecaudacion />}
+                  />
+                  <Route
+                    path="/rendicion/:id"
+                    element={<ResumenViewRendicion />}
+                  />
+                  <Route path="/legales/:id" element={<ResumenViewLegales />} />
+                  <Route
+                    path="/control-redencion-de-viajes/:id"
+                    element={<ViewPdf />}
+                  />
+                  <Route path="/fletes/:id" element={<ViewPdfFletes />} />
+                  <Route
+                    path="/remuneracion-pdf/:id"
+                    element={<ViewPdfRemuneracion />}
+                  />
+                  <Route
+                    path="/viaticos-armadores/:id"
+                    element={<ViewPdfArmadores />}
+                  />
 
-              <Route path="/estadistica" element={<HomeEstadistica />} />
+                  <Route path="/estadistica" element={<HomeEstadistica />} />
 
-              {user?.localidad === "admin" && (
-                <Route path="/cuentas" element={<Cuentas />} />
+                  {user?.localidad === "admin" && (
+                    <Route path="/cuentas" element={<Cuentas />} />
+                  )}
+                </>
               )}
             </Route>
           </Route>

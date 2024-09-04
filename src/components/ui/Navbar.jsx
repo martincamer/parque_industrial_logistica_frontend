@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 
 export const Navbar = () => {
-  const { signout } = useAuth();
+  const { signout, user } = useAuth();
+
+  console.log(user.tipo);
 
   return (
     <header className="bg-gray-800 py-5 px-10 flex items-center justify-between max-md:items-end max-md:justify-end">
@@ -11,40 +13,80 @@ export const Navbar = () => {
         <Link to={"/"} className="cursor-pointer">
           <img src="https://app.holded.com/assets/img/brand/holded-logo.svg" />
         </Link>
-        <div className="flex gap-2">
-          <div className="dropdown dropdown-hover">
-            <div
-              tabIndex={0}
-              role="button"
-              className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
-            >
-              Acciones
+        {user?.tipo !== "admin" && (
+          <>
+            <div className="flex gap-2">
+              <div className="dropdown dropdown-hover">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                >
+                  Acciones
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-white p-1 rounded-md w-52 text-sm font-medium shadow-xl gap-1"
+                >
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/salidas"}>Salidas</Link>
+                  </li>{" "}
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/remuneraciones"}>Remuneraciones</Link>
+                  </li>{" "}
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/legales"}>Legales</Link>
+                  </li>{" "}
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/rendiciones"}>Rediciones</Link>
+                  </li>
+                </ul>
+              </div>
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/contratos"}
+              >
+                Contratos
+              </Link>
             </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-white p-1 rounded-md w-52 text-sm font-medium shadow-xl gap-1"
-            >
-              <li className="hover:bg-gray-800 hover:text-white rounded-md">
-                <Link to={"/salidas"}>Salidas</Link>
-              </li>{" "}
-              <li className="hover:bg-gray-800 hover:text-white rounded-md">
-                <Link to={"/remuneraciones"}>Remuneraciones</Link>
-              </li>{" "}
-              <li className="hover:bg-gray-800 hover:text-white rounded-md">
-                <Link to={"/legales"}>Legales</Link>
-              </li>{" "}
-              <li className="hover:bg-gray-800 hover:text-white rounded-md">
-                <Link to={"/rendiciones"}>Rediciones</Link>
-              </li>
-            </ul>
-          </div>
-          <Link
-            className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
-            to={"/contratos"}
-          >
-            Contratos
-          </Link>
-        </div>
+          </>
+        )}{" "}
+        {user.tipo === "admin" && (
+          <>
+            <div className="flex gap-2">
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/salidas"}
+              >
+                Salidas de contratos
+              </Link>
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/contratos"}
+              >
+                Contratos entregados
+              </Link>{" "}
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/remuneraciones"}
+              >
+                Remuneraciones de contratos
+              </Link>{" "}
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/legales"}
+              >
+                Perdidas legales de contratos
+              </Link>{" "}
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/rendiciones"}
+              >
+                Rendiciones por viaticos, etc.
+              </Link>
+            </div>
+          </>
+        )}
       </div>
       <div className="flex items-center gap-4">
         {/* <div className="cursor-pointer bg-gray-500 py-5 px-5 rounded-full"></div>{" "} */}
