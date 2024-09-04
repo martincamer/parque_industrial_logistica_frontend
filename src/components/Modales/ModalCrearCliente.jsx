@@ -5,16 +5,23 @@ export const ModalCrearCliente = ({ setDatosCliente, datosCliente }) => {
   const [cliente, setCliente] = useState("");
   const [numeroContrato, setNumeroContrato] = useState("");
   const [localidad, setLocalidad] = useState("");
+  const [metrosCuadrados, setMetrosCudrados] = useState("");
 
   const handleCliente = () => {
     // Crear un nuevo objeto de cliente
-    const nuevoCliente = { cliente, localidad, numeroContrato };
+    const nuevoCliente = {
+      cliente,
+      localidad,
+      numeroContrato,
+      metrosCuadrados,
+    };
     // Agregar el nuevo cliente a la lista de clientes
     setDatosCliente([...datosCliente, nuevoCliente]);
     // Limpiar los campos del formulario después de agregar el cliente
     setCliente("");
     setNumeroContrato("");
     setLocalidad("");
+    setMetrosCudrados("");
 
     toast.success("¡Cliente creado correctamente!", {
       position: "top-center",
@@ -78,6 +85,18 @@ export const ModalCrearCliente = ({ setDatosCliente, datosCliente }) => {
               onChange={(e) => setNumeroContrato(e.target.value)}
               value={numeroContrato}
               placeholder="123-500"
+              type="text"
+              className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
+            />
+          </div>{" "}
+          <div className="flex flex-col gap-2 max-md:text-sm text-sm">
+            <label className="font-bold" htmlFor="">
+              Metros Cuadrados
+            </label>
+            <input
+              onChange={(e) => setMetrosCudrados(e.target.value)}
+              value={metrosCuadrados}
+              placeholder="300 mts"
               type="text"
               className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
             />

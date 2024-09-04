@@ -36,6 +36,7 @@ export const SalidasAdmin = () => {
 
     loadDataSalidas();
   }, []);
+
   const { user } = useAuth();
 
   const { idObtenida, handleObtenerId } = useObtenerId();
@@ -414,41 +415,39 @@ export const SalidasAdmin = () => {
             </tr>
           </thead>
           <tbody className="text-xs capitalize font-medium">
-            {filteredData
-              .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
-              .map((s) => (
-                <tr key={s.id}>
-                  <td className="">{s.id}</td>
-                  <td className="">{formatearFecha(s.created_at)}</td>
-                  <td className="text-primary font-bold">
-                    {Number(
-                      parseFloat(s.total_flete) +
-                        parseFloat(s.total_control) +
-                        parseFloat(s.total_viaticos) +
-                        parseFloat(s.espera)
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-                  </td>
-                  <td className="">
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      Ver cliente/contrato{" "}
-                      <FaHouseChimneyUser className="text-xl" />
-                    </button>
-                  </td>
-                  <td className="">{s.sucursal}</td>
-                  <td className="">{s.usuario}</td>
-                  <td className="">{s.localidad}</td>
-                </tr>
-              ))}
+            {filteredData.map((s) => (
+              <tr key={s.id}>
+                <td className="">{s.id}</td>
+                <td className="">{formatearFecha(s.created_at)}</td>
+                <td className="text-primary font-bold">
+                  {Number(
+                    parseFloat(s.total_flete) +
+                      parseFloat(s.total_control) +
+                      parseFloat(s.total_viaticos) +
+                      parseFloat(s.espera)
+                  ).toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumIntegerDigits: 2,
+                  })}
+                </td>
+                <td className="">
+                  <button
+                    onClick={() => {
+                      handleID(s.id), openVerCliente();
+                    }}
+                    type="button"
+                    className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
+                  >
+                    Ver cliente/contrato{" "}
+                    <FaHouseChimneyUser className="text-xl" />
+                  </button>
+                </td>
+                <td className="">{s.sucursal}</td>
+                <td className="">{s.usuario}</td>
+                <td className="">{s.localidad}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

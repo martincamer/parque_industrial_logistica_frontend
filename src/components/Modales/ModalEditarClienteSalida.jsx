@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 import React from "react";
 
 export const ModalEditarClienteSalida = ({
@@ -11,6 +10,7 @@ export const ModalEditarClienteSalida = ({
   const [cliente, setCliente] = useState("");
   const [numeroContrato, setNumeroContrato] = useState("");
   const [localidad, setLocalidad] = useState("");
+  const [metrosCuadrados, setMetrosCudrados] = useState("");
 
   useEffect(() => {
     // Buscar el cliente seleccionado dentro de datosCliente
@@ -23,12 +23,18 @@ export const ModalEditarClienteSalida = ({
       setCliente(clienteEncontrado.cliente);
       setNumeroContrato(clienteEncontrado.numeroContrato);
       setLocalidad(clienteEncontrado.localidad);
+      setMetrosCudrados(clienteEncontrado.metrosCuadrados);
     }
   }, [usuario, datosCliente]);
 
   const handleCliente = () => {
     // Crear un nuevo objeto de cliente con los datos actualizados
-    const clienteActualizado = { cliente, localidad, numeroContrato };
+    const clienteActualizado = {
+      cliente,
+      localidad,
+      numeroContrato,
+      metrosCuadrados,
+    };
 
     // Actualizar la lista de clientes con los datos actualizados
     const datosClienteActualizados = datosCliente.map((clienteExistente) => {
@@ -105,6 +111,19 @@ export const ModalEditarClienteSalida = ({
               onChange={(e) => setNumeroContrato(e.target.value)}
               value={numeroContrato}
               placeholder="123-500"
+              type="text"
+              className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 max-md:text-sm text-sm">
+            <label className="font-bold" htmlFor="">
+              Metros Cuadrados
+            </label>
+            <input
+              onChange={(e) => setMetrosCudrados(e.target.value)}
+              value={metrosCuadrados}
+              placeholder="300 mts"
               type="text"
               className="border py-2 px-4 rounded-md border-gray-300 font-medium uppercase outline-none"
             />

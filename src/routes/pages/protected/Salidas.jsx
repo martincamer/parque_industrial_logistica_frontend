@@ -833,6 +833,9 @@ const ModalCrearSalida = () => {
                         </th>
                         <th className="font-bold text-gray-800 text-sm">
                           N° contrato
+                        </th>{" "}
+                        <th className="font-bold text-gray-800 text-sm">
+                          Metros cuadrados
                         </th>
                         <th className="font-bold text-gray-800 text-sm">
                           Acciones
@@ -846,6 +849,7 @@ const ModalCrearSalida = () => {
                           <td>{datos.cliente}</td>
                           <td>{datos.localidad}</td>
                           <td>{datos.numeroContrato}</td>
+                          <td>{datos.metrosCuadrados} mtrs</td>
                           <td>
                             <div className="flex space-x-3">
                               <button
@@ -1014,6 +1018,34 @@ const ModalCrearSalida = () => {
                     <label className="font-bold text-sm">
                       Espera del fletero
                     </label>
+                    <input
+                      value={espera}
+                      onChange={(e) => setEspera(e.target.value)}
+                      onBlur={() => {
+                        setIsEditable(false);
+                      }}
+                      type="text"
+                      className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <label className="font-bold text-sm">
+                      Espera del fletero
+                    </label>
+
+                    <p className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto">
+                      {formatearDinero(Number(espera) || 0)}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>{" "}
+            <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
+              <div onClick={handleInputClick}>
+                {isEditable ? (
+                  <div className="flex flex-col gap-2">
+                    <label className="font-bold text-sm">Otros gastós</label>
                     <input
                       value={espera}
                       onChange={(e) => setEspera(e.target.value)}

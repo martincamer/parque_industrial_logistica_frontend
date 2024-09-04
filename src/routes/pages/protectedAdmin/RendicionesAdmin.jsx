@@ -271,30 +271,28 @@ export const RendicionesAdmin = () => {
           </thead>
 
           <tbody className="text-xs capitalize font-medium">
-            {filteredData
-              .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
-              .map((s) => (
-                <tr key={s.id}>
-                  <td>{s.id}</td>
-                  <td>{s.detalle}</td>
-                  <td>{s.armador}</td>
-                  <td>{formatearFecha(s.created_at)}</td>
-                  <td className="">
-                    <div className="flex">
-                      <p className="bg-green-100/90 text-green-700 py-1 px-2 font-bold rounded-md">
-                        {Number(s.rendicion_final).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
-                      </p>
-                    </div>
-                  </td>
-                  <td>{s.usuario}</td>
-                  <td>{s.sucursal}</td>
-                  <td>{s.localidad}</td>
-                </tr>
-              ))}
+            {filteredData.map((s) => (
+              <tr key={s.id}>
+                <td>{s.id}</td>
+                <td>{s.detalle}</td>
+                <td>{s.armador}</td>
+                <td>{formatearFecha(s.created_at)}</td>
+                <td className="">
+                  <div className="flex">
+                    <p className="bg-green-100/90 text-green-700 py-1 px-2 font-bold rounded-md">
+                      {Number(s.rendicion_final).toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumIntegerDigits: 2,
+                      })}
+                    </p>
+                  </div>
+                </td>
+                <td>{s.usuario}</td>
+                <td>{s.sucursal}</td>
+                <td>{s.localidad}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

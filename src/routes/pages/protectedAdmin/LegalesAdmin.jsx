@@ -365,52 +365,50 @@ export const LegalesAdmin = () => {
             </tr>
           </thead>
           <tbody className="text-xs capitalize font-medium">
-            {filteredData
-              .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
-              .map((s) => (
-                <tr key={s.id}>
-                  <td>{s.id}</td>
-                  <td>{formatearFecha(s.created_at)}</td>
-                  <td>
-                    {new Date(s.created_at).toLocaleString("default", {
-                      month: "long",
-                    })}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      Ver cliente/contrato{" "}
-                      <FaHouseChimneyUser className="text-xl" />
-                    </button>
-                  </td>
+            {filteredData.map((s) => (
+              <tr key={s.id}>
+                <td>{s.id}</td>
+                <td>{formatearFecha(s.created_at)}</td>
+                <td>
+                  {new Date(s.created_at).toLocaleString("default", {
+                    month: "long",
+                  })}
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      handleID(s.id), openVerCliente();
+                    }}
+                    type="button"
+                    className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
+                  >
+                    Ver cliente/contrato{" "}
+                    <FaHouseChimneyUser className="text-xl" />
+                  </button>
+                </td>
 
-                  <td>
-                    <div className="flex">
-                      <p
-                        className={`font-bold py-1 px-2 rounded-md ${
-                          s.recaudacion >= 0
-                            ? "bg-green-100/80 text-green-700"
-                            : "bg-red-100/80 text-red-700"
-                        } `}
-                      >
-                        {Number(s.recaudacion).toLocaleString("es-AR", {
-                          style: "currency",
-                          currency: "ARS",
-                          minimumIntegerDigits: 2,
-                        })}
-                      </p>
-                    </div>
-                  </td>
-                  <td>{s.sucursal}</td>
-                  <td>{s.localidad}</td>
-                  <td>{s.usuario}</td>
-                </tr>
-              ))}
+                <td>
+                  <div className="flex">
+                    <p
+                      className={`font-bold py-1 px-2 rounded-md ${
+                        s.recaudacion >= 0
+                          ? "bg-green-100/80 text-green-700"
+                          : "bg-red-100/80 text-red-700"
+                      } `}
+                    >
+                      {Number(s.recaudacion).toLocaleString("es-AR", {
+                        style: "currency",
+                        currency: "ARS",
+                        minimumIntegerDigits: 2,
+                      })}
+                    </p>
+                  </div>
+                </td>
+                <td>{s.sucursal}</td>
+                <td>{s.localidad}</td>
+                <td>{s.usuario}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
