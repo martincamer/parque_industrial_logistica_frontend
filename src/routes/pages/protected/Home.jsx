@@ -165,7 +165,8 @@ export const Home = () => {
       parseFloat(item.total_flete) +
       parseFloat(item.total_control) +
       parseFloat(item.total_viaticos) +
-      parseFloat(item.espera),
+      parseFloat(item.espera) +
+      parseFloat(item.gastos || 0),
     0
   );
 
@@ -213,6 +214,18 @@ export const Home = () => {
     }, 0);
 
   const totalDatosMetrosCuadradosLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
+  const totalDatosMetrosCudradosSalidas = filteredDataSalidas?.reduce(
     (total, salida) => {
       return (
         total +
@@ -380,7 +393,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total de la caja actual.</p>
+              <p className="font-bold">Caja logistica.</p>
               <p
                 className={`${
                   totalCaja <= 0 ? "text-red-500" : "text-green-500"
@@ -415,7 +428,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en remuneraciones.</p>
+              <p className="font-bold">Total contratos remunerados.</p>
               <p
                 className={`${
                   totalCobroCliente < 0 ? "text-red-500" : "text-green-500"
@@ -450,7 +463,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en legales.</p>
+              <p className="font-bold">Total contratos legales perdido.</p>
               <p
                 className={`${
                   totalCobroClienteLegales <= 0
@@ -522,7 +535,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en salidas.</p>
+              <p className="font-bold">Total en gastado final en salidas.</p>
               <p
                 className={`${
                   totalEnSalidas < 0 ? "text-red-500" : "text-red-500"
@@ -558,7 +571,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en viaticos.</p>
+              <p className="font-bold">Total en viaticos de salidas.</p>
               <p
                 className={`${
                   totalViaticos < 0 ? "text-red-500" : "text-red-500"
@@ -594,7 +607,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en fletes.</p>
+              <p className="font-bold">Total en fletes de salidas.</p>
               <p
                 className={`${
                   totalFletes < 0 ? "text-red-500" : "text-red-500"
@@ -630,7 +643,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en refuerzos.</p>
+              <p className="font-bold">Total en refuerzos de salidas.</p>
               <p
                 className={`${
                   totalRefuerzos < 0 ? "text-red-500" : "text-red-500"
@@ -732,7 +745,9 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en metros cuadrados.</p>
+              <p className="font-bold">
+                Total en metros cuadrados de remuneraciones/legales.
+              </p>
               <p
                 className={`${
                   totalMetrosCuadrados < 0 ? "text-red-500" : "text-blue-500"
@@ -753,6 +768,42 @@ export const Home = () => {
               </div>
             </div>
           </div>
+        </div>{" "}
+        <div
+          className={`border ${
+            totalDatosMetrosCudradosSalidas < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
+          } py-5 px-5 bg-white`}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="font-bold">
+                Total en metros cuadrados de salidas de contratos.
+              </p>
+              <p
+                className={`${
+                  totalDatosMetrosCudradosSalidas < 0
+                    ? "text-red-500"
+                    : "text-blue-500"
+                } font-extrabold`}
+              >
+                {totalDatosMetrosCudradosSalidas?.toFixed(2)} mts
+              </p>
+            </div>
+            <div className="flex">
+              <div
+                className={`${
+                  totalDatosMetrosCudradosSalidas < 0
+                    ? "text-white bg-red-500"
+                    : "bg-blue-500 text-white"
+                } rounded py-1.5 px-4  font-bold text-xs`}
+              >
+                Porcentaje{" "}
+                {Number(totalDatosMetrosCudradosSalidas % 100).toFixed(2)} %
+              </div>
+            </div>
+          </div>
         </div>
         <div
           className={`border ${
@@ -764,7 +815,7 @@ export const Home = () => {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between max-md:flex-col">
               <p className="font-bold">
-                Total remuneraciónes/rendiciones - legales.
+                Total remuneraciónes + rendiciones - legales.
               </p>
               <p
                 className={`${

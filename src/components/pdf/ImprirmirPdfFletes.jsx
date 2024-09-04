@@ -12,6 +12,7 @@ import normal from "../../fonts/Montserrat-Light.ttf";
 import semibold from "../../fonts/Montserrat-SemiBold.ttf";
 import bold from "../../fonts/Montserrat-Bold.ttf";
 import React from "react";
+import { formatearDinero } from "../../helpers/FormatearDinero";
 
 Font.register({
   family: "Montserrat",
@@ -84,292 +85,109 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
           padding: "40px 60px",
         }}
       >
-        <View>
-          <View
-            style={{
-              width: "100%",
-              marginBottom: "5px",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: "10px",
-                fontWeight: "semibold",
-                textTransform: "uppercase",
-                border: "1px solid #000",
-                padding: "5px 10px",
-                textAlign: "center",
-              }}
-            >
-              {unicaSalida.fabrica}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            {/* logo */}
-            <Image
-              style={{
-                width: "100px",
-              }}
-              src={logo}
-            />
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              marginTop: "20px",
-              flexDirection: "row",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Montserrat",
-                fontWeight: "bold",
-                textDecoration: "underline",
-                fontSize: "12px",
-              }}
-            >
-              FLETES
-            </Text>
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              marginTop: "20px",
-              flexDirection: "row",
-              width: "100%",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-            }}
-          >
+        {unicaSalida.chofer === "Iveco Tecnohouse" ? (
+          <View>
             <View
               style={{
-                borderStyle: "solid",
-                borderWidth: "1px",
-                borderColor: "black",
-                width: "80px",
-                padding: "8px",
-                textAlign: "center",
+                width: "100%",
+                marginBottom: "5px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
               }}
             >
               <Text
                 style={{
-                  fontSize: "8px",
+                  fontSize: "10px",
                   fontWeight: "semibold",
-                  fontFamily: "Montserrat",
                   textTransform: "uppercase",
+                  border: "1px solid #000",
+                  padding: "5px 10px",
+                  textAlign: "center",
                 }}
               >
-                {unicaSalida?.created_at?.split("T")[0]}
+                {unicaSalida.fabrica}
               </Text>
             </View>
-          </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              {/* logo */}
+              <Image
+                style={{
+                  width: "100px",
+                }}
+                src={logo}
+              />
+            </View>
 
-          <View
-            style={{
-              padding: "20px 20px",
-              marginTop: "10px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "25px",
-            }}
-          >
             <View
               style={{
                 display: "flex",
+                marginTop: "20px",
                 flexDirection: "row",
+                width: "100%",
+                justifyContent: "center",
                 alignItems: "center",
-                gap: "12px",
               }}
             >
               <Text
                 style={{
-                  fontSize: "10px",
+                  fontFamily: "Montserrat",
                   fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
                   textDecoration: "underline",
+                  fontSize: "12px",
                 }}
               >
-                CHOFER:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {unicaSalida.chofer}
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "12px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                CLIENTE:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {unicaSalida?.datos_cliente?.datosCliente?.map((d, index) => (
-                  <React.Fragment key={index}>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: "12px",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {d.cliente}
-                      </Text>
-                      <Text>({d.numeroContrato})</Text>
-                    </View>
-                    {index !==
-                      unicaSalida.datos_cliente.datosCliente.length - 1 && (
-                      <Text>, </Text>
-                    )}
-                  </React.Fragment>
-                ))}
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "12px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                DESTINO:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {unicaSalida?.datos_cliente?.datosCliente?.map((d, index) => (
-                  <React.Fragment key={index}>
-                    <View
-                      style={{
-                        width: "100%",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {d.localidad}
-                      </Text>
-                    </View>
-                    {index !==
-                      unicaSalida.datos_cliente.datosCliente.length - 1 && (
-                      <Text> - </Text>
-                    )}
-                  </React.Fragment>
-                ))}
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "20px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                LUGAR SALIDA:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {unicaSalida.salida}
+                DOCUMENTO DE SALIDA INTERNO
               </Text>
             </View>
 
             <View
               style={{
                 display: "flex",
+                marginTop: "20px",
                 flexDirection: "row",
-                alignItems: "center",
-                gap: "20px",
+                width: "100%",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+              }}
+            >
+              <View
+                style={{
+                  borderStyle: "solid",
+                  borderWidth: "1px",
+                  borderColor: "black",
+                  width: "80px",
+                  padding: "8px",
+                  textAlign: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: "8px",
+                    fontWeight: "semibold",
+                    fontFamily: "Montserrat",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {unicaSalida?.created_at?.split("T")[0]}
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                padding: "20px 20px",
+                marginTop: "10px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "25px",
               }}
             >
               <View
@@ -377,7 +195,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: "30px",
+                  gap: "12px",
                 }}
               >
                 <Text
@@ -389,7 +207,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  KM DE VIAJE:{" "}
+                  CHOFER:{" "}
                 </Text>
                 <Text
                   style={{
@@ -402,7 +220,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     borderBottom: "1px dotted #000",
                   }}
                 >
-                  {unicaSalida.fletes_km}
+                  {unicaSalida.chofer}
                 </Text>
               </View>
               <View
@@ -410,7 +228,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: "30px",
+                  gap: "24px",
                 }}
               >
                 <Text
@@ -422,12 +240,12 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  PRECIO KM:{" "}
+                  COSTOS
                 </Text>
                 <Text
                   style={{
                     fontSize: "10px",
-                    fontWeight: "normal",
+                    fontWeight: "semibold",
                     fontFamily: "Montserrat",
                     textTransform: "uppercase",
                     textDecoration: "none",
@@ -435,22 +253,573 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     borderBottom: "1px dotted #000",
                   }}
                 >
-                  {unicaSalida.chofer === "Iveco Tecnohouse"
-                    ? ""
-                    : Number(
-                        Number(unicaSalida.fletes_km_precio)
-                      ).toLocaleString("es-AR", {
-                        style: "currency",
-                        currency: "ARS",
-                        minimumIntegerDigits: 2,
-                      })}
-                  /{" "}
+                  {formatearDinero(Number(unicaSalida.fletes_km_precio))}
+                </Text>
+              </View>{" "}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "24px",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    fontFamily: "Montserrat",
+                    textTransform: "uppercase",
+                    textDecoration: "underline",
+                  }}
+                >
+                  VIATICOS 1 a 2 P
+                </Text>
+                <Text
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: "semibold",
+                    fontFamily: "Montserrat",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    width: "100%",
+                    borderBottom: "1px dotted #000",
+                  }}
+                >
+                  {formatearDinero(Number(unicaSalida.total_viaticos))}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "24px",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: "bold",
+                    fontFamily: "Montserrat",
+                    textTransform: "uppercase",
+                    textDecoration: "underline",
+                  }}
+                >
+                  OTROS GASTOS
+                </Text>
+                <Text
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: "semibold",
+                    fontFamily: "Montserrat",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    width: "100%",
+                    borderBottom: "1px dotted #000",
+                  }}
+                >
+                  {formatearDinero(Number(unicaSalida.gastos))}
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                padding: "20px 20px",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "semibold",
+                  fontFamily: "Montserrat",
+                  textTransform: "uppercase",
+                  width: "100%",
+                }}
+              >
+                Total de la salida interna
+              </Text>{" "}
+              <Text
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  fontFamily: "Montserrat",
+                  textTransform: "uppercase",
+                  width: "100%",
+                }}
+              >
+                {formatearDinero(
+                  Number(unicaSalida.gastos) +
+                    Number(unicaSalida.fletes_km_precio) +
+                    Number(unicaSalida.total_viaticos)
+                )}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <>
+            <View>
+              <View
+                style={{
+                  width: "100%",
+                  marginBottom: "5px",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: "semibold",
+                    textTransform: "uppercase",
+                    border: "1px solid #000",
+                    padding: "5px 10px",
+                    textAlign: "center",
+                  }}
+                >
+                  {unicaSalida.fabrica}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {/* logo */}
+                <Image
+                  style={{
+                    width: "100px",
+                  }}
+                  src={logo}
+                />
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  marginTop: "20px",
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Montserrat",
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    fontSize: "12px",
+                  }}
+                >
+                  FLETES
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  display: "flex",
+                  marginTop: "20px",
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}
+              >
+                <View
+                  style={{
+                    borderStyle: "solid",
+                    borderWidth: "1px",
+                    borderColor: "black",
+                    width: "80px",
+                    padding: "8px",
+                    textAlign: "center",
+                  }}
+                >
                   <Text
                     style={{
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
+                      fontSize: "8px",
+                      fontWeight: "semibold",
                       fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {unicaSalida?.created_at?.split("T")[0]}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  padding: "20px 20px",
+                  marginTop: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "25px",
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <Text
+                    style={{
                       fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    CHOFER:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                    }}
+                  >
+                    {unicaSalida.chofer}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    CLIENTE:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                    }}
+                  >
+                    {unicaSalida?.datos_cliente?.datosCliente?.map(
+                      (d, index) => (
+                        <React.Fragment key={index}>
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              gap: "12px",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              {d.cliente}
+                            </Text>
+                            <Text>({d.numeroContrato})</Text>
+                          </View>
+                          {index !==
+                            unicaSalida.datos_cliente.datosCliente.length -
+                              1 && <Text>, </Text>}
+                        </React.Fragment>
+                      )
+                    )}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    DESTINO:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                    }}
+                  >
+                    {unicaSalida?.datos_cliente?.datosCliente?.map(
+                      (d, index) => (
+                        <React.Fragment key={index}>
+                          <View
+                            style={{
+                              width: "100%",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              {d.localidad}
+                            </Text>
+                          </View>
+                          {index !==
+                            unicaSalida.datos_cliente.datosCliente.length -
+                              1 && <Text> - </Text>}
+                        </React.Fragment>
+                      )
+                    )}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "20px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    LUGAR SALIDA:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                    }}
+                  >
+                    {unicaSalida.salida}
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "20px",
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "30px",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      KM DE VIAJE:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "normal",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "none",
+                        width: "100%",
+                        borderBottom: "1px dotted #000",
+                      }}
+                    >
+                      {unicaSalida.fletes_km}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "30px",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      PRECIO KM:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "normal",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "none",
+                        width: "100%",
+                        borderBottom: "1px dotted #000",
+                      }}
+                    >
+                      {unicaSalida.chofer === "Iveco Tecnohouse"
+                        ? ""
+                        : Number(
+                            Number(unicaSalida.fletes_km_precio)
+                          ).toLocaleString("es-AR", {
+                            style: "currency",
+                            currency: "ARS",
+                            minimumIntegerDigits: 2,
+                          })}
+                      /{" "}
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          textTransform: "uppercase",
+                          fontFamily: "Montserrat",
+                          fontSize: "10px",
+                        }}
+                      >
+                        {unicaSalida.chofer === "Iveco Tecnohouse"
+                          ? Number(unicaSalida.fletes_km_precio).toLocaleString(
+                              "es-AR",
+                              {
+                                style: "currency",
+                                currency: "ARS",
+                                minimumIntegerDigits: 2,
+                              }
+                            )
+                          : Number(
+                              Number(
+                                Number(unicaSalida.fletes_km) *
+                                  Number(unicaSalida.fletes_km_precio)
+                              )
+                            ).toLocaleString("es-AR", {
+                              style: "currency",
+                              currency: "ARS",
+                              minimumIntegerDigits: 2,
+                            })}
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "13px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    ESPERA:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                    }}
+                  >
+                    {Number(unicaSalida.espera).toLocaleString("es-AR", {
+                      style: "currency",
+                      currency: "ARS",
+                      minimumIntegerDigits: 2,
+                    })}
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "20px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    TOTAL A PAGAR:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
                     }}
                   >
                     {unicaSalida.chofer === "Iveco Tecnohouse"
@@ -465,7 +834,8 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                       : Number(
                           Number(
                             Number(unicaSalida.fletes_km) *
-                              Number(unicaSalida.fletes_km_precio)
+                              Number(unicaSalida.fletes_km_precio) +
+                              Number(unicaSalida.espera)
                           )
                         ).toLocaleString("es-AR", {
                           style: "currency",
@@ -473,214 +843,121 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                           minimumIntegerDigits: 2,
                         })}
                   </Text>
-                </Text>
-              </View>
-            </View>
+                </View>
 
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "13px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                ESPERA:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {Number(unicaSalida.espera).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </Text>
-            </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "20px",
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "40px",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      KM PAGOS:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "normal",
+                        fontFamily: "Montserrat",
+                        textTransform: "capitalize",
+                        textDecoration: "none",
+                        width: "100%",
+                        borderBottom: "1px dotted #000",
+                        paddingTop: "7px",
+                      }}
+                    >
+                      {/* {unicaSalida.km_viaje_control} */}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "52px",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      KM EN PESOS:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "normal",
+                        fontFamily: "Montserrat",
+                        textTransform: "capitalize",
+                        textDecoration: "none",
+                        width: "100%",
+                        borderBottom: "1px dotted #000",
+                        paddingTop: "7px",
+                      }}
+                    >
+                      {/* {unicaSalida.km_viaje_control} */}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "40px",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat",
+                        textTransform: "uppercase",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      RECIBO N°:{" "}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "normal",
+                        fontFamily: "Montserrat",
+                        textTransform: "capitalize",
+                        textDecoration: "none",
+                        width: "100%",
+                        borderBottom: "1px dotted #000",
+                        paddingTop: "7px",
+                      }}
+                    >
+                      {/* {unicaSalida.km_viaje_control} */}
+                    </Text>
+                  </View>
+                </View>
 
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "20px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                TOTAL A PAGAR:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                }}
-              >
-                {unicaSalida.chofer === "Iveco Tecnohouse"
-                  ? Number(unicaSalida.fletes_km_precio).toLocaleString(
-                      "es-AR",
-                      {
-                        style: "currency",
-                        currency: "ARS",
-                        minimumIntegerDigits: 2,
-                      }
-                    )
-                  : Number(
-                      Number(
-                        Number(unicaSalida.fletes_km) *
-                          Number(unicaSalida.fletes_km_precio) +
-                          Number(unicaSalida.espera)
-                      )
-                    ).toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                      minimumIntegerDigits: 2,
-                    })}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "20px",
-              }}
-            >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "40px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    fontFamily: "Montserrat",
-                    textTransform: "uppercase",
-                    textDecoration: "underline",
-                  }}
-                >
-                  KM PAGOS:{" "}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "normal",
-                    fontFamily: "Montserrat",
-                    textTransform: "capitalize",
-                    textDecoration: "none",
-                    width: "100%",
-                    borderBottom: "1px dotted #000",
-                    paddingTop: "7px",
-                  }}
-                >
-                  {/* {unicaSalida.km_viaje_control} */}
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "52px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    fontFamily: "Montserrat",
-                    textTransform: "uppercase",
-                    textDecoration: "underline",
-                  }}
-                >
-                  KM EN PESOS:{" "}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "normal",
-                    fontFamily: "Montserrat",
-                    textTransform: "capitalize",
-                    textDecoration: "none",
-                    width: "100%",
-                    borderBottom: "1px dotted #000",
-                    paddingTop: "7px",
-                  }}
-                >
-                  {/* {unicaSalida.km_viaje_control} */}
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "40px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    fontFamily: "Montserrat",
-                    textTransform: "uppercase",
-                    textDecoration: "underline",
-                  }}
-                >
-                  RECIBO N°:{" "}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "normal",
-                    fontFamily: "Montserrat",
-                    textTransform: "capitalize",
-                    textDecoration: "none",
-                    width: "100%",
-                    borderBottom: "1px dotted #000",
-                    paddingTop: "7px",
-                  }}
-                >
-                  {/* {unicaSalida.km_viaje_control} */}
-                </Text>
-              </View>
-            </View>
-
-            {/* <View
+                {/* <View
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -713,7 +990,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
               ></Text>
             </View> */}
 
-            {/* <View
+                {/* <View
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -745,7 +1022,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                 }}
               ></Text>
             </View> */}
-            {/* <View
+                {/* <View
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -779,42 +1056,42 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
               </Text>
             </View> */}
 
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "24px",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "underline",
-                }}
-              >
-                FIRMA CHOFER:{" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "normal",
-                  fontFamily: "Montserrat",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  width: "100%",
-                  borderBottom: "1px dotted #000",
-                  paddingTop: "10px",
-                }}
-              >
-                {/* {unicaSalida.salida} */}
-              </Text>
-            </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "24px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    FIRMA CHOFER:{" "}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                      fontFamily: "Montserrat",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      width: "100%",
+                      borderBottom: "1px dotted #000",
+                      paddingTop: "10px",
+                    }}
+                  >
+                    {/* {unicaSalida.salida} */}
+                  </Text>
+                </View>
 
-            {/* <View
+                {/* <View
               style={{
                 marginTop: "30px",
               }}
@@ -832,8 +1109,10 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                 REGRESO (BASE/PLATEA) SEGUN LOCALIDAD DE ARMADO.
               </Text>
             </View> */}
-          </View>
-        </View>
+              </View>
+            </View>
+          </>
+        )}
       </Page>
     </Document>
   );

@@ -242,6 +242,18 @@ export const HomeAdmin = () => {
     0
   );
 
+  const totalDatosMetrosCudradosSalidas = filteredDataSalidas?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
   //contratos y metros
   const totalContratos =
     Number(totalContratosRemunerados) + Number(totalContratosLegales);
@@ -766,6 +778,42 @@ export const HomeAdmin = () => {
                 } rounded py-1.5 px-4  font-bold text-xs`}
               >
                 Porcentaje {Number(totalMetrosCuadrados % 100).toFixed(2)} %
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`border ${
+            totalDatosMetrosCudradosSalidas < 0
+              ? "border-red-500 rounded-md"
+              : "border-gray-300 rounded-md"
+          } py-5 px-5 bg-white`}
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="font-bold">
+                Total en metros cuadrados de salidas de contratos.
+              </p>
+              <p
+                className={`${
+                  totalDatosMetrosCudradosSalidas < 0
+                    ? "text-red-500"
+                    : "text-blue-500"
+                } font-extrabold`}
+              >
+                {totalDatosMetrosCudradosSalidas?.toFixed(2)} mts
+              </p>
+            </div>
+            <div className="flex">
+              <div
+                className={`${
+                  totalDatosMetrosCudradosSalidas < 0
+                    ? "text-white bg-red-500"
+                    : "bg-blue-500 text-white"
+                } rounded py-1.5 px-4  font-bold text-xs`}
+              >
+                Porcentaje{" "}
+                {Number(totalDatosMetrosCudradosSalidas % 100).toFixed(2)} %
               </div>
             </div>
           </div>

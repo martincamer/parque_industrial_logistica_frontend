@@ -80,6 +80,18 @@ export const ContratosAdmin = () => {
     );
   }, 0);
 
+  const totalDatosMetrosCudradosSalidas = filteredSalidas?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.datos_cliente?.datosCliente?.reduce((subtotal, cliente) => {
+          return subtotal + Number(cliente.metrosCuadrados);
+        }, 0) || 0)
+      );
+    },
+    0
+  );
+
   return (
     <section className="w-full h-full min-h-screen max-h-full">
       <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
@@ -88,10 +100,16 @@ export const ContratosAdmin = () => {
         </p>
       </div>
 
-      <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5 max-md:grid-cols-1">
+      <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5 max-md:grid-cols-1 gap-2">
         <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
           <p className="font-medium text-primary">Total en contratos</p>
           <p className="font-bold text-lg">{totalContratosEnSalidas}</p>
+        </div>
+        <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
+          <p className="font-medium text-primary">Total metros cuadrados</p>
+          <p className="font-bold text-lg">
+            {totalDatosMetrosCudradosSalidas} mtrs
+          </p>
         </div>
       </div>
 

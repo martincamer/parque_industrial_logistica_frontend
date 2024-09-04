@@ -125,7 +125,8 @@ export const Salidas = () => {
       parseFloat(salida.total_flete) +
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
-      parseFloat(salida.espera),
+      parseFloat(salida.espera) +
+      parseFloat(salida.gastos || 0),
     0
   );
 
@@ -158,7 +159,8 @@ export const Salidas = () => {
       parseFloat(salida.total_flete) +
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
-      parseFloat(salida.espera),
+      parseFloat(salida.espera) +
+      parseFloat(salida.gastos || 0),
     0
   );
 
@@ -168,7 +170,8 @@ export const Salidas = () => {
       parseFloat(salida.total_flete) +
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
-      parseFloat(salida.espera),
+      parseFloat(salida.espera) +
+      parseFloat(salida.gastos || 0),
     0
   );
 
@@ -596,7 +599,9 @@ const ModalCrearSalida = () => {
   const [fabrica, setFabrica] = useState("");
   const [salida, setSalida] = useState("");
   const [espera, setEspera] = useState(0);
+  const [gastos, setGastos] = useState(0);
   const [chofer_vehiculo, setChoferVehiculo] = useState("");
+  const [detalle_iveco, setDetalleIveco] = useState("");
 
   const [socket, setSocket] = useState(null);
 
@@ -641,6 +646,8 @@ const ModalCrearSalida = () => {
         espera,
         chofer_vehiculo,
         datos_cliente: { datosCliente },
+        gastos,
+        detalle_iveco,
       });
 
       if (socket) {
@@ -661,6 +668,8 @@ const ModalCrearSalida = () => {
       setFabrica("");
       setEspera(0);
       setChoferVehiculo("");
+      setGastos(0);
+      setDetalleIveco("");
 
       setDatosCliente([]);
 
@@ -1041,36 +1050,62 @@ const ModalCrearSalida = () => {
                 )}
               </div>
             </div>{" "}
-            <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
-              <div onClick={handleInputClick}>
-                {isEditable ? (
-                  <div className="flex flex-col gap-2">
-                    <label className="font-bold text-sm">Otros gastós</label>
-                    <input
-                      value={espera}
-                      onChange={(e) => setEspera(e.target.value)}
-                      onBlur={() => {
-                        setIsEditable(false);
-                      }}
-                      type="text"
-                      className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <label className="font-bold text-sm">
-                      Espera del fletero
-                    </label>
-
-                    <p className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto">
-                      {formatearDinero(Number(espera) || 0)}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
           </article>
+          {chofer === "Iveco Tecnohouse" && (
+            <article className="flex items-start flex-col gap-2">
+              <div>
+                <h3 className="font-bold text-base text-gray-900 max-md:text-sm">
+                  Otros gastós aparte, solo si tiene.
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 gap-4 max-md:grid-cols-1">
+                <div onClick={handleInputClick}>
+                  {isEditable ? (
+                    <div className="flex flex-col gap-2">
+                      <label className="font-bold text-sm">Otros gastós</label>
+                      <input
+                        value={gastos}
+                        onChange={(e) => setGastos(e.target.value)}
+                        onBlur={() => {
+                          setIsEditable(false);
+                        }}
+                        type="text"
+                        className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <label className="font-bold text-sm">Otros Gastós</label>
 
+                      <p className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto">
+                        {formatearDinero(Number(gastos) || 0)}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          )}
+          {chofer === "Iveco Tecnohouse" && (
+            <article className="flex items-start flex-col gap-2">
+              <div>
+                <h3 className="font-bold text-base text-gray-900 max-md:text-sm">
+                  Detalle de la salida o adjuntar descripción, motivos de la
+                  salida.
+                </h3>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="font-bold text-sm">Escribir aca</label>
+                <textarea
+                  value={detalle_iveco}
+                  placeholder="Escribir algo para detallar.."
+                  onChange={(e) => setDetalleIveco(e.target.value)}
+                  type="text"
+                  className="border border-gray-300 py-2 px-2 rounded-md font-medium  text-sm outline-none w-auto"
+                />
+              </div>
+            </article>
+          )}
           <article className="flex flex-col gap-3 items-start">
             <div>
               <h3 className="font-bold text-base text-gray-900 max-md:text-sm">

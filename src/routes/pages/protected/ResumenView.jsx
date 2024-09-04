@@ -138,7 +138,32 @@ export const ResumenView = () => {
               d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
             />
           </svg>
-        </button>
+        </button>{" "}
+        {unicaSalida.chofer === "Iveco Tecnohouse" && (
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("my_modal_documento_interno").showModal()
+            }
+            className="flex items-center gap-2 bg-green-500 px-4 text-white text-sm font-bold rounded-md hover:shadow-md transition-all py-2"
+          >
+            Descargar documento interno
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 max-md:hidden"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+              />
+            </svg>
+          </button>
+        )}
       </div>
 
       {/* tabla de datos  */}
@@ -280,6 +305,7 @@ export const ResumenView = () => {
       <ModalControlViajes />
       <ModalFletesDocumento />
       <ModalViaticosArmadores />
+      <ModalDocumentoInterno />
     </section>
   );
 };
@@ -383,6 +409,39 @@ export const ModalViaticosArmadores = () => {
         </h3>
         <PDFViewer className="w-full h-full">
           <ImprimirPdfArmadores unicaSalida={unicaSalida} />
+        </PDFViewer>
+      </div>
+    </dialog>
+  );
+};
+
+export const ModalDocumentoInterno = () => {
+  const [unicaSalida, setUnicaSalida] = useState([]);
+
+  const params = useParams();
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await obtenerUnicaSalida(params.id);
+
+      setUnicaSalida(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
+  return (
+    <dialog id="my_modal_documento_interno" className="modal">
+      <div className="modal-box max-w-6xl h-full rounded-none scroll-bar">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <h3 className="font-bold text-lg mb-2">Descargar documento interno.</h3>
+        <PDFViewer className="w-full h-full">
+          <ImprimirPdfFletes unicaSalida={unicaSalida} />
         </PDFViewer>
       </div>
     </dialog>
