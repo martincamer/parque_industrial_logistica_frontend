@@ -175,7 +175,7 @@ export const ContratosAdmin = () => {
           <tbody className="text-xs capitalize font-medium">
             {filteredSalidas.map((salida) =>
               salida.datos_cliente.datosCliente.map((cliente, index) => (
-                <tr key={index}>
+                <tr key={index} className="uppercase">
                   <td className="">{salida.id}</td>
                   <td className="">{cliente.cliente}</td>
                   <td className="">{cliente.localidad}</td>
