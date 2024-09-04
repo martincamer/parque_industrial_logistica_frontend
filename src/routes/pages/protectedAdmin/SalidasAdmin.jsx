@@ -135,7 +135,8 @@ export const SalidasAdmin = () => {
       parseFloat(salida.total_flete) +
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
-      parseFloat(salida.espera),
+      parseFloat(salida.espera) +
+      parseFloat(salida.gastos || 0),
     0
   );
 
@@ -169,17 +170,17 @@ export const SalidasAdmin = () => {
       parseFloat(salida.total_control) +
       parseFloat(salida.total_viaticos) +
       parseFloat(salida.espera) +
-      parseFloat(salida.gastos),
+      parseFloat(salida.gastos || 0),
     0
   );
 
   const totalEnSalidasAnual = filteredData.reduce(
     (total, salida) =>
       total +
-      parseFloat(salida.total_flete) +
-      parseFloat(salida.total_control) +
-      parseFloat(salida.total_viaticos) +
-      +parseFloat(salida.gastos),
+        parseFloat(salida.total_flete) +
+        parseFloat(salida.total_control) +
+        parseFloat(salida.total_viaticos) +
+        +parseFloat(salida.gastos) || 0,
     0
   );
 
@@ -430,7 +431,7 @@ export const SalidasAdmin = () => {
                       parseFloat(s.total_control) +
                       parseFloat(s.total_viaticos) +
                       parseFloat(s.espera) +
-                      parseFloat(s.gastos)
+                      parseFloat(s.gastos || 0)
                   ).toLocaleString("es-AR", {
                     style: "currency",
                     currency: "ARS",

@@ -433,7 +433,7 @@ export const Salidas = () => {
                         parseFloat(s.total_control) +
                         parseFloat(s.total_viaticos) +
                         parseFloat(s.espera) +
-                        parseFloat(s.gastos)
+                        parseFloat(s.gastos || 0)
                     ).toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
