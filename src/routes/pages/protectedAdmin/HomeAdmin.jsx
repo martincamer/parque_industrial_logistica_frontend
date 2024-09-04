@@ -89,9 +89,10 @@ export const HomeAdmin = () => {
 
   const fechaFinObj = new Date(fechaFin);
 
-  // Filtro por término de búsqueda y usuario seleccionado en remuneraciones
   let filteredDataRemuneraciones = remuneraciones.filter((item) => {
-    const matchesUser = item.localidad.toLowerCase();
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     return matchesUser;
   });
@@ -103,7 +104,9 @@ export const HomeAdmin = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en legalesReal
   let filteredDataLegales = legales.filter((item) => {
-    const matchesUser = item.localidad.toLowerCase();
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     return matchesUser;
   });
@@ -115,7 +118,9 @@ export const HomeAdmin = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en rendiciones
   let filteredDataRendiciones = rendiciones.filter((item) => {
-    const matchesUser = item.localidad.toLowerCase();
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     return matchesUser;
   });
@@ -127,7 +132,9 @@ export const HomeAdmin = () => {
 
   // Filtro por término de búsqueda y usuario seleccionado en salidas
   let filteredDataSalidas = salidas.filter((item) => {
-    const matchesUser = item.localidad.toLowerCase();
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     return matchesUser;
   });
