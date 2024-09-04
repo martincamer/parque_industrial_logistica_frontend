@@ -96,7 +96,10 @@ export const SalidasAdmin = () => {
       cliente.cliente.toLowerCase().includes(searchTermCliente.toLowerCase())
     );
 
-    const matchesUser = selectedUser === "" || item.localidad.toLowerCase();
+    // Filtrar por usuario seleccionado
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     return matchesSearchTerm && matchesUser;
   });

@@ -44,7 +44,9 @@ export const ContratosAdmin = () => {
     );
 
     // Filtrar por usuario seleccionado
-    const matchesUser = selectedUser === "" || salida.localidad.toLowerCase();
+    const matchesUser =
+      selectedUser === "" ||
+      item.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     // Filtrar por rango de fechas
     const matchesDate =
