@@ -46,7 +46,7 @@ export const ContratosAdmin = () => {
     // Filtrar por usuario seleccionado
     const matchesUser =
       selectedUser === "" ||
-      item.localidad.toLowerCase() === selectedUser.toLowerCase();
+      salida.localidad.toLowerCase() === selectedUser.toLowerCase();
 
     // Filtrar por rango de fechas
     const matchesDate =
@@ -55,7 +55,6 @@ export const ContratosAdmin = () => {
 
     return matchesSearchTerm && matchesUser && matchesDate;
   });
-
   const handleSearchClienteChange = (e) => {
     setSearchTermCliente(e.target.value);
   };
