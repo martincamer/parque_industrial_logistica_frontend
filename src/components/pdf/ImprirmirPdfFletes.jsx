@@ -183,11 +183,40 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
 
             <View
               style={{
+                padding: "0px 20px",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  fontFamily: "Montserrat",
+                  textTransform: "uppercase",
+                  textDecoration: "underline",
+                  marginBottom: "2",
+                }}
+              >
+                MOTIVOS DE LA SALIDA
+              </Text>{" "}
+              <Text
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  fontFamily: "Montserrat",
+                  textTransform: "uppercase",
+                }}
+              >
+                {unicaSalida.detalle_iveco}
+              </Text>
+            </View>
+
+            <View
+              style={{
                 padding: "20px 20px",
                 marginTop: "10px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "25px",
+                gap: "20",
               }}
             >
               <View
@@ -240,7 +269,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  COSTOS
+                  COSTOS:
                 </Text>
                 <Text
                   style={{
@@ -273,7 +302,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  VIATICOS 1 a 2 P
+                  VIATICOS 1 a 2 P:
                 </Text>
                 <Text
                   style={{
@@ -306,7 +335,7 @@ export const ImprimirPdfFletes = ({ unicaSalida }) => {
                     textDecoration: "underline",
                   }}
                 >
-                  OTROS GASTOS
+                  OTROS GASTOS:
                 </Text>
                 <Text
                   style={{
