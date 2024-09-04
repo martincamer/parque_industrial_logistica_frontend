@@ -25,6 +25,8 @@ import {
 } from "../../../helpers/toast";
 import client from "../../../api/axios";
 import io from "socket.io-client";
+import { ModalEditarClienteSalidaEditar } from "../../../components/Modales/ModalEditarClienteSalidaEditar";
+import { ModalCrearClienteEditar } from "../../../components/Modales/ModalCrearClienteEditar";
 
 export const Salidas = () => {
   const { salidas } = useSalidasContext();
@@ -1404,12 +1406,9 @@ const ModalActualizarSalida = ({ obtenerID }) => {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-xl">
-          Crear nueva salida de una vivienda .
-        </h3>
+        <h3 className="font-bold text-xl">Actualizar la salida {obtenerID}.</h3>
         <p className="py-0.5 text-sm font-medium">
-          En esta ventana podras crear una nuevas salidas de
-          contratos/viviendas.
+          En esta ventana podras actualizar la salida obtenida.
         </p>
 
         <form className="flex flex-col gap-4">
@@ -1502,7 +1501,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                 <button
                   onClick={() =>
                     document
-                      .getElementById("my_modal_crear_cliente")
+                      .getElementById("my_modal_crear_cliente_editar")
                       .showModal()
                   }
                   type="button"
@@ -1537,6 +1536,9 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                         </th>
                         <th className="font-bold text-gray-800 text-sm">
                           N° contrato
+                        </th>{" "}
+                        <th className="font-bold text-gray-800 text-sm">
+                          Metros cuadrados
                         </th>
                         <th className="font-bold text-gray-800 text-sm">
                           Acciones
@@ -1550,6 +1552,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                           <td>{datos.cliente}</td>
                           <td>{datos.localidad}</td>
                           <td>{datos.numeroContrato}</td>
+                          <td>{datos.metrosCuadrados} MTRS.</td>
                           <td>
                             <div className="flex space-x-3">
                               <button
@@ -1564,7 +1567,9 @@ const ModalActualizarSalida = ({ obtenerID }) => {
                                 onClick={() => {
                                   handleUsuario(datos.cliente),
                                     document
-                                      .getElementById("my_modal_editar_cliente")
+                                      .getElementById(
+                                        "my_modal_editar_cliente_editar"
+                                      )
                                       .showModal();
                                 }}
                                 className="bg-green-100 py-1 px-3 text-xs font-semibold text-center rounded-xl uppercase text-green-700"
@@ -1892,7 +1897,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
           </div>
         </form>
 
-        <ModalCrearCliente
+        <ModalCrearClienteEditar
           setDatosCliente={setDatosCliente}
           datosCliente={datosCliente}
         />
@@ -1901,7 +1906,7 @@ const ModalActualizarSalida = ({ obtenerID }) => {
 
         <ModalVerChoferes />
 
-        <ModalEditarClienteSalida
+        <ModalEditarClienteSalidaEditar
           usuario={usuario}
           datosCliente={datosCliente}
           setDatosCliente={setDatosCliente}
