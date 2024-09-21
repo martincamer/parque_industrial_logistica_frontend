@@ -217,7 +217,7 @@ export const Remuneraciones = () => {
     <section className="w-full h-full min-h-screen max-h-full">
       <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
-          Crear nuevas remuneraciones.
+          Sector de remuneraciones de contratos.
         </p>
         <button
           onClick={() =>
@@ -363,12 +363,13 @@ export const Remuneraciones = () => {
           <thead className="text-sm font-bold text-gray-800">
             <tr>
               <th>Numero</th>
+              <th>Contratos</th>
               <th>Usuario</th>
               <th>Fabrica</th>
               <th>Fecha</th>
               <th>Mes</th>
-              <th>Clientes</th>
-              <th>Remunerado</th>
+              <th>Recaudado</th>
+              <th className="">Contrato obs</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -379,6 +380,15 @@ export const Remuneraciones = () => {
               .map((s) => (
                 <tr key={s.id}>
                   <td>{s.id}</td>
+                  <td className="">
+                    <div className="flex gap-1 uppercase">
+                      {s?.datos_cliente?.datosCliente?.map((p) => (
+                        <p className="font-bold border border-gray-300 py-1 px-4">
+                          {p.cliente} ({p.numeroContrato})
+                        </p>
+                      ))}
+                    </div>
+                  </td>
                   <td>{s.usuario}</td>
                   <td>{s.sucursal}</td>
                   <td>{formatearFecha(s.created_at)}</td>
@@ -387,19 +397,6 @@ export const Remuneraciones = () => {
                       month: "long",
                     })}
                   </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      Ver cliente/contrato{" "}
-                      <FaHouseChimneyUser className="text-xl" />
-                    </button>
-                  </td>
-
                   <td>
                     <div className="flex">
                       <p
@@ -416,6 +413,17 @@ export const Remuneraciones = () => {
                         })}
                       </p>
                     </div>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        handleID(s.id), openVerCliente();
+                      }}
+                      type="button"
+                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
+                    >
+                      Obs contratos <FaHouseChimneyUser className="text-xl" />
+                    </button>
                   </td>
                   <td className="md:hidden">
                     <div className="flex gap-1">

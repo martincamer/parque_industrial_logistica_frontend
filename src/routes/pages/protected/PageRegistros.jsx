@@ -2,6 +2,7 @@ import { useRemuneracionContext } from "../../../context/RemuneracionesProvider"
 import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useState } from "react";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
+import { IoIosArrowDown } from "react-icons/io";
 import * as XLSX from "xlsx";
 
 export const PageRegistros = () => {
@@ -23,13 +24,45 @@ export const PageRegistros = () => {
   // Obtener lista de fábricas (suponiendo que las fábricas se encuentran en los datos)
   const factories = [...new Set(combinedData.map((item) => item.sucursal))];
 
-  // Función para filtrar datos según el filtro seleccionado
+  const startOfCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  )
+    .toISOString()
+    .split("T")[0];
+  const startOfNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    1
+  )
+    .toISOString()
+    .split("T")[0];
+
+  const [startDate, setStartDate] = useState(startOfCurrentMonth);
+  const [endDate, setEndDate] = useState(startOfNextMonth);
+
+  function getWeek(fecha) {
+    // Crear una nueva fecha del primer día del año
+    const firstDayOfYear = new Date(fecha.getFullYear(), 0, 1);
+
+    // Obtener la diferencia en milisegundos entre la fecha actual y el primer día del año
+    const pastDaysOfYear =
+      (fecha -
+        firstDayOfYear +
+        (firstDayOfYear.getTimezoneOffset() - fecha.getTimezoneOffset()) *
+          60000) /
+      86400000;
+
+    // Calcular el número de la semana
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  }
+
   const filteredData = combinedData.filter((item) => {
     const fecha = new Date(item?.fecha_carga);
     const year = fecha.getFullYear();
     const month = fecha.getMonth() + 1;
 
-    // Filtrado existente
     const filterByDate =
       (selectedFilter === "mes" &&
         year === Number(selectedValue.split("-")[0]) &&
@@ -42,9 +75,11 @@ export const PageRegistros = () => {
         getWeek(fecha) === Number(selectedValue.split("-")[1])) ||
       (selectedFilter === "dia" &&
         fecha.toDateString() === new Date(selectedValue).toDateString()) ||
-      (selectedFilter === "anio" && year === Number(selectedValue));
+      (selectedFilter === "anio" && year === Number(selectedValue)) ||
+      (selectedFilter === "rango-fechas" &&
+        new Date(startDate) <= fecha &&
+        fecha <= new Date(endDate));
 
-    // Filtrar por fábrica si se seleccionó alguna
     const filterByFactory = selectedFactory
       ? item.sucursal === selectedFactory
       : true;
@@ -95,14 +130,13 @@ export const PageRegistros = () => {
     0
   );
 
-  const totalClientes = filteredData?.reduce((total, item) => {
-    return (
-      total +
-      (item?.datos_cliente?.datosCliente
-        ? Object.keys(item.datos_cliente.datosCliente).length
-        : 0)
-    );
-  }, 0);
+  // const totalClientes = filteredData?.reduce((total, item) => {
+  //   return total + item?.datos_cliente?.datosCliente?.length;
+  // }, 0);
+
+  const allClientes = filteredData?.flatMap(
+    (salida) => salida?.datos_cliente?.datosCliente || []
+  );
 
   const descargarExcel = () => {
     const excelData = [];
@@ -192,13 +226,13 @@ export const PageRegistros = () => {
       </div>
 
       <article className="flex gap-2">
-        <div className="px-10 py-10 w-1/4 border mx-10 my-5 border-gray-300">
+        <div className="px-5 py-5 w-auto border mx-10 my-5 border-gray-300">
           <p className="font-bold border-b border-gray-500">Filtro por</p>
 
           <div className="mt-2">
             {/* Filtro por tipo: Mes, Trimestre, Semana, Día, Año */}
             <select
-              className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+              className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
               value={selectedFilter}
               onChange={(e) => setSelectedFilter(e.target.value)}
             >
@@ -207,13 +241,14 @@ export const PageRegistros = () => {
               <option value="semana">Semana</option>
               <option value="dia">Día</option>
               <option value="anio">Año</option>
+              <option value="rango-fechas">Rango de Fechas</option>
             </select>
 
             {/* Filtro de valores (mes/año, trimestre, semana, día, año) */}
             <div className="mt-2">
               {selectedFilter === "mes" && (
                 <select
-                  className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
                   value={selectedValue}
                   onChange={(e) => setSelectedValue(e.target.value)}
                 >
@@ -244,7 +279,7 @@ export const PageRegistros = () => {
 
               {selectedFilter === "trimestre" && (
                 <select
-                  className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
                   value={selectedValue}
                   onChange={(e) => setSelectedValue(e.target.value)}
                 >
@@ -264,7 +299,7 @@ export const PageRegistros = () => {
               {selectedFilter === "semana" && (
                 <input
                   type="week"
-                  className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
                   value={selectedValue}
                   onChange={(e) => setSelectedValue(e.target.value)}
                 />
@@ -272,17 +307,18 @@ export const PageRegistros = () => {
               {selectedFilter === "dia" && (
                 <input
                   type="date"
-                  className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
                   value={selectedValue}
                   onChange={(e) => setSelectedValue(e.target.value)}
                 />
               )}
               {selectedFilter === "anio" && (
                 <select
-                  className="border border-gray-300 py-1 px-4 rounded-md outline-none"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
                   value={selectedValue}
                   onChange={(e) => setSelectedValue(e.target.value)}
                 >
+                  <option value="">Seleccionar el año</option>
                   <option value="2024">2024</option>
                   <option value="2025">2025</option>
                   <option value="2026">2026</option>
@@ -290,12 +326,30 @@ export const PageRegistros = () => {
                   <option value="2028">2028</option>
                 </select>
               )}
+              {selectedFilter === "rango-fechas" && (
+                <div className="flex gap-2">
+                  <label className="font-bold">Desde:</label>
+                  <input
+                    type="date"
+                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                  <label className="font-bold">Hasta:</label>
+                  <input
+                    type="date"
+                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              )}
             </div>
           </div>
-          <div className="mt-2">
+          <div className="mt-2 flex flex-col gap-1 items-start">
             <label className="font-bold">Seleccionar Fábrica</label>
             <select
-              className="border border-gray-300 py-1 px-4 rounded-md outline-none capitalize"
+              className="border border-gray-300 py-1 px-4 rounded-md outline-none capitalize text-sm font-semibold"
               value={selectedFactory}
               onChange={(e) => setSelectedFactory(e.target.value)}
             >
@@ -323,15 +377,7 @@ export const PageRegistros = () => {
           </div>
           <div className=" border border-gray-300 px-5 py-5">
             <p className="font-bold uppercase">Total de contratos</p>
-            <p className="font-bold text-primary">{totalClientes}.</p>
-          </div>
-          <div className="flex justify-end py-4 px-10">
-            <button
-              onClick={descargarExcel}
-              className="bg-blue-500 text-white py-2 px-4 rounded-md"
-            >
-              Descargar Excel
-            </button>
+            <p className="font-bold text-primary">{allClientes.length}.</p>
           </div>
         </div>
       </article>
@@ -347,7 +393,7 @@ export const PageRegistros = () => {
 
             {groupedData[fecha].map((item, idx) => (
               <div key={idx} className="mb-2 border-b border-gray-300">
-                <div className="grid grid-cols-7 gap-4 text-sm font-medium uppercase">
+                <div className="grid grid-cols-8 gap-4 text-sm font-medium uppercase">
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Contrato</p>
                     <p className="uppercase">
@@ -393,9 +439,160 @@ export const PageRegistros = () => {
                       {formatearDinero(Number(item.recaudacion))}
                     </p>
                   </div>
-                  {/* <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Fabrica</p>
-                    <p className="uppercase">{item.sucursal}</p>
+                  <div className="col-span-1">
+                    <IoIosArrowDown
+                      className="text-3xl cursor-pointer hover:bg-primary py-1.5 px-1.5 hover:shadow-md rounded-full hover:text-white transition-all ease-linear"
+                      onClick={() =>
+                        document.getElementById("my_modal_datos").showModal()
+                      }
+                    />
+                    <dialog id="my_modal_datos" className="modal">
+                      <div className="modal-box rounded-md max-w-xl">
+                        <form method="dialog">
+                          {/* if there is a button in form, it will close the modal */}
+                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            ✕
+                          </button>
+                        </form>
+                        <div>
+                          <p className="font-bold underline">
+                            Datos del contrato
+                          </p>
+
+                          <div className="mt-2 flex flex-col gap-2 text-xs">
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">Contrato:</span>{" "}
+                              {item.datos_cliente.datosCliente[0].cliente} (
+                              {
+                                item.datos_cliente.datosCliente[0]
+                                  .numeroContrato
+                              }
+                              )
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Localidad y prov:
+                              </span>{" "}
+                              {item.datos_cliente.datosCliente[0].localidad}
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Metros cuadrados:
+                              </span>{" "}
+                              {Number(
+                                item.datos_cliente.datosCliente[0]
+                                  .metrosCuadrados
+                              ).toFixed(2)}{" "}
+                              mtrs.
+                            </p>{" "}
+                            {/* <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Total cobrado del flete:
+                              </span>{" "}
+                              <span className="font-bold text-blue-500">
+                                {formatearDinero(
+                                  Number(
+                                    item.datos_cliente.datosCliente[0]
+                                      .totalFlete
+                                  )
+                                )}
+                              </span>
+                            </p> */}
+                          </div>
+                          <p className="font-bold underline mt-2">
+                            Datos externos
+                          </p>
+                          <div className="mt-2 flex flex-col gap-2 text-xs">
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Chofer del viaje:
+                              </span>{" "}
+                              {item.chofer}
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Armador del viaje:
+                              </span>{" "}
+                              {item.armador}
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Fabrica/Sucursal de salida:
+                              </span>{" "}
+                              {item.sucursal}
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Total de kilometros:
+                              </span>{" "}
+                              {item.km_lineal} kms.
+                            </p>{" "}
+                          </div>
+                        </div>
+                      </div>
+                    </dialog>
+                  </div>
+                  {/* <div className="col-span-1 ">
+                    <div className="dropdown dropdown-hover dropdown-top dropdown-end z-[1000]">
+                      <div
+                        tabIndex={0}
+                        role="button"
+                        className="text-xl hover:bg-primary py-1.5 px-1.5 hover:shadow-md rounded-full hover:text-white transition-all ease-linear"
+                      >
+                        <IoIosArrowDown />
+                      </div>
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-white rounded-md z-[1000] w-[600px] py-5 px-5 border border-gray-300"
+                      >
+                        <div>
+                          <p className="font-bold underline">
+                            Datos del contrato
+                          </p>
+
+                          <div className="mt-2 flex flex-col gap-2 text-xs">
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">Contrato:</span>{" "}
+                              {item.datos_cliente.datosCliente[0].cliente} (
+                              {
+                                item.datos_cliente.datosCliente[0]
+                                  .numeroContrato
+                              }
+                              )
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Localidad y prov:
+                              </span>{" "}
+                              {item.datos_cliente.datosCliente[0].localidad}
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Metros cuadrados:
+                              </span>{" "}
+                              {Number(
+                                item.datos_cliente.datosCliente[0]
+                                  .metrosCuadrados
+                              ).toFixed(2)}{" "}
+                              mtrs.
+                            </p>{" "}
+                            <p className="text-black border-b border-gray-300 pb-1">
+                              <span className="font-bold">
+                                Total cobrado del flete:
+                              </span>{" "}
+                              <span className="font-bold text-blue-500">
+                                {formatearDinero(
+                                  Number(
+                                    item.datos_cliente.datosCliente[0]
+                                      .totalFlete
+                                  )
+                                )}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </ul>
+                    </div>
                   </div> */}
                 </div>
               </div>

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { FaSearch } from "react-icons/fa";
 import { formatearFecha } from "../../../helpers/formatearFecha";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { ImprimirPdfContratos } from "../../../components/pdf/ImprimirPdfContratos";
 import { useAuth } from "../../../context/AuthProvider";
 
@@ -90,7 +89,7 @@ export const Contratos = () => {
     <section className="w-full h-full min-h-screen max-h-full">
       <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
-          Contratos cargados hasta el momento en salidas.
+          Sector de contratos ya entregados.
         </p>
       </div>
 
@@ -102,7 +101,7 @@ export const Contratos = () => {
         <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
           <p className="font-medium text-primary">Total metros cuadrados</p>
           <p className="font-bold text-lg">
-            {totalDatosMetrosCudradosSalidas} mtrs
+            {Number(totalDatosMetrosCudradosSalidas).toFixed(2)} mtrs
           </p>
         </div>
       </div>
@@ -115,7 +114,7 @@ export const Contratos = () => {
               onChange={handleSearchClienteChange}
               type="text"
               className="outline-none font-medium w-full"
-              placeholder="Buscar por clientes.."
+              placeholder="Buscar por el cliente.."
             />
             <FaSearch className="text-gray-700" />
           </div>
@@ -174,9 +173,9 @@ export const Contratos = () => {
           <thead className="text-gray-900 text-sm">
             <tr>
               <th>Número</th>
-              <th>Cliente</th>
+              <th>Fabrica de salida</th>
+              <th>Contrato</th>
               <th>Localidad/Prov.</th>
-              <th>Número de Contrato</th>
               <th>Fecha de salida</th>
             </tr>
           </thead>
@@ -188,11 +187,11 @@ export const Contratos = () => {
                 salida.datos_cliente.datosCliente.map((cliente, index) => (
                   <tr key={index}>
                     <td className="">{salida.id}</td>
-                    <td className="">{cliente.cliente}</td>
-                    <td className="">{cliente.localidad}</td>
-                    <td className="text-blue-600 font-bold">
-                      {cliente.numeroContrato}
+                    <td className="">{salida.fabrica}</td>
+                    <td className="text-blue-500 font-bold">
+                      {cliente.cliente} ({cliente.numeroContrato})
                     </td>
+                    <td className="">{cliente.localidad}</td>
                     <td className="">{formatearFecha(salida.created_at)}</td>
                   </tr>
                 ))

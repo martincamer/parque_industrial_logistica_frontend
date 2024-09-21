@@ -207,7 +207,7 @@ export const Salidas = () => {
     <section className="w-full h-full min-h-screen max-h-full">
       <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
-          Crear nuevas salidas de viviendas.
+          Sector de salidas de contratos .
         </p>
         <button
           onClick={() =>
@@ -413,11 +413,12 @@ export const Salidas = () => {
           <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
               <th className="">Numero</th>
+              <th className="">Contratos</th>
               <th className="">Fecha de la salida</th>
               <th className="">Fabrica de salida</th>
-              <th className="">Total</th>
-              <th className="">Clientes/Localidad/Ver</th>
+              <th className="">Total de la salida</th>
               <th className="">Usuario</th>
+              <th className="">Contrato obs</th>
               <th className="">Acciones</th>
             </tr>
           </thead>
@@ -427,9 +428,18 @@ export const Salidas = () => {
               .map((s) => (
                 <tr key={s.id}>
                   <td className="">{s.id}</td>
+                  <td className="uppercase">
+                    <div className="flex">
+                      {s?.datos_cliente?.datosCliente?.map((p) => (
+                        <p className="font-bold border border-gray-300 py-1 px-4">
+                          {p.cliente} ({p.numeroContrato})
+                        </p>
+                      ))}
+                    </div>
+                  </td>
                   <td className="">{formatearFecha(s.created_at)}</td>
                   <td className="">{s.sucursal}</td>
-                  <td className="text-primary font-bold">
+                  <td className="text-black font-extrabold">
                     {Number(
                       parseFloat(s.total_flete) +
                         parseFloat(s.total_control) +
@@ -442,7 +452,8 @@ export const Salidas = () => {
                       minimumIntegerDigits: 2,
                     })}
                   </td>
-                  <td className="">
+                  <td className="">{s.usuario}</td>
+                  <td className="max-md:hidden">
                     <button
                       onClick={() => {
                         handleID(s.id), openVerCliente();
@@ -450,11 +461,20 @@ export const Salidas = () => {
                       type="button"
                       className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
                     >
-                      Ver cliente/contrato{" "}
+                      Observaciones <FaHouseChimneyUser className="text-xl" />
+                    </button>
+                  </td>
+                  <td className="max-md:block hidden">
+                    <button
+                      onClick={() => {
+                        handleID(s.id), openVerCliente();
+                      }}
+                      type="button"
+                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
+                    >
                       <FaHouseChimneyUser className="text-xl" />
                     </button>
                   </td>
-                  <td className="">{s.usuario}</td>
                   <td className="md:hidden">
                     <div className="flex gap-1">
                       <FaEdit

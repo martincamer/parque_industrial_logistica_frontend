@@ -160,7 +160,7 @@ export const Rendicones = () => {
     <section className="w-full h-full min-h-screen max-h-full">
       <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
-          Cargar nuevas rendiciones.
+          Sector de rendiciones de armados.
         </p>
         <button
           onClick={() =>
@@ -169,7 +169,7 @@ export const Rendicones = () => {
           type="button"
           className="bg-primary py-1 px-4 rounded-md text-white font-semibold text-sm"
         >
-          Crear nueva rendicion
+          Crear nueva rendición
         </button>
       </div>
 

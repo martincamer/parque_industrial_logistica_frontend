@@ -65,7 +65,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
             >
               <div className="inline-block w-1/2 max-md:w-full p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-md">
                 <div className="text-lg font-bold text-gray-900 mb-3">
-                  Cliente y localidad obtenida.
+                  Contrato observación completo.
                 </div>
 
                 <div className="flex flex-col gap-1">
@@ -86,7 +86,7 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                 <div className="mt-2">
                   <div className="flex">
                     <p className="text-lg font-bold text-primary mb-2">
-                      Clientes.
+                      Contratos de la salida.
                     </p>
                   </div>
                 </div>
@@ -141,21 +141,35 @@ export const ModalVerClienteLocalidad = ({ isOpen, closeOpen, obtenerId }) => {
                         minimumIntegerDigits: 2,
                       })}
                     </span>
-                  </p>
+                  </p>{" "}
                   <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center">
-                    Total Final{" "}
-                    <span className="font-normal">
-                      {Number(
-                        parseFloat(salida.total_control) +
-                          parseFloat(salida.total_flete) +
-                          parseFloat(salida.total_viaticos)
-                      ).toLocaleString("es-AR", {
+                    Gastós apartes{" "}
+                    <span className="font-medium">
+                      {Number(salida.gastos).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
                         minimumIntegerDigits: 2,
                       })}
                     </span>
                   </p>
+                  <div className="mt-2">
+                    {" "}
+                    <p className="text-sm capitalize font-bold text-slate-600 flex gap-2 items-center border border-gray-300 py-2 px-4 justify-between rounded-md">
+                      Total general{" "}
+                      <span className="font-extrabold text-primary">
+                        {Number(
+                          parseFloat(salida.total_control) +
+                            parseFloat(salida.total_flete) +
+                            parseFloat(salida.total_viaticos) +
+                            parseFloat(salida.gastos || 0)
+                        ).toLocaleString("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumIntegerDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </Transition.Child>
