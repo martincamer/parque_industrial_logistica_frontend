@@ -366,7 +366,8 @@ export const Remuneraciones = () => {
               <th>Contratos</th>
               <th>Usuario</th>
               <th>Fabrica</th>
-              <th>Fecha</th>
+              <th>Fecha de carga</th>
+              <th>Fecha de entrega</th>
               <th>Mes</th>
               <th>Recaudado</th>
               <th className="">Contrato obs</th>
@@ -391,7 +392,8 @@ export const Remuneraciones = () => {
                   </td>
                   <td>{s.usuario}</td>
                   <td>{s.sucursal}</td>
-                  <td>{formatearFecha(s.created_at)}</td>
+                  <td>{formatearFecha(s.fecha_carga)}</td>
+                  <td>{formatearFecha(s.fecha_entrega)}</td>
                   <td>
                     {new Date(s.created_at).toLocaleString("default", {
                       month: "long",
