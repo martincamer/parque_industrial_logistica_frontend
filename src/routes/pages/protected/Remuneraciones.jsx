@@ -19,6 +19,8 @@ import {
 import client from "../../../api/axios";
 import io from "socket.io-client";
 import { useForm } from "react-hook-form";
+import { ModalCrearClienteRemuneracionEditar } from "../../../components/Modales/ModalCrearClienteRemuneracionEditar";
+import { ModalEditarClienteRemuneracionEditar } from "../../../components/Modales/ModalEditarClienteRemuneracionEditar";
 
 export const Remuneraciones = () => {
   const { remuneraciones } = useRemuneracionContext();
@@ -1298,7 +1300,9 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
                 <button
                   onClick={() =>
                     document
-                      .getElementById("my_modal_crear_cliente_remuneracion")
+                      .getElementById(
+                        "my_modal_crear_cliente_remuneracion_editar"
+                      )
                       .showModal()
                   }
                   type="button"
@@ -1364,7 +1368,7 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
                               handleUsuario(datos.cliente),
                                 document
                                   .getElementById(
-                                    "my_modal_editar_cliente_remuneracion"
+                                    "my_modal_editar_cliente_remuneracion_editar"
                                   )
                                   .showModal();
                             }}
@@ -1605,11 +1609,11 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
           </div>
         </form>
 
-        <ModalCrearClienteRemuneracion
+        <ModalCrearClienteRemuneracionEditar
           datosCliente={datosCliente}
           setDatosCliente={setDatosCliente}
         />
-        <ModalEditarClienteRemuneracion
+        <ModalEditarClienteRemuneracionEditar
           datosCliente={datosCliente}
           setDatosCliente={setDatosCliente}
           usuario={usuario}
