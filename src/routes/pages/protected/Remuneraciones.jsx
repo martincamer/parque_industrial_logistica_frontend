@@ -1093,7 +1093,7 @@ export const ModalCrearRemuneracion = () => {
 
 export const ModalActualizarRemuneracion = ({ obtenerID }) => {
   //useContext
-  const { setRemuneraciones } = useRemuneracionContext();
+  const { setRemuneraciones, setCaja } = useRemuneracionContext();
 
   const { choferes, setChoferes } = useSalidasContext();
 
@@ -1180,8 +1180,12 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
 
     setSocket(newSocket);
 
+    // newSocket.on("editar-remuneracion", (nuevaSalida) => {
+    //   setRemuneraciones(nuevaSalida);
+    // });
     newSocket.on("editar-remuneracion", (nuevaSalida) => {
-      setRemuneraciones(nuevaSalida);
+      setRemuneraciones(nuevaSalida.remuneraciones);
+      setCaja(nuevaSalida.caja);
     });
 
     return () => newSocket.close();
@@ -1626,7 +1630,7 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
 const ModalEliminar = ({ idObtenida }) => {
   const { handleSubmit } = useForm();
 
-  const { setRemuneraciones } = useRemuneracionContext();
+  const { setRemuneraciones, setCaja } = useRemuneracionContext();
 
   const onSubmit = async (formData) => {
     try {
@@ -1641,7 +1645,8 @@ const ModalEliminar = ({ idObtenida }) => {
         ordenData
       );
 
-      setRemuneraciones(res.data);
+      setRemuneraciones(res.data.remuneraciones);
+      setCaja(res.data.caja);
 
       document.getElementById("my_modal_eliminar").close();
 

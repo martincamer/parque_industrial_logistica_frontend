@@ -99,11 +99,14 @@ export const PageRegistros = () => {
     return acc;
   }, {});
 
-  // Calcular totales generales
-  const totalFletes = filteredData.reduce(
-    (acc, item) => acc + Number(item.datos_cliente.datosCliente[0].totalFlete),
-    0
-  );
+  // Calcular los totales generales (suma de fletes completos de todos los clientes)
+  const totalFletes = filteredData.reduce((acc, item) => {
+    const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
+      (subAcc, cliente) => subAcc + Number(cliente.totalFlete),
+      0
+    );
+    return acc + totalFletePorItem;
+  }, 0);
 
   const totalFleteroEspera = filteredData.reduce(
     (acc, item) => acc + Number(item.pago_fletero_espera),
@@ -125,12 +128,21 @@ export const PageRegistros = () => {
     0
   );
 
-  // Calcular totales generales
-  const totalMetrosCuadrados = filteredData.reduce(
-    (acc, item) =>
-      acc + Number(item.datos_cliente.datosCliente[0].metrosCuadrados),
-    0
-  );
+  // // Calcular totales generales
+  // const totalMetrosCuadrados = filteredData.reduce(
+  //   (acc, item) =>
+  //     acc + Number(item.datos_cliente.datosCliente[0].metrosCuadrados),
+  //   0
+  // );
+
+  // Calcular los totales generales (suma de fletes completos de todos los clientes)
+  const totalMetrosCuadrados = filteredData.reduce((acc, item) => {
+    const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
+      (subAcc, cliente) => subAcc + Number(cliente.metrosCuadrados),
+      0
+    );
+    return acc + totalFletePorItem;
+  }, 0);
 
   // const totalClientes = filteredData?.reduce((total, item) => {
   //   return total + item?.datos_cliente?.datosCliente?.length;
@@ -139,89 +151,6 @@ export const PageRegistros = () => {
   const allClientes = filteredData?.flatMap(
     (salida) => salida?.datos_cliente?.datosCliente || []
   );
-
-  const descargarExcel = () => {
-    const excelData = [];
-
-    // Agrupar los datos por fecha y luego por empleado
-    filteredData.forEach((item) => {
-      const fecha = new Date(item.fecha_entrega).toLocaleDateString();
-      const cliente = item.datos_cliente.datosCliente[0].cliente.toUpperCase();
-      const totalFlete = Number(item.datos_cliente.datosCliente[0].totalFlete);
-      const pagoFleteroEspera = Number(item.pago_fletero_espera);
-      const viaticos = Number(item.viaticos);
-      const refuerzo = Number(item.refuerzo);
-      const recaudacion = Number(item.recaudacion);
-
-      // Agregar la fila del cliente bajo la fecha
-      excelData.push({
-        FECHA: fecha,
-        CLIENTE: cliente,
-        "TOTAL EN FLETES": formatearDinero(totalFlete),
-        "PAGO FLETERO + ESPERA": formatearDinero(pagoFleteroEspera),
-        VIATICOS: formatearDinero(viaticos),
-        REFUERZOS: formatearDinero(refuerzo),
-        RECAUDACIÓN: formatearDinero(recaudacion),
-      });
-    });
-
-    // Calcular los totales generales (suma de fletes completos de todos los clientes)
-    const totalFletes = filteredData.reduce((acc, item) => {
-      const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
-        (subAcc, cliente) => subAcc + Number(cliente.totalFlete),
-        0
-      );
-      return acc + totalFletePorItem;
-    }, 0);
-
-    const totalFleteroEspera = filteredData.reduce(
-      (acc, item) => acc + Number(item.pago_fletero_espera),
-      0
-    );
-
-    const totalViaticos = filteredData.reduce(
-      (acc, item) => acc + Number(item.viaticos),
-      0
-    );
-
-    const totalRefuerzos = filteredData.reduce(
-      (acc, item) => acc + Number(item.refuerzo),
-      0
-    );
-
-    const totalRecaudacion = filteredData.reduce(
-      (acc, item) => acc + Number(item.recaudacion),
-      0
-    );
-
-    // Agregar la fila de total general
-    excelData.push({
-      FECHA: "TOTAL GENERAL",
-      CLIENTE: "",
-      "TOTAL EN FLETES": formatearDinero(totalFletes),
-      "TOTAL PAGO + ESPERA FLETERO": formatearDinero(totalFleteroEspera),
-      "TOTAL VIATICOS": formatearDinero(totalViaticos),
-      "TOTAL REFUERZOS": formatearDinero(totalRefuerzos),
-      "TOTAL RECAUDADO": formatearDinero(totalRecaudacion),
-    });
-
-    // Crear el archivo Excel
-    const ws = XLSX.utils.json_to_sheet(excelData, { skipHeader: false });
-
-    const mergeCells = [
-      // Fusionar las celdas de la fecha
-      { s: { r: 0, c: 0 }, e: { r: filteredData.length - 1, c: 0 } }, // Por ejemplo, fusiona las celdas de fecha
-    ];
-
-    ws["!merges"] = mergeCells;
-
-    // Crear el libro y agregar la hoja
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Datos Filtrados");
-
-    // Descargar el archivo
-    XLSX.writeFile(wb, "datos_filtrados.xlsx");
-  };
 
   return (
     <section>

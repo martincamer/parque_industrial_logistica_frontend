@@ -19,6 +19,7 @@ import { useSalidasContext } from "../../../context/SalidasProvider";
 import { crearNuevoLegal } from "../../../api/ingresos";
 import client from "../../../api/axios";
 import io from "socket.io-client";
+import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 
 export const Legales = () => {
   const { legalesReal } = useLegalesContext();
@@ -543,6 +544,7 @@ export const Legales = () => {
 
 export const ModalCrearRemuneracion = () => {
   const { setLegalesReal } = useLegalesContext();
+  const { setCaja } = useRemuneracionContext();
   const [error, setError] = useState("");
 
   //useContext
@@ -603,7 +605,9 @@ export const ModalCrearRemuneracion = () => {
     setSocket(newSocket);
 
     newSocket.on("nuevo-legal", (nuevaSalida) => {
-      setLegalesReal(nuevaSalida);
+      // setLegalesReal(nuevaSalida);
+      setLegalesReal(nuevaSalida.legales);
+      setCaja(nuevaSalida.caja);
     });
 
     return () => newSocket.close();
@@ -1048,6 +1052,7 @@ export const ModalCrearRemuneracion = () => {
 export const ModalActualizarRemuneracion = ({ obtenerID }) => {
   //useContext
   const { setLegalesReal } = useLegalesContext();
+  const { setCaja } = useRemuneracionContext();
 
   const { choferes, setChoferes } = useSalidasContext();
 
@@ -1133,7 +1138,8 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
     setSocket(newSocket);
 
     newSocket.on("editar-legal", (nuevaSalida) => {
-      setLegalesReal(nuevaSalida);
+      setLegalesReal(nuevaSalida.legales);
+      setCaja(nuevaSalida.caja);
     });
 
     return () => newSocket.close();
@@ -1569,6 +1575,7 @@ const ModalEliminar = ({ idObtenida }) => {
   const { handleSubmit } = useForm();
 
   const { setLegalesReal } = useLegalesContext();
+  const { setCaja } = useRemuneracionContext();
 
   const onSubmit = async (formData) => {
     try {
@@ -1580,7 +1587,8 @@ const ModalEliminar = ({ idObtenida }) => {
 
       const res = await client.delete(`/legales/${idObtenida}`, ordenData);
 
-      setLegalesReal(res.data);
+      setLegalesReal(res.data.legales);
+      setCaja(res.data.caja);
 
       document.getElementById("my_modal_eliminar").close();
 

@@ -14,6 +14,7 @@ import client from "../../../api/axios";
 import { useObtenerId } from "../../../helpers/obtenerId";
 import { useForm } from "react-hook-form";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
 
 export const Rendicones = () => {
   const { rendiciones } = useRendicionesContext();
@@ -362,6 +363,7 @@ export const Rendicones = () => {
 
 export const ModalCrearRendicion = () => {
   const { setRendiciones } = useRendicionesContext();
+  const { setCaja } = useRemuneracionContext();
 
   const [armador, setArmador] = useState("");
   const [detalle, setDetalle] = useState("");
@@ -377,7 +379,8 @@ export const ModalCrearRendicion = () => {
     setSocket(newSocket);
 
     newSocket.on("crear-rendicion", (nuevaSalida) => {
-      setRendiciones(nuevaSalida);
+      setRendiciones(nuevaSalida.rendiciones);
+      setCaja(nuevaSalida.caja);
     });
 
     return () => newSocket.close();
@@ -532,6 +535,7 @@ const ModalEliminar = ({ idObtenida }) => {
   const { handleSubmit } = useForm();
 
   const { setRendiciones } = useRendicionesContext();
+  const { setCaja } = useRemuneracionContext();
 
   const onSubmit = async (formData) => {
     try {
@@ -543,7 +547,8 @@ const ModalEliminar = ({ idObtenida }) => {
 
       const res = await client.delete(`/rendiciones/${idObtenida}`, ordenData);
 
-      setRendiciones(res.data);
+      setRendiciones(res.data.rendiciones);
+      setCaja(res.data.caja);
 
       document.getElementById("my_modal_eliminar").close();
 
