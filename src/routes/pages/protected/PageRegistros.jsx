@@ -395,7 +395,7 @@ export const PageRegistros = () => {
 
             {groupedData[fecha].map((item, idx) => (
               <div key={idx} className="mb-2 border-b border-gray-300">
-                <div className="grid grid-cols-8 gap-4 text-sm font-medium uppercase ">
+                <div className="grid grid-cols-7 gap-4 text-sm font-medium uppercase ">
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Contratos</p>
                     {item.datos_cliente.datosCliente.map(
