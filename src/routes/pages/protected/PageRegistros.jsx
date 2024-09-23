@@ -91,7 +91,7 @@ export const PageRegistros = () => {
 
   // Agrupar los datos por fecha de carga
   const groupedData = filteredData.reduce((acc, item) => {
-    const fecha = new Date(item?.fecha_carga).toLocaleDateString();
+    const fecha = new Date(item?.fecha_entrega).toLocaleDateString();
     if (!acc[fecha]) {
       acc[fecha] = [];
     }
