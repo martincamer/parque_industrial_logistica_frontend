@@ -399,8 +399,8 @@ export const PageRegistros = () => {
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Contrato</p>
                     <p className="uppercase">
-                      {item.datos_cliente.datosCliente[0].cliente} (
-                      {item.datos_cliente.datosCliente[0].numeroContrato})
+                      {item.datos_cliente.datosCliente[1].cliente} (
+                      {item.datos_cliente.datosCliente[1].numeroContrato})
                     </p>
                   </div>
                   <div className="col-span-1">
