@@ -395,7 +395,7 @@ export const PageRegistros = () => {
 
             {groupedData[fecha].map((item, idx) => (
               <div key={idx} className="mb-2 border-b border-gray-300">
-                <div className="grid grid-cols-8 gap-4 text-sm font-medium uppercase">
+                <div className="grid grid-cols-8 gap-4 text-sm font-medium uppercase ">
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Contratos</p>
                     {item.datos_cliente.datosCliente.map(
@@ -406,15 +406,19 @@ export const PageRegistros = () => {
                       )
                     )}
                   </div>
-                  <div className="col-span-1">
+                  {/* <div className="col-span-1">
                     <p className="font-bold text-blue-500">Fecha</p>
                     <p>{new Date(item.fecha_entrega).toLocaleDateString()}</p>
-                  </div>
+                  </div> */}
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Total Fletes</p>
                     <p>
-                      {formatearDinero(
-                        item.datos_cliente.datosCliente[0].totalFlete
+                      {item.datos_cliente.datosCliente.map(
+                        (cliente, clientIndex) => (
+                          <p key={clientIndex} className="uppercase">
+                            {formatearDinero(cliente.totalFlete)}
+                          </p>
+                        )
                       )}
                     </p>
                   </div>
@@ -423,6 +427,15 @@ export const PageRegistros = () => {
                       Pago a Fletero + Espera
                     </p>
                     <p>{formatearDinero(Number(item.pago_fletero_espera))}</p>
+                    {/* <p>
+                      {item.datos_cliente.datosCliente.map(
+                        (cliente, clientIndex) => (
+                          <p key={clientIndex} className="uppercase">
+                            {formatearDinero(cliente.totalFlete)}
+                          </p>
+                        )
+                      )}
+                    </p> */}
                   </div>
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Viáticos</p>
@@ -587,7 +600,7 @@ export const PageRegistros = () => {
           Descargar contabilidad
         </PDFDownloadLink>
       </div>
-      {/* <PDFViewer className="w-full h-screen">
+      <PDFViewer className="w-full h-screen">
         <ImprimirContable
           groupedData={groupedData}
           totalFleteroEspera={totalFleteroEspera}
@@ -600,7 +613,7 @@ export const PageRegistros = () => {
           allClientes={allClientes}
           totalMetrosCuadrados={totalMetrosCuadrados}
         />
-      </PDFViewer> */}
+      </PDFViewer>
     </section>
   );
 };

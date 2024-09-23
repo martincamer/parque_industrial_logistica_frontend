@@ -64,6 +64,8 @@ const styles = StyleSheet.create({
     fontWeight: "semibold",
     textTransform: "uppercase",
     fontFamily: "Montserrat",
+    display: "flex",
+    flexDirection: "column",
   },
   row: {
     flexDirection: "row",
@@ -170,17 +172,28 @@ export const ImprimirContable = ({
               <View key={idx} style={styles.row}>
                 <View>
                   <Text style={styles.subtitle}>Contrato</Text>
-                  <Text
-                    style={styles.title_paragraph}
-                  >{`${item.datos_cliente.datosCliente[0].cliente} (${item.datos_cliente.datosCliente[0].numeroContrato})`}</Text>
+                  <View style={styles.title_paragraph}>
+                    {" "}
+                    {item.datos_cliente.datosCliente.map(
+                      (cliente, clientIndex) => (
+                        <Text key={clientIndex} className="uppercase">
+                          {cliente.cliente} ({cliente.numeroContrato})
+                        </Text>
+                      )
+                    )}
+                  </View>
                 </View>
                 <View>
                   <Text style={styles.subtitle}>Total fletes</Text>
-                  <Text style={styles.title_paragraph}>
-                    {formatearDinero(
-                      item.datos_cliente.datosCliente[0].totalFlete
+                  <View style={styles.title_paragraph}>
+                    {item.datos_cliente.datosCliente.map(
+                      (cliente, clientIndex) => (
+                        <Text key={clientIndex} className="uppercase">
+                          {formatearDinero(cliente.totalFlete)}
+                        </Text>
+                      )
                     )}
-                  </Text>
+                  </View>
                 </View>
                 <View>
                   <Text style={styles.subtitle}>Pago a Fletero + Espera</Text>
