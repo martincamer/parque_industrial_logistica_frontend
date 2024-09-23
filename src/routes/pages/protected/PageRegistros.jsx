@@ -584,7 +584,7 @@ export const PageRegistros = () => {
           Descargar contabilidad
         </PDFDownloadLink>
       </div>
-      <PDFViewer className="w-full h-screen">
+      {/* <PDFViewer className="w-full h-screen">
         <ImprimirContable
           groupedData={groupedData}
           totalFleteroEspera={totalFleteroEspera}
@@ -597,7 +597,7 @@ export const PageRegistros = () => {
           allClientes={allClientes}
           totalMetrosCuadrados={totalMetrosCuadrados}
         />
-      </PDFViewer>
+      </PDFViewer> */}
     </section>
   );
 };
