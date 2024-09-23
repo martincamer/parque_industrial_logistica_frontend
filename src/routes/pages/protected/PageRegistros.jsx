@@ -61,7 +61,7 @@ export const PageRegistros = () => {
   }
 
   const filteredData = combinedData.filter((item) => {
-    const fecha = new Date(item?.fecha_carga);
+    const fecha = new Date(item?.fecha_entrega);
     const year = fecha.getFullYear();
     const month = fecha.getMonth() + 1;
 
@@ -145,7 +145,7 @@ export const PageRegistros = () => {
 
     // Agrupar los datos por fecha y luego por empleado
     filteredData.forEach((item) => {
-      const fecha = new Date(item.fecha_carga).toLocaleDateString();
+      const fecha = new Date(item.fecha_entrega).toLocaleDateString();
       const cliente = item.datos_cliente.datosCliente[0].cliente.toUpperCase();
       const totalFlete = Number(item.datos_cliente.datosCliente[0].totalFlete);
       const pagoFleteroEspera = Number(item.pago_fletero_espera);
@@ -389,7 +389,7 @@ export const PageRegistros = () => {
           <div key={index} className="mb-5">
             <div className="border-b-2 border-gray-400 pb-2 mb-4">
               <p className="font-bold text-sm uppercase">
-                Fecha de carga {fecha}
+                Fecha de entrega {fecha}
               </p>
             </div>
 
@@ -405,7 +405,7 @@ export const PageRegistros = () => {
                   </div>
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Fecha</p>
-                    <p>{new Date(item.fecha_carga).toLocaleDateString()}</p>
+                    <p>{new Date(item.fecha_entrega).toLocaleDateString()}</p>
                   </div>
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Total Fletes</p>
@@ -576,13 +576,15 @@ export const PageRegistros = () => {
               totalViaticos={totalViaticos}
               fecha={selectedValue}
               currentYear={currentYear}
+              allClientes={allClientes}
+              totalMetrosCuadrados={totalMetrosCuadrados}
             />
           }
         >
           Descargar contabilidad
         </PDFDownloadLink>
       </div>
-      {/* <PDFViewer className="w-full h-screen">
+      <PDFViewer className="w-full h-screen">
         <ImprimirContable
           groupedData={groupedData}
           totalFleteroEspera={totalFleteroEspera}
@@ -592,8 +594,10 @@ export const PageRegistros = () => {
           totalViaticos={totalViaticos}
           fecha={selectedValue}
           currentYear={currentYear}
+          allClientes={allClientes}
+          totalMetrosCuadrados={totalMetrosCuadrados}
         />
-      </PDFViewer> */}
+      </PDFViewer>
     </section>
   );
 };

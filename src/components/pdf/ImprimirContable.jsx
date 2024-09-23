@@ -125,6 +125,8 @@ export const ImprimirContable = ({
   totalViaticos,
   totalRefuerzos,
   totalRecaudacion,
+  allClientes,
+  totalMetrosCuadrados,
   fecha,
 }) => {
   const monthNames = [
@@ -163,7 +165,7 @@ export const ImprimirContable = ({
         </View>
         {Object.keys(groupedData).map((fecha, index) => (
           <View key={index} style={styles.section}>
-            <Text style={styles.title}>Fecha de carga {fecha}</Text>
+            <Text style={styles.title}>Fecha de entrega {fecha}</Text>
             {groupedData[fecha].map((item, idx) => (
               <View key={idx} style={styles.row}>
                 <View>
@@ -171,12 +173,6 @@ export const ImprimirContable = ({
                   <Text
                     style={styles.title_paragraph}
                   >{`${item.datos_cliente.datosCliente[0].cliente} (${item.datos_cliente.datosCliente[0].numeroContrato})`}</Text>
-                </View>
-                <View>
-                  <Text style={styles.subtitle}>Fecha</Text>
-                  <Text style={styles.title_paragraph}>
-                    {new Date(item.fecha_carga).toLocaleDateString()}
-                  </Text>
                 </View>
                 <View>
                   <Text style={styles.subtitle}>Total fletes</Text>
@@ -249,6 +245,19 @@ export const ImprimirContable = ({
               }
             >
               {formatearDinero(totalRecaudacion)}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.totalRow}>
+          <Text style={styles.titleTotal}>Contratos y metros cuadrados</Text>
+          <View style={styles.row}>
+            <Text style={styles.totalText}>Total de contratos</Text>
+            <Text style={styles.total}>{allClientes.length}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.totalText}>Total de metros cuadrados</Text>
+            <Text style={styles.total}>
+              {Number(totalMetrosCuadrados).toFixed(2)} mtrs.
             </Text>
           </View>
         </View>
