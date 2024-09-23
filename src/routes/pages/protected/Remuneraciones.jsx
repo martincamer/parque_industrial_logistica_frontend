@@ -538,7 +538,7 @@ export const Remuneraciones = () => {
 export const ModalCrearRemuneracion = () => {
   const fechaActual = new Date();
 
-  const { setRemuneraciones } = useRemuneracionContext();
+  const { setRemuneraciones, setCaja } = useRemuneracionContext();
 
   const nombresMeses = [
     "Enero",
@@ -631,7 +631,8 @@ export const ModalCrearRemuneracion = () => {
     setSocket(newSocket);
 
     newSocket.on("nueva-remuneracion", (nuevaSalida) => {
-      setRemuneraciones(nuevaSalida);
+      setRemuneraciones(nuevaSalida.remuneraciones);
+      setCaja(nuevaSalida.caja);
     });
 
     return () => newSocket.close();

@@ -3,7 +3,9 @@ import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useState } from "react";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
 import { IoIosArrowDown } from "react-icons/io";
+import { PDFViewer } from "@react-pdf/renderer";
 import * as XLSX from "xlsx";
+import { ImprimirContable } from "../../../components/pdf/ImprimirContable";
 
 export const PageRegistros = () => {
   const { remuneraciones } = useRemuneracionContext();
@@ -485,19 +487,6 @@ export const PageRegistros = () => {
                               ).toFixed(2)}{" "}
                               mtrs.
                             </p>{" "}
-                            {/* <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">
-                                Total cobrado del flete:
-                              </span>{" "}
-                              <span className="font-bold text-blue-500">
-                                {formatearDinero(
-                                  Number(
-                                    item.datos_cliente.datosCliente[0]
-                                      .totalFlete
-                                  )
-                                )}
-                              </span>
-                            </p> */}
                           </div>
                           <p className="font-bold underline mt-2">
                             Datos externos
@@ -532,68 +521,6 @@ export const PageRegistros = () => {
                       </div>
                     </dialog>
                   </div>
-                  {/* <div className="col-span-1 ">
-                    <div className="dropdown dropdown-hover dropdown-top dropdown-end z-[1000]">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="text-xl hover:bg-primary py-1.5 px-1.5 hover:shadow-md rounded-full hover:text-white transition-all ease-linear"
-                      >
-                        <IoIosArrowDown />
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-white rounded-md z-[1000] w-[600px] py-5 px-5 border border-gray-300"
-                      >
-                        <div>
-                          <p className="font-bold underline">
-                            Datos del contrato
-                          </p>
-
-                          <div className="mt-2 flex flex-col gap-2 text-xs">
-                            <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">Contrato:</span>{" "}
-                              {item.datos_cliente.datosCliente[0].cliente} (
-                              {
-                                item.datos_cliente.datosCliente[0]
-                                  .numeroContrato
-                              }
-                              )
-                            </p>{" "}
-                            <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">
-                                Localidad y prov:
-                              </span>{" "}
-                              {item.datos_cliente.datosCliente[0].localidad}
-                            </p>{" "}
-                            <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">
-                                Metros cuadrados:
-                              </span>{" "}
-                              {Number(
-                                item.datos_cliente.datosCliente[0]
-                                  .metrosCuadrados
-                              ).toFixed(2)}{" "}
-                              mtrs.
-                            </p>{" "}
-                            <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">
-                                Total cobrado del flete:
-                              </span>{" "}
-                              <span className="font-bold text-blue-500">
-                                {formatearDinero(
-                                  Number(
-                                    item.datos_cliente.datosCliente[0]
-                                      .totalFlete
-                                  )
-                                )}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </ul>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             ))}
@@ -635,6 +562,18 @@ export const PageRegistros = () => {
           </div>
         </div>
       </div>
+      <PDFViewer className="w-full h-screen">
+        <ImprimirContable
+          groupedData={groupedData}
+          totalFleteroEspera={totalFleteroEspera}
+          totalFletes={totalFletes}
+          totalRecaudacion={totalRecaudacion}
+          totalRefuerzos={totalRefuerzos}
+          totalViaticos={totalViaticos}
+          fecha={selectedValue}
+          currentYear={currentYear}
+        />
+      </PDFViewer>
     </section>
   );
 };

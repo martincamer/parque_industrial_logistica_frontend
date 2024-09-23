@@ -52,6 +52,7 @@ import { RemuneracionesAdmin } from "./routes/pages/protectedAdmin/Remuneracione
 import { LegalesAdmin } from "./routes/pages/protectedAdmin/LegalesAdmin.jsx";
 import { ContratosAdmin } from "./routes/pages/protectedAdmin/ContratosAdmin.jsx";
 import { RendicionesAdmin } from "./routes/pages/protectedAdmin/RendicionesAdmin.jsx";
+import { CajaLogistica } from "./routes/pages/protected/CajaLogistica.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -126,6 +127,7 @@ function App() {
                   <Route path="/rendiciones" element={<Rendicones />} />
                   <Route path="/legales" element={<Legales />} />
                   <Route path="/contratos" element={<Contratos />} />
+                  <Route path="/caja-logistica" element={<CajaLogistica />} />
                   <Route
                     path="/configuraciones"
                     element={<Configuraciones />}

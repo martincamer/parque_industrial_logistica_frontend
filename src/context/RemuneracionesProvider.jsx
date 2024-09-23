@@ -22,6 +22,18 @@ export const RemuneracionProvider = ({ children }) => {
   const [remuneraciones, setRemuneraciones] = useState([]);
   const [remuneracionesAdmin, setRemuneracionesAdmin] = useState([]);
 
+  const [caja, setCaja] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const respuesta = await client.get("/cajas");
+
+      setCaja(respuesta.data);
+    }
+
+    loadData();
+  }, []);
+
   useEffect(() => {
     async function loadData() {
       const respuesta = await client.get("/remuneraciones-mes");
@@ -71,6 +83,8 @@ export const RemuneracionProvider = ({ children }) => {
         remuneracionesAdmin,
         remuneracionesMensualesAdmin,
         setRemuneraciones,
+        caja,
+        setCaja,
       }}
     >
       {children}

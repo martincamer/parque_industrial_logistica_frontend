@@ -54,6 +54,12 @@ export const Navbar = () => {
               >
                 Filtrar registros
               </Link>
+              <Link
+                className="text-white font-semibold hover:bg-gray-700 py-1 px-4 rounded-md transition-all"
+                to={"/caja-logistica"}
+              >
+                Caja de logistica
+              </Link>
             </div>
           </>
         )}{" "}
