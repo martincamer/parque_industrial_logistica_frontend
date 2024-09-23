@@ -397,11 +397,14 @@ export const PageRegistros = () => {
               <div key={idx} className="mb-2 border-b border-gray-300">
                 <div className="grid grid-cols-8 gap-4 text-sm font-medium uppercase">
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Contrato</p>
-                    <p className="uppercase">
-                      {item.datos_cliente.datosCliente[0].cliente} (
-                      {item.datos_cliente.datosCliente[0].numeroContrato})
-                    </p>
+                    <p className="font-bold text-blue-500">Contratos</p>
+                    {item.datos_cliente.datosCliente.map(
+                      (cliente, clientIndex) => (
+                        <p key={clientIndex} className="uppercase">
+                          {cliente.cliente} ({cliente.numeroContrato})
+                        </p>
+                      )
+                    )}
                   </div>
                   <div className="col-span-1">
                     <p className="font-bold text-blue-500">Fecha</p>
@@ -451,7 +454,6 @@ export const PageRegistros = () => {
                     <dialog id="my_modal_datos" className="modal">
                       <div className="modal-box rounded-md max-w-xl">
                         <form method="dialog">
-                          {/* if there is a button in form, it will close the modal */}
                           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                             ✕
                           </button>
@@ -460,23 +462,24 @@ export const PageRegistros = () => {
                           <p className="font-bold underline">
                             Datos del contrato
                           </p>
-
                           <div className="mt-2 flex flex-col gap-2 text-xs">
-                            <p className="text-black border-b border-gray-300 pb-1">
-                              <span className="font-bold">Contrato:</span>{" "}
-                              {item.datos_cliente.datosCliente[0].cliente} (
-                              {
-                                item.datos_cliente.datosCliente[0]
-                                  .numeroContrato
-                              }
+                            {item.datos_cliente.datosCliente.map(
+                              (cliente, clientIndex) => (
+                                <p
+                                  key={clientIndex}
+                                  className="text-black border-b border-gray-300 pb-1"
+                                >
+                                  <span className="font-bold">Contrato:</span>{" "}
+                                  {cliente.cliente} ({cliente.numeroContrato})
+                                </p>
                               )
-                            </p>{" "}
+                            )}
                             <p className="text-black border-b border-gray-300 pb-1">
                               <span className="font-bold">
                                 Localidad y prov:
                               </span>{" "}
                               {item.datos_cliente.datosCliente[0].localidad}
-                            </p>{" "}
+                            </p>
                             <p className="text-black border-b border-gray-300 pb-1">
                               <span className="font-bold">
                                 Metros cuadrados:
@@ -486,7 +489,7 @@ export const PageRegistros = () => {
                                   .metrosCuadrados
                               ).toFixed(2)}{" "}
                               mtrs.
-                            </p>{" "}
+                            </p>
                           </div>
                           <p className="font-bold underline mt-2">
                             Datos externos
@@ -497,25 +500,25 @@ export const PageRegistros = () => {
                                 Chofer del viaje:
                               </span>{" "}
                               {item.chofer}
-                            </p>{" "}
+                            </p>
                             <p className="text-black border-b border-gray-300 pb-1">
                               <span className="font-bold">
                                 Armador del viaje:
                               </span>{" "}
                               {item.armador}
-                            </p>{" "}
+                            </p>
                             <p className="text-black border-b border-gray-300 pb-1">
                               <span className="font-bold">
                                 Fabrica/Sucursal de salida:
                               </span>{" "}
                               {item.sucursal}
-                            </p>{" "}
+                            </p>
                             <p className="text-black border-b border-gray-300 pb-1">
                               <span className="font-bold">
                                 Total de kilometros:
                               </span>{" "}
                               {item.km_lineal} kms.
-                            </p>{" "}
+                            </p>
                           </div>
                         </div>
                       </div>
