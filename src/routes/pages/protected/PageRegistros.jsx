@@ -3,7 +3,7 @@ import { useLegalesContext } from "../../../context/LegalesProvider";
 import { useState } from "react";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
 import { IoIosArrowDown } from "react-icons/io";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import * as XLSX from "xlsx";
 import { ImprimirContable } from "../../../components/pdf/ImprimirContable";
 
@@ -562,7 +562,27 @@ export const PageRegistros = () => {
           </div>
         </div>
       </div>
-      <PDFViewer className="w-full h-screen">
+      <div className="px-5 py-10">
+        <PDFDownloadLink
+          className="bg-blue-500 py-3 rounded-md px-4 text-center text-white font-bold text-sm"
+          fileName={`DOCUMENTO CONTABLE TECNOHOUSE ${selectedValue}`}
+          document={
+            <ImprimirContable
+              groupedData={groupedData}
+              totalFleteroEspera={totalFleteroEspera}
+              totalFletes={totalFletes}
+              totalRecaudacion={totalRecaudacion}
+              totalRefuerzos={totalRefuerzos}
+              totalViaticos={totalViaticos}
+              fecha={selectedValue}
+              currentYear={currentYear}
+            />
+          }
+        >
+          Descargar contabilidad
+        </PDFDownloadLink>
+      </div>
+      {/* <PDFViewer className="w-full h-screen">
         <ImprimirContable
           groupedData={groupedData}
           totalFleteroEspera={totalFleteroEspera}
@@ -573,7 +593,7 @@ export const PageRegistros = () => {
           fecha={selectedValue}
           currentYear={currentYear}
         />
-      </PDFViewer>
+      </PDFViewer> */}
     </section>
   );
 };
