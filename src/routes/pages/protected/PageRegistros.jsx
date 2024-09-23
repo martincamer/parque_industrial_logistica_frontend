@@ -165,12 +165,14 @@ export const PageRegistros = () => {
       });
     });
 
-    // Calcular los totales generales
-    const totalFletes = filteredData.reduce(
-      (acc, item) =>
-        acc + Number(item.datos_cliente.datosCliente[0].totalFlete),
-      0
-    );
+    // Calcular los totales generales (suma de fletes completos de todos los clientes)
+    const totalFletes = filteredData.reduce((acc, item) => {
+      const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
+        (subAcc, cliente) => subAcc + Number(cliente.totalFlete),
+        0
+      );
+      return acc + totalFletePorItem;
+    }, 0);
 
     const totalFleteroEspera = filteredData.reduce(
       (acc, item) => acc + Number(item.pago_fletero_espera),

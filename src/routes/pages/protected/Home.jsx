@@ -13,7 +13,7 @@ import ApexChartColumnLegalesRemuneraciones from "../../../components/apexchart/
 export const Home = () => {
   const { salidas } = useSalidasContext();
 
-  const { remuneraciones } = useRemuneracionContext();
+  const { remuneraciones, caja } = useRemuneracionContext();
 
   const { rendiciones } = useRendicionesContext();
 
@@ -77,7 +77,7 @@ export const Home = () => {
   });
 
   filteredDataRemuneraciones = filteredDataRemuneraciones.filter((item) => {
-    const fechaOrden = new Date(item.created_at);
+    const fechaOrden = new Date(item.fecha_entrega);
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
@@ -93,7 +93,7 @@ export const Home = () => {
   });
 
   filteredDataLegales = filteredDataLegales.filter((item) => {
-    const fechaOrden = new Date(item.created_at);
+    const fechaOrden = new Date(item.fecha_entrega);
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
@@ -109,7 +109,7 @@ export const Home = () => {
   });
 
   filteredDataRendiciones = filteredDataRendiciones.filter((item) => {
-    const fechaOrden = new Date(item.created_at);
+    const fechaOrden = new Date(item.fecha_entrega);
     return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
   });
 
@@ -337,6 +337,17 @@ export const Home = () => {
     obtenerFechaActual();
   }, []);
 
+  // Filter caja based on user's localidad
+  const filteredCajas = caja.filter(
+    (item) => item.localidad === user.localidad
+  );
+
+  // Calculate the total
+  const totalCajaFinal = filteredCajas.reduce(
+    (total, item) => total + parseFloat(item.total),
+    0
+  );
+
   return (
     <section className="w-full h-full min-h-screen max-h-full max-w-full">
       <div className=" bg-gray-100 py-10 px-6 max-md:py-10 max-md:px-4 flex justify-between items-center">
@@ -388,7 +399,7 @@ export const Home = () => {
       <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:h-[50vh] scrollbar-hidden max-md:mx-0">
         <div
           className={`border ${
-            totalCaja < 0 ? "border-red-500" : "border-gray-300 rounded-md"
+            totalCajaFinal < 0 ? "border-red-500" : "border-gray-300 rounded-md"
           } py-5 px-5 bg-white`}
         >
           <div className="flex flex-col gap-4">
@@ -396,10 +407,10 @@ export const Home = () => {
               <p className="font-bold">Caja logistica.</p>
               <p
                 className={`${
-                  totalCaja <= 0 ? "text-red-500" : "text-green-500"
+                  totalCajaFinal <= 0 ? "text-red-500" : "text-green-500"
                 } font-extrabold`}
               >
-                {Number(totalCaja).toLocaleString("es-AR", {
+                {Number(totalCajaFinal).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
                   minimumIntegerDigits: 2,
@@ -409,12 +420,12 @@ export const Home = () => {
             <div className="flex">
               <div
                 className={`${
-                  totalCaja <= 0
+                  totalCajaFinal <= 0
                     ? "text-white bg-red-500"
                     : "bg-blue-500 text-white"
                 } rounded py-1.5 px-4  font-bold text-xs`}
               >
-                Porcentaje {totalCaja % 100} %
+                Porcentaje {totalCajaFinal % 100} %
               </div>
             </div>
           </div>
@@ -428,7 +439,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total contratos remunerados.</p>
+              <p className="font-bold">Contratos remunerados cargados.</p>
               <p
                 className={`${
                   totalCobroCliente < 0 ? "text-red-500" : "text-green-500"
@@ -463,7 +474,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total contratos legales perdido.</p>
+              <p className="font-bold">Contratos legales cargados.</p>
               <p
                 className={`${
                   totalCobroClienteLegales <= 0
@@ -500,7 +511,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en rendiciones.</p>
+              <p className="font-bold">Rendiciones cargadas.</p>
               <p
                 className={`${
                   totalCobroRendiciones <= 0 ? "text-red-500" : "text-green-500"
@@ -526,7 +537,7 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className={`border ${
             totalEnSalidas <= 0
               ? "border-red-500 rounded-md"
@@ -561,7 +572,7 @@ export const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div
           className={`border ${
             totalViaticos < 0
@@ -571,7 +582,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en viaticos de salidas.</p>
+              <p className="font-bold">Total en viaticos.</p>
               <p
                 className={`${
                   totalViaticos < 0 ? "text-red-500" : "text-red-500"
@@ -600,42 +611,6 @@ export const Home = () => {
         </div>
         <div
           className={`border ${
-            totalFletes < 0
-              ? "border-red-500 rounded-md"
-              : "border-red-500 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en fletes de salidas.</p>
-              <p
-                className={`${
-                  totalFletes < 0 ? "text-red-500" : "text-red-500"
-                } font-extrabold`}
-              >
-                -{" "}
-                {Number(totalFletes).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalFletes < 0
-                    ? "text-white bg-red-500"
-                    : "bg-red-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalFletes % 100} %
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={`border ${
             totalRefuerzos < 0
               ? "border-red-500 rounded-md"
               : "border-red-500 rounded-md"
@@ -643,7 +618,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">Total en refuerzos de salidas.</p>
+              <p className="font-bold">Total en refuerzos.</p>
               <p
                 className={`${
                   totalRefuerzos < 0 ? "text-red-500" : "text-red-500"
@@ -670,6 +645,28 @@ export const Home = () => {
             </div>
           </div>
         </div>
+        <div className={`border border-gray-300 rounded-md py-5 px-5 bg-white`}>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between">
+              <p className="font-bold">Total en fletes cobrado.</p>
+              <p className={`text-green-500 font-extrabold`}>
+                -{" "}
+                {Number(totalFletes).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
+            <div className="flex">
+              <div
+                className={`bg-blue-500 text-white rounded py-1.5 px-4  font-bold text-xs`}
+              >
+                Porcentaje {totalFletes % 100} %
+              </div>
+            </div>
+          </div>
+        </div>{" "}
         <div
           className={`border ${
             totalContratos < 0
@@ -679,9 +676,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en viviendas/contratos Remunerados/Legales.
-              </p>
+              <p className="font-bold">Total contratos entregados.</p>
               <p
                 className={`${
                   totalContratos < 0 ? "text-red-500" : "text-blue-500"
@@ -712,9 +707,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en viviendas/contratos de salidas.
-              </p>
+              <p className="font-bold">Total contratos cargados.</p>
               <p
                 className={`${
                   totalContratosEnSalidas < 0 ? "text-red-500" : "text-blue-500"
@@ -745,9 +738,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en metros cuadrados de remuneraciones/legales.
-              </p>
+              <p className="font-bold">Total en metros cuadrados entregados.</p>
               <p
                 className={`${
                   totalMetrosCuadrados < 0 ? "text-red-500" : "text-blue-500"
@@ -778,9 +769,7 @@ export const Home = () => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex justify-between">
-              <p className="font-bold">
-                Total en metros cuadrados de salidas de contratos.
-              </p>
+              <p className="font-bold">Total en metros cuadrados cargados.</p>
               <p
                 className={`${
                   totalDatosMetrosCudradosSalidas < 0
@@ -815,7 +804,7 @@ export const Home = () => {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between max-md:flex-col">
               <p className="font-bold">
-                Total remuneraciónes + rendiciones - legales.
+                Total contratos entregados + rendiciones cargadas.
               </p>
               <p
                 className={`${
@@ -844,7 +833,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md max-md:px-4 max-md:py-4 ">
+      {/* <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md max-md:px-4 max-md:py-4 ">
         <div className="py-5 px-5 mb-5 text-white bg-primary rounded-md">
           <p className="font-bold text-lg uppercase max-md:text-sm">
             Graficos del mes
@@ -1014,7 +1003,7 @@ export const Home = () => {
             ></div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };
