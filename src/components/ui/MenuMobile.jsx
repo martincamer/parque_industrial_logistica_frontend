@@ -59,7 +59,17 @@ export const MenuMobile = () => {
               ? "Panel de control"
               : "Inicio/estadistica/compras"}
           </Link>
-
+          <Link
+            onClick={() => setIsOpen(!isOpen)}
+            to={"/caja-logistica"}
+            className={`${
+              location.pathname === "/caja-logistica"
+                ? "bg-primary text-white"
+                : "bg-none"
+            } hover:text-primary  font-semibold text-sm transition-all py-3 px-3`}
+          >
+            Caja de logistica
+          </Link>
           <Link
             onClick={() => setIsOpen(!isOpen)}
             to={"/salidas"}

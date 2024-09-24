@@ -2,15 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthProvider";
 import { Link, useLocation } from "react-router-dom";
 import { IoMenuOutline, IoCloseOutline, IoLogOut } from "react-icons/io5";
-import {
-  CiAlignBottom,
-  CiBag1,
-  CiHome,
-  CiMemoPad,
-  CiMoneyBill,
-  CiSettings,
-  CiViewList,
-} from "react-icons/ci";
+import { CiSettings } from "react-icons/ci";
 import { FaDatabase, FaTruckMoving, FaWallet } from "react-icons/fa6";
 import {
   FaClipboardList,

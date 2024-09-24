@@ -5,8 +5,6 @@ import { useAuth } from "../../context/AuthProvider";
 export const Navbar = () => {
   const { signout, user } = useAuth();
 
-  console.log(user.tipo);
-
   return (
     <header className="bg-gray-800 py-5 px-10 flex items-center justify-between max-md:items-end max-md:justify-end">
       <div className="flex gap-10 items-center max-md:hidden">
@@ -101,6 +99,9 @@ export const Navbar = () => {
         )}
       </div>
       <div className="flex items-center gap-4">
+        <button className="font-semibold text-primary bg-white px-4 py-1 text-sm rounded-md capitalize">
+          Usuario: <span className="text-black font-bold">{user.username}</span>
+        </button>
         {/* <div className="cursor-pointer bg-gray-500 py-5 px-5 rounded-full"></div>{" "} */}
         <button
           onClick={() => signout()}

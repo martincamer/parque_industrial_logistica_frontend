@@ -7,6 +7,8 @@ import { useAuth } from "../../../context/AuthProvider";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
 import { FaEdit } from "react-icons/fa";
 import { useObtenerId } from "../../../helpers/obtenerId";
+import { useLegalesContext } from "../../../context/LegalesProvider";
+import { formatearFecha } from "../../../helpers/formatearFecha";
 
 export const CajaLogistica = () => {
   const { caja } = useRemuneracionContext();
@@ -26,6 +28,87 @@ export const CajaLogistica = () => {
   );
 
   const { handleObtenerId, idObtenida } = useObtenerId();
+
+  const { remuneraciones } = useRemuneracionContext();
+  const { legalesReal } = useLegalesContext();
+
+  const combinedData = [...remuneraciones, ...legalesReal];
+
+  // Obtener el mes y año actuales
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+  const currentYear = currentDate.getFullYear().toString();
+  const currentMonthYear = `${currentYear}-${currentMonth}`;
+
+  const [selectedFilter, setSelectedFilter] = useState("mes");
+  const [selectedValue, setSelectedValue] = useState(currentMonthYear);
+  const [selectedFactory, setSelectedFactory] = useState(""); // Nuevo estado para la fábrica
+
+  // Obtener lista de fábricas (suponiendo que las fábricas se encuentran en los datos)
+  const factories = [...new Set(combinedData.map((item) => item.sucursal))];
+
+  const startOfCurrentMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  )
+    .toISOString()
+    .split("T")[0];
+  const startOfNextMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    1
+  )
+    .toISOString()
+    .split("T")[0];
+
+  const [startDate, setStartDate] = useState(startOfCurrentMonth);
+  const [endDate, setEndDate] = useState(startOfNextMonth);
+
+  function getWeek(fecha) {
+    // Crear una nueva fecha del primer día del año
+    const firstDayOfYear = new Date(fecha.getFullYear(), 0, 1);
+
+    // Obtener la diferencia en milisegundos entre la fecha actual y el primer día del año
+    const pastDaysOfYear =
+      (fecha -
+        firstDayOfYear +
+        (firstDayOfYear.getTimezoneOffset() - fecha.getTimezoneOffset()) *
+          60000) /
+      86400000;
+
+    // Calcular el número de la semana
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  }
+
+  const filteredData = combinedData.filter((item) => {
+    const fecha = new Date(item?.fecha_entrega);
+    const year = fecha.getFullYear();
+    const month = fecha.getMonth() + 1;
+
+    const filterByDate =
+      (selectedFilter === "mes" &&
+        year === Number(selectedValue.split("-")[0]) &&
+        month === Number(selectedValue.split("-")[1])) ||
+      (selectedFilter === "trimestre" &&
+        year === Number(selectedValue) &&
+        getTrimester(month) === Number(selectedValue.slice(-1))) ||
+      (selectedFilter === "semana" &&
+        year === Number(selectedValue.split("-")[0]) &&
+        getWeek(fecha) === Number(selectedValue.split("-")[1])) ||
+      (selectedFilter === "dia" &&
+        fecha.toDateString() === new Date(selectedValue).toDateString()) ||
+      (selectedFilter === "anio" && year === Number(selectedValue)) ||
+      (selectedFilter === "rango-fechas" &&
+        new Date(startDate) <= fecha &&
+        fecha <= new Date(endDate));
+
+    const filterByFactory = selectedFactory
+      ? item.sucursal === selectedFactory
+      : true;
+
+    return filterByDate && filterByFactory;
+  });
 
   return (
     <section className="w-full h-full min-h-screen max-h-full">
@@ -54,7 +137,7 @@ export const CajaLogistica = () => {
       </div>
 
       <div className="px-5 py-5 flex">
-        <div className="border border-gray-300 py-5 px-5 w-1/5">
+        <div className="border border-gray-300 py-5 px-5 w-1/5 max-md:w-full">
           <div className="flex justify-end">
             <FaEdit
               onClick={() => {
@@ -80,6 +163,199 @@ export const CajaLogistica = () => {
             )}
           </div>
         </div>
+      </div>
+
+      <article className="flex gap-2 max-md:flex-col">
+        <div className="px-5 py-5 w-auto border mx-5 border-gray-300 flex gap-5 max-md:flex-col max-md:gap-0">
+          <div className="mt-2">
+            {/* Filtro por tipo: Mes, Trimestre, Semana, Día, Año */}
+            <select
+              className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
+            >
+              <option value="mes">Mes y Año</option>
+              <option value="trimestre">Trimestre</option>
+              <option value="semana">Semana</option>
+              <option value="dia">Día</option>
+              <option value="anio">Año</option>
+              <option value="rango-fechas">Rango de Fechas</option>
+            </select>
+
+            {/* Filtro de valores (mes/año, trimestre, semana, día, año) */}
+            <div className="mt-2">
+              {selectedFilter === "mes" && (
+                <select
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                  value={selectedValue}
+                  onChange={(e) => setSelectedValue(e.target.value)}
+                >
+                  {Array.from({ length: 12 }, (_, index) => {
+                    const month = (index + 1).toString().padStart(2, "0"); // Mes en formato MM
+                    const monthNames = [
+                      "Enero",
+                      "Febrero",
+                      "Marzo",
+                      "Abril",
+                      "Mayo",
+                      "Junio",
+                      "Julio",
+                      "Agosto",
+                      "Septiembre",
+                      "Octubre",
+                      "Noviembre",
+                      "Diciembre",
+                    ];
+                    return (
+                      <option key={month} value={`${currentYear}-${month}`}>
+                        {`${monthNames[index]} ${currentYear}`}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
+
+              {selectedFilter === "trimestre" && (
+                <select
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                  value={selectedValue}
+                  onChange={(e) => setSelectedValue(e.target.value)}
+                >
+                  {Array.from({ length: 4 }, (_, index) => {
+                    const trimestre = index + 1;
+                    return (
+                      <option
+                        key={trimestre}
+                        value={`${currentYear}-${trimestre}`}
+                      >
+                        {`${trimestre}er Trimestre ${currentYear}`}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
+              {selectedFilter === "semana" && (
+                <input
+                  type="week"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                  value={selectedValue}
+                  onChange={(e) => setSelectedValue(e.target.value)}
+                />
+              )}
+              {selectedFilter === "dia" && (
+                <input
+                  type="date"
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                  value={selectedValue}
+                  onChange={(e) => setSelectedValue(e.target.value)}
+                />
+              )}
+              {selectedFilter === "anio" && (
+                <select
+                  className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                  value={selectedValue}
+                  onChange={(e) => setSelectedValue(e.target.value)}
+                >
+                  <option value="">Seleccionar el año</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                </select>
+              )}
+              {selectedFilter === "rango-fechas" && (
+                <div className="flex gap-2">
+                  <label className="font-bold">Desde:</label>
+                  <input
+                    type="date"
+                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                  <label className="font-bold">Hasta:</label>
+                  <input
+                    type="date"
+                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="mt-2 flex flex-col gap-1 items-start">
+            <label className="font-bold">Seleccionar Fábrica</label>
+            <select
+              className="border border-gray-300 py-1 px-4 rounded-md outline-none capitalize text-sm font-semibold"
+              value={selectedFactory}
+              onChange={(e) => setSelectedFactory(e.target.value)}
+            >
+              <option className="capitalize font-bold" value="">
+                Todas las fábricas
+              </option>
+              {factories.map((factory) => (
+                <option
+                  className="capitalize font-bold"
+                  key={factory}
+                  value={factory}
+                >
+                  {factory}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </article>
+
+      <div className="px-5 py-5 max-md:overflow-x-auto scrollbar-hidden">
+        <table className="table">
+          <thead className="text-sm font-bold text-gray-800">
+            <tr>
+              <th>Numero</th>
+              <th>Usuario</th>
+              <th>Sucursal</th>
+              <th>Fecha</th>
+              <th>Mes</th>
+              <th>Entrada a la caja</th>
+            </tr>
+          </thead>
+
+          <tbody className="text-xs font-medium capitalize">
+            {filteredData
+              .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
+              .map((s) => (
+                <tr key={s.id}>
+                  <td>{s.id}</td>
+                  <td>{s.usuario}</td>
+                  <td>{s.sucursal}</td>
+                  <td>{formatearFecha(s.fecha_entrega)}</td>
+                  <td>
+                    {new Date(s.created_at).toLocaleString("default", {
+                      month: "long",
+                    })}
+                  </td>
+                  <td>
+                    <div className="flex">
+                      <p
+                        className={`font-bold py-1 px-2 rounded-md ${
+                          s.recaudacion >= 0
+                            ? "bg-green-100/80 text-green-700"
+                            : "bg-red-100/80 text-red-700"
+                        } `}
+                      >
+                        {Number(s.recaudacion).toLocaleString("es-AR", {
+                          style: "currency",
+                          currency: "ARS",
+                          minimumIntegerDigits: 2,
+                        })}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
       <ModalCrearCajaLogistica />
       <ModalEditarCajaLogistica idObtenida={idObtenida} />
