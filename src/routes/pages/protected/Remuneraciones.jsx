@@ -47,6 +47,7 @@ export const Remuneraciones = () => {
       remuneraciones.map((remuneracion) => remuneracion.usuario.toLowerCase())
     )
   );
+
   const { handleObtenerId, idObtenida } = useObtenerId();
 
   const handleSearchClienteChange = (e) => {
