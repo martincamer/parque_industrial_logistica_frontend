@@ -60,6 +60,7 @@ export const PageRegistros = () => {
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   }
 
+  // Filtrar los datos
   const filteredData = combinedData.filter((item) => {
     const fecha = new Date(item?.fecha_entrega);
     const year = fecha.getFullYear();
@@ -89,8 +90,13 @@ export const PageRegistros = () => {
     return filterByDate && filterByFactory;
   });
 
+  // Ordenar filteredData de menor a mayor por fecha_entrega
+  const sortedFilteredData = filteredData.sort((a, b) => {
+    return new Date(a.fecha_entrega) - new Date(b.fecha_entrega);
+  });
+
   // Agrupar los datos por fecha de carga
-  const groupedData = filteredData.reduce((acc, item) => {
+  const groupedData = sortedFilteredData.reduce((acc, item) => {
     const fecha = new Date(item?.fecha_entrega).toLocaleDateString();
     if (!acc[fecha]) {
       acc[fecha] = [];
@@ -100,7 +106,7 @@ export const PageRegistros = () => {
   }, {});
 
   // Calcular los totales generales (suma de fletes completos de todos los clientes)
-  const totalFletes = filteredData.reduce((acc, item) => {
+  const totalFletes = sortedFilteredData.reduce((acc, item) => {
     const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
       (subAcc, cliente) => subAcc + Number(cliente.totalFlete),
       0
@@ -108,35 +114,28 @@ export const PageRegistros = () => {
     return acc + totalFletePorItem;
   }, 0);
 
-  const totalFleteroEspera = filteredData.reduce(
+  const totalFleteroEspera = sortedFilteredData.reduce(
     (acc, item) => acc + Number(item.pago_fletero_espera),
     0
   );
 
-  const totalViaticos = filteredData.reduce(
+  const totalViaticos = sortedFilteredData.reduce(
     (acc, item) => acc + Number(item.viaticos),
     0
   );
 
-  const totalRefuerzos = filteredData.reduce(
+  const totalRefuerzos = sortedFilteredData.reduce(
     (acc, item) => acc + Number(item.refuerzo),
     0
   );
 
-  const totalRecaudacion = filteredData.reduce(
+  const totalRecaudacion = sortedFilteredData.reduce(
     (acc, item) => acc + Number(item.recaudacion),
     0
   );
 
-  // // Calcular totales generales
-  // const totalMetrosCuadrados = filteredData.reduce(
-  //   (acc, item) =>
-  //     acc + Number(item.datos_cliente.datosCliente[0].metrosCuadrados),
-  //   0
-  // );
-
   // Calcular los totales generales (suma de fletes completos de todos los clientes)
-  const totalMetrosCuadrados = filteredData.reduce((acc, item) => {
+  const totalMetrosCuadrados = sortedFilteredData.reduce((acc, item) => {
     const totalFletePorItem = item.datos_cliente.datosCliente.reduce(
       (subAcc, cliente) => subAcc + Number(cliente.metrosCuadrados),
       0
@@ -144,11 +143,7 @@ export const PageRegistros = () => {
     return acc + totalFletePorItem;
   }, 0);
 
-  // const totalClientes = filteredData?.reduce((total, item) => {
-  //   return total + item?.datos_cliente?.datosCliente?.length;
-  // }, 0);
-
-  const allClientes = filteredData?.flatMap(
+  const allClientes = sortedFilteredData?.flatMap(
     (salida) => salida?.datos_cliente?.datosCliente || []
   );
 

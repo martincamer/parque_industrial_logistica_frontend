@@ -403,7 +403,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:h-[50vh] scrollbar-hidden max-md:mx-0">
+      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:mx-0 max-md:py-0">
         <div
           className={`border ${
             totalCajaFinal < 0 ? "border-red-500" : "border-gray-300 rounded-md"
@@ -840,7 +840,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 px-10 gap-5 py-5">
+      <div className="grid grid-cols-2 px-10 gap-5 py-5 max-md:hidden">
         <div className="border border-gray-300 py-10 px-10 rounded-md">
           <ColumnaGastosGananciasGrafico data={combinedData} />
         </div>
@@ -851,7 +851,7 @@ export const Home = () => {
           />
         </div>
       </div>
-      <div className="border border-gray-300 py-10 px-10 rounded-md mx-10 my-5">
+      <div className="border border-gray-300 py-10 px-10 rounded-md mx-10 my-5 max-md:hidden">
         <LineasGraficoDeRecaudaciones data={combinedData} />
       </div>
     </section>

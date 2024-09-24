@@ -35,7 +35,7 @@ export const MenuMobile = () => {
           {isOpen ? (
             <IoCloseOutline className="text-primary" />
           ) : (
-            <IoMenuOutline className="text-white" />
+            <IoMenuOutline className="text-primary" />
           )}
         </button>
         {isOpen && (

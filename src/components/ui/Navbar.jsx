@@ -99,7 +99,7 @@ export const Navbar = () => {
         )}
       </div>
       <div className="flex items-center gap-4">
-        <button className="font-semibold text-primary bg-white px-4 py-1 text-sm rounded-md capitalize">
+        <button className="font-semibold text-primary bg-white px-4 py-1 text-sm rounded-md capitalize max-md:hidden">
           Usuario: <span className="text-black font-bold">{user.username}</span>
         </button>
         {/* <div className="cursor-pointer bg-gray-500 py-5 px-5 rounded-full"></div>{" "} */}
