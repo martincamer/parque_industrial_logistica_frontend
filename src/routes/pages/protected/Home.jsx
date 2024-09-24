@@ -4,11 +4,9 @@ import { useRemuneracionContext } from "../../../context/RemuneracionesProvider"
 import { useRendicionesContext } from "../../../context/RendicionesProvider";
 import { useSalidasContext } from "../../../context/SalidasProvider";
 import { useAuth } from "../../../context/AuthProvider";
-import ApexColumnChart from "../../../components/apexchart/ApexChartColumn";
-import RemuneracionesProgressBar from "../../../components/charts/RemuneracionesProgressBar";
-import SalidasProgressBar from "../../../components/charts/SalidasProgressBar";
-import ViviendasProgressBar from "../../../components/charts/ViviendasProgressBar";
-import ApexChartColumnLegalesRemuneraciones from "../../../components/apexchart/ApexChartColumnLegalesRemuneraciones";
+import ColumnaGastosGananciasGrafico from "../../../components/apexchart/ColumnaGastosGananciasGrafico";
+import LineasGraficoDeRecaudaciones from "../../../components/apexchart/LineasGraficoDeRecaudaciones";
+import ColumnaEntregasMetrosCuadrados from "../../../components/apexchart/ColumnaEntregasMetrosCuadrados";
 
 export const Home = () => {
   const { salidas } = useSalidasContext();
@@ -347,6 +345,15 @@ export const Home = () => {
     (total, item) => total + parseFloat(item.total),
     0
   );
+
+  let combinedData = [...remuneraciones, ...legalesReal];
+
+  combinedData = combinedData.filter((item) => {
+    const fechaOrden = new Date(item.fecha_entrega);
+    return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
+  });
+
+  console.log(combinedData);
 
   return (
     <section className="w-full h-full min-h-screen max-h-full max-w-full">
@@ -833,177 +840,20 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* <div className="mx-5 my-10 bg-gray-800 px-10 py-10 rounded-md max-md:px-4 max-md:py-4 ">
-        <div className="py-5 px-5 mb-5 text-white bg-primary rounded-md">
-          <p className="font-bold text-lg uppercase max-md:text-sm">
-            Graficos del mes
-          </p>
+      <div className="grid grid-cols-2 px-10 gap-5 py-5">
+        <div className="border border-gray-300 py-10 px-10 rounded-md">
+          <ColumnaGastosGananciasGrafico data={combinedData} />
         </div>
-        <div className="w-full grid grid-cols-2 gap-5 max-md:grid-cols-1">
-          <div className="rounded-md py-5 px-5 bg-white">
-            <ApexChartColumnLegalesRemuneraciones
-              totalSalidas={totalEnSalidas}
-              totalLegales={totalCobroRendiciones}
-              totaslRemuneraciones={totalCobroCliente}
-            />
-          </div>
-          <div className="bg-white py-5 px-5 rounded-md">
-            <ApexColumnChart
-              totalFletesUsuario={totalFletes}
-              totalViaticosUsuario={totalViaticos}
-              totalRefuerzosUsuario={totalRefuerzos}
-            />
-          </div>
+        <div className="border border-gray-300 py-10 px-10 rounded-md">
+          <ColumnaEntregasMetrosCuadrados
+            data={combinedData}
+            salidas={filteredDataSalidas}
+          />
         </div>
       </div>
-
-      <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1 mx-5 my-10 bg-gray-800 py-10 px-10 rounded-md max-md:px-4 max-md:py-4">
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total de la caja
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm font-bold ${
-                totalCaja >= 0 ? "text-blue-500" : "text-red-500"
-              }`}
-            >
-              {Number(totalCaja).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalCaja >= 0 ? "bg-blue-500" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalCaja / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <RemuneracionesProgressBar
-          rendicionesMensuales={filteredDataRendiciones}
-          remuneracionesMensuales={filteredDataRemuneraciones}
-        />
-        <SalidasProgressBar salidasMensuales={filteredDataSalidas} />
-        <ViviendasProgressBar
-          salidasMensuales={filteredDataRemuneraciones}
-          legales={filteredDataLegales}
-        />
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total Viviendas en salidas
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              {totalContratosEnSalidas}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalContratosEnSalidas >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalContratosEnSalidas / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en fletes
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalFletes).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalFletes >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalFletes / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en viaticos
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalViaticos).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalViaticos >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalViaticos / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-
-        <div className="bg-white py-8 px-5 transition-all ease-linear w-full max-md:py-3 cursor-pointer rounded-md">
-          <div className="flex items-center justify-between max-md:flex-col max-md:items-start">
-            <p className="text-sm mb-3 uppercase max-md:text-sm font-semibold">
-              Total en refuerzos
-            </p>
-            <p
-              className={`text-sm mb-3 max-md:text-sm text-slate-700 font-bold`}
-            >
-              -{" "}
-              {Number(totalRefuerzos).toLocaleString("es-AR", {
-                style: "currency",
-                currency: "ARS",
-                minimumIntegerDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="w-full bg-gray-200 rounded-lg overflow-hidden ">
-            <div
-              className={`h-3 ${
-                totalRefuerzos >= 0 ? "bg-red-400" : "bg-red-400"
-              } max-md:h-2`}
-              style={{
-                width: `${Math.abs(totalRefuerzos / 1000000)}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-      </div> */}
+      <div className="border border-gray-300 py-10 px-10 rounded-md mx-10 my-5">
+        <LineasGraficoDeRecaudaciones data={combinedData} />
+      </div>
     </section>
   );
 };
