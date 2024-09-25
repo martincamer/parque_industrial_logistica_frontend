@@ -808,7 +808,9 @@ const ModalCrearSalida = () => {
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2 items-start">
-                <label className="font-bold text-sm">Chofer de la salida</label>
+                <label className="font-bold text-sm">
+                  Chofer del flete/salida
+                </label>
                 <select
                   onChange={(e) => setChofer(e.target.value)}
                   value={chofer}
@@ -915,7 +917,7 @@ const ModalCrearSalida = () => {
           </article>
           <article className="flex flex-col gap-3 w-full items-start">
             <div>
-              <h3 className="font-bold">Chofer/Vehiculo.</h3>
+              <h3 className="font-bold">Chofer/Vehiculo y viaje.</h3>
             </div>
             <div className="max-md:w-full">
               <div className="flex flex-col gap-2">
@@ -924,6 +926,7 @@ const ModalCrearSalida = () => {
                   value={chofer_vehiculo}
                   onChange={(e) => setChoferVehiculo(e.target.value)}
                   type="text"
+                  placeholder="Escribir el chofer"
                   className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto"
                 />
               </div>
@@ -983,7 +986,7 @@ const ModalCrearSalida = () => {
           <article className="flex flex-col gap-3 items-start">
             <div>
               <h3 className="font-bold text-base text-slate-700 max-md:text-sm">
-                Fletes.
+                Fletes km y precio.
               </h3>
             </div>
             <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
@@ -1132,7 +1135,7 @@ const ModalCrearSalida = () => {
           <article className="flex flex-col gap-3 items-start">
             <div>
               <h3 className="font-bold text-base text-gray-900 max-md:text-sm">
-                Viaticos Armadores.
+                Viaticos y armador.
               </h3>
             </div>
             <div className="grid grid-cols-3 gap-3 max-md:grid-cols-1">
@@ -1141,6 +1144,7 @@ const ModalCrearSalida = () => {
                   Armador / Nombre y apellido.
                 </label>
                 <input
+                  placeholder="Escribir el armador"
                   value={armadores}
                   onChange={(e) => setArmadores(e.target.value)}
                   type="text"

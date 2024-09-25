@@ -16,11 +16,11 @@ import {
   showSuccessToast,
   showSuccessToastError,
 } from "../../../helpers/toast";
-import client from "../../../api/axios";
-import io from "socket.io-client";
 import { useForm } from "react-hook-form";
 import { ModalCrearClienteRemuneracionEditar } from "../../../components/Modales/ModalCrearClienteRemuneracionEditar";
 import { ModalEditarClienteRemuneracionEditar } from "../../../components/Modales/ModalEditarClienteRemuneracionEditar";
+import client from "../../../api/axios";
+import io from "socket.io-client";
 
 export const Remuneraciones = () => {
   const { remuneraciones } = useRemuneracionContext();
@@ -716,7 +716,7 @@ export const ModalCrearRemuneracion = () => {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-xl">Crear nueva remuneración.</h3>
+        <h3 className="font-bold text-xl">Cargar nueva remuneración.</h3>
         <p className="py-0.5 text-sm font-medium">
           En esta ventana podras crear nuevas remuneraciones de los clientes,
           fletes ,etc.
@@ -736,7 +736,9 @@ export const ModalCrearRemuneracion = () => {
         >
           <article className="flex flex-col gap-2">
             <div>
-              <h3 className="font-bold text-lg">Ingresar datos.</h3>
+              <h3 className="font-bold text-lg">
+                Ingresar datos del flete y armador de viaje.
+              </h3>
             </div>
             {/* datos del formulario  */}
             <div className="flex flex-col items-start gap-6">
@@ -760,6 +762,7 @@ export const ModalCrearRemuneracion = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">Armador</label>
                   <input
+                    placeholder="Armador del viaje.."
                     onChange={(e) => setArmador(e.target.value)}
                     value={armador}
                     type="text"
@@ -777,7 +780,7 @@ export const ModalCrearRemuneracion = () => {
                   type="button"
                   className="bg-primary text-white flex gap-2 items-center px-4 py-1 rounded-md text-sm font-semibold"
                 >
-                  Crear Clientes
+                  Cargar los clientes
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -857,7 +860,7 @@ export const ModalCrearRemuneracion = () => {
           <article className="flex flex-col items-start gap-5">
             <div>
               <h3 className="font-bold text-lg text-slate-700 max-md:text-sm">
-                Fechas de carga/entrega.
+                Fechas de carga/entrega es obligatoria.
               </h3>
             </div>
             <div className="flex gap-3 max-md:w-full max-md:flex-col">
@@ -886,7 +889,7 @@ export const ModalCrearRemuneracion = () => {
             <div className="flex flex-col gap-2 items-start">
               <div>
                 <h3 className="font-bold text-lg text-slate-700 max-md:text-sm">
-                  Totales del viaje.
+                  Totales del viaje cobrado al cliente y metros realizados.
                 </h3>
               </div>
               <div className="flex gap-5 ">
@@ -992,7 +995,10 @@ export const ModalCrearRemuneracion = () => {
               <div className="cursor-pointer" onClick={handleInputClick}>
                 {isEditable ? (
                   <div className="flex flex-col gap-2">
-                    <label className="font-bold text-sm"> Total Auto</label>
+                    <label className="font-bold text-sm">
+                      {" "}
+                      Total en vehiculo
+                    </label>
                     <input
                       onChange={(e) => setAuto(e.target.value)}
                       value={auto}
@@ -1005,7 +1011,10 @@ export const ModalCrearRemuneracion = () => {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
-                    <label className="font-bold text-sm"> Total Auto</label>
+                    <label className="font-bold text-sm">
+                      {" "}
+                      Total en vehiculo
+                    </label>
 
                     <p className="border border-gray-300 py-2 px-2 rounded-md font-medium capitalize text-sm outline-none w-auto">
                       {formatearDinero(Number(auto) || 0)}
@@ -1147,7 +1156,6 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
 
       setChoferes(res.data);
     }
-
     loadData();
   }, []);
 
@@ -1272,7 +1280,6 @@ export const ModalActualizarRemuneracion = ({ obtenerID }) => {
             <div>
               <h3 className="font-bold text-lg">Ingresar datos.</h3>
             </div>
-            {/* datos del formulario  */}
             <div className="flex flex-col items-start gap-6">
               <div className="grid grid-cols-3 gap-2 max-md:w-full max-md:grid-cols-1 max-md:gap-5">
                 <div className="flex flex-col gap-2">

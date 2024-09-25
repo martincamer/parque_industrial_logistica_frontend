@@ -95,12 +95,12 @@ export const Contratos = () => {
 
       <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5 max-md:grid-cols-1 gap-2">
         <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
-          <p className="font-medium text-primary">Total en contratos</p>
-          <p className="font-bold text-lg">{totalContratosEnSalidas}</p>
+          <p className="font-medium text-black">Total en contratos</p>
+          <p className="font-extrabold text-lg">{totalContratosEnSalidas}</p>
         </div>
         <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
-          <p className="font-medium text-primary">Total metros cuadrados</p>
-          <p className="font-bold text-lg">
+          <p className="font-medium text-black">Total metros cuadrados</p>
+          <p className="font-extrabold text-lg">
             {Number(totalDatosMetrosCudradosSalidas).toFixed(2)} mtrs
           </p>
         </div>
@@ -180,8 +180,9 @@ export const Contratos = () => {
             </tr>
           </thead>
 
-          <tbody className="text-xs capitalize font-medium">
+          <tbody className="text-xs uppercase font-medium">
             {filteredSalidas
+              .sort((a, b) => b.id - a.id) // Ordenar de mayor a menor por id
               .filter((salida) => user.localidad === salida.localidad)
               .map((salida) =>
                 salida.datos_cliente.datosCliente.map((cliente, index) => (

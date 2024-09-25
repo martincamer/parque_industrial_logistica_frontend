@@ -673,7 +673,9 @@ export const ModalCrearRemuneracion = () => {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-xl">Crear nueva orden, perdida legal.</h3>
+        <h3 className="font-bold text-xl">
+          Cargar nueva orden, perdida legal.
+        </h3>
         <p className="py-0.5 text-sm font-medium">
           En esta ventana podras crear nueva orden legal, perdida de los
           clientes, fletes ,etc.
@@ -693,7 +695,9 @@ export const ModalCrearRemuneracion = () => {
         >
           <article className="flex flex-col gap-2">
             <div>
-              <h3 className="font-bold text-lg">Ingresar datos.</h3>
+              <h3 className="font-bold text-lg">
+                Ingresar datos del chofer del flete y armador.
+              </h3>
             </div>
             {/* datos del formulario  */}
             <div className="flex flex-col items-start gap-6">
@@ -717,6 +721,7 @@ export const ModalCrearRemuneracion = () => {
                 <div className="flex flex-col gap-2">
                   <label className="font-bold text-sm">Armador</label>
                   <input
+                    placeholder="Armador del viaje"
                     onChange={(e) => setArmador(e.target.value)}
                     value={armador}
                     type="text"
