@@ -20,6 +20,7 @@ import { crearNuevoLegal } from "../../../api/ingresos";
 import client from "../../../api/axios";
 import io from "socket.io-client";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { CgMenuLeftAlt } from "react-icons/cg";
 
 export const Legales = () => {
   const { legalesReal } = useLegalesContext();
@@ -79,23 +80,19 @@ export const Legales = () => {
     const fechaInicioObj = new Date(fechaInicio);
     const fechaFinObj = new Date(fechaFin);
     filteredData = filteredData.filter((item) => {
-      const fechaOrden = new Date(item.created_at);
+      const fechaOrden = new Date(item.fecha_entrega);
       return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
     });
   }
-
-  // Ordenar por fecha de mayor a menor
   filteredData.sort((a, b) => {
-    const fechaA = new Date(a.created_at);
-    const fechaB = new Date(b.created_at);
-    return fechaB - fechaA; // Ordena de mayor a menor (fecha más reciente primero)
+    return Number(b.id) - Number(a.id); // Ordena de mayor a menor por id
   });
 
   // Filtrar pedidos del mes actual
   const currentMonth = new Date().getMonth() + 1;
 
   const filteredByMonth = legalesReal.filter((salida) => {
-    const createdAtMonth = new Date(salida.created_at).getMonth() + 1;
+    const createdAtMonth = new Date(salida.fecha_entrega).getMonth() + 1;
     return createdAtMonth === currentMonth;
   });
 
@@ -361,12 +358,13 @@ export const Legales = () => {
             <tr>
               <th>Numero</th>
               <th>Contratos</th>
+              <th>Armador</th>
               <th>Usuario</th>
               <th>Fabrica</th>
-              <th>Fecha</th>
-              <th>Mes</th>
-              <th>Perdida</th>
-              <th className="">Contrato obs</th>
+              <th>Fecha de carga</th>
+              <th>Fecha de entrega</th>
+              <th>Refuerzo</th>
+              <th>Recaudado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -385,13 +383,46 @@ export const Legales = () => {
                       ))}
                     </div>
                   </td>
+                  <td>
+                    <p className="border border-gray-300 py-1 px-2 rounded-md font-bold">
+                      {s.armador}
+                    </p>
+                  </td>
                   <td>{s.usuario}</td>
                   <td>{s.sucursal}</td>
-                  <td>{formatearFecha(s.created_at)}</td>
+                  <td>{formatearFecha(s.fecha_carga)}</td>
                   <td>
+                    {s.fecha_entrega === "" ? (
+                      <p className="font-bold text-red-500 bg-red-100 px-1 rounded-md py-1 text-center">
+                        No hay una fecha ahún
+                      </p>
+                    ) : (
+                      formatearFecha(s.fecha_entrega)
+                    )}
+                  </td>
+                  {/* <td>
                     {new Date(s.created_at).toLocaleString("default", {
                       month: "long",
                     })}
+                  </td> */}
+                  <td>
+                    <div className="flex">
+                      <p
+                        className={`${
+                          s.refuerzo == 0
+                            ? "font-bold text-green-700 bg-green-100"
+                            : "font-bold text-red-700 bg-red-100"
+                        } px-1 rounded-md py-1 text-center`}
+                      >
+                        {s.refuerzo == 0
+                          ? "No tiene ahún"
+                          : Number(s.refuerzo).toLocaleString("es-AR", {
+                              style: "currency",
+                              currency: "ARS",
+                              minimumIntegerDigits: 2,
+                            })}
+                      </p>
+                    </div>
                   </td>
                   <td>
                     <div className="flex">
@@ -409,29 +440,8 @@ export const Legales = () => {
                         })}
                       </p>
                     </div>
-                  </td>{" "}
-                  <td className="max-md:block hidden">
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      <FaHouseChimneyUser className="text-xl" />
-                    </button>
                   </td>
-                  <td className="max-md:hidden">
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      Obs contratos <FaHouseChimneyUser className="text-xl" />
-                    </button>
-                  </td>
+
                   <td className="md:hidden">
                     <div className="flex gap-1">
                       <FaEdit
@@ -466,25 +476,23 @@ export const Legales = () => {
                         role="button"
                         className="bg-gray-700 py-2 px-2 rounded-full text-white m-1"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                          />
-                        </svg>
+                        <CgMenuLeftAlt className="text-white text-xl" />
                       </div>
                       <ul
                         tabIndex={0}
                         className="font-bold text-xs dropdown-content z-[1] menu p-1 shadow-xl border-[1px] border-gray-200 bg-base-100 rounded-md w-52"
                       >
+                        <li className="hover:bg-gray-700 hover:text-white rounded-md">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleID(s.id), openVerCliente();
+                            }}
+                          >
+                            Obs contratos{" "}
+                            <FaHouseChimneyUser className="text-xl" />
+                          </button>
+                        </li>
                         <li className="hover:bg-gray-700 hover:text-white rounded-md">
                           <button
                             type="button"

@@ -4,14 +4,16 @@ import { useState } from "react";
 import { formatearDinero } from "../../../helpers/FormatearDinero";
 import { IoIosArrowDown } from "react-icons/io";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import * as XLSX from "xlsx";
 import { ImprimirContable } from "../../../components/pdf/ImprimirContable";
+import { useAuth } from "../../../context/AuthProvider";
 
 export const PageRegistros = () => {
   const { remuneraciones } = useRemuneracionContext();
   const { legalesReal } = useLegalesContext();
 
   const combinedData = [...remuneraciones, ...legalesReal];
+
+  const { user } = useAuth();
 
   // Obtener el mes y año actuales
   const currentDate = new Date();
@@ -87,7 +89,9 @@ export const PageRegistros = () => {
       ? item.sucursal === selectedFactory
       : true;
 
-    return filterByDate && filterByFactory;
+    const filterByLocalidad = item.localidad === user.localidad;
+
+    return filterByDate && filterByFactory && filterByLocalidad;
   });
 
   // Ordenar filteredData de menor a mayor por fecha_entrega
