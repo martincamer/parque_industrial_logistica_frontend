@@ -27,6 +27,7 @@ import client from "../../../api/axios";
 import io from "socket.io-client";
 import { ModalEditarClienteSalidaEditar } from "../../../components/Modales/ModalEditarClienteSalidaEditar";
 import { ModalCrearClienteEditar } from "../../../components/Modales/ModalCrearClienteEditar";
+import { CgMenuLeftAlt } from "react-icons/cg";
 
 export const Salidas = () => {
   const { salidas } = useSalidasContext();
@@ -418,7 +419,6 @@ export const Salidas = () => {
               <th className="">Fabrica de salida</th>
               <th className="">Total de la salida</th>
               <th className="">Usuario</th>
-              <th className="">Contrato obs</th>
               <th className="">Acciones</th>
             </tr>
           </thead>
@@ -453,18 +453,7 @@ export const Salidas = () => {
                     })}
                   </td>
                   <td className="">{s.usuario}</td>
-                  <td className="max-md:hidden">
-                    <button
-                      onClick={() => {
-                        handleID(s.id), openVerCliente();
-                      }}
-                      type="button"
-                      className="bg-primary py-1 px-4 rounded text-white font-bold flex gap-2 items-center outline-none"
-                    >
-                      Observaciones <FaHouseChimneyUser className="text-xl" />
-                    </button>
-                  </td>
-                  <td className="max-md:block hidden">
+                  {/* <td className="max-md:block hidden">
                     <button
                       onClick={() => {
                         handleID(s.id), openVerCliente();
@@ -474,9 +463,18 @@ export const Salidas = () => {
                     >
                       <FaHouseChimneyUser className="text-xl" />
                     </button>
-                  </td>
+                  </td> */}
                   <td className="md:hidden">
-                    <div className="flex gap-1">
+                    <div className="flex gap-2 items-center">
+                      <button
+                        onClick={() => {
+                          handleID(s.id), openVerCliente();
+                        }}
+                        type="button"
+                        className="bg-primary py-1 px-2 rounded text-white font-bold flex gap-2 items-center outline-none"
+                      >
+                        <FaHouseChimneyUser className="text-xl" />
+                      </button>
                       <FaEdit
                         onClick={() => {
                           handleObtenerId(s.id),
@@ -505,27 +503,25 @@ export const Salidas = () => {
                       <div
                         tabIndex={0}
                         role="button"
-                        className="bg-gray-700 py-2 px-2 rounded-full text-white m-1"
+                        className="bg-gray-700 py-1 px-1 rounded-md m-1"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                          />
-                        </svg>
+                        <CgMenuLeftAlt className="text-white text-xl" />
                       </div>
                       <ul
                         tabIndex={0}
                         className="font-bold text-xs dropdown-content z-[1] menu p-1 shadow-xl bg-white rounded-md w-52 border border-gray-200"
                       >
+                        <li className="hover:bg-gray-700 hover:text-white rounded-md">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleID(s.id), openVerCliente();
+                            }}
+                          >
+                            Obs contratos{" "}
+                            <FaHouseChimneyUser className="text-xl" />
+                          </button>
+                        </li>
                         <li className="hover:bg-gray-700 hover:text-white rounded-md">
                           <button
                             type="button"

@@ -84,6 +84,7 @@ export const Legales = () => {
       return fechaOrden >= fechaInicioObj && fechaOrden <= fechaFinObj;
     });
   }
+
   filteredData.sort((a, b) => {
     return Number(b.id) - Number(a.id); // Ordena de mayor a menor por id
   });
@@ -384,7 +385,7 @@ export const Legales = () => {
                     </div>
                   </td>
                   <td>
-                    <p className="border border-gray-300 py-1 px-2 rounded-md font-bold">
+                    <p className="border border-gray-300 py-1 px-2 rounded-md font-bold uppercase">
                       {s.armador}
                     </p>
                   </td>
@@ -400,11 +401,6 @@ export const Legales = () => {
                       formatearFecha(s.fecha_entrega)
                     )}
                   </td>
-                  {/* <td>
-                    {new Date(s.created_at).toLocaleString("default", {
-                      month: "long",
-                    })}
-                  </td> */}
                   <td>
                     <div className="flex">
                       <p
@@ -443,7 +439,16 @@ export const Legales = () => {
                   </td>
 
                   <td className="md:hidden">
-                    <div className="flex gap-1">
+                    <div className="flex gap-2 items-center">
+                      <button
+                        onClick={() => {
+                          handleID(s.id), openVerCliente();
+                        }}
+                        type="button"
+                        className="bg-primary py-1 px-2 rounded text-white font-bold flex gap-2 items-center outline-none"
+                      >
+                        <FaHouseChimneyUser className="text-xl" />
+                      </button>
                       <FaEdit
                         onClick={() => {
                           handleObtenerId(s.id),
@@ -542,7 +547,6 @@ export const Legales = () => {
       />
 
       <ModalCrearRemuneracion />
-      {/* <ModalActualizarRemuneracion obtenerID={idObtenida} /> */}
       <ModalEliminar idObtenida={idObtenida} />
 
       <ModalActualizarRemuneracion obtenerID={idObtenida} />

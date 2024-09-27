@@ -392,7 +392,7 @@ export const Remuneraciones = () => {
                     </div>
                   </td>
                   <td>
-                    <p className="border border-gray-300 py-1 px-2 rounded-md font-bold">
+                    <p className="border border-gray-300 py-1 px-2 rounded-md font-bold uppercase">
                       {s.armador}
                     </p>
                   </td>
@@ -449,8 +449,18 @@ export const Remuneraciones = () => {
                       </p>
                     </div>
                   </td>
+
                   <td className="md:hidden">
-                    <div className="flex gap-1">
+                    <div className="flex gap-2 items-center">
+                      <button
+                        onClick={() => {
+                          handleID(s.id), openVerCliente();
+                        }}
+                        type="button"
+                        className="bg-primary py-1 px-2 rounded text-white font-bold flex gap-2 items-center outline-none"
+                      >
+                        <FaHouseChimneyUser className="text-xl" />
+                      </button>
                       <FaEdit
                         onClick={() => {
                           handleObtenerId(s.id),
