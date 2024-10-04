@@ -5,6 +5,9 @@ import { formatearFecha } from "../../../helpers/formatearFecha";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { ImprimirPdfContratos } from "../../../components/pdf/ImprimirPdfContratos";
 import { useAuth } from "../../../context/AuthProvider";
+import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { useLegalesContext } from "../../../context/LegalesProvider";
+import { FaFilePdf } from "react-icons/fa6";
 
 export const Contratos = () => {
   const { salidas } = useSalidasContext();
@@ -13,15 +16,22 @@ export const Contratos = () => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
+  const { remuneraciones } = useRemuneracionContext();
+  const { legalesReal } = useLegalesContext();
+
+  const combinedData = [...remuneraciones, ...legalesReal];
+
   const { user } = useAuth();
 
   // Obtener lista de usuarios únicos
   const uniqueUsers = Array.from(
-    new Set(salidas.map((remuneracion) => remuneracion.usuario.toLowerCase()))
+    new Set(
+      combinedData.map((remuneracion) => remuneracion.usuario.toLowerCase())
+    )
   );
 
   // Función para filtrar por término de búsqueda y usuario seleccionado
-  const filteredSalidas = salidas.filter((salida) => {
+  const filteredSalidas = combinedData.filter((salida) => {
     // Filtrar por término de búsqueda en datosCliente
     const matchesSearchTerm = salida.datos_cliente.datosCliente.some(
       (cliente) =>
@@ -43,8 +53,9 @@ export const Contratos = () => {
 
     // Filtrar por rango de fechas
     const matchesDate =
-      (!fechaInicio || new Date(salida.created_at) >= new Date(fechaInicio)) &&
-      (!fechaFin || new Date(salida.created_at) <= new Date(fechaFin));
+      (!fechaInicio ||
+        new Date(salida.fecha_entrega) >= new Date(fechaInicio)) &&
+      (!fechaFin || new Date(salida.fecha_entrega) <= new Date(fechaFin));
 
     return matchesSearchTerm && matchesUser && matchesDate;
   });
@@ -87,27 +98,37 @@ export const Contratos = () => {
   );
   return (
     <section className="w-full h-full min-h-screen max-h-full">
-      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
           Sector de contratos ya entregados.
         </p>
       </div>
 
-      <div className="bg-white py-5 px-5 mx-5 grid grid-cols-5 max-md:grid-cols-1 gap-2">
-        <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
-          <p className="font-medium text-black">Total en contratos</p>
-          <p className="font-extrabold text-lg">{totalContratosEnSalidas}</p>
+      <div className="px-5 pt-10 grid grid-cols-4 gap-2 max-md:grid-cols-1">
+        <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+          <div className="flex flex-col gap-1 items-center">
+            <p className="font-extrabold text-lg bg-gradient-to-l from-blue-200 to-primary bg-clip-text text-transparent">
+              Total en contratos entregados.
+            </p>
+            <p className="text-white font-medium text-xl">
+              {totalContratosEnSalidas}
+            </p>
+          </div>
         </div>
-        <div className="bg-white py-5 px-5 border border-gray-300 rounded-md">
-          <p className="font-medium text-black">Total metros cuadrados</p>
-          <p className="font-extrabold text-lg">
-            {Number(totalDatosMetrosCudradosSalidas).toFixed(2)} mtrs
-          </p>
+        <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+          <div className="flex flex-col gap-1 items-center">
+            <p className="font-extrabold text-lg bg-gradient-to-l from-green-400 to-yellow-500 bg-clip-text text-transparent">
+              Total metros cuadrados entregados.
+            </p>
+            <p className="text-white font-medium text-xl">
+              {Number(totalDatosMetrosCudradosSalidas).toFixed(2)} mtrs
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="flex gap-2 items-center w-auto max-md:w-auto max-md:flex-col my-5 mx-5 bg-white py-5 px-5 max-md:items-start">
-        <div className="flex gap-2">
+      <div className="flex gap-2 items-center w-auto max-md:w-auto max-md:flex-col my-5 mx-5 max-md:mx-0 bg-white py-5 px-5 max-md:pb-0">
+        <div className="flex gap-2 max-md:items-stretch max-md:flex-col max-md:w-full">
           <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md">
             <input
               value={searchTermCliente}
@@ -138,8 +159,8 @@ export const Contratos = () => {
             ))}
           </select>
         </div>
-        <div className="flex gap-3">
-          <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md outline-none font-semibold">
+        <div className="flex gap-3 max-md:items-stretch max-md:w-full">
+          <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md outline-none font-semibold ">
             <input
               value={fechaInicio}
               onChange={handleFechaInicioChange}
@@ -158,25 +179,25 @@ export const Contratos = () => {
             />
           </div>
         </div>
-        <div className="">
+        <div className="max-md:hidden">
           <PDFDownloadLink
             document={<ImprimirPdfContratos datos={filteredSalidas} />}
-            className="bg-primary py-1.5 max-md:mt-2 max-md:w- px-2 text-sm font-semibold text-white rounded hover:shadow transition-all"
+            className="bg-gradient-to-r from-primary to-indigo-600 py-2 px-4 rounded-md text-white font-semibold text-sm outline-none flex gap-2 items-center"
           >
-            Descargar contratos filtrados
+            Descargar contratos filtrados <FaFilePdf className="text-xl" />
           </PDFDownloadLink>
         </div>
       </div>
 
-      <div className="max-md:overflow-x-auto mx-10 max-md:mx-5">
+      <div className="max-md:overflow-x-auto px-5 pb-10 max-md:mx-5">
         <table className="table">
           <thead className="text-gray-900 text-sm">
             <tr>
               <th>Número</th>
               <th>Fabrica de salida</th>
-              <th>Contrato</th>
-              <th>Localidad/Prov.</th>
-              <th>Fecha de salida</th>
+              <th>Contrato cliente</th>
+              <th>Localidad y prov del cliente</th>
+              <th>Fecha de entrega</th>
             </tr>
           </thead>
 
@@ -188,12 +209,24 @@ export const Contratos = () => {
                 salida.datos_cliente.datosCliente.map((cliente, index) => (
                   <tr key={index}>
                     <td className="">{salida.id}</td>
-                    <td className="">{salida.fabrica}</td>
+                    <td className="">{salida.sucursal}</td>
                     <td className="text-blue-500 font-bold">
                       {cliente.cliente} ({cliente.numeroContrato})
                     </td>
                     <td className="">{cliente.localidad}</td>
-                    <td className="">{formatearFecha(salida.created_at)}</td>
+                    <td>
+                      <div className="flex">
+                        <p>
+                          {salida.fecha_entrega === "" ? (
+                            <p className="font-bold text-red-500 bg-red-100 px-2 rounded-md py-1 text-center">
+                              No hay una fecha ahún
+                            </p>
+                          ) : (
+                            formatearFecha(salida.fecha_entrega)
+                          )}
+                        </p>
+                      </div>
+                    </td>
                   </tr>
                 ))
               )}

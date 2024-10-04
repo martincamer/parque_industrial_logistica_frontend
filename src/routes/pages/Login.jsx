@@ -24,30 +24,11 @@ export const Login = () => {
   });
 
   return (
-    <section className="flex items-center h-screen justify-center gap-12 max-md:px-5 max-md:h-screen relative">
-      {/* <div className="w-full bottom-0 absolute max-md:hidden">
-        <svg
-          className=" bottom-0 w-full h-1/3"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-        >
-          <path
-            fill="url(#gradient)"
-            fillOpacity="1"
-            d="M0,192L60,213.3C120,235,240,277,360,266.7C480,256,600,192,720,160C840,128,960,128,1080,122.7C1200,117,1320,107,1380,101.3L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-          ></path>
-          <defs>
-            <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="40%" stopColor="orange" />
-              <stop offset="60%" stopColor="darkOrange" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div> */}
+    <section className="flex items-center h-screen justify-center gap-12 max-md:px-5 max-md:h-screen relative bg-white">
       <div className="w-full z-[103]">
         <form
           onSubmit={onSubmit}
-          className="flex w-1/3 mx-auto flex-col gap-4 bg-white px-10 py-12 rounded-md max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103] border border-gray-300  max-md:border-none"
+          className="flex w-1/3 mx-auto flex-col gap-4 bg-gray-800 px-10 py-12 rounded-2xl max-md:w-full max-md:px-5 max-md:py-10 max-md:gap-3 z-[103]  max-md:border-none shadow-md"
         >
           <div className="flex justify-center">
             <img
@@ -56,28 +37,31 @@ export const Login = () => {
             />
           </div>
           <div className="flex justify-center">
-            <h4 className="font-semibold text-2xl text-gray-900 max-md:text-xl">
+            <h4 className="font-semibold text-2xl text-white max-md:text-xl">
               Te damos la bienvenida 👋
             </h4>
           </div>
-          <div className="text-base font-medium text-slate-500 text-center max-md:text-sm">
-            Ingresa al sistema de Logistica de{" "}
-            <span className="font-bold text-slate-600">Tecnohouse</span>.
+          <div className="text-xl font-medium text-center max-md:text-sm text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-violet-300">
+            Ingresa al sistema de Logística de{" "}
+            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-300">
+              Tecnohouse
+            </span>
+            .
           </div>
-          {
-            <div>
-              <div className="flex flex-col gap-1">
-                {error?.map((e) => (
-                  <span
-                    key={e}
-                    className="bg-red-100 rounded-xl px-3 text-center uppercase py-3 text-red-800 text-sm"
-                  >
-                    {e}
-                  </span>
-                ))}
-              </div>
+
+          <div className="w-full flex justify-center">
+            <div className="flex flex-col gap-1 items-start justify-center">
+              {error?.map((e) => (
+                <span
+                  key={e}
+                  className="bg-gradient-to-r from-red-400 to-red-100 rounded-xl px-3 text-center uppercase py-3 text-red-900 text-sm font-extrabold "
+                >
+                  {e}
+                </span>
+              ))}
             </div>
-          }
+          </div>
+
           <div className="flex flex-col gap-2">
             <Label label="Email del registro" />
             <Input
@@ -97,7 +81,7 @@ export const Login = () => {
 
           <Button type={"submit"} titulo={"Iniciar Sesión"} />
 
-          <div className="text-sm font-medium text-center mt-5 w-1/2 mx-auto max-md:w-full">
+          <div className="text-sm font-medium text-center mt-5 w-1/2 mx-auto max-md:w-full text-white">
             Si, pide a tu administrador que te cree un usuario 👀.
           </div>
         </form>

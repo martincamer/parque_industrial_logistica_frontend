@@ -6,6 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { ImprimirContable } from "../../../components/pdf/ImprimirContable";
 import { useAuth } from "../../../context/AuthProvider";
+import { FaFilePdf } from "react-icons/fa6";
 
 export const PageRegistros = () => {
   const { remuneraciones } = useRemuneracionContext();
@@ -153,12 +154,12 @@ export const PageRegistros = () => {
 
   return (
     <section>
-      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">Filtrar informes</p>
       </div>
 
       <article className="flex gap-2">
-        <div className="px-5 py-5 w-auto border mx-10 my-5 border-gray-300">
+        <div className="px-5 py-5 w-1/3 border mx-10 my-5 border-gray-300">
           <p className="font-bold border-b border-gray-500">Filtro por</p>
 
           <div className="mt-2">
@@ -300,7 +301,29 @@ export const PageRegistros = () => {
             </select>
           </div>
         </div>
-        <div className="my-5 flex flex-col gap-2">
+        <div className="px-5 pt-5 flex items-start gap-2">
+          <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+            <div className="flex flex-col gap-1 items-center">
+              <p className="font-extrabold text-lg bg-gradient-to-l from-blue-200 to-primary bg-clip-text text-transparent">
+                Total en contratos entregados.
+              </p>
+              <p className="text-white font-medium text-xl">
+                {allClientes.length}
+              </p>
+            </div>
+          </div>
+          <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+            <div className="flex flex-col gap-1 items-center">
+              <p className="font-extrabold text-lg bg-gradient-to-l from-green-400 to-yellow-500 bg-clip-text text-transparent">
+                Total metros cuadrados entregados.
+              </p>
+              <p className="text-white font-medium text-xl">
+                {Number(totalMetrosCuadrados).toFixed(2)} mtrs
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* <div className="my-5 flex flex-col gap-2">
           <div className=" border border-gray-300 px-5 py-5">
             <p className="font-bold uppercase">Total de metros cuadrados</p>
             <p className="font-bold text-primary">
@@ -311,7 +334,7 @@ export const PageRegistros = () => {
             <p className="font-bold uppercase">Total de contratos</p>
             <p className="font-bold text-primary">{allClientes.length}.</p>
           </div>
-        </div>
+        </div> */}
       </article>
 
       <div className="py-5 px-5 overflow-y-scroll h-[100vh] scroll-bar">
@@ -327,7 +350,9 @@ export const PageRegistros = () => {
               <div key={idx} className="mb-2 border-b border-gray-300">
                 <div className="grid grid-cols-7 gap-4 text-sm font-medium uppercase ">
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Contratos</p>
+                    <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+                      Contratos
+                    </p>
                     {item.datos_cliente.datosCliente.map(
                       (cliente, clientIndex) => (
                         <p key={clientIndex} className="uppercase">
@@ -341,7 +366,9 @@ export const PageRegistros = () => {
                     <p>{new Date(item.fecha_entrega).toLocaleDateString()}</p>
                   </div> */}
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Total Fletes</p>
+                    <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+                      Total Fletes
+                    </p>
                     <p>
                       {item.datos_cliente.datosCliente.map(
                         (cliente, clientIndex) => (
@@ -353,7 +380,7 @@ export const PageRegistros = () => {
                     </p>
                   </div>
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">
+                    <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
                       Pago a Fletero + Espera
                     </p>
                     <p>{formatearDinero(Number(item.pago_fletero_espera))}</p>
@@ -368,28 +395,36 @@ export const PageRegistros = () => {
                     </p> */}
                   </div>
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Viáticos</p>
+                    <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+                      Viáticos
+                    </p>
                     <p>{formatearDinero(Number(item.viaticos))}</p>
                   </div>
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Refuerzos</p>
+                    <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+                      Refuerzos
+                    </p>
                     <p>{formatearDinero(Number(item.refuerzo))}</p>
                   </div>
                   <div className="col-span-1">
-                    <p className="font-bold text-blue-500">Recaudación</p>
-                    <p
-                      className={
-                        Number(item.recaudacion) >= 0
-                          ? "text-green-500 font-bold"
-                          : "text-red-500 font-bold"
-                      }
-                    >
-                      {formatearDinero(Number(item.recaudacion))}
-                    </p>
+                    {/* <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+                      Recaudación
+                    </p> */}
+                    <div className="flex mt-1">
+                      <p
+                        className={
+                          Number(item.recaudacion) >= 0
+                            ? "text-green-700 bg-green-100 py-1 px-2 rounded-md font-bold"
+                            : "text-red-700 bg-red-100 py-1 px-2 rounded-md font-bold"
+                        }
+                      >
+                        {formatearDinero(Number(item.recaudacion))}
+                      </p>
+                    </div>
                   </div>
                   <div className="col-span-1">
                     <IoIosArrowDown
-                      className="text-3xl cursor-pointer hover:bg-primary py-1.5 px-1.5 hover:shadow-md rounded-full hover:text-white transition-all ease-linear"
+                      className="text-3xl cursor-pointer hover:bg-gray-800 py-1.5 px-1.5 hover:shadow-md rounded-md hover:text-white transition-all ease-linear"
                       onClick={() =>
                         document.getElementById("my_modal_datos").showModal()
                       }
@@ -477,40 +512,52 @@ export const PageRegistros = () => {
       {/* Mostrar los totales generales */}
       <div className="py-5 px-5 border-t border-gray-400 mt-5">
         <h2 className="text-lg font-bold uppercase mb-2">Totales Generales</h2>
-        <div className="grid grid-cols-5 gap-4 text-sm font-medium uppercase">
+        <div className="grid grid-cols-5 gap-4 text-sm font-medium uppercase items-center">
           <div>
-            <p className="font-bold text-blue-500">Total Fletes</p>
+            <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+              Total Fletes
+            </p>
             <p>{formatearDinero(totalFletes)}</p>
           </div>
           <div>
-            <p className="font-bold text-blue-500">Pago a Fletero + Espera</p>
+            <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+              Pago a Fletero + Espera
+            </p>
             <p>{formatearDinero(totalFleteroEspera)}</p>
           </div>
           <div>
-            <p className="font-bold text-blue-500">Viáticos</p>
+            <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+              Viáticos
+            </p>
             <p>{formatearDinero(totalViaticos)}</p>
           </div>
           <div>
-            <p className="font-bold text-blue-500">Refuerzos</p>
+            <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+              Refuerzos
+            </p>
             <p>{formatearDinero(totalRefuerzos)}</p>
           </div>
           <div>
-            <p className="font-bold text-blue-500">Recaudación</p>
-            <p
-              className={
-                totalRecaudacion >= 0
-                  ? "text-green-500 font-bold text-lg"
-                  : "text-red-500 font-bold text-lg"
-              }
-            >
-              {formatearDinero(totalRecaudacion)}
-            </p>
+            {/* <p className="font-extrabold text-sm bg-gradient-to-l from-blue-500 to-primary bg-clip-text text-transparent">
+              Recaudación
+            </p> */}
+            <div className="flex text-xl">
+              <p
+                className={
+                  Number(totalRecaudacion) >= 0
+                    ? "text-green-700 bg-green-100 py-1 px-2 rounded-md font-bold"
+                    : "text-red-700 bg-red-100 py-1 px-2 rounded-md font-bold"
+                }
+              >
+                {formatearDinero(totalRecaudacion)}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="px-5 py-10">
+      <div className="px-5 py-10 flex">
         <PDFDownloadLink
-          className="bg-blue-500 py-3 rounded-md px-4 text-center text-white font-bold text-sm"
+          className="bg-gradient-to-r from-primary to-indigo-600 py-2 px-4 rounded-md text-white font-semibold text-sm outline-none flex gap-2 items-center"
           fileName={`DOCUMENTO CONTABLE TECNOHOUSE ${selectedValue}`}
           document={
             <ImprimirContable
@@ -527,7 +574,7 @@ export const PageRegistros = () => {
             />
           }
         >
-          Descargar contabilidad
+          Descargar contabilidad <FaFilePdf className="text-2xl" />
         </PDFDownloadLink>
       </div>
       {/* <PDFViewer className="w-full h-screen">

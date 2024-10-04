@@ -357,13 +357,13 @@ export const Home = () => {
 
   return (
     <section className="w-full h-full min-h-screen max-h-full max-w-full">
-      <div className=" bg-gray-100 py-10 px-6 max-md:py-10 max-md:px-4 flex justify-between items-center">
+      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-800 text-xl max-md:text-base">
           Observa las estadisticas de la zona logistica, fletes, caja, etc.
         </p>
         <p className="font-bold max-md:hidden">Fecha actual {fechaActual}</p>
       </div>
-      <div className="flex gap-2 items-center max-md:w-auto max-md:flex-col my-5 mx-10 max-md:items-start max-md:mx-5">
+      <div className="flex gap-2 items-center max-md:w-auto max-md:flex-col my-0 max-md:pb-5 pt-12 mx-10 max-md:items-start max-md:mx-5 max-md:pt-5">
         <select
           value={selectedUser}
           onChange={handleUserChange}
@@ -403,19 +403,19 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:mx-0 max-md:py-0">
-        <div
-          className={`border ${
-            totalCajaFinal < 0 ? "border-red-500" : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+      <div className="grid grid-cols-5 gap-3 mx-5 bg-white py-5 px-5 max-md:grid-cols-1 max-md:overflow-y-scroll max-md:mx-0 max-md:py-0 max-md:pb-10">
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Caja logistica.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-600">
+                Caja logistica.
+              </p>
               <p
-                className={`${
-                  totalCajaFinal <= 0 ? "text-red-500" : "text-green-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalCajaFinal < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-green-400 to-green-50"
+                }`}
               >
                 {Number(totalCajaFinal).toLocaleString("es-AR", {
                   style: "currency",
@@ -424,33 +424,20 @@ export const Home = () => {
                 })}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalCajaFinal <= 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalCajaFinal % 100} %
-              </div>
-            </div>
           </div>
         </div>
-        <div
-          className={`border ${
-            totalCobroCliente <= 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Contratos remunerados cargados.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-600">
+                Contratos remunerados entregados.
+              </p>
               <p
-                className={`${
-                  totalCobroCliente < 0 ? "text-red-500" : "text-green-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalCobroCliente < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-green-400 to-green-50"
+                }`}
               >
                 {Number(totalCobroCliente).toLocaleString("es-AR", {
                   style: "currency",
@@ -459,35 +446,20 @@ export const Home = () => {
                 })}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalCobroCliente < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalCobroCliente % 100} %
-              </div>
-            </div>
           </div>
         </div>
-        <div
-          className={`border ${
-            totalCobroClienteLegales <= 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Contratos legales cargados.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-600">
+                Contratos legales entregados.
+              </p>
               <p
-                className={`${
-                  totalCobroClienteLegales <= 0
-                    ? "text-red-500"
-                    : "text-green-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalCobroClienteLegales < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-green-400 to-green-50"
+                }`}
               >
                 {Number(totalCobroClienteLegales).toLocaleString("es-AR", {
                   style: "currency",
@@ -496,33 +468,20 @@ export const Home = () => {
                 })}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalCobroClienteLegales < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalCobroClienteLegales % 100} %
-              </div>
-            </div>
           </div>
         </div>
-        <div
-          className={`border ${
-            totalCobroRendiciones <= 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Rendiciones cargadas.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-600">
+                Rendiciones cargadas.
+              </p>
               <p
-                className={`${
-                  totalCobroRendiciones <= 0 ? "text-red-500" : "text-green-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalCobroRendiciones < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-green-400 to-green-50"
+                }`}
               >
                 {Number(totalCobroRendiciones).toLocaleString("es-AR", {
                   style: "currency",
@@ -531,133 +490,21 @@ export const Home = () => {
                 })}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalCobroRendiciones <= 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalCobroRendiciones % 100} %
-              </div>
-            </div>
           </div>
         </div>
-        {/* <div
-          className={`border ${
-            totalEnSalidas <= 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en gastado final en salidas.</p>
-              <p
-                className={`${
-                  totalEnSalidas < 0 ? "text-red-500" : "text-red-500"
-                } font-extrabold`}
-              >
-                -{" "}
-                {Number(totalEnSalidas).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total en fletes cobrado.
               </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalEnSalidas < 0
-                    ? "text-white bg-red-500"
-                    : "bg-red-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalEnSalidas % 100} %
-              </div>
-            </div>
-          </div>
-        </div> */}
-        <div
-          className={`border ${
-            totalViaticos < 0
-              ? "border-red-500 rounded-md"
-              : "border-red-500 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en viaticos.</p>
               <p
-                className={`${
-                  totalViaticos < 0 ? "text-red-500" : "text-red-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalFletes < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-green-400 to-green-50"
+                }`}
               >
-                -{" "}
-                {Number(totalViaticos).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalViaticos < 0
-                    ? "text-white bg-red-500"
-                    : "bg-red-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalViaticos % 100} %
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={`border ${
-            totalRefuerzos < 0
-              ? "border-red-500 rounded-md"
-              : "border-red-500 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en refuerzos.</p>
-              <p
-                className={`${
-                  totalRefuerzos < 0 ? "text-red-500" : "text-red-500"
-                } font-extrabold`}
-              >
-                -{" "}
-                {Number(totalRefuerzos).toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                  minimumIntegerDigits: 2,
-                })}
-              </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalRefuerzos < 0
-                    ? "text-white bg-red-500"
-                    : "bg-red-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalRefuerzos % 100} %
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={`border border-gray-300 rounded-md py-5 px-5 bg-white`}>
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en fletes cobrado.</p>
-              <p className={`text-green-500 font-extrabold`}>
-                -{" "}
                 {Number(totalFletes).toLocaleString("es-AR", {
                   style: "currency",
                   currency: "ARS",
@@ -665,143 +512,66 @@ export const Home = () => {
                 })}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`bg-blue-500 text-white rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {totalFletes % 100} %
-              </div>
-            </div>
           </div>
-        </div>{" "}
-        <div
-          className={`border ${
-            totalContratos < 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total contratos entregados.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total contratos entregados.
+              </p>
               <p
-                className={`${
-                  totalContratos < 0 ? "text-red-500" : "text-blue-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
                 {totalContratos}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalContratos < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
+          </div>
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total metros cuadrados entregados.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
-                Porcentaje {totalContratos % 100} %
-              </div>
+                {totalMetrosCuadrados}
+              </p>
             </div>
           </div>
-        </div>{" "}
-        <div
-          className={`border ${
-            totalContratosEnSalidas < 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total contratos cargados.</p>
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total contratos de salidas
+              </p>
               <p
-                className={`${
-                  totalContratosEnSalidas < 0 ? "text-red-500" : "text-blue-500"
-                } font-extrabold`}
+                className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
                 {totalContratosEnSalidas}
               </p>
             </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalContratos < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
+          </div>
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total metros cuadrados en salidas.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
-                Porcentaje {totalContratos % 100} %
-              </div>
+                {totalDatosMetrosCudradosSalidas}
+              </p>
             </div>
           </div>
         </div>
-        <div
-          className={`border ${
-            totalMetrosCuadrados < 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en metros cuadrados entregados.</p>
-              <p
-                className={`${
-                  totalMetrosCuadrados < 0 ? "text-red-500" : "text-blue-500"
-                } font-extrabold`}
-              >
-                {totalMetrosCuadrados?.toFixed(2)} mts
-              </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalMetrosCuadrados < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje {Number(totalMetrosCuadrados % 100).toFixed(2)} %
-              </div>
-            </div>
-          </div>
-        </div>{" "}
-        <div
-          className={`border ${
-            totalDatosMetrosCudradosSalidas < 0
-              ? "border-red-500 rounded-md"
-              : "border-gray-300 rounded-md"
-          } py-5 px-5 bg-white`}
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <p className="font-bold">Total en metros cuadrados cargados.</p>
-              <p
-                className={`${
-                  totalDatosMetrosCudradosSalidas < 0
-                    ? "text-red-500"
-                    : "text-blue-500"
-                } font-extrabold`}
-              >
-                {totalDatosMetrosCudradosSalidas?.toFixed(2)} mts
-              </p>
-            </div>
-            <div className="flex">
-              <div
-                className={`${
-                  totalDatosMetrosCudradosSalidas < 0
-                    ? "text-white bg-red-500"
-                    : "bg-blue-500 text-white"
-                } rounded py-1.5 px-4  font-bold text-xs`}
-              >
-                Porcentaje{" "}
-                {Number(totalDatosMetrosCudradosSalidas % 100).toFixed(2)} %
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
+
+        {/* <div
           className={`border ${
             totalCajaFiltrada < 0
               ? "border-red-500 rounded-md"
@@ -837,22 +607,24 @@ export const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <div className="grid grid-cols-2 px-10 gap-5 py-5 max-md:hidden">
-        <div className="border border-gray-300 py-10 px-10 rounded-md">
-          <ColumnaGastosGananciasGrafico data={combinedData} />
+      <div>
+        <div className="grid grid-cols-2 px-10 gap-5 py-5 max-md:hidden ">
+          <div className="border border-gray-300 py-10 px-10 rounded-md bg-white">
+            <ColumnaGastosGananciasGrafico data={combinedData} />
+          </div>
+          <div className="border border-gray-300 py-10 px-10 rounded-md bg-white">
+            <ColumnaEntregasMetrosCuadrados
+              data={combinedData}
+              salidas={filteredDataSalidas}
+            />
+          </div>
         </div>
-        <div className="border border-gray-300 py-10 px-10 rounded-md">
-          <ColumnaEntregasMetrosCuadrados
-            data={combinedData}
-            salidas={filteredDataSalidas}
-          />
+        <div className="border border-gray-300 py-10 px-10 rounded-md mx-10 my-5 max-md:hidden">
+          <LineasGraficoDeRecaudaciones data={combinedData} />
         </div>
-      </div>
-      <div className="border border-gray-300 py-10 px-10 rounded-md mx-10 my-5 max-md:hidden">
-        <LineasGraficoDeRecaudaciones data={combinedData} />
       </div>
     </section>
   );

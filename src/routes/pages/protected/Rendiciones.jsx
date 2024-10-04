@@ -15,6 +15,7 @@ import { useObtenerId } from "../../../helpers/obtenerId";
 import { useForm } from "react-hook-form";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useRemuneracionContext } from "../../../context/RemuneracionesProvider";
+import { CgMenuLeftAlt } from "react-icons/cg";
 
 export const Rendicones = () => {
   const { rendiciones } = useRendicionesContext();
@@ -159,7 +160,7 @@ export const Rendicones = () => {
 
   return (
     <section className="w-full h-full min-h-screen max-h-full">
-      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
           Sector de rendiciones de armados.
         </p>
@@ -168,15 +169,38 @@ export const Rendicones = () => {
             document.getElementById("my_modal_crear_rendicion").showModal()
           }
           type="button"
-          className="bg-primary py-1 px-4 rounded-md text-white font-semibold text-sm"
+          className="bg-gradient-to-r from-primary to-indigo-600 py-1 px-4 rounded-md text-white font-semibold text-sm outline-none"
         >
-          Crear nueva rendición
+          Cargar nueva rendición
         </button>
       </div>
 
+      <div className="px-5 pt-10 grid grid-cols-4 gap-2 max-md:grid-cols-1 max-md:pb-5">
+        <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+          <div className="flex flex-col gap-1 items-center">
+            <p className="font-extrabold text-lg bg-gradient-to-l from-blue-200 to-primary bg-clip-text text-transparent">
+              Total en rendiciones.
+            </p>
+            <p className="text-white font-medium text-xl">
+              {formatearDinero(totalCobroRendicionesFinal)}
+            </p>
+          </div>
+        </div>{" "}
+        <div className="bg-gray-800 py-5 px-10 rounded-xl shadow">
+          <div className="flex flex-col gap-1 items-center">
+            <p className="font-extrabold text-lg bg-gradient-to-l from-green-400 to-yellow-500 bg-clip-text text-transparent">
+              Total rendiciones cargadas.
+            </p>
+            <p className="text-white font-medium text-xl">
+              {filteredData.length}
+            </p>
+          </div>
+        </div>{" "}
+      </div>
+
       <div className="flex gap-3 mx-5 justify-between mt-10 mb-2 max-md:mt-3">
-        <div className="flex items-center gap-3 max-md:flex-col">
-          <div className="flex gap-2">
+        <div className="flex items-center gap-3 max-md:flex-col max-md:items-stretch max-md:w-full">
+          <div className="flex gap-2 max-md:flex-col max-md:items-stretch max-md:w-full">
             <div className="border border-gray-300 flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-md">
               <input
                 value={searchTermCliente}
@@ -228,36 +252,10 @@ export const Rendicones = () => {
             </div>
           </div>
         </div>
-
-        <div className="max-md:hidden">
-          <div className="dropdown dropdown-left dropdown-hover">
-            <button className="font-bold text-sm bg-primary py-2 px-4 text-white rounded">
-              Ver estadisticas de las rendiciones
-            </button>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 mt-2 rounded-md bg-gray-800 w-[300px] mr-2"
-            >
-              <div className="py-5 px-5 grid grid-cols-1 gap-5 w-full max-md:grid-cols-1">
-                <div className="flex flex-col gap-1 bg-white rounded-md py-3 px-3">
-                  <p className="font-medium text-sm text-center text-gray-900">
-                    Total en rendiciones del mes.
-                  </p>
-                  <p className="font-bold text-lg text-green text-center">
-                    {totalCobroRendicionesFinal.toLocaleString("es-AR", {
-                      style: "currency",
-                      currency: "ARS",
-                    })}
-                  </p>
-                </div>
-              </div>
-            </ul>
-          </div>
-        </div>
       </div>
 
       {/* tabla de datos  */}
-      <div className="max-md:overflow-x-auto mx-5 mt-10 scrollbar-hidden">
+      <div className="max-md:overflow-x-auto mx-5 mt-10 scrollbar-hidden max-md:mt-5 max-md:pb-10">
         <table className="table">
           <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
@@ -312,22 +310,9 @@ export const Rendicones = () => {
                       <div
                         tabIndex={0}
                         role="button"
-                        className="bg-gray-700 py-2 px-2 rounded-full text-white m-1"
+                        className="bg-gray-700 py-1 px-1 rounded-md text-white m-1"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                          />
-                        </svg>
+                        <CgMenuLeftAlt className="text-white text-xl" />
                       </div>
                       <ul
                         tabIndex={0}
@@ -506,7 +491,7 @@ export const ModalCrearRendicion = () => {
           <div>
             <button
               type="submit"
-              className="py-1.5 px-6 bg-primary hover:shadow-md text-white transition-all rounded-md font-semibold text-sm flex gap-3s"
+              className="bg-gradient-to-r from-primary to-indigo-600 py-1.5 px-6 rounded-md text-white font-semibold text-sm outline-none flex gap-2 items-center"
             >
               Crear nueva rendicion
               <svg

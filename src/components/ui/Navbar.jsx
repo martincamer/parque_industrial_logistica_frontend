@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { IoLogOut } from "react-icons/io5";
 
 export const Navbar = () => {
   const { signout, user } = useAuth();
@@ -37,6 +38,12 @@ export const Navbar = () => {
                   </li>{" "}
                   <li className="hover:bg-gray-800 hover:text-white rounded-md">
                     <Link to={"/rendiciones"}>Rediciones</Link>
+                  </li>
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/egresos"}>Egresos</Link>
+                  </li>
+                  <li className="hover:bg-gray-800 hover:text-white rounded-md">
+                    <Link to={"/ingresos"}>Ingresos</Link>
                   </li>
                 </ul>
               </div>
@@ -99,15 +106,19 @@ export const Navbar = () => {
         )}
       </div>
       <div className="flex items-center gap-4">
-        <button className="font-semibold text-primary bg-white px-4 py-1 text-sm rounded-md capitalize max-md:hidden">
-          Usuario: <span className="text-black font-bold">{user.username}</span>
+        <button className="font-semibold bg-white px-4 py-1 text-sm rounded-md capitalize max-md:hidden">
+          Usuario:{" "}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500 font-bold">
+            {user.username}
+          </span>
         </button>
         {/* <div className="cursor-pointer bg-gray-500 py-5 px-5 rounded-full"></div>{" "} */}
         <button
           onClick={() => signout()}
-          className="font-semibold text-white bg-primary px-4 py-1 text-sm rounded-md"
+          className="font-extrabold text-white bg-gradient-to-r from-red-500 to-blue-400 px-4 py-1 text-sm rounded-md flex gap-2 items-center"
         >
           Salir de la cuenta
+          {/* <IoLogOut className="text-xl text-gray-800" /> */}
         </button>
       </div>
     </header>

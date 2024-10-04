@@ -53,6 +53,9 @@ import { LegalesAdmin } from "./routes/pages/protectedAdmin/LegalesAdmin.jsx";
 import { ContratosAdmin } from "./routes/pages/protectedAdmin/ContratosAdmin.jsx";
 import { RendicionesAdmin } from "./routes/pages/protectedAdmin/RendicionesAdmin.jsx";
 import { CajaLogistica } from "./routes/pages/protected/CajaLogistica.jsx";
+import { Egresos } from "./routes/pages/protected/Egresos.jsx";
+import { EgresosProvider } from "./context/EgresosProvider.jsx";
+import { Ingresos } from "./routes/pages/protected/Ingresos.jsx";
 
 function App() {
   const { isAuth, user } = useAuth();
@@ -93,11 +96,13 @@ function App() {
                     <OrdenesProvider>
                       <LegalesProvider>
                         <RendicionesProvider>
-                          <main className="min-h-full max-h-full h-full flex flex-col">
-                            <Navbar />
-                            <MenuMobile />
-                            <Outlet />
-                          </main>
+                          <EgresosProvider>
+                            <main className="min-h-full max-h-full h-full flex flex-col">
+                              <Navbar />
+                              <MenuMobile />
+                              <Outlet />
+                            </main>
+                          </EgresosProvider>
                         </RendicionesProvider>
                       </LegalesProvider>
                     </OrdenesProvider>
@@ -136,6 +141,8 @@ function App() {
                     path="/salidas-registradas"
                     element={<SalidasRegistradas />}
                   />
+                  <Route path="/egresos" element={<Egresos />} />
+                  <Route path="/ingresos" element={<Ingresos />} />
                   <Route index path="/transportes" element={<Transportes />} />
                   <Route
                     path="/remuneraciones-registradas"

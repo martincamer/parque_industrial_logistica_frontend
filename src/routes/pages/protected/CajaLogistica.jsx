@@ -9,9 +9,11 @@ import { FaEdit } from "react-icons/fa";
 import { useObtenerId } from "../../../helpers/obtenerId";
 import { useLegalesContext } from "../../../context/LegalesProvider";
 import { formatearFecha } from "../../../helpers/formatearFecha";
+import { useEgresosContext } from "../../../context/EgresosProvider";
 
 export const CajaLogistica = () => {
   const { caja } = useRemuneracionContext();
+  const { egresos } = useEgresosContext();
   const { user } = useAuth();
 
   console.log(caja);
@@ -32,7 +34,7 @@ export const CajaLogistica = () => {
   const { remuneraciones } = useRemuneracionContext();
   const { legalesReal } = useLegalesContext();
 
-  const combinedData = [...remuneraciones, ...legalesReal];
+  const combinedData = [...remuneraciones, ...legalesReal, ...egresos];
 
   // Obtener el mes y año actuales
   const currentDate = new Date();
@@ -82,7 +84,7 @@ export const CajaLogistica = () => {
   }
 
   const filteredData = combinedData.filter((item) => {
-    const fecha = new Date(item?.fecha_entrega);
+    const fecha = new Date(item?.created_at);
     const year = fecha.getFullYear();
     const month = fecha.getMonth() + 1;
 
@@ -112,7 +114,7 @@ export const CajaLogistica = () => {
 
   return (
     <section className="w-full h-full min-h-screen max-h-full">
-      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
         <p className="font-bold text-gray-900 text-xl">
           Sector de logistica caja.
         </p>
@@ -137,38 +139,38 @@ export const CajaLogistica = () => {
       </div>
 
       <div className="px-5 py-5 flex">
-        <div className="border border-gray-300 py-5 px-5 w-1/5 max-md:w-full">
+        <div className="bg-gray-800 rounded-2xl py-5 px-5 w-1/5 max-md:w-full">
           <div className="flex justify-end">
             <FaEdit
               onClick={() => {
                 handleObtenerId(filteredCajas[0]?.id),
                   document.getElementById("my_modal_editar_caja").showModal();
               }}
-              className="text-2xl cursor-pointer text-blue-600"
+              className="text-2xl cursor-pointer text-white"
             />
           </div>
           <div className="flex flex-col items-center gap-1">
-            <p className="font-bold text-xl">Caja de logística.</p>
-            {/* Display the total if there are filtered cajas */}
+            <p className="font-bold text-xl text-white">Caja de logística.</p>
             {filteredCajas?.length > 0 ? (
               <p
-                className={`font-bold text-3xl ${
-                  totalCaja < 0 ? "text-red-500" : "text-green-500"
+                className={`font-bold text-3xl bg-clip-text text-transparent ${
+                  totalCaja < 0
+                    ? "bg-gradient-to-r from-red-500 to-red-300"
+                    : "bg-gradient-to-r from-green-500 to-green-300"
                 }`}
               >
                 {formatearDinero(Number(totalCaja))}
               </p>
             ) : (
-              <p>No tienes una caja ahún.</p>
+              <p className="text-white">No tienes una caja ahún.</p>
             )}
           </div>
         </div>
       </div>
 
-      <article className="flex gap-2 max-md:flex-col">
+      {/* <article className="flex gap-2 max-md:flex-col">
         <div className="px-5 py-5 w-auto border mx-5 border-gray-300 flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="mt-2">
-            {/* Filtro por tipo: Mes, Trimestre, Semana, Día, Año */}
             <select
               className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
               value={selectedFilter}
@@ -182,7 +184,6 @@ export const CajaLogistica = () => {
               <option value="rango-fechas">Rango de Fechas</option>
             </select>
 
-            {/* Filtro de valores (mes/año, trimestre, semana, día, año) */}
             <div className="mt-2">
               {selectedFilter === "mes" && (
                 <select
@@ -306,7 +307,7 @@ export const CajaLogistica = () => {
             </select>
           </div>
         </div>
-      </article>
+      </article> */}
 
       <div className="px-5 py-5 max-md:overflow-x-auto scrollbar-hidden">
         <table className="table">
@@ -324,12 +325,13 @@ export const CajaLogistica = () => {
           <tbody className="text-xs font-medium capitalize">
             {filteredData
               .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
               .map((s) => (
                 <tr key={s.id}>
                   <td>{s.id}</td>
                   <td>{s.usuario}</td>
                   <td>{s.sucursal}</td>
-                  <td>{formatearFecha(s.fecha_entrega)}</td>
+                  <td>{formatearFecha(s.created_at)}</td>
                   <td>
                     {new Date(s.created_at).toLocaleString("default", {
                       month: "long",
