@@ -272,6 +272,35 @@ export const Home = () => {
       return total + (salida?.viaticos ? Number(salida.viaticos) : 0);
     }, 0);
 
+  const totalEnVehiculoRemuneraciones = filteredDataRemuneraciones?.reduce(
+    (total, salida) => {
+      return total + (salida?.auto ? Number(salida.auto) : 0);
+    },
+    0
+  );
+  const totalEnVehiculoLegales = filteredDataLegales?.reduce(
+    (total, salida) => {
+      return total + (salida?.auto ? Number(salida.auto) : 0);
+    },
+    0
+  );
+
+  const totalFleteroRemuneraciones = filteredDataRemuneraciones?.reduce(
+    (total, salida) => {
+      return (
+        total +
+        (salida?.pago_fletero_espera ? Number(salida.pago_fletero_espera) : 0)
+      );
+    },
+    0
+  );
+  const totalFleteroLegales = filteredDataLegales?.reduce((total, salida) => {
+    return (
+      total +
+      (salida?.pago_fletero_espera ? Number(salida.pago_fletero_espera) : 0)
+    );
+  }, 0);
+
   const totalEnFletesGeneradosEnLegalesUsuario = filteredDataLegales?.reduce(
     (total, salida) => {
       return (
@@ -518,6 +547,104 @@ export const Home = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total en viaticos.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalFletes < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-red-400 to-red-100"
+                }`}
+              >
+                {Number(
+                  totalEnViaticosGeneradosEnLegalesUsuario +
+                    totalEnViaticosGeneradosEnRemunercionesUsuario
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total en refuerzos.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalFletes < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-red-400 to-red-100"
+                }`}
+              >
+                {Number(
+                  totalGeneradoEnRefuerzosLegalesUsuario +
+                    totalGeneradoEnRefuerzosUsuario
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
+          </div>
+        </div>{" "}
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total en vehiculos.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalFletes < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-red-400 to-red-100"
+                }`}
+              >
+                {Number(
+                  totalEnVehiculoRemuneraciones + totalEnVehiculoLegales
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
+                Total en fletero gasto.
+              </p>
+              <p
+                className={`font-extrabold text-2xl bg-clip-text text-transparent ${
+                  totalFletes < 0
+                    ? "bg-gradient-to-r from-red-400 to-red-100"
+                    : "bg-gradient-to-r from-red-400 to-red-100"
+                }`}
+              >
+                {Number(
+                  totalFleteroRemuneraciones + totalFleteroLegales
+                ).toLocaleString("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumIntegerDigits: 2,
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-800 py-5 px-5 rounded-2xl">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <p className="font-bold text-xl  bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-yellow-300">
                 Total contratos entregados.
               </p>
               <p
@@ -570,7 +697,6 @@ export const Home = () => {
             </div>
           </div>
         </div>
-
         {/* <div
           className={`border ${
             totalCajaFiltrada < 0
