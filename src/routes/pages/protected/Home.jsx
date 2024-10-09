@@ -386,11 +386,13 @@ export const Home = () => {
 
   return (
     <section className="w-full h-full min-h-screen max-h-full max-w-full">
-      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
-        <p className="font-bold text-gray-800 text-xl max-md:text-base">
-          Observa las estadisticas de la zona logistica, fletes, caja, etc.
+      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+        <p className="font-extrabold text-2xl bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent ">
+          Panel de control logistica.
         </p>
-        <p className="font-bold max-md:hidden">Fecha actual {fechaActual}</p>
+        <p className="font-bold max-md:hidden bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+          Fecha actual {fechaActual}
+        </p>
       </div>
       <div className="flex gap-2 items-center max-md:w-auto max-md:flex-col my-0 max-md:pb-5 pt-12 mx-10 max-md:items-start max-md:mx-5 max-md:pt-5">
         <select
@@ -664,7 +666,7 @@ export const Home = () => {
               <p
                 className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
-                {totalMetrosCuadrados}
+                {totalMetrosCuadrados.toFixed(2)}
               </p>
             </div>
           </div>
@@ -692,7 +694,7 @@ export const Home = () => {
               <p
                 className={`font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-100`}
               >
-                {totalDatosMetrosCudradosSalidas}
+                {totalDatosMetrosCudradosSalidas.toFixed(2)}
               </p>
             </div>
           </div>

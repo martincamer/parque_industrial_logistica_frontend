@@ -154,15 +154,19 @@ export const PageRegistros = () => {
 
   return (
     <section>
-      <div className="bg-gradient-to-tl from-gray-100 to-blue-50 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
-        <p className="font-bold text-gray-900 text-xl">Filtrar informes</p>
+      <div className="bg-gray-100 py-10 px-10 flex justify-between items-center max-md:flex-col max-md:gap-3">
+        <p className="font-extrabold text-2xl bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent ">
+          Filtrar informes
+        </p>
       </div>
 
-      <article className="flex gap-2">
-        <div className="px-5 py-5 w-1/3 border mx-10 my-5 border-gray-300">
-          <p className="font-bold border-b border-gray-500">Filtro por</p>
+      <article className="grid grid-cols-2 pt-5">
+        <div className="px-5 py-5 w-auto bg-gray-800 rounded-xl mx-10 my-5">
+          <p className="bg-gradient-to-l text-xl from-purple-300 pb-2 to-pink-400 bg-clip-text text-transparent font-bold border-b border-gray-500">
+            Filtrar por fechas, mes, etc.
+          </p>
 
-          <div className="mt-2">
+          <div className="mt-4">
             {/* Filtro por tipo: Mes, Trimestre, Semana, Día, Año */}
             <select
               className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
@@ -260,45 +264,49 @@ export const PageRegistros = () => {
                 </select>
               )}
               {selectedFilter === "rango-fechas" && (
-                <div className="flex gap-2">
-                  <label className="font-bold">Desde:</label>
-                  <input
-                    type="date"
-                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                  />
-                  <label className="font-bold">Hasta:</label>
-                  <input
-                    type="date"
-                    className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                  />
+                <div className="flex gap-2 mt-2">
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-white">Desde:</label>
+                    <input
+                      type="date"
+                      className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-white">Hasta:</label>
+                    <input
+                      type="date"
+                      className="border border-gray-300 py-1 px-4 rounded-md outline-none text-sm font-semibold"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                    />
+                  </div>
                 </div>
               )}
             </div>
-          </div>
-          <div className="mt-2 flex flex-col gap-1 items-start">
-            <label className="font-bold">Seleccionar Fábrica</label>
-            <select
-              className="border border-gray-300 py-1 px-4 rounded-md outline-none capitalize text-sm font-semibold"
-              value={selectedFactory}
-              onChange={(e) => setSelectedFactory(e.target.value)}
-            >
-              <option className="capitalize font-bold" value="">
-                Todas las fábricas
-              </option>
-              {factories.map((factory) => (
-                <option
-                  className="capitalize font-bold"
-                  key={factory}
-                  value={factory}
-                >
-                  {factory}
+            <div className="w-full">
+              <label className="font-bold">Seleccionar Fábrica</label>
+              <select
+                className="border border-gray-300 py-1 px-4 rounded-md outline-none capitalize text-sm font-semibold w-full"
+                value={selectedFactory}
+                onChange={(e) => setSelectedFactory(e.target.value)}
+              >
+                <option className="capitalize font-bold" value="">
+                  Todas las fábricas
                 </option>
-              ))}
-            </select>
+                {factories.map((factory) => (
+                  <option
+                    className="capitalize font-bold"
+                    key={factory}
+                    value={factory}
+                  >
+                    {factory}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
         <div className="px-5 pt-5 flex items-start gap-2">
@@ -323,18 +331,6 @@ export const PageRegistros = () => {
             </div>
           </div>
         </div>
-        {/* <div className="my-5 flex flex-col gap-2">
-          <div className=" border border-gray-300 px-5 py-5">
-            <p className="font-bold uppercase">Total de metros cuadrados</p>
-            <p className="font-bold text-primary">
-              {Number(totalMetrosCuadrados).toFixed(2)} mtrs.
-            </p>
-          </div>
-          <div className=" border border-gray-300 px-5 py-5">
-            <p className="font-bold uppercase">Total de contratos</p>
-            <p className="font-bold text-primary">{allClientes.length}.</p>
-          </div>
-        </div> */}
       </article>
 
       <div className="py-5 px-5 overflow-y-scroll h-[100vh] scroll-bar">
