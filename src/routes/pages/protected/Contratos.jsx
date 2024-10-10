@@ -190,8 +190,8 @@ export const Contratos = () => {
       </div>
 
       <div className="max-md:overflow-x-auto px-5 pb-10 max-md:mx-5">
-        <table className="table">
-          <thead className="text-gray-900 text-sm">
+        <table className="table bg-gray-200 rounded-t-xl">
+          <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
               <th>Número</th>
               <th>Fabrica de salida</th>
@@ -201,13 +201,16 @@ export const Contratos = () => {
             </tr>
           </thead>
 
-          <tbody className="text-xs uppercase font-medium">
+          <tbody className="text-xs font-medium capitalize bg-white ">
             {filteredSalidas
               .sort((a, b) => b.id - a.id) // Ordenar de mayor a menor por id
               .filter((salida) => user.localidad === salida.localidad)
               .map((salida) =>
                 salida.datos_cliente.datosCliente.map((cliente, index) => (
-                  <tr key={index}>
+                  <tr
+                    className="hover:bg-gray-100/40 transition-all cursor-pointer"
+                    key={index}
+                  >
                     <td className="">{salida.id}</td>
                     <td className="">{salida.sucursal}</td>
                     <td className="text-blue-500 font-bold">

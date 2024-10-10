@@ -317,8 +317,8 @@ export const Legales = () => {
 
       {/* tabla de datos  */}
       <div className="px-5 max-md:overflow-x-auto scrollbar-hidden max-md:pb-10">
-        <table className="table">
-          <thead className="text-sm font-bold text-gray-800">
+        <table className="table bg-gray-200 rounded-t-xl">
+          <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
               <th>Numero</th>
               <th>Contratos</th>
@@ -332,11 +332,14 @@ export const Legales = () => {
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody className="text-xs capitalize font-medium">
+          <tbody className="text-xs font-medium capitalize bg-white ">
             {filteredData
               .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
               .map((s) => (
-                <tr key={s.id}>
+                <tr
+                  className="hover:bg-gray-100/40 transition-all cursor-pointer"
+                  key={s.id}
+                >
                   <td>{s.id}</td>
                   <td className="">
                     <div className="flex gap-1 uppercase">

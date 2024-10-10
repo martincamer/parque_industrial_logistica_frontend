@@ -256,7 +256,7 @@ export const Rendicones = () => {
 
       {/* tabla de datos  */}
       <div className="max-md:overflow-x-auto mx-5 mt-10 scrollbar-hidden max-md:mt-5 max-md:pb-10">
-        <table className="table">
+        <table className="table bg-gray-200 rounded-t-xl">
           <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
               <th>Numero</th>
@@ -270,11 +270,14 @@ export const Rendicones = () => {
             </tr>
           </thead>
 
-          <tbody className="text-xs capitalize font-medium">
+          <tbody className="text-xs font-medium capitalize bg-white ">
             {filteredData
               .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
               .map((s) => (
-                <tr key={s.id}>
+                <tr
+                  className="hover:bg-gray-100/40 transition-all cursor-pointer"
+                  key={s.id}
+                >
                   <td>{s.id}</td>
                   <td>{s.usuario}</td>
                   <td>{s.sucursal}</td>

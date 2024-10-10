@@ -310,8 +310,8 @@ export const CajaLogistica = () => {
       </article> */}
 
       <div className="px-5 py-5 max-md:overflow-x-auto scrollbar-hidden">
-        <table className="table">
-          <thead className="text-sm font-bold text-gray-800">
+        <table className="table bg-gray-200 rounded-t-xl">
+          <thead className="text-left font-bold text-gray-900 text-sm">
             <tr>
               <th>Numero</th>
               <th>Usuario</th>
@@ -322,7 +322,7 @@ export const CajaLogistica = () => {
             </tr>
           </thead>
 
-          <tbody className="text-xs font-medium capitalize">
+          <tbody className="text-xs font-medium capitalize bg-white ">
             {filteredData
               .filter((s) => s.localidad === user.localidad) // Filtrar por localidad del usuario
               .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
